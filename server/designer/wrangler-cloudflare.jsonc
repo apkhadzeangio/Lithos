@@ -1,0 +1,16 @@
+{
+  "name": "lithos-designer-ai",
+  "main": "cloudflare-worker.mjs",
+  "compatibility_date": "2026-10-26",
+  "workers_dev": true,
+  "ai": {"binding": "AI"},
+  "vars": {
+    "ALLOWED_ORIGINS": "https://lithos.ge,https://www.lithos.ge,https://lithos-b17.pages.dev",
+    "DAILY_ATTEMPT_LIMIT": "5"
+  },
+  "durable_objects": {
+    "bindings": [{"name": "QUOTA", "class_name": "DesignerQuota"}]
+  },
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["DesignerQuota"]}],
+  "observability": {"enabled": false}
+}
