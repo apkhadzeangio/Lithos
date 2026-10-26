@@ -2,7 +2,9 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 import vm from 'node:vm';
+import {loadArticles, blogTeaser, buildBlog} from './build-blog.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),context=vm.createContext({});
+const articles=await loadArticles();
 for(const name of ['site-config.js','neolith-data.js','quartz-data.js','catalog-view.js','projects-data.js'])vm.runInContext(await readFile(resolve(root,'dist',name),'utf8'),context,{filename:name});
 const pages=vm.runInContext('publicPages',context),config=vm.runInContext('siteConfig',context),escape=vm.runInContext('esc',context),real=vm.runInContext('realValue',context);
 const template=await readFile(resolve(root,'src/page.html'),'utf8');
@@ -25,7 +27,7 @@ const thicknessOptions=vm.runInContext("[...new Set(materials.flatMap(m=>m.thick
 const materialOptions=vm.runInContext("materials.map(m=>'<option value=\"'+esc(m.name)+'\">'+esc(m.name)+(m.brand?' — '+esc(m.brand):' — NEOLITH')+'</option>').join('')",context);
 for(const [key,page] of Object.entries(pages)){
  const isCatalog=key!=='work';let html=template.replace('<!--BUSINESS_JSONLD-->','<script type="application/ld+json">'+JSON.stringify(schema).replaceAll('<','\\u003c')+'</script>').replaceAll('{{EMAIL}}',escape(config.email)).replace('<!--PROCESS_STEPS-->',process).replace('<!--WHY_SECTION-->',why).replace('<!--LOCATION_SECTION-->',location).replace('<!--FAQ_ITEMS-->',faq);
- html=html.replace('<!--PROJECT_CARDS-->',isCatalog?'':vm.runInContext('projectCards()',context)).replace('<!--PROJECT_COUNT-->',vm.runInContext('`${lithosProjects.length} პროექტი / ${lithosProjects.reduce((sum,p)=>sum+p.photos.length,0)} ფოტო`',context)).replace('<!--FINISH_OPTIONS-->',finishOptions).replace('<!--THICKNESS_OPTIONS-->',thicknessOptions).replace('<!--FORM_MATERIAL_OPTIONS-->',materialOptions);
+ html=html.replace('<!--BLOG_TEASER-->',isCatalog?'':blogTeaser(articles)).replace('<!--PROJECT_CARDS-->',isCatalog?'':vm.runInContext('projectCards()',context)).replace('<!--PROJECT_COUNT-->',vm.runInContext('`${lithosProjects.length} პროექტი / ${lithosProjects.reduce((sum,p)=>sum+p.photos.length,0)} ფოტო`',context)).replace('<!--FINISH_OPTIONS-->',finishOptions).replace('<!--THICKNESS_OPTIONS-->',thicknessOptions).replace('<!--FORM_MATERIAL_OPTIONS-->',materialOptions);
  html=html.replace(/<title>[\s\S]*?<\/title>/,`<title>${escape(page.title)}</title>`).replace(/(<meta name="description" content=")[^"]*"/,(_,open)=>open+escape(page.description)+'"').replace(/(<link rel="canonical" href=")[^"]*"/,(_,open)=>open+page.url+'"');
  for(const [name,value]of Object.entries({'og:title':page.title,'og:description':page.description,'og:url':page.url}))html=html.replace(new RegExp(`(<meta property="${name}" content=")[^"]*"`),(_,open)=>open+escape(value)+'"');
  if(isCatalog){
@@ -42,5 +44,6 @@ for(const [key,page] of Object.entries(pages)){
 const notFound=`<!doctype html><html lang="ka"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><meta name="referrer" content="strict-origin-when-cross-origin"><title>გვერდი ვერ მოიძებნა — LITHOS</title><link rel="icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"></head><body><header><a class="brand" href="/" aria-label="LITHOS მთავარი"><img class="brand-logo" src="/assets/lithos-logo-v1.webp" width="100" height="100" alt="LITHOS Stone Surfaces"></a></header><main class="wrap not-found"><p class="not-found-code" aria-hidden="true">404</p><h1>გვერდი ვერ მოიძებნა</h1><p>ბმული შეიძლება შეიცვალა ან მისამართი არასწორადაა მითითებული.</p><div class="not-found-actions"><a class="dark-btn" href="/">მთავარ გვერდზე</a><a class="outline-btn" href="/materials/">მასალების კატალოგი</a></div></main></body></html>`;
 await writeFile(resolve(root,'dist/404.html'),notFound);
 await writeFile(resolve(root,'dist/robots.txt'),'User-agent: *\nAllow: /\n\nSitemap: https://lithos.ge/sitemap.xml\n');
-await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+Object.values(pages).map(page=>`  <url><loc>${page.url}</loc></url>`).join('\n')+'\n</urlset>\n');
-console.log('Generated 4 public pages and custom 404; missing business data omitted.');
+const blogPaths=await buildBlog({config,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),articles});
+await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...Object.values(pages).map(page=>page.url),...blogPaths.map(path=>'https://lithos.ge'+path)].map(url=>`  <url><loc>${url}</loc></url>`).join('\n')+'\n</urlset>\n');
+console.log(`Generated 4 public pages, blog index, ${articles.length} articles and custom 404; missing business data omitted.`);
