@@ -1,38 +1,2363 @@
 <!doctype html>
-<html lang="ka"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="index,follow"><title>შექმენი შენი სამზარეულო | LITHOS</title><meta name="description" content="შეარჩიეთ ქვა, მიუთითეთ სამზარეულოს ზომები, მიიღეთ სქემატური დიზაინი და საორიენტაციო ხარჯთაღრიცხვა."><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/style.css"><script defer src="/neolith-data.js"></script><script defer src="/quartz-data.js"></script>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="დახაზე ოთახი ან ააწყე სამზარეულო ნაბიჯ-ნაბიჯ: LITHOS-ის ქვა, 3D ხედი, ქვის რაოდენობა, ფილები და საორიენტაციო ფასი.">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="/favicon.ico">
+<title>LITHOS სამზარეულოს დიზაინერი</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root{--surface:#fffdf8;--border:#d5d4c9}body{background:#f4f1eb}.k-wrap{max-width:1220px;margin:20px auto 100px;padding:0 22px}.k-heading{padding:52px 0 30px}.k-heading h1{font-size:clamp(29px,4.4vw,56px);font-weight:400;line-height:1.3;margin:12px 0}.k-heading p{max-width:680px;color:#697065;line-height:1.9;font-size:13px}.k-grid{display:grid;grid-template-columns:minmax(320px,.92fr) minmax(320px,1.08fr);gap:24px;align-items:start}.k-panel{background:var(--surface);border:1px solid var(--border);padding:26px;border-radius:12px}.k-panel h2{font-size:22px;margin-bottom:20px}.k-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.k-field{display:flex;flex-direction:column;gap:7px;font-size:12px;color:#454b43}.k-field input,.k-field select{width:100%;border:1px solid #c9cbc2;background:#fff;border-radius:5px;min-height:45px;padding:11px;color:#252925;font-size:13px}.k-field.full{grid-column:1/-1}.k-help{font-size:11px;color:#6b7169;line-height:1.8;margin:12px 0 24px}.k-divider{border:0;border-top:1px solid var(--border);margin:25px 0}.k-chip{display:inline-block;font-size:10px;letter-spacing:1px;color:#66735d}.k-preview{background:#edeae3;min-height:280px;border-radius:8px;position:relative;overflow:hidden;padding:22px}.k-preview .plan{width:100%;height:260px;display:flex;justify-content:center;align-items:center}.plan svg{width:100%;height:100%;max-width:430px}.k-stone{display:flex;align-items:center;gap:12px;font-size:12px;margin:15px 0}.k-stone img{width:76px;height:64px;object-fit:cover;border-radius:5px}.k-number{font-size:32px;line-height:1.4;font-weight:500}.k-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}.k-stat{background:#f4f1eb;padding:14px;border-radius:6px;font-size:11px;color:#636a60}.k-stat strong{display:block;font-size:21px;margin-top:5px;color:#292d27}.k-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.k-btn{border:1px solid #30392d;color:#fff;background:#30392d;padding:13px 18px;min-height:44px;border-radius:4px;font-size:12px}.k-btn.alt{background:transparent;color:#30392d}.k-notice{font-size:11px;line-height:1.9;color:#71746b}#cost-items{width:100%;border-collapse:collapse;font-size:12px}#cost-items td{padding:10px 0;border-bottom:1px solid #deddd6}#cost-items td:last-child{text-align:right}.k-error{color:#9f3b27;font-size:12px}.k-invisible{display:none}@media(max-width:800px){.k-grid{grid-template-columns:1fr}.k-panel{padding:18px}.k-wrap{padding:0 14px}.k-heading{padding-top:24px}}@media print{header,.k-actions,.k-form,.k-heading p{display:none!important}.k-grid{display:block}.k-panel{break-inside:avoid}.k-wrap{margin:0}}
-</style></head><body>
-<header><a class="brand" href="/"><img src="/assets/lithos-logo-v1.webp" alt="LITHOS" width="60" height="60"></a><nav><a href="/materials/">მასალების კატალოგი</a><a href="/designer/">ფოტოზე გამოცდა</a></nav><a class="contact-btn" href="/">მთავარი</a></header>
-<main class="k-wrap"><div class="k-heading"><span class="k-chip">LITHOS · სამზარეულოს კონფიგურატორი</span><h1>შექმენი შენი სამზარეულო.<br>აირჩიე ქვა.</h1><p>მიუთითე ზომები, აირჩიე მასალა კატალოგიდან და მიიღე სამუშაო ზედაპირის სქემა, ფართობი და ხარჯთაღრიცხვა. ვიზუალიზაცია სქემატურია — საბოლოო ზომები და ფასი დაზუსტდება აზომვითა და კონსულტაციით.</p></div>
-<div class="k-grid"><form class="k-panel k-form" id="k-form"><h2>პროექტის პარამეტრები</h2><div class="k-fields">
-<label class="k-field full">სამზარეულოს ფორმა<select id="shape"><option value="straight">სწორი</option><option value="corner">L — კუთხის</option><option value="u">U — სამმხრივი</option><option value="island">სწორი + კუნძული</option></select></label>
-<label class="k-field">მონაკვეთი A (სმ)<input id="a" type="number" min="30" max="1500" step="1" value="300" required></label><label class="k-field" id="b-row">მონაკვეთი B (სმ)<input id="b" type="number" min="30" max="1500" step="1" value="220"></label>
-<label class="k-field" id="c-row">მონაკვეთი C / კუნძულის სიგრძე (სმ)<input id="c" type="number" min="30" max="1500" step="1" value="180"></label><label class="k-field">სამუშაო ზედაპირის სიღრმე (სმ)<input id="depth" type="number" min="30" max="150" step="1" value="60" required></label>
-<label class="k-field full">მასალის ძებნა<input id="search-material" type="search" placeholder="მაგ. Calacatta, შავი, Arctic"></label><label class="k-field full">შერჩეული ქვა<select id="stone"></select></label></div>
-<p class="k-help">მასალები იტვირთება LITHOS-ის არსებული კატალოგიდან. სქემა მხოლოდ სამუშაო ზედაპირის ფორმას ასახავს; არ ითვალისწინებს კარადებს, ტიხრებს, ტექნიკას ან ქვის ფილების ჭრის ტექნოლოგიურ შეზღუდვებს.</p>
-<hr class="k-divider"><h2>ფასის პარამეტრები</h2><p class="k-help">საჯარო კატალოგში ფასები არ არის მითითებული. თუ გაქვს მიღებული შეთავაზება, შეიყვანე ტარიფები; წინააღმდეგ შემთხვევაში მიიღებ მხოლოდ ფართობს და ფასის მოთხოვნის ტექსტს.</p>
-<div class="k-fields"><label class="k-field">მასალისა და დამუშავების ფასი (₾/მ²)<input id="rate" type="number" min="0" step=".01" placeholder="ჩაწერე ცნობილი ფასი"></label><label class="k-field">მონტაჟი (₾, სურვილისამებრ)<input id="installation" type="number" min="0" step=".01" placeholder="არ არის ცნობილი"></label><label class="k-field">დამატებითი სამუშაოები (₾)<input id="extra" type="number" min="0" step=".01" placeholder="მაგ. ნიჟარის ამოჭრა"></label><label class="k-field">ნარჩენი მასალის რეზერვი (%)<input id="waste" type="number" min="0" max="40" step="1" value="10"></label></div><p class="k-help">ნარჩენის რეზერვი გამოიყენება მხოლოდ მასალის სავარაუდო ფასში; ეს არ არის რეალური ჭრის ოპტიმიზაცია.</p><p class="k-error" id="error" role="alert"></p></form>
-<aside class="k-panel"><h2>შენი დიზაინის სქემა</h2><div class="k-preview"><div class="plan" id="plan"></div></div><div class="k-stone"><img id="stone-image" alt="შერჩეული ქვის ფოტო"><span id="stone-name"></span></div><div class="k-summary"><div class="k-stat">ზედაპირის ფართობი<strong id="area">—</strong></div><div class="k-stat">მასალა რეზერვით<strong id="total-area">—</strong></div></div><h2>საორიენტაციო ხარჯთაღრიცხვა</h2><table id="cost-items"><tbody></tbody></table><p class="k-number" id="total">ფასი დასაზუსტებელია</p><p class="k-notice">ეს არ არის LITHOS-ის კომერციული შეთავაზება. ფორმულა იყენებს შენ მიერ შეყვანილ ფასებს. საბოლოო თანხაზე მოქმედებს ფილის ფორმატი, ჭრის განლაგება, სისქე, კიდეები, ამოჭრები, მონტაჟი და ადგილზე აზომვა.</p><div class="k-actions"><button class="k-btn" type="button" id="request">ფასის მოთხოვნა</button><button class="k-btn alt" type="button" id="print">PDF / ბეჭდვა</button><a class="k-btn alt" href="/designer/">ქვის ფოტოზე გამოცდა</a></div></aside></div></main>
-<script>
-(function(){'use strict';
-const $=id=>document.getElementById(id);const all=[...(typeof neolithMaterials!=='undefined'?neolithMaterials:[]),...(typeof quartzMaterials!=='undefined'?quartzMaterials:[])];const f=new Intl.NumberFormat('ka-GE',{maximumFractionDigits:2});let options=[];
-function escapeHtml(v){return String(v).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
-function imgPath(m){const raw=m.thumbnail||m.image||'';return /^https?:\/\//.test(raw)?raw:raw.startsWith('/')?raw:'/'+raw;}
-function fill(){const term=$('search-material').value.trim().toLocaleLowerCase();const current=$('stone').value;options=all.filter(x=>(x.name+' '+(x.label||'')+' '+(x.brand||'')).toLocaleLowerCase().includes(term));$('stone').innerHTML=options.map((x,i)=>'<option value="'+i+'">'+escapeHtml((x.brand||x.label||'ქვა')+' — '+x.name)+'</option>').join('');if(options.length){const index=options.findIndex(x=>x.id===current);$('stone').selectedIndex=index>=0?index:0;}render();}
-function num(id,required=false){const v=$(id).value.trim();if(!v)return required?NaN:0;return Number(v);}
-function render(){const shape=$('shape').value;const reqB=shape==='corner'||shape==='u';const reqC=shape==='u'||shape==='island';$('b-row').style.display=reqB?'flex':'none';$('c-row').style.display=reqC?'flex':'none';$('error').textContent='';
-const a=num('a',true),b=reqB?num('b',true):0,c=reqC?num('c',true):0,d=num('depth',true),w=num('waste'),rate=$('rate').value.trim()?num('rate'):null,install=$('installation').value.trim()?num('installation'):null,extra=$('extra').value.trim()?num('extra'):null;
-const valid=[a,d,...(reqB?[b]:[]),...(reqC?[c]:[])].every(x=>Number.isFinite(x)&&x>=30&&x<=1500)&&d<=150&&w>=0&&w<=40&&[rate,install,extra].every(x=>x===null||Number.isFinite(x)&&x>=0);
-if(!valid){$('error').textContent='შეამოწმე ზომები და არაუარყოფითი ფასები.';$('area').textContent='—';$('total-area').textContent='—';$('total').textContent='—';$('plan').replaceChildren();return;}
-const dm=d/100,am=a/100,bm=b/100,cm=c/100;let area=shape==='straight'?am*dm:shape==='corner'?((am+bm)*dm-dm*dm):shape==='u'?((am+bm+cm)*dm-2*dm*dm):am*dm+cm*dm;area=Math.max(0,area);
-$('area').textContent=f.format(area)+' მ²';$('total-area').textContent=f.format(area*(1+w/100))+' მ²';
-const m=options[Number($('stone').value)];$('stone-name').textContent=m?((m.brand||m.label||'')+' · '+m.name):'მასალა ვერ მოიძებნა';$('stone-image').style.display=m?'block':'none';if(m)$('stone-image').src=imgPath(m);
-const path=shape==='straight'?'<rect x="25" y="36" width="310" height="65"/>':shape==='corner'?'<path d="M25 35H335V100H95V245H25Z"/>':shape==='u'?'<path d="M25 35H335V245H265V100H95V245H25Z"/>':'<rect x="25" y="35" width="310" height="60"/><rect x="84" y="155" width="190" height="72"/>';
-$('plan').innerHTML='<svg viewBox="0 0 360 280" role="img" aria-label="ზედაპირის სქემატური ზედხედვა"><defs><pattern id="tex" width="190" height="110" patternUnits="userSpaceOnUse"><image href="'+escapeHtml(m?imgPath(m):'')+'" width="190" height="110" preserveAspectRatio="xMidYMid slice"/></pattern></defs><g fill="'+(m?'url(#tex)':'#c8c6bc')+'" stroke="#30392d" stroke-width="2">'+path+'</g><text x="180" y="267" text-anchor="middle" font-size="12" fill="#29342b">A: '+f.format(a)+' სმ · სიღრმე: '+f.format(d)+' სმ</text></svg>';
-let rows=[['ზედაპირი',f.format(area)+' მ²'],['დამატებითი რეზერვი',f.format(area*w/100)+' მ²']];if(rate!==null)rows.push(['მასალა / დამუშავება',f.format(area*(1+w/100)*rate)+' ₾']);if(install!==null)rows.push(['მონტაჟი',f.format(install)+' ₾']);if(extra!==null)rows.push(['დამატებითი სამუშაო',f.format(extra)+' ₾']);$('cost-items').querySelector('tbody').innerHTML=rows.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>').join('');$('total').textContent=rate===null?'ფასი დასაზუსტებელია':f.format(area*(1+w/100)*rate+(install||0)+(extra||0))+' ₾';
+:root{
+  /* Layout: step panel on the left (≤440px) + live 3D stage on the right; on phones the stage sticks on top and the panel scrolls under it */
+  --paper:#f3f0e9; --surface:#fbf9f4; --sunk:#ebe7de; --ink:#252923; --muted:#656a61; --line:#d7d3c7; --line-strong:#b5b1a4;
+  --accent:#727c55; --accent-ink:#4a5235; --accent-soft:#e3e6d6; --primary:#2f382c; --on-primary:#f6f4ee;
+  --error:#a03a25; --error-soft:#f5e1d9; --warn:#8a6110; --warn-soft:#f3e8cf; --info:#46606c; --info-soft:#e0e8eb;
+  --stage:#e4e0d6; --overlay:rgba(251,249,244,.93);
+  --f-ui:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-num:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --radius:7px;
 }
-$('search-material').addEventListener('input',fill);$('stone').addEventListener('change',render);$('k-form').addEventListener('input',e=>{if(e.target.id!=='search-material')render();});$('k-form').addEventListener('change',render);$('print').addEventListener('click',()=>window.print());
-$('request').addEventListener('click',()=>{const m=options[Number($('stone').value)];const msg='გამარჯობა, LITHOS. მსურს სამუშაო ზედაპირის ფასი.\nფორმა: '+$('shape').selectedOptions[0].text+'\nA: '+$('a').value+' სმ; B: '+$('b').value+' სმ; C: '+$('c').value+' სმ; სიღრმე: '+$('depth').value+' სმ\nმასალა: '+(m?m.name:'დასაზუსტებელია')+'\nფართობი: '+$('area').textContent+'\nგთხოვთ საბოლოო კომერციული შეთავაზება დააზუსტოთ.';window.open('https://wa.me/995551044013?text='+encodeURIComponent(msg),'_blank','noopener,noreferrer');});fill();
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#161815; --surface:#1d201c; --sunk:#262a24; --ink:#e9e6dd; --muted:#a0a397; --line:#353930; --line-strong:#4d5247;
+  --accent:#a8b285; --accent-ink:#c9d1aa; --accent-soft:#2b3123; --primary:#dfe4cc; --on-primary:#1a1d17;
+  --error:#e48a72; --error-soft:#3a221b; --warn:#dcb05c; --warn-soft:#352c19; --info:#94b3c0; --info-soft:#1e292d;
+  --stage:#20231f; --overlay:rgba(29,32,28,.92); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#161815; --surface:#1d201c; --sunk:#262a24; --ink:#e9e6dd; --muted:#a0a397; --line:#353930; --line-strong:#4d5247;
+  --accent:#a8b285; --accent-ink:#c9d1aa; --accent-soft:#2b3123; --primary:#dfe4cc; --on-primary:#1a1d17;
+  --error:#e48a72; --error-soft:#3a221b; --warn:#dcb05c; --warn-soft:#352c19; --info:#94b3c0; --info-soft:#1e292d;
+  --stage:#20231f; --overlay:rgba(29,32,28,.92); color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num-f,.mono{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+
+.app{height:100%;display:grid;grid-template-rows:auto 1fr}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:1px solid var(--line);background:var(--surface)}
+.brand{display:flex;align-items:baseline;gap:12px;min-width:0}
+.brand .mark{font-weight:600;letter-spacing:.34em;font-size:15px}
+.brand .sub{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-actions{display:flex;align-items:center;gap:10px}
+.save-state{font-size:11.5px;color:var(--muted)}
+.work{min-height:0;display:grid;grid-template-columns:minmax(340px,440px) minmax(0,1fr);grid-template-areas:"panel stage"}
+.panel{grid-area:panel;min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--surface)}
+.stage{grid-area:stage;position:relative;min-height:0;background:var(--stage);overflow:hidden}
+.canvas-wrap{position:absolute;inset:0}
+.canvas-wrap canvas{width:100%;height:100%;display:block;touch-action:none}
+.labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lbl{position:absolute;transform:translate(-50%,-100%);background:var(--overlay);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font:500 11px/1.5 var(--f-num);white-space:nowrap}
+.lbl b{font-family:var(--f-ui);font-weight:600;margin-right:4px}
+.views{position:absolute;left:12px;top:12px;display:flex;gap:2px;background:var(--overlay);border:1px solid var(--line);border-radius:999px;padding:3px}
+.views button{border:0;background:none;padding:5px 11px;border-radius:999px;font-size:12px;color:var(--muted)}
+.views button.on{background:var(--primary);color:var(--on-primary)}
+.stage-tools{position:absolute;right:12px;top:12px;display:flex;gap:10px;background:var(--overlay);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px}
+.stage-tools label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.stage-stats{position:absolute;left:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - 24px)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--overlay);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px}
+.chip .mono{font-size:12px}
+button.chip{cursor:pointer}
+.chip.err{color:var(--error);border-color:color-mix(in srgb,var(--error) 40%,var(--line))}
+.chip.wrn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line))}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:24px}
+
+.steps{display:flex;gap:2px;overflow-x:auto;padding:10px 12px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.steps button{flex:0 0 auto;display:flex;align-items:center;gap:6px;border:1px solid transparent;background:none;border-radius:999px;padding:5px 10px 5px 5px;font-size:12.5px;color:var(--muted);position:relative}
+.steps button .n{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font:500 11px var(--f-num);border:1px solid var(--line-strong)}
+.steps button.on{color:var(--ink);border-color:var(--line);background:var(--sunk)}
+.steps button.on .n{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.steps button .flag{position:absolute;top:2px;left:20px;width:7px;height:7px;border-radius:50%}
+.flag.err{background:var(--error)}.flag.wrn{background:var(--warn)}
+.step-body{flex:1;min-height:0;overflow-y:auto;padding-block:18px 28px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border-top:1px solid var(--line);background:var(--surface)}
+.step-nav .count{font:12px var(--f-num);color:var(--muted)}
+
+h2.st{font-size:20px;font-weight:500;margin:0 0 4px;letter-spacing:-.01em;text-wrap:balance}
+.lead{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:60ch}
+.sec{border-top:1px solid var(--line);margin-top:18px;padding-top:14px}
+.sec>h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-ink);margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.grid2>.full{grid-column:1/-1}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f-l{font-size:12px;color:var(--ink);font-weight:500}
+.f-h{font-size:11.5px;color:var(--muted);line-height:1.5}
+.num{display:flex;align-items:stretch;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);overflow:hidden}
+.num:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.num input{flex:1;min-width:0;border:0;background:none;padding:8px 10px;font-family:var(--f-num);font-size:13.5px;outline:none}
+.num .u{display:grid;place-items:center;padding:0 10px;font-size:11.5px;color:var(--muted);background:var(--sunk);border-left:1px solid var(--line)}
+.num input::placeholder{color:var(--muted);font-family:var(--f-ui)}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--paper);border-radius:var(--radius);padding:6px 10px;font-size:12.5px;min-height:34px}
+.seg button svg{flex:0 0 auto}
+.seg button.on{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
+.sw{display:flex;flex-wrap:wrap;gap:8px}
+.sw button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line-strong);padding:0;position:relative}
+.sw button.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.sw button.same{width:auto;border-radius:999px;padding:0 10px;font-size:12px;background:var(--paper)}
+.sw button.same.on{background:var(--primary);color:var(--on-primary);box-shadow:none}
+.sw-name{font-size:11.5px;color:var(--muted);margin-top:2px}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:500}
+.toggle input{appearance:none;width:38px;height:22px;border-radius:999px;background:var(--line-strong);position:relative;cursor:pointer;flex:0 0 auto;transition:background .15s}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.toggle input:checked{background:var(--accent)}
+.toggle input:checked::after{transform:translateX(16px)}
+.btn{border:1px solid var(--line-strong);background:var(--paper);border-radius:var(--radius);padding:7px 12px;font-size:12.5px;min-height:34px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink)}
+.btn.primary{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.btn.ghost{background:none;border-color:transparent;color:var(--muted)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+.plan{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:8px}
+.plan svg{width:100%;height:auto;display:block}
+.notes{display:flex;flex-direction:column;gap:6px;margin:0 0 14px}
+.note{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;border-radius:var(--radius);padding:8px 10px;line-height:1.5}
+.note .dot{margin-top:6px;flex:0 0 auto}
+.note.error{background:var(--error-soft);color:var(--error)}
+.note.warn{background:var(--warn-soft);color:var(--warn)}
+.note.info{background:var(--info-soft);color:var(--info)}
+.note span{color:var(--ink)}
+.note button{margin-left:auto;border:0;background:none;color:inherit;text-decoration:underline;font-size:12px;flex:0 0 auto}
+
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.slot{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:6px;text-align:left;display:flex;flex-direction:column;gap:5px;min-width:0}
+.slot.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.slot img,.slot .ph{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;background:var(--sunk);max-width:100%}
+.slot .k{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.slot .v{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot .same-l{font-size:11.5px;color:var(--muted)}
+.mat-tools{display:flex;flex-direction:column;gap:8px;margin:12px 0 8px}
+.search{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:8px 10px;width:100%}
+.filters{display:flex;flex-wrap:wrap;gap:4px}
+.filters button{border:1px solid var(--line);background:none;border-radius:999px;padding:3px 9px;font-size:11.5px;color:var(--muted)}
+.filters button.on{border-color:var(--ink);color:var(--ink);background:var(--sunk)}
+.mgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:340px;overflow-y:auto;padding:2px}
+.mcard{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:4px;text-align:left;display:flex;flex-direction:column;gap:3px;min-width:0}
+.mcard img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;background:var(--sunk);max-width:100%}
+.mcard .nm{font-size:11.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcard .br{font-size:10px;color:var(--muted);letter-spacing:.06em}
+.mcard.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.minfo{font-size:12px;color:var(--muted);margin-top:6px}
+
+.presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.preset{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:8px;text-align:left;display:flex;flex-direction:column;gap:6px}
+.preset.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.preset .pal{display:flex;height:22px;border-radius:4px;overflow:hidden}
+.preset .pal i{flex:1}
+.preset span{font-size:12px;font-weight:500}
+
+.runtabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.mods{display:flex;flex-direction:column;gap:6px}
+.mrow{display:grid;grid-template-columns:22px minmax(0,1fr) 92px auto;gap:6px;align-items:center}
+.mrow .i{font:11px var(--f-num);color:var(--muted);text-align:right}
+.mrow select{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:6px 6px;min-width:0;font-size:12.5px}
+.mrow .num input{padding:6px 6px;font-size:12.5px}
+.mrow .num .u{padding:0 6px}
+.mrow .acts{display:flex;gap:2px}
+.mrow .acts button{border:1px solid var(--line);background:var(--paper);border-radius:5px;width:28px;height:30px;font-size:12px;padding:0}
+.mrow.locked{opacity:.7}
+.mrow.locked .lk{font-size:12px;color:var(--muted)}
+.msum{display:flex;justify-content:space-between;font-size:12px;margin-top:8px;color:var(--muted)}
+.msum b{font-family:var(--f-num);font-weight:500;color:var(--ink)}
+.msum.bad b{color:var(--error)}
+
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:6px}
+.metric{background:var(--sunk);border-radius:var(--radius);padding:10px 12px}
+.metric .k{font-size:11px;color:var(--muted)}
+.metric .v{font:500 20px/1.3 var(--f-num);margin-top:2px}
+.metric .v small{font-size:12px;color:var(--muted);margin-left:3px}
+table.t{width:100%;border-collapse:collapse;font-size:12.5px}
+table.t th{text-align:left;font-weight:500;color:var(--muted);font-size:11px;padding:6px 0;border-bottom:1px solid var(--line)}
+table.t td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top}
+table.t td.r,table.t th.r{text-align:right;font-family:var(--f-num);font-variant-numeric:tabular-nums}
+table.t tr.tot td{font-weight:600;border-bottom:0}
+.slab{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.slab .s1{display:flex;justify-content:space-between;gap:8px;font-weight:500}
+.slab .s2{color:var(--muted);font-size:11.5px}
+.total{font:500 24px/1.3 var(--f-num);margin:10px 0 2px}
+.fine{font-size:11.5px;color:var(--muted);line-height:1.6}
+textarea.code{width:100%;min-height:120px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:8px;font:11.5px/1.5 var(--f-num);resize:vertical}
+.shot{width:100%;max-width:100%;border-radius:var(--radius);border:1px solid var(--line);display:block}
+details.more{margin-top:8px}
+details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
+.ergo{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ergo b{font-family:var(--f-num);color:var(--ink);font-weight:500}
+
+.modebar{padding:10px 12px 0}
+.modebar .seg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-strong);border-radius:var(--radius);overflow:hidden}
+.modebar .seg button{border:0;border-radius:0;min-height:32px;justify-content:center;font-size:12.5px;background:var(--paper)}
+.modebar .seg button.on{background:var(--primary);color:var(--on-primary)}
+.sketch{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:4px}
+.sketch svg{width:100%;height:auto;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.sketch .feat{cursor:grab}
+.sketch .feat:focus{outline:none}
+.sketch .feat:focus-visible circle:last-child{stroke:var(--accent)}
+.tools{margin-top:8px}
+.fcards{display:flex;flex-direction:column;gap:8px}
+.fcard{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:8px 10px;display:flex;flex-direction:column;gap:8px}
+.fcard.sel{border-color:var(--ink)}
+.fhead{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.fhead b{font-weight:500}
+.fhead select{margin-left:auto;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--surface);padding:4px 6px;font-size:12px;min-width:0}
+.fhead .x{border:1px solid var(--line);background:var(--surface);border-radius:5px;width:28px;height:28px;padding:0}
+.ficon{width:12px;height:12px;border-radius:2px;flex:0 0 auto;background:var(--ink)}
+.ficon.window{background:var(--info)}.ficon.water{background:var(--info);border-radius:50%}.ficon.door{background:none;border:1.5px solid var(--muted);border-radius:0 10px 0 0}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
+.mini{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--muted);min-width:0}
+.mini .num input{padding:5px 6px;font-size:12.5px}
+.mini .num .u{padding:0 6px}
+.auto-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.auto-list li{position:relative;padding-left:20px;font-size:12.5px;line-height:1.5}
+.auto-list li::before{content:"";position:absolute;left:2px;top:6px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+@media (max-width:860px){
+  .app{height:auto;min-height:100%;display:block}
+  .work{display:flex;flex-direction:column}
+  .stage{position:sticky;top:env(safe-area-inset-top,0px);height:44vh;min-height:260px;z-index:5;order:-1;border-bottom:1px solid var(--line)}
+  .panel{border-right:0}
+  .step-body{overflow:visible}
+  .step-nav{position:sticky;bottom:0;z-index:4}
+  .brand .sub{display:none}
+  .views button{padding:4px 8px;font-size:11.5px}
+  .stage-tools{top:auto;bottom:12px;right:12px;padding:4px 10px}
+  .stage-stats{bottom:52px}
+}
+@media (max-width:520px){.save-state{display:none}}
+@media (max-width:420px){.grid2{grid-template-columns:minmax(0,1fr)}.mgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.metric .v{font-size:17px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script src="/neolith-data.js"></script>
+<script src="/quartz-data.js"></script>
+<script src="/designer/config.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><a class="mark" href="/" style="color:inherit;text-decoration:none">LITHOS</a><span class="sub">სამზარეულოს დიზაინერი · ქვა, ზომები, 3D</span></div>
+    <div class="top-actions"><span class="save-state" id="saveState"></span><button class="btn ghost" type="button" id="btnReset">თავიდან დაწყება</button></div>
+  </header>
+  <main class="work">
+    <section class="stage" id="stage" aria-label="3D ხედი">
+      <div class="canvas-wrap" id="canvasWrap"></div>
+      <div class="labels" id="labels"></div>
+      <div class="views" role="toolbar" aria-label="კამერა">
+        <button type="button" data-view="persp" class="on">3D</button>
+        <button type="button" data-view="top">ზედხედი</button>
+        <button type="button" data-view="front">A კედელი</button>
+        <button type="button" data-view="island">კუნძულიდან</button>
+      </div>
+      <div class="stage-tools">
+        <label><input type="checkbox" id="tgDims" checked> ზომები</label>
+        <label><input type="checkbox" id="tgUpper" checked> ზედა კარადები</label>
+      </div>
+      <div class="stage-stats" id="stageStats"></div>
+      <div class="loading" id="loading">3D ხედი იტვირთება…</div>
+    </section>
+    <aside class="panel" aria-label="პარამეტრები">
+      <div class="modebar" id="modebar"></div>
+      <nav class="steps" id="steps" aria-label="ნაბიჯები"></nav>
+      <div class="step-body" id="stepBody"></div>
+      <footer class="step-nav"><button class="btn" type="button" id="prev">← წინა</button><span class="count" id="stepCount"></span><button class="btn primary" type="button" id="next">შემდეგი →</button></footer>
+    </aside>
+  </main>
+</div>
+<script type="module">
+'use strict';
+/* ---------- config ---------- */
+const ASSET_BASE = '/';
+const WA_PHONE = '995551044013';
+const STORE_KEY = 'lithos-kitchen-v1';
+const $ = (s, r = document) => r.querySelector(s);
+const nf = new Intl.NumberFormat('ka-GE', { maximumFractionDigits: 2 });
+const nf1 = new Intl.NumberFormat('ka-GE', { maximumFractionDigits: 1 });
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+const r1 = v => Math.round(v * 10) / 10;
+
+/* ---------- catalog ---------- */
+const CATALOG = [
+  ...(typeof neolithMaterials !== 'undefined' ? neolithMaterials : []),
+  ...(typeof quartzMaterials !== 'undefined' ? quartzMaterials : [])
+].map(m => ({ ...m, key: m.type + ':' + m.id, brandLabel: m.brand || m.label || 'NEOLITH' }));
+const MAT = new Map(CATALOG.map(m => [m.key, m]));
+const TONES = ['თეთრი', 'ნაცრისფერი', 'შავი', 'ბეჟი', 'ყავისფერი', 'მარმარილოს ნახატი'];
+const TONE_COL = { 'თეთრი': '#ece9e3', 'ნაცრისფერი': '#9b9a95', 'შავი': '#2b2b2b', 'ბეჟი': '#d9c9ae', 'ყავისფერი': '#7c5c45' };
+function mat(key) { return MAT.get(key) || MAT.get(DEFAULTS.stone.main) || CATALOG[0]; }
+function thickOpts(m) { const t = [...new Set((m.thicknesses || []).filter(x => x >= 6))].sort((a, b) => a - b); return t.length ? t : [20]; }
+function defaultThick(m) { const t = thickOpts(m); return t.includes(12) ? 12 : t.includes(20) ? 20 : t.at(-1); }
+function fmtFor(m, th) {
+  const f = (m.formats || []).find(x => Number(x[2]) === th) || (m.formats || []).find(x => !x[2]) || (m.formats || [])[0] || [3200, 1600, th];
+  return [Math.max(f[0], f[1]) / 10, Math.min(f[0], f[1]) / 10];
+}
+function finishParams(f) {
+  const s = String(f || '').toLowerCase();
+  if (/polish|პრიალა/.test(s)) return { r: 0.14, cc: 0.5, env: 1.0, l: 'პრიალა' };
+  if (/silk/.test(s)) return { r: 0.42, cc: 0, env: 0.8, l: 'Silk' };
+  if (/satin/.test(s)) return { r: 0.55, cc: 0, env: 0.7, l: 'Satin' };
+  if (/river|slate|leather|steel|touch/.test(s)) return { r: 0.78, cc: 0, env: 0.5, l: f };
+  return { r: 0.5, cc: 0, env: 0.8, l: f || '—' };
+}
+function toneOf(m) { const k = (m.searchKeywords || []).find(x => TONE_COL[x]); return TONE_COL[k] || '#cfcac2'; }
+
+/* ---------- vocabularies ---------- */
+const FRONT_COLORS = {
+  white: { l: 'თეთრი მქრქალი', c: '#ecebe5' }, cashmere: { l: 'ქაშმირი', c: '#d4c8b6' }, sand: { l: 'ქვიშა', c: '#bfab8d' },
+  sage: { l: 'სალბი', c: '#98a28a' }, olive: { l: 'ზეთისხილი', c: '#646a4e' }, navy: { l: 'ღამის ლურჯი', c: '#2d394a' },
+  graphite: { l: 'გრაფიტი', c: '#3a3c3b' }, black: { l: 'შავი', c: '#1d1e1e' },
+  oak: { l: 'მუხა', c: '#b68b5d', wood: true }, walnut: { l: 'კაკალი', c: '#6a4a33', wood: true }
+};
+const WALL_COLORS = {
+  'warm-white': { l: 'თბილი თეთრი', c: '#ece7de' }, white: { l: 'თეთრი', c: '#f4f3ef' }, greige: { l: 'გრეიჯი', c: '#d4cdc1' },
+  sage: { l: 'ღია სალბი', c: '#c6cbb8' }, clay: { l: 'თიხა', c: '#c7a38a' }, concrete: { l: 'ბეტონი', c: '#a8a7a2' }
+};
+const FLOORS = { oak: 'მუხა', 'oak-light': 'ღია მუხა', walnut: 'კაკალი', tile: 'ნაცრისფერი ფილა', terrazzo: 'ტერაცო', concrete: 'მიკროცემენტი' };
+const HANDLES = { gola: 'უსახელურო (gola)', 'bar-black': 'შავი სახელური', 'bar-brass': 'ლატუნი', 'bar-steel': 'ფოლადი', push: 'დაწოლით' };
+const PRESETS = {
+  minimal: { l: 'მინიმალიზმი', front: { type: 'flat', base: 'cashmere', up: null, isl: 'graphite', handle: 'gola' }, int: { wall: 'warm-white', floor: 'oak' } },
+  scandi: { l: 'სკანდინავიური', front: { type: 'flat', base: 'white', up: null, isl: 'oak', handle: 'bar-black' }, int: { wall: 'white', floor: 'oak-light' } },
+  classic: { l: 'კლასიკური', front: { type: 'shaker', base: 'sage', up: 'white', isl: 'navy', handle: 'bar-brass' }, int: { wall: 'warm-white', floor: 'walnut' } },
+  industrial: { l: 'ინდუსტრიული', front: { type: 'flat', base: 'graphite', up: null, isl: 'black', handle: 'bar-steel' }, int: { wall: 'concrete', floor: 'concrete' } },
+  japandi: { l: 'ჯაპანდი', front: { type: 'fluted', base: 'oak', up: 'sand', isl: 'oak', handle: 'push' }, int: { wall: 'greige', floor: 'oak-light' } }
+};
+const MODTYPES = {
+  drawers: '3 უჯრა', door: 'კარი', door2: 'ორმაგი კარი', sink: 'ნიჟარის მოდული', hob: 'ქურის მოდული, უჯრებით',
+  oven: 'ღუმელი ქურის ქვეშ', dw: 'ჭურჭლის სარეცხი', filler: 'შემავსებელი', fridge: 'მაცივარი, კოლონა',
+  fridgeFS: 'თავისუფლად მდგომი მაცივარი', ovenTall: 'ღუმელის კოლონა', pantry: 'მაღალი კარადა'
+};
+const TALL = new Set(['fridge', 'fridgeFS', 'ovenTall', 'pantry']);
+const EDGE = { eased: 'სწორი', bevel: 'ფასკა', round: 'მომრგვალებული', miter: '45° შეერთება' };
+const BS = { none: 'არა', strip: 'ზოლი 10 სმ', upper: 'ზედა კარადებამდე', ceil: 'ჭერამდე' };
+const SINK_MOUNT = { under: 'ქვემოდან ჩასმული', top: 'ზემოდან დადებული', flush: 'ზედაპირთან ერთ დონეზე', integrated: 'ქვისგან ინტეგრირებული' };
+const HOOD = { wall: 'კედლის', builtin: 'ჩაშენებული', island: 'კუნძულის', downdraft: 'ზედაპირში ჩაშენებული', none: 'არა' };
+const RUN_NAME = { A: 'A — უკანა კედელი', B: 'B', C: 'C', I: 'კუნძული' };
+const FEAT = {
+  window: { l: 'ფანჯარა', w: 120, h: 140, sill: 105 },
+  door: { l: 'კარი', w: 90, h: 210 },
+  column: { l: 'კოლონა / შვერილი', w: 40, d: 40 },
+  water: { l: 'წყლის წერტილი', w: 0 }
+};
+const WALLS = { back: 'უკანა', left: 'მარცხენა', right: 'მარჯვენა', front: 'წინა' };
+
+/* ---------- state ---------- */
+const DEFAULTS = {
+  v: 1,
+  room: { w: 460, d: 420, h: 270 },
+  flow: 'quick',
+  sk: { walls: { back: true, left: true, right: true }, isl: 'auto' },
+  feats: [
+    { t: 'window', wall: 'back', x: 150, w: 120, h: 140, sill: 105 },
+    { t: 'door', wall: 'right', x: 300, w: 90, h: 210 },
+    { t: 'water', wall: 'back', x: 210 }
+  ],
+  lay: { type: 'L', corner: 'left', a: 460, b: 260, c: 220, off: 0 },
+  base: { depth: 62, top: 90, userH: null },
+  isl: { on: true, len: 200, dep: 95, aisle: 110, shift: 0, seat: 'back', over: 30, bar: false },
+  sink: { run: 'A', pos: null, bowls: '1', mount: 'under', drain: 'right' },
+  dw: 'right',
+  hob: { run: 'B', pos: null, type: 'induction', w: 60, mount: 'top' },
+  oven: 'under', hood: 'wall',
+  fridge: { type: 'builtin', run: 'A', end: 'end' },
+  pantry: 1,
+  cab: { fill: 'mixed', plinth: 10 },
+  mods: { A: null, B: null, C: null, I: null },
+  up: { type: 'std', h: 72, gap: 60 },
+  stone: { main: 'neolith:calacatta-luxe', t: 12, edge: 'eased', miter: 4, bs: 'upper', bsMat: null, islMat: null, wf: 'both' },
+  front: { preset: 'minimal', type: 'flat', base: 'cashmere', up: null, isl: 'graphite', handle: 'gola' },
+  int: { wall: 'warm-white', floor: 'oak', led: true, pend: 3, time: 'day' },
+  quote: { rate: null, install: null, extra: null, waste: 10 }
+};
+const NULLABLE = new Set(['base.userH', 'sink.pos', 'hob.pos', 'stone.bsMat', 'stone.islMat', 'front.up', 'front.isl', 'quote.rate', 'quote.install', 'quote.extra', 'front.preset']);
+const clone = o => JSON.parse(JSON.stringify(o));
+
+function sanitize(src) {
+  const out = clone(DEFAULTS);
+  const walk = (d, s, o, path) => {
+    for (const k of Object.keys(d)) {
+      const p = path ? path + '.' + k : k; const dv = d[k]; const sv = s ? s[k] : undefined;
+      if (sv === undefined) continue;
+      if (p === 'feats') continue;
+      if (p === 'mods') {
+        for (const r of ['A', 'B', 'C', 'I']) {
+          const list = sv && sv[r];
+          o.mods[r] = Array.isArray(list) ? list.filter(x => x && MODTYPES[x.t] && Number.isFinite(+x.w) && +x.w > 0 && +x.w < 400).map(x => ({ t: x.t, w: +x.w })).slice(0, 40) : null;
+        }
+        continue;
+      }
+      if (dv && typeof dv === 'object') { if (sv && typeof sv === 'object') walk(dv, sv, o[k], p); continue; }
+      if (sv === null && NULLABLE.has(p)) { o[k] = null; continue; }
+      if (typeof dv === 'number' || (dv === null && NULLABLE.has(p) && typeof sv === 'number')) { if (Number.isFinite(+sv)) o[k] = +sv; continue; }
+      if (typeof dv === 'boolean') { o[k] = !!sv; continue; }
+      if (typeof dv === 'string' || dv === null) { if (typeof sv === 'string' && sv.length < 80) o[k] = sv; }
+    }
+  };
+  walk(DEFAULTS, src || {}, out, '');
+  let feats = src && Array.isArray(src.feats) ? src.feats : null;
+  if (!feats && src && src.win) feats = src.win.on ? [{ t: 'window', ...src.win }] : [];   /* v1 projects: one window */
+  if (feats) out.feats = feats.filter(f => f && FEAT[f.t] && WALLS[f.wall] && Number.isFinite(+f.x)).slice(0, 16).map(f => {
+    const d = FEAT[f.t], g = { t: f.t, wall: f.wall, x: Math.max(0, +f.x) };
+    if (f.t !== 'water') g.w = clamp(+f.w || d.w, 10, 600);
+    if (f.t === 'window') { g.h = clamp(+f.h || d.h, 20, 300); g.sill = clamp(Number.isFinite(+f.sill) ? +f.sill : d.sill, 0, 250); }
+    if (f.t === 'door') g.h = clamp(+f.h || d.h, 150, 300);
+    if (f.t === 'column') g.d = clamp(+f.d || d.d, 5, 200);
+    return g;
+  });
+  if (src && !src.flow && (src.lay || src.win)) out.flow = 'full';
+  if (!MAT.has(out.stone.main)) out.stone.main = DEFAULTS.stone.main;
+  if (out.stone.bsMat && !MAT.has(out.stone.bsMat)) out.stone.bsMat = null;
+  if (out.stone.islMat && !MAT.has(out.stone.islMat)) out.stone.islMat = null;
+  return out;
+}
+
+let S = clone(DEFAULTS);
+function get(path) { return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), S); }
+function set(path, v) { const ks = path.split('.'); let o = S; for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks.at(-1)] = v; }
+
+function storeLoad() { try { const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; } }
+let saveTimer = 0;
+function storeSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); $('#saveState').textContent = 'შენახულია ამ ბრაუზერში'; }
+    catch { $('#saveState').textContent = ''; }
+  }, 400);
+}
+
+/* share code: JSON → deflate-raw → base64url */
+const b64u = bytes => { let s = ''; for (const b of bytes) s += String.fromCharCode(b); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const unb64u = str => { const s = atob(str.replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(s, c => c.charCodeAt(0)); };
+async function encodeProject(obj) {
+  const data = new TextEncoder().encode(JSON.stringify(obj));
+  if (typeof CompressionStream === 'undefined') return 'j' + b64u(data);
+  const buf = await new Response(new Blob([data]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer();
+  return 'z' + b64u(new Uint8Array(buf));
+}
+async function decodeProject(code) {
+  const kind = code[0], bytes = unb64u(code.slice(1));
+  if (kind === 'j') return JSON.parse(new TextDecoder().decode(bytes));
+  const buf = await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer();
+  return JSON.parse(new TextDecoder().decode(buf));
+}
+const onSite = /(^|\.)lithos\.ge$|\.pages\.dev$/.test(location.hostname);
+
+/* ================= model: geometry, modules, stone, checks ================= */
+function cut(ivs, s, e) {
+  const out = [];
+  for (const [a, b] of ivs) {
+    if (e <= a + 0.01 || s >= b - 0.01) { out.push([a, b]); continue; }
+    if (s > a + 0.01) out.push([a, s]);
+    if (e < b - 0.01) out.push([e, b]);
+  }
+  return out.filter(([a, b]) => b - a > 0.01);
+}
+function placeIn(ivs, w, des) {
+  let best = null, bd = Infinity;
+  for (const [a, b] of ivs) {
+    if (b - a < w - 0.01) continue;
+    const s = clamp(des, a, b - w), d = Math.abs(s - des);
+    if (d < bd) { bd = d; best = s; }
+  }
+  return best;
+}
+const overlap = (a0, a1, b0, b1) => Math.min(a1, b1) - Math.max(a0, b0) > 0.01;
+function wp(r, u, v) { return { x: r.ox + r.dx * u + r.nx * v, z: r.oz + r.dz * u + r.nz * v }; }
+/* floor footprint of a wall feature; doors get a clearance depth, columns their own depth */
+function featRect(f, RW, RD, clear) {
+  const a = f.x, b = f.x + (f.w || 0), dp = f.t === 'column' ? f.d : clear;
+  if (f.wall === 'back') return { x0: a, x1: b, z0: 0, z1: dp };
+  if (f.wall === 'front') return { x0: a, x1: b, z0: RD - dp, z1: RD };
+  if (f.wall === 'left') return { x0: 0, x1: dp, z0: a, z1: b };
+  return { x0: RW - dp, x1: RW, z0: a, z1: b };
+}
+const rectHit = (a, b) => a.x0 < b.x1 - 0.5 && a.x1 > b.x0 + 0.5 && a.z0 < b.z1 - 0.5 && a.z1 > b.z0 + 0.5;
+
+function computeModel(S) {
+  const warns = [];
+  const W = (level, step, text) => warns.push({ level, step, text });
+  const RW = S.room.w, RD = S.room.d, RH = S.room.h;
+  const D = S.base.depth, TOP = S.base.top, PL = S.cab.plinth, CD = D - 2;
+  const main = mat(S.stone.main);
+  let tmm = S.stone.t;
+  if (!thickOpts(main).includes(tmm)) { tmm = defaultThick(main); W('info', 5, `${main.name}: ${S.stone.t} მმ სისქე კატალოგში არ არის — გამოყენებულია ${tmm} მმ.`); }
+  if (tmm <= 6) W('warn', 5, '6 მმ სამუშაო ზედაპირისთვის თხელია. ის ფარტუკისა და მოპირკეთებისთვისაა; ზედაპირზე აირჩიე 12 მმ ან მეტი.');
+  const t = tmm / 10;
+  const vis = S.stone.edge === 'miter' ? Math.max(S.stone.miter, t) : t;
+
+  /* ---- room features: windows, doors, columns, water ---- */
+  const wallLen = w => (w === 'back' || w === 'front' ? RW : RD);
+  const feats = S.feats || [];
+  const wins = feats.filter(f => f.t === 'window'), doors = feats.filter(f => f.t === 'door'), cols = feats.filter(f => f.t === 'column'), waters = feats.filter(f => f.t === 'water');
+  for (const f of feats) {
+    if (f.t === 'water') { if (f.x > wallLen(f.wall)) W('error', 1, 'წყლის წერტილი კედელს სცდება.'); continue; }
+    if (f.x + f.w > wallLen(f.wall) + 0.5) W('error', 1, `${FEAT[f.t].l} (${WALLS[f.wall]} კედელი) კედელს სცდება: ${f.x} + ${f.w} > ${wallLen(f.wall)} სმ.`);
+    if (f.t === 'window' && f.sill + f.h > RH) W('error', 1, 'ფანჯრის ზედა ნაპირი ჭერზე მაღლაა.');
+    if (f.t === 'door' && f.h > RH) W('error', 1, 'კარი ჭერზე მაღალია.');
+  }
+
+  /* ---- runs ---- */
+  const L = S.lay, type = L.type;
+  let a = L.a, b = L.b, c = L.c, off = 0;
+  if (a > RW + 0.5) { W('error', 2, `A (${a} სმ) ოთახის სიგანეზე (${RW} სმ) გრძელია.`); a = RW; }
+  if (type !== 'I') {
+    if (b > RD + 0.5) { W('error', 2, `B (${b} სმ) ოთახის სიღრმეზე (${RD} სმ) გრძელია.`); b = RD; }
+    if (b < D + 30) { W('error', 2, `B მინიმუმ ${D + 30} სმ უნდა იყოს.`); b = D + 30; }
+  }
+  if (type === 'U') {
+    if (c > RD + 0.5) { W('error', 2, `C (${c} სმ) ოთახის სიღრმეზე (${RD} სმ) გრძელია.`); c = RD; }
+    if (c < D + 30) { W('error', 2, `C მინიმუმ ${D + 30} სმ უნდა იყოს.`); c = D + 30; }
+    if (a < 2 * D + 60) { W('error', 2, `U-ს შუა ნაწილი ვიწროა: A მინიმუმ ${2 * D + 60} სმ უნდა იყოს.`); a = Math.min(RW, 2 * D + 60); }
+  }
+  if (a < 60) a = 60;
+  if (type === 'I') {
+    off = clamp(L.off, 0, Math.max(0, RW - a));
+    if (L.off > RW - a + 0.5) W('error', 2, 'A მითითებული დაშორებით ოთახში ვერ ეტევა.');
+  }
+  const mk = (id, ox, oz, dx, dz, nx, nz, len, wall, cs, ce, os, oe) =>
+    ({ id, ox, oz, dx, dz, nx, nz, len, wall, cs, ce, os, oe, u0: cs ? D : 0, u1: len - (ce ? D : 0), cd: CD, top: TOP, alongX: dx !== 0 });
+  const runs = [];
+  if (type === 'I') runs.push(mk('A', off, 0, 1, 0, 0, 1, a, 'back', false, false, off > 0.5, off + a < RW - 0.5));
+  if (type === 'L') {
+    if (L.corner === 'left') { runs.push(mk('A', 0, 0, 1, 0, 0, 1, a, 'back', true, false, false, a < RW - 0.5)); runs.push(mk('B', 0, 0, 0, 1, 1, 0, b, 'left', true, false, false, true)); }
+    else { runs.push(mk('A', RW - a, 0, 1, 0, 0, 1, a, 'back', false, true, RW - a > 0.5, false)); runs.push(mk('B', RW, 0, 0, 1, -1, 0, b, 'right', true, false, false, true)); }
+  }
+  if (type === 'U') {
+    runs.push(mk('A', 0, 0, 1, 0, 0, 1, a, 'back', true, true, false, false));
+    runs.push(mk('B', 0, 0, 0, 1, 1, 0, b, 'left', true, false, false, true));
+    runs.push(mk('C', a, 0, 0, 1, -1, 0, c, a >= RW - 0.5 ? 'right' : null, true, false, false, true));
+  }
+  const runById = id => runs.find(r => r.id === id);
+  const onRun = (r, list) => (!r.wall ? [] : list.filter(f => f.wall === r.wall).map(f => { const a = r.wall === 'back' ? f.x - r.ox : f.x - r.oz; return { f, a, b: a + (f.w || 0) }; }).filter(x => overlap(x.a, x.b, 0, r.len)));
+  const winsOnRun = r => onRun(r, wins);
+  const blocksOnRun = r => onRun(r, [...doors, ...cols]);
+  function waterOnRun(r) { if (!r.wall) return null; const f = waters.find(g => g.wall === r.wall); if (!f) return null; const u = r.wall === 'back' ? f.x - r.ox : f.x - r.oz; return u >= 0 && u <= r.len ? u : null; }
+  for (const r of runs) for (const x of winsOnRun(r)) if (x.f.sill < TOP - 0.5) W('error', 1, `ფანჯრის რაფა (${x.f.sill} სმ) ზედაპირზე (${TOP} სმ) დაბლაა ${r.id} მონაკვეთზე.`);
+
+  /* ---- island ---- */
+  let isl = null, islRun = null;
+  if (S.isl.on) {
+    const len = S.isl.len, dep = S.isl.dep;
+    let fx0 = 0, fx1 = RW;
+    if (type === 'L') { if (L.corner === 'left') fx0 = D; else fx1 = RW - D; }
+    if (type === 'U') { fx0 = D; fx1 = a - D; }
+    if (type === 'I') { fx0 = off; fx1 = off + a; }
+    const cx = (fx0 + fx1) / 2 + S.isl.shift;
+    const x0 = cx - len / 2, zk = D + S.isl.aisle;
+    const top = S.isl.bar ? 105 : TOP;
+    const wfL = S.stone.wf === 'both', wfR = S.stone.wf !== 'none';
+    isl = { x0, x1: x0 + len, zk, z1: zk + dep, len, dep, top, cx, wfL, wfR };
+    const tw = t;
+    let bx0 = x0 + (wfL ? tw : 0), bx1 = x0 + len - (wfR ? tw : 0), bz0 = zk + 2, bz1 = zk + dep - 2;
+    if (S.isl.seat === 'back') bz1 = zk + dep - S.isl.over;
+    if (S.isl.seat === 'end') bx1 = x0 + len - S.isl.over;
+    isl.body = { x0: bx0, x1: bx1, z0: bz0, z1: bz1 };
+    const bodyDep = bz1 - bz0, cdI = Math.min(58, bodyDep);
+    if (bodyDep < 40) W('warn', 2, `კუნძულის კორპუსი მხოლოდ ${r1(bodyDep)} სმ სიღრმისაა — გაზარდე სიღრმე ან შეამცირე გადმოშვერა.`);
+    islRun = { id: 'I', isIsl: true, ox: bx0, oz: bz0 + cdI, dx: 1, dz: 0, nx: 0, nz: -1, len: Math.max(0, bx1 - bx0), wall: null, cs: false, ce: false, os: true, oe: true, u0: 0, u1: Math.max(0, bx1 - bx0), cd: cdI, top, alongX: true };
+    if (S.isl.aisle < 70) W('error', 2, `გასასვლელი კუნძულამდე ${S.isl.aisle} სმ-ია. მინიმუმია 70, რეკომენდებულია 100–120.`);
+    else if (S.isl.aisle < 100) W('warn', 2, `გასასვლელი კუნძულამდე ${S.isl.aisle} სმ-ია; რეკომენდებულია 100–120.`);
+    if (isl.x0 < -0.5 || isl.x1 > RW + 0.5) W('error', 2, 'კუნძული ოთახის გვერდით კედლებს სცდება.');
+    if (isl.z1 > RD + 0.5) W('error', 2, 'კუნძული ოთახის სიღრმეს სცდება.');
+    else if (RD - isl.z1 < 80) W('warn', 2, `კუნძულის უკან სავალი ${r1(RD - isl.z1)} სმ-ია; რეკომენდებულია 90+.`);
+    const legs = [];
+    if (type === 'L') legs.push(L.corner === 'left' ? { side: 'l', x: D, z: b } : { side: 'r', x: RW - D, z: b });
+    if (type === 'U') { legs.push({ side: 'l', x: D, z: b }); legs.push({ side: 'r', x: a - D, z: c }); }
+    for (const g of legs) {
+      if (isl.zk >= g.z) continue;
+      const gap = g.side === 'l' ? isl.x0 - g.x : g.x - isl.x1;
+      if (gap < 70) W('error', 2, `კუნძულსა და ${g.side === 'l' ? 'მარცხენა' : 'მარჯვენა'} მხარეს შორის ${r1(gap)} სმ-ია — მინიმუმ 90 სჭირდება.`);
+      else if (gap < 90) W('warn', 2, `კუნძულსა და გვერდით მონაკვეთს შორის ${r1(gap)} სმ-ია; რეკომენდებულია 90+.`);
+    }
+    if (S.isl.seat !== 'none' && S.isl.over > 30) W('info', 2, `${S.isl.over} სმ გადმოშვერას ფოლადის საყრდენი ან კონსოლი სჭირდება.`);
+  }
+  const allRuns = islRun ? [...runs, islRun] : [...runs];
+  const runIds = allRuns.map(r => r.id);
+
+  /* ---- resolve appliance targets ---- */
+  let sinkRun = S.sink.run, hobRun = S.hob.run;
+  if (!runIds.includes(sinkRun)) { W('info', 3, `ნიჟარა ${RUN_NAME[sinkRun] || sinkRun}-ზე ვეღარ დადგება — გადავიდა A-ზე.`); sinkRun = 'A'; }
+  if (!runIds.includes(hobRun)) { W('info', 3, `ქურა ${RUN_NAME[hobRun] || hobRun}-ზე ვეღარ დადგება — გადავიდა A-ზე.`); hobRun = 'A'; }
+  let hoodEff = S.hood;
+  const hobR = allRuns.find(r => r.id === hobRun);
+  if (hoodEff === 'island' && !hobR.isIsl && hobR.wall) { hoodEff = 'wall'; W('info', 3, 'კუნძულის გამწოვს კუნძულზე ქურა სჭირდება — ნაჩვენებია კედლის გამწოვი.'); }
+  if ((hoodEff === 'wall' || hoodEff === 'builtin') && (hobR.isIsl || !hobR.wall)) { hoodEff = 'island'; W('info', 3, 'ქურა კედელთან არ დგას — ნაჩვენებია ჭერზე დაკიდებული გამწოვი.'); }
+  const ovenEff = S.oven;
+  let fRun = S.fridge.run; if (!runs.some(r => r.id === fRun)) fRun = 'A';
+  let fEnd = S.fridge.end;
+  const endFree = (r, e) => (e === 'start' ? !r.cs : !r.ce);
+  {
+    let fr = runById(fRun);
+    if (!endFree(fr, fEnd)) {
+      const other = fEnd === 'start' ? 'end' : 'start';
+      if (endFree(fr, other)) { fEnd = other; }
+      else { const alt = runs.find(r => endFree(r, 'end')); if (alt) { fRun = alt.id; fEnd = 'end'; } }
+      if (S.fridge.type !== 'none' || S.pantry || ovenEff === 'tall') W('info', 3, `მაღალი მოდულები კუთხეში ვერ დადგება — გადატანილია ${fRun} მონაკვეთის ${fEnd === 'end' ? 'ბოლოში' : 'დასაწყისში'}.`);
+    }
+  }
+
+  /* ---- module layout ---- */
+  const items = {}, mode = {};
+  function layCustom(r, list) {
+    let u = r.u0; const out = list.map(m => { const it = { t: m.t, u, w: m.w }; u += m.w; return it; });
+    const sum = list.reduce((s, m) => s + m.w, 0), avail = r.u1 - r.u0;
+    if (Math.abs(sum - avail) > 0.5) W('error', 4, `${RUN_NAME[r.id]}: მოდულების ჯამი ${r1(sum)} სმ-ია, თავისუფალი ადგილი — ${r1(avail)} სმ (სხვაობა ${r1(avail - sum)}).`);
+    return out;
+  }
+  function layAuto(r) {
+    let ivs = r.u1 - r.u0 > 0.5 ? [[r.u0, r.u1]] : [];
+    const fixed = [], hazards = new Set();
+    if (r.os) hazards.add(r.u0); if (r.oe) hazards.add(r.u1);
+    if (r.id === fRun && !r.isIsl) {
+      const list = [];
+      if (S.fridge.type !== 'none') list.push(S.fridge.type === 'freestanding' ? { t: 'fridgeFS', w: 75 } : { t: 'fridge', w: 60 });
+      if (ovenEff === 'tall') list.push({ t: 'ovenTall', w: 60 });
+      for (let i = 0; i < S.pantry; i++) list.push({ t: 'pantry', w: 60 });
+      const tot = list.reduce((s, x) => s + x.w, 0);
+      if (tot > r.u1 - r.u0 - 30) W('error', 3, `მაღალი მოდულები (${tot} სმ) ${r.id} მონაკვეთზე ვერ ეტევა.`);
+      else if (list.length) {
+        if (fEnd === 'end') { let u = r.u1; for (const x of list) { u -= x.w; fixed.push({ ...x, u }); } ivs = cut(ivs, u, r.u1); hazards.add(u); }
+        else { let u = r.u0; for (const x of list) { fixed.push({ ...x, u }); u += x.w; } ivs = cut(ivs, r.u0, u); hazards.add(u); }
+      }
+    }
+    let sinkC = null, sinkW = 0;
+    if (r.id === sinkRun) {
+      const sw = { '1': 60, '1.5': 80, '2': 90 }[S.sink.bowls] || 60; sinkW = sw;
+      const rightIsU = r.nz * r.dx - r.nx * r.dz > 0, dwAfter = (S.dw === 'right') === rightIsU;
+      const grp = S.dw === 'none' ? [{ t: 'sink', w: sw }] : dwAfter ? [{ t: 'sink', w: sw }, { t: 'dw', w: 60 }] : [{ t: 'dw', w: 60 }, { t: 'sink', w: sw }];
+      const gw = grp.reduce((s, x) => s + x.w, 0), sinkOff = grp[0].t === 'sink' ? 0 : grp[0].w;
+      let cc = S.sink.pos;
+      if (cc == null) {
+        const wu = waterOnRun(r), wr = winsOnRun(r).find(x => overlap(x.a, x.b, r.u0, r.u1));
+        cc = wu != null ? wu : wr ? (wr.a + wr.b) / 2 : r.isIsl ? (r.u0 + r.u1) / 2 : r.u0 + (r.u1 - r.u0) / 3;
+      }
+      const s = placeIn(ivs, gw, cc - sinkOff - sw / 2);
+      if (s == null) W('error', 3, `ნიჟარა${S.dw !== 'none' ? ' და ჭურჭლის სარეცხი' : ''} ${RUN_NAME[r.id]} მონაკვეთზე ვერ ეტევა.`);
+      else { let u = s; for (const x of grp) { fixed.push({ ...x, u }); u += x.w; } ivs = cut(ivs, s, s + gw); sinkC = s + sinkOff + sw / 2; }
+    }
+    if (r.id === hobRun) {
+      const hw = { 30: 40, 60: 60, 80: 80, 90: 90 }[S.hob.w] || 60, ht = ovenEff === 'under' ? 'oven' : 'hob';
+      let s = null;
+      if (S.hob.pos != null) s = placeIn(ivs, hw, S.hob.pos - hw / 2);
+      else {
+        /* prefer: away from windows and 30 cm from tall units/open ends; relax step by step */
+        let noWin = ivs; for (const x of winsOnRun(r)) noWin = cut(noWin, x.a - 5, x.b + 5);
+        const margin = base => base.map(([p, q]) => [p + (hazards.has(p) ? 30 : 0), q - (hazards.has(q) ? 30 : 0)]).filter(([p, q]) => q - p >= hw);
+        const fits = base => base.filter(([p, q]) => q - p >= hw);
+        const pool = [margin(noWin), fits(noWin), margin(ivs), fits(ivs)].find(x => x.length) || [];
+        if (pool.length) {
+          if (sinkC != null) {
+            const minC = sinkW / 2 + hw / 2 + 40; let best = null, bs = Infinity, far = null, fd = -1;
+            for (const [p, q] of pool) {
+              for (const cand of [sinkC + 120 - hw / 2, sinkC - 120 - hw / 2, p, q - hw]) {
+                const st = clamp(cand, p, q - hw), d = Math.abs(st + hw / 2 - sinkC);
+                if (d > fd) { fd = d; far = st; }
+                if (d >= minC && Math.abs(d - 120) < bs) { bs = Math.abs(d - 120); best = st; }
+              }
+            }
+            s = best ?? far;
+          } else { const [p, q] = pool.reduce((m, iv) => (iv[1] - iv[0] > m[1] - m[0] ? iv : m)); s = (p + q) / 2 - hw / 2; }
+        }
+      }
+      if (s == null) W('error', 3, `ქურა ${RUN_NAME[r.id]} მონაკვეთზე ვერ ეტევა.`);
+      else { fixed.push({ t: ht, w: hw, u: s }); ivs = cut(ivs, s, s + hw); }
+    }
+    const all = [...fixed];
+    for (const [p, q] of ivs) {
+      const g = q - p; if (g < 0.5) continue;
+      if (g < 15) { all.push({ t: 'filler', u: p, w: r1(g) }); continue; }
+      let k = Math.max(1, Math.round(g / 60)); while (g / k > 90) k++;
+      const base = Math.floor((g / k) * 2) / 2; let u = p;
+      for (let i = 0; i < k; i++) { const ww = i === k - 1 ? r1(q - u) : base; all.push({ t: null, u, w: ww }); u += ww; }
+    }
+    all.sort((x, y) => x.u - y.u);
+    all.forEach((m, i) => {
+      if (m.t) return;
+      const nearHob = [all[i - 1], all[i + 1]].some(n => n && (n.t === 'hob' || n.t === 'oven'));
+      m.t = S.cab.fill === 'drawers' ? 'drawers' : S.cab.fill === 'doors' ? (m.w >= 70 ? 'door2' : 'door') : nearHob ? 'drawers' : m.w >= 70 ? 'door2' : 'door';
+    });
+    return all;
+  }
+  for (const r of allRuns) {
+    const list = S.mods[r.id];
+    if (Array.isArray(list)) { mode[r.id] = 'custom'; items[r.id] = layCustom(r, list); }
+    else { mode[r.id] = 'auto'; items[r.id] = layAuto(r); }
+  }
+
+  /* ---- ergonomic checks on placed items ---- */
+  for (const r of allRuns) {
+    const its = items[r.id];
+    const sk = its.find(m => m.t === 'sink'), hb = its.find(m => m.t === 'hob' || m.t === 'oven');
+    if (sk && hb) {
+      const gap = hb.u > sk.u ? hb.u - (sk.u + sk.w) : sk.u - (hb.u + hb.w);
+      if (gap < 40) W('warn', 3, `${RUN_NAME[r.id]}: ნიჟარასა და ქურას შორის ${r1(Math.max(0, gap))} სმ-ია; რეკომენდებულია 40 სმ ან მეტი.`);
+    }
+    if (hb) {
+      for (const m of its) if (TALL.has(m.t)) {
+        const gap = m.u >= hb.u + hb.w ? m.u - (hb.u + hb.w) : hb.u - (m.u + m.w);
+        if (gap < 30) { W('warn', 3, `ქურა მაღალ მოდულთან ${r1(gap)} სმ-ზეა; ქვაბის სახელურებისთვის საჭიროა 30 სმ.`); break; }
+      }
+      if ((r.os && hb.u - r.u0 < 30) || (r.oe && r.u1 - (hb.u + hb.w) < 30)) W('warn', 3, 'ქურა ზედაპირის ღია ბოლოსთან ძალიან ახლოსაა (< 30 სმ).');
+      if (winsOnRun(r).some(x => overlap(x.a, x.b, hb.u, hb.u + hb.w))) W('warn', 3, hoodEff === 'wall' ? 'ქურა ფანჯრის ქვეშაა — კედლის გამწოვი იქ ვერ დამონტაჟდება.' : 'ქურა ფანჯრის ქვეშაა: ფარდა და ქარი გაზის ცეცხლს საფრთხეს უქმნის.');
+    }
+    if (mode[r.id] === 'custom') {
+      its.forEach((m, i) => {
+        if (m.t === 'dw' && !['sink'].includes(its[i - 1]?.t) && !['sink'].includes(its[i + 1]?.t)) W('info', 4, `${RUN_NAME[r.id]}: ჭურჭლის სარეცხი ნიჟარის გვერდით არ დგას.`);
+        if (r.isIsl && TALL.has(m.t)) W('warn', 4, 'მაღალი მოდული კუნძულზე ზედაპირს ჭრის.');
+      });
+    }
+  }
+
+  /* ---- upper cabinets & tall height ---- */
+  const upOn = S.up.type !== 'none', UPD = 35;
+  const upY0 = TOP + S.up.gap;
+  let upH = S.up.type === 'ceil' ? RH - upY0 : S.up.h;
+  if (upOn && S.up.type !== 'ceil' && upY0 + upH > RH + 0.5) { W('error', 4, `ზედა კარადები ჭერს სცდება: ${TOP} + ${S.up.gap} + ${upH} > ${RH} სმ.`); upH = Math.max(20, RH - upY0); }
+  const tallH = Math.min(RH, S.up.type === 'ceil' ? RH : S.up.type === 'none' ? 215 : upY0 + upH);
+  const tallSpans = {};
+  for (const r of allRuns) tallSpans[r.id] = items[r.id].filter(m => TALL.has(m.t)).map(m => [m.u, m.u + m.w]);
+  const upper = [], hoods = [];
+  for (const r of runs) {
+    const hb = items[r.id].find(m => m.t === 'hob' || m.t === 'oven');
+    const hobSpan = hb ? [hb.u + hb.w / 2 - Math.max(60, hb.w) / 2, hb.u + hb.w / 2 + Math.max(60, hb.w) / 2] : null;
+    if (hb && r.wall && (hoodEff === 'wall' || hoodEff === 'builtin')) hoods.push({ kind: hoodEff, r, s: hobSpan[0], e: hobSpan[1] });
+    if (!r.wall || !upOn) continue;
+    let uiv = [[r.id === 'A' ? 0 : UPD, r.len]];
+    for (const [s, e] of tallSpans[r.id]) uiv = cut(uiv, s, e);
+    for (const x of winsOnRun(r)) if (x.f.sill < upY0 + upH && x.f.sill + x.f.h > upY0) uiv = cut(uiv, x.a - 2, x.b + 2);
+    for (const x of blocksOnRun(r)) if (x.f.t === 'column' || x.f.h > upY0) uiv = cut(uiv, x.a - 3, x.b + 3);
+    if (hb && hoodEff === 'wall') uiv = cut(uiv, hobSpan[0], hobSpan[1]);
+    for (const [s, e] of uiv) {
+      const g = e - s; if (g < 15) continue;
+      let k = Math.max(1, Math.round(g / 60)); while (g / k > 80) k++;
+      for (let i = 0; i < k; i++) {
+        const u = s + (i * g) / k, w = g / k;
+        upper.push({ r, u, w, y0: upY0, h: upH, hood: hoodEff === 'builtin' && hobSpan && overlap(u, u + w, hobSpan[0], hobSpan[1]) });
+      }
+    }
+  }
+  if (hoodEff === 'island' && hobR) { const hb = items[hobR.id].find(m => m.t === 'hob' || m.t === 'oven'); if (hb) hoods.push({ kind: 'island', r: hobR, s: hb.u + hb.w / 2 - 45, e: hb.u + hb.w / 2 + 45 }); }
+
+  /* ---- stone pieces ---- */
+  const cutsFor = (r, its, s, e, top) => {
+    const out = [];
+    for (const m of its) {
+      if (m.u < s - 0.1 || m.u + m.w > e + 0.1) continue;
+      const vc = r.isIsl ? r.oz - (isl.zk + 30) : D / 2;
+      if (m.t === 'sink') { const bw = { '1': 50, '1.5': 68, '2': 78 }[S.sink.bowls] || 50; out.push({ kind: 'sink', uc: m.u + m.w / 2, vc, w: bw, d: 40 }); }
+      if (m.t === 'hob' || m.t === 'oven') { const gw = { 30: 29, 60: 59, 80: 78, 90: 90 }[S.hob.w] || 59; out.push({ kind: 'hob', uc: m.u + m.w / 2, vc, w: gw, d: 52, cw: gw - 4, cdp: 49 }); }
+    }
+    return out;
+  };
+  const pieces = [];
+  for (const r of runs) {
+    const cs = r.id === 'A' ? 0 : D;
+    let ivs = [[cs, r.len]];
+    for (const [s, e] of tallSpans[r.id]) ivs = cut(ivs, s, e);
+    for (const [s, e] of ivs) {
+      if (e - s < 1) continue;
+      pieces.push({ r, s, e, d: D, top: TOP, cuts: cutsFor(r, items[r.id], s, e), exS: Math.abs(s - cs) < 0.1 && r.id === 'A' && r.os, exE: Math.abs(e - r.len) < 0.1 && r.oe, mat: S.stone.main });
+    }
+  }
+  const islKey = S.stone.islMat || S.stone.main, bsKey = S.stone.bsMat || S.stone.main;
+  let islPiece = null;
+  if (isl) islPiece = { x0: isl.x0, x1: isl.x1, z0: isl.zk, z1: isl.z1, top: isl.top, cuts: cutsFor(islRun, items.I, 0, islRun.len), mat: islKey };
+  for (const p of pieces) for (const k of p.cuts) {
+    const half = k.w / 2;
+    if (k.uc - half - p.s < 5 || p.e - (k.uc + half) < 5) W('warn', 5, `${k.kind === 'sink' ? 'ნიჟარის' : 'ქურის'} ამონაჭერი ქვის ნაჭრის ბოლოსთან 5 სმ-ზე ახლოსაა — ქვა შეიძლება გასკდეს.`);
+  }
+
+  /* ---- backsplash ---- */
+  const bs = [];
+  const bsMatT = thickOpts(mat(bsKey)).includes(tmm) ? tmm : defaultThick(mat(bsKey));
+  if (S.stone.bs !== 'none') {
+    for (const r of runs) {
+      if (!r.wall) continue;
+      let ivs = [[r.id === 'A' ? 0 : bsMatT / 10, r.len]];
+      for (const [s, e] of tallSpans[r.id]) ivs = cut(ivs, s, e);
+      const wrs = winsOnRun(r);
+      for (const x of blocksOnRun(r)) ivs = cut(ivs, x.a, x.b);
+      const ups = upper.filter(x => x.r === r);
+      for (const [s, e] of ivs) {
+        const pts = new Set([s, e]);
+        for (const x of wrs) { pts.add(clamp(x.a, s, e)); pts.add(clamp(x.b, s, e)); }
+        if (S.stone.bs === 'ceil') for (const x of ups) { pts.add(clamp(x.u, s, e)); pts.add(clamp(x.u + x.w, s, e)); }
+        const arr = [...pts].sort((x, y) => x - y);
+        for (let i = 0; i < arr.length - 1; i++) {
+          const p = arr[i], q = arr[i + 1]; if (q - p < 0.5) continue;
+          const mid = (p + q) / 2;
+          let h = S.stone.bs === 'strip' ? 10 : S.stone.bs === 'upper' ? (upOn ? S.up.gap : 60) : (ups.some(x => mid > x.u && mid < x.u + x.w) || (upOn && r.id !== 'A' && mid < UPD)) ? S.up.gap : RH - TOP;
+          for (const x of wrs) if (mid > x.a && mid < x.b) h = Math.min(h, Math.max(0, x.f.sill - TOP));
+          if (h > 0.5) bs.push({ r, s: p, e: q, h });
+        }
+      }
+    }
+    if (S.stone.bs !== 'strip' && runs.some(r => winsOnRun(r).length)) W('info', 5, 'ფანჯრის ქვეშ ფარტუკი რაფის სიმაღლემდე იჭრება.');
+  }
+
+  /* ---- quantities ---- */
+  const q = { ct: 0, isl: 0, wf: 0, bs: 0, apron: 0, edge: 0, wfN: 0, cuts: { sink: 0, hob: 0, tap: 0, drain: 0 } };
+  const apronH = S.stone.edge === 'miter' ? Math.max(0, vis - t) : 0;
+  const packList = new Map();
+  const addPk = (key, Lc, Wc, kind) => { if (Lc < 1 || Wc < 1) return; if (!packList.has(key)) packList.set(key, []); packList.get(key).push({ L: Lc, W: Wc, kind }); };
+  for (const p of pieces) {
+    const len = p.e - p.s; q.ct += len * D;
+    const edge = len + (p.exS ? D : 0) + (p.exE ? D : 0); q.edge += edge;
+    addPk(S.stone.main, len, D, 'ct');
+    if (apronH) { q.apron += edge * apronH; addPk(S.stone.main, edge, apronH, 'apron'); }
+  }
+  if (isl) {
+    q.isl = isl.len * isl.dep;
+    addPk(islKey, isl.len, isl.dep, 'isl');
+    const wfN = (isl.wfL ? 1 : 0) + (isl.wfR ? 1 : 0); q.wfN = wfN;
+    q.wf = wfN * isl.dep * isl.top;
+    for (let i = 0; i < wfN; i++) addPk(islKey, isl.top, isl.dep, 'wf');
+    const ie = 2 * isl.len + (isl.wfL ? 0 : isl.dep) + (isl.wfR ? 0 : isl.dep) + wfN * 2 * isl.top;
+    q.edge += ie;
+    if (apronH) { const he = 2 * isl.len + (isl.wfL ? 0 : isl.dep) + (isl.wfR ? 0 : isl.dep); q.apron += he * apronH; addPk(islKey, he, apronH, 'apron'); }
+  }
+  for (const x of bs) { q.bs += (x.e - x.s) * x.h; addPk(bsKey, x.e - x.s, x.h, 'bs'); }
+  const allCuts = [...pieces.flatMap(p => p.cuts), ...(islPiece ? islPiece.cuts : [])];
+  q.cuts.sink = allCuts.filter(k => k.kind === 'sink').length;
+  q.cuts.hob = allCuts.filter(k => k.kind === 'hob').length;
+  q.cuts.tap = q.cuts.sink;
+  q.cuts.drain = S.sink.drain !== 'none' && S.sink.mount !== 'top' ? q.cuts.sink : 0;
+  for (const k of ['ct', 'isl', 'wf', 'bs', 'apron']) q[k] /= 1e4;
+  q.edge /= 100;
+  q.total = q.ct + q.isl + q.wf + q.bs + q.apron;
+
+  /* ---- slab estimate (shelf packing) ---- */
+  const slabs = [];
+  for (const [key, list] of packList) {
+    const m = mat(key);
+    const th = key === S.stone.main ? tmm : (thickOpts(m).includes(tmm) ? tmm : defaultThick(m));
+    const [SL, SW] = fmtFor(m, th), K = 0.5;
+    let seams = 0; const parts = [];
+    for (const p of list) {
+      let Lp = Math.max(p.L, p.W), Wp = Math.min(p.L, p.W);
+      let rows = 1; if (Wp > SW) { rows = Math.ceil(Wp / SW); Wp /= rows; }
+      const n = Math.ceil(Lp / SL); if (p.kind !== 'apron') seams += (n - 1) * rows + (rows - 1);
+      for (let r = 0; r < rows; r++) for (let i = 0; i < n; i++) parts.push({ L: Lp / n, W: Wp });
+    }
+    parts.sort((x, y) => y.W - x.W || y.L - x.L);
+    const sl = [];
+    for (const p of parts) {
+      let ok = false;
+      for (const s of sl) {
+        for (const sh of s.shelves) if (p.W <= sh.h + 0.01 && sh.used + p.L <= SL + 0.01) { sh.used += p.L + K; ok = true; break; }
+        if (ok) break;
+        const h = Math.min(p.W + K, SW);
+        if (s.usedW + h <= SW + 0.01) { s.shelves.push({ h, used: p.L + K }); s.usedW += h; ok = true; break; }
+      }
+      if (!ok) { const h = Math.min(p.W + K, SW); sl.push({ shelves: [{ h, used: p.L + K }], usedW: h }); }
+    }
+    const area = list.reduce((s, p) => s + p.L * p.W, 0);
+    slabs.push({ key, m, th, SL, SW, count: sl.length, area: area / 1e4, util: sl.length ? area / (sl.length * SL * SW) : 0, seams });
+    if (seams > 0) W('info', 7, `${m.name}: ${seams} ნაკერი — ზოგი ნაჭერი ფილაზე (${SL} სმ) გრძელია.`);
+  }
+
+  if (S.base.userH) {
+    const lo = Math.round(S.base.userH / 2 + 5), hi = Math.round(S.base.userH / 2 + 10);
+    if (TOP < lo - 1 || TOP > hi + 1) W('info', 2, `შენი სიმაღლისთვის რეკომენდებულია ${lo}–${hi} სმ ზედაპირი; არჩეულია ${TOP} სმ.`);
+  }
+
+  /* ---- conflicts with doors and columns, distance to plumbing ---- */
+  const footprints = runs.map(r => { const p = wp(r, 0, 0), q2 = wp(r, r.len, D); return { name: RUN_NAME[r.id], x0: Math.min(p.x, q2.x), x1: Math.max(p.x, q2.x), z0: Math.min(p.z, q2.z), z1: Math.max(p.z, q2.z) }; });
+  if (isl) footprints.push({ name: 'კუნძული', x0: isl.x0, x1: isl.x1, z0: isl.zk, z1: isl.z1 });
+  for (const fp of footprints) {
+    for (const f of cols) if (rectHit(fp, featRect(f, RW, RD, 0))) W('error', 2, `${fp.name} კოლონას კვეთს (${WALLS[f.wall]} კედელი, ${f.x} სმ) — შეამოკლე ან გადაიტანე.`);
+    for (const f of doors) {
+      if (rectHit(fp, featRect(f, RW, RD, 12))) W('error', 2, `${fp.name} კარის ღიობს კეტავს (${WALLS[f.wall]} კედელი, ${f.x} სმ).`);
+      else if (rectHit(fp, featRect(f, RW, RD, 90))) W('warn', 2, `${fp.name} კარის წინ 90 სმ-ზე ახლოსაა — კარის გაღება და გავლა გაძნელდება.`);
+    }
+  }
+  {
+    const sr = allRuns.find(r => r.id === sinkRun), sk = sr && items[sr.id].find(m => m.t === 'sink');
+    const wu = sr ? waterOnRun(sr) : null;
+    if (sk && wu != null && Math.abs(sk.u + sk.w / 2 - wu) > 60) W('info', 3, `ნიჟარა წყლის წერტილიდან ${Math.round(Math.abs(sk.u + sk.w / 2 - wu))} სმ-ზეა — დაგჭირდება მილის გაგრძელება.`);
+    if (sk && waters.length && wu == null) W('info', 3, 'ნიჟარა წყლის წერტილის კედელზე არ დგას — დაგჭირდება მილის გაყვანა.');
+  }
+
+  return { RW, RD, RH, D, TOP, PL, CD, t, tmm, vis, wins, doors, cols, waters, feats, runs, islRun, allRuns, isl, items, mode, upper, upOn, upH, upY0, tallH, hoods, hoodEff,
+    pieces, islPiece, bs, bsMatT, q, slabs, warns, fRun, fEnd, sinkRun, hobRun, ovenEff, winsOnRun, apronH };
+}
+
+/* ================= quick mode: room sketch → kitchen by best practice ================= */
+let autoNotes = [];
+function autoDesign(S) {
+  const notes = [], ok = text => notes.push({ level: 'ok', text });
+  const RW = S.room.w, RD = S.room.d, D = S.base.depth, TOP = S.base.top;
+  const feats = S.feats || [];
+  /* 1. what blocks a 60-cm cabinet strip along each wall */
+  const blockers = [];
+  for (const f of feats) {
+    if (f.t === 'door') blockers.push({ ...featRect({ ...f, x: f.x - 10, w: f.w + 20 }, RW, RD, 100), f });
+    if (f.t === 'column') blockers.push({ ...featRect(f, RW, RD, 0), f });
+    if (f.t === 'window' && f.sill < TOP + 3) blockers.push({ ...featRect({ ...f, t: 'column', d: D + 1 }, RW, RD, 0), f });
+  }
+  const strip = { back: { x0: 0, x1: RW, z0: 0, z1: D }, left: { x0: 0, x1: D, z0: 0, z1: RD }, right: { x0: RW - D, x1: RW, z0: 0, z1: RD } };
+  const touched = new Set();
+  function free(wall) {
+    const len = wall === 'back' ? RW : RD; let ivs = [[0, len]];
+    for (const o of blockers) {
+      if (!rectHit(strip[wall], o)) continue;
+      const [s, e] = wall === 'back' ? [o.x0, o.x1] : [o.z0, o.z1];
+      ivs = cut(ivs, clamp(s, 0, len), clamp(e, 0, len)); touched.add(wall);
+    }
+    return ivs;
+  }
+  const WA = S.sk.walls;
+  const fb = WA.back ? free('back') : [], fl = WA.left ? free('left') : [], fr = WA.right ? free('right') : [];
+  const fromStart = ivs => ivs.find(([a]) => a < 0.5)?.[1] ?? 0;
+  const toEnd = (ivs, len) => { const iv = ivs.find(([, b]) => b > len - 0.5); return iv ? len - iv[0] : 0; };
+  const backL = fromStart(fb), backR = toEnd(fb, RW), leftF = fromStart(fl), rightF = fromStart(fr);
+  const longest = fb.reduce((m, iv) => (iv[1] - iv[0] > m[1] - m[0] ? iv : m), [0, 0]);
+  const legCap = v => Math.min(v, RD - 100, 330);
+
+  /* 2. candidate layouts, scored toward ~6 m of worktop; L gets a bonus for its short work triangle */
+  const cands = [];
+  if (longest[1] - longest[0] >= 150) cands.push({ type: 'I', a: Math.min(longest[1] - longest[0], 600), off: longest[0], b: 0, c: 0 });
+  if (backL >= D + 90 && legCap(leftF) >= D + 60) cands.push({ type: 'L', corner: 'left', a: Math.min(backL, 600), b: legCap(leftF), c: 0 });
+  if (backR >= D + 90 && legCap(rightF) >= D + 60) cands.push({ type: 'L', corner: 'right', a: Math.min(backR, 600), b: legCap(rightF), c: 0 });
+  if (backL >= RW - 0.5 && RW <= 600 && RW - 2 * D >= 100 && legCap(leftF) >= D + 60 && legCap(rightF) >= D + 60) cands.push({ type: 'U', a: RW, b: legCap(leftF), c: legCap(rightF) });
+  for (const k of cands) {
+    k.total = k.a + (k.b ? k.b - D : 0) + (k.c ? k.c - D : 0);
+    k.score = 600 - Math.abs(k.total - 600) * 0.6 + (k.type === 'L' ? 40 : k.type === 'U' ? (RW - 2 * D >= 140 ? 10 : -60) : 0);
+    const wf = feats.find(f => f.t === 'water');
+    if (wf && (wf.wall === 'back' || (wf.wall === 'left' && (k.corner === 'left' || k.type === 'U')) || (wf.wall === 'right' && (k.corner === 'right' || k.type === 'U')))) k.score += 50;
+  }
+  cands.sort((x, y) => y.score - x.score);
+  const best = cands[0];
+  if (!best) {
+    notes.push({ level: 'error', text: 'სამზარეულოსთვის საკმარისი თავისუფალი კედელი ვერ ვიპოვეთ: უკანა კედელზე საჭიროა მინიმუმ 150 სმ. მონიშნე მეტი კედელი, გადაიტანე კარი ან კოლონა, ან მოაბრუნე ოთახი.' });
+    return notes;
+  }
+  S.lay = { ...S.lay, type: best.type, corner: best.corner || 'left', a: Math.round(best.a), b: Math.round(best.b || S.lay.b), c: Math.round(best.c || S.lay.c), off: Math.round(best.off || 0) };
+  const shape = { I: 'სწორი', L: 'კუთხის (L)', U: 'სამმხრივი (U)' }[best.type];
+  ok(`ფორმა: ${shape} — A ${S.lay.a} სმ${best.type !== 'I' ? `, B ${S.lay.b} სმ` : ''}${best.type === 'U' ? `, C ${S.lay.c} სმ` : ''}. ${best.type === 'L' ? 'კუთხე სრულად გამოიყენება და სამუშაო სამკუთხედი მოკლეა.' : best.type === 'U' ? 'U ყველაზე მეტ სამუშაო ზედაპირს იძლევა.' : 'თავისუფალი კედელი სწორ რიგს ერგება.'}`);
+  if (touched.size) ok('კარის წინ 100 სმ, კოლონები და დაბალი ფანჯრები გვერდზე ავუარეთ.');
+
+  /* 3. island: 110 cm aisle, 90 cm walkway behind, 100 cm from a side leg */
+  let isl = { on: false };
+  if (S.sk.isl !== 'no' && best.type !== 'U') {
+    const zk = D + 110, availD = RD - zk - 90;
+    let fx0, fx1, c0;
+    if (best.type === 'L') { if (best.corner === 'left') { fx0 = D + 100; fx1 = RW - 90; c0 = (D + RW) / 2; } else { fx0 = 90; fx1 = RW - D - 100; c0 = (RW - D) / 2; } }
+    else { fx0 = Math.max(90, best.off); fx1 = Math.min(RW - 90, best.off + best.a); c0 = best.off + best.a / 2; }
+    const dep = availD >= 95 ? 95 : availD >= 80 ? 80 : 0, len = Math.min(240, Math.floor((fx1 - fx0) / 10) * 10);
+    if (dep && len >= 150) {
+      const cx = (fx0 + fx1) / 2, body = { x0: cx - len / 2, x1: cx + len / 2, z0: zk, z1: zk + dep };
+      const blocked = feats.some(f => (f.t === 'column' && rectHit({ ...body, x0: body.x0 - 90, x1: body.x1 + 90, z1: body.z1 + 60 }, featRect(f, RW, RD, 0))) || (f.t === 'door' && rectHit(body, featRect(f, RW, RD, 100))));
+      if (!blocked) isl = { on: true, len, dep, aisle: 110, shift: Math.round(cx - c0), seat: dep === 95 ? 'back' : 'none', over: 30, bar: false };
+    }
+    if (isl.on) ok(`კუნძული ${isl.len} × ${isl.dep} სმ${isl.seat === 'back' ? ' სასადილო მხარით' : ''} — გასასვლელი 110 სმ, უკან ${Math.round(RD - zk - isl.dep)} სმ.`);
+    else if (S.sk.isl === 'yes') notes.push({ level: 'warn', text: `კუნძული ვერ ეტევა: საჭიროა ოთახის სიღრმე მინიმუმ ${D + 110 + 80 + 90} სმ და 150 სმ-იანი თავისუფალი სიგანე გასასვლელებით.` });
+  } else if (S.sk.isl === 'yes' && best.type === 'U') notes.push({ level: 'warn', text: 'U-ფორმაში კუნძული არ ჩავსვით — შუა გასასვლელი ძალიან ვიწრო გახდებოდა.' });
+  S.isl = { ...S.isl, ...isl };
+
+  /* 4. appliances */
+  S.mods = { A: null, B: null, C: null, I: null };
+  S.sink.pos = null; S.hob.pos = null; S.oven = 'under'; S.hood = 'wall';
+  if (S.fridge.type === 'none') S.fridge.type = 'builtin';
+  let M = computeModel(S);
+  const runs = M.runs, usable = r => r.u1 - r.u0, onWall = w => runs.find(r => r.wall === w);
+  const water = feats.find(f => f.t === 'water' && onWall(f.wall));
+  let sinkRun = 'A', why = 'მთავარ კედელზე';
+  if (water) { const r = onWall(water.wall), u = r.wall === 'back' ? water.x - r.ox : water.x - r.oz; if (u >= 0 && u <= r.len) { sinkRun = r.id; S.sink.pos = Math.round(clamp(u, r.u0 + 30, r.u1 - 30)); why = 'წყლის წერტილთან — მილების გადატანა არ დასჭირდება'; } }
+  if (why === 'მთავარ კედელზე') {
+    const r = runs.find(x => M.winsOnRun(x).some(w => w.f.sill >= TOP + 3 && overlap(w.a, w.b, x.u0 + 30, x.u1 - 30)));
+    if (r) { sinkRun = r.id; why = 'ფანჯრის ქვეშ — დღის სინათლე სამუშაო ადგილზე'; }
+  }
+  S.sink.run = sinkRun;
+  const other = runs.filter(r => r.id !== sinkRun).sort((x, y) => usable(y) - usable(x))[0];
+  const hobRun = other && usable(other) >= 100 ? other.id : sinkRun;
+  S.hob.run = hobRun;
+
+  const doorF = feats.find(f => f.t === 'door');
+  const ends = [];
+  for (const r of runs) { if (!r.cs) ends.push({ run: r.id, end: 'start', p: wp(r, r.u0, D / 2) }); if (!r.ce) ends.push({ run: r.id, end: 'end', p: wp(r, r.u1, D / 2) }); }
+  if (doorF) { const dr = featRect(doorF, RW, RD, 0), dc = { x: (dr.x0 + dr.x1) / 2, z: (dr.z0 + dr.z1) / 2 }; ends.sort((a, b) => Math.hypot(a.p.x - dc.x, a.p.z - dc.z) - Math.hypot(b.p.x - dc.x, b.p.z - dc.z)); }
+  else ends.sort((a, b) => (a.run === hobRun) - (b.run === hobRun));
+  const tries = [];
+  for (const e of ends) for (const pan of [1, 0]) for (const dw of ['right', 'left', 'none']) tries.push({ pan, e, dw });
+  let chosen = null;
+  for (const t of tries) {
+    const r = runs.find(x => x.id === t.e.run);
+    const need = 60 * (1 + t.pan) + (r.id === sinkRun ? 120 : 0) + (r.id === hobRun ? 90 : 0);
+    if (t.pan && usable(r) - need < 120) continue;
+    S.pantry = t.pan; S.fridge.run = t.e.run; S.fridge.end = t.e.end; S.dw = t.dw;
+    M = computeModel(S);
+    if (!M.warns.some(w => w.level === 'error' && (w.step === 3 || w.step === 2))) { chosen = t; break; }
+  }
+  if (!chosen) { S.pantry = 0; S.dw = 'right'; if (ends[0]) { S.fridge.run = ends[0].run; S.fridge.end = ends[0].end; } }
+  ok(`ნიჟარა: ${RUN_NAME[sinkRun]} — ${why}${S.dw !== 'none' ? ', გვერდით ჭურჭლის სარეცხი' : ''}.`);
+  ok(hobRun !== sinkRun ? `ქურა: ${RUN_NAME[hobRun]} მონაკვეთზე, ნიჟარისგან ცალკე — მოკლე სამუშაო სამკუთხედი.` : 'ქურა ნიჟარის რიგზეა, მისგან ~120 სმ-ზე, შუაში სამუშაო ზედაპირით.');
+  if (chosen) ok(`მაცივარი${S.pantry ? ' და მაღალი კარადა' : ''}: ${RUN_NAME[S.fridge.run]} მონაკვეთის ბოლოში${doorF ? ' — შესასვლელთან ახლოს' : ''}.`);
+  return notes;
+}
+/* turn the room 90° so the wall that was on the left becomes the main (back) wall */
+function rotateRoom(S) {
+  const W0 = S.room.w, D0 = S.room.d;
+  const map = { left: 'back', back: 'right', right: 'front', front: 'left' };
+  S.feats = S.feats.map(f => {
+    const g = { ...f, wall: map[f.wall] }, w = f.w || 0;
+    if (f.wall === 'left' || f.wall === 'right') g.x = Math.max(0, D0 - f.x - w);
+    return g;
+  });
+  const wa = S.sk.walls; S.sk.walls = { back: wa.left, right: wa.back, left: true };
+  S.room.w = D0; S.room.d = W0;
+}
+
+/* ================= 3D: engine, textures, materials ================= */
+let T = null, renderer, scene, camera, controls, root, upperGroup, labelGroupData = [];
+let needsRender = true, labelsDirty = true, tween = null, threeReady = false, mergeGeos = null;
+const texCache = new Map(), matCache = new Map(), texInfo = new Map();
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+async function init3D() {
+  const [THREE, oc, re, ra, bu] = await Promise.all([
+    import('three'), import('three/addons/controls/OrbitControls.js'),
+    import('three/addons/environments/RoomEnvironment.js'), import('three/addons/lights/RectAreaLightUniformsLib.js'),
+    import('three/addons/utils/BufferGeometryUtils.js')
+  ]);
+  T = THREE; ra.RectAreaLightUniformsLib.init(); mergeGeos = bu.mergeGeometries;
+  const wrap = $('#canvasWrap');
+  renderer = new T.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputColorSpace = T.SRGBColorSpace;
+  renderer.toneMapping = T.ACESFilmicToneMapping;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  wrap.appendChild(renderer.domElement);
+  scene = new T.Scene();
+  const pm = new T.PMREMGenerator(renderer);
+  scene.environment = pm.fromScene(new re.RoomEnvironment(renderer), 0.04).texture;
+  camera = new T.PerspectiveCamera(38, 1, 0.05, 80);
+  controls = new oc.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.09;
+  controls.maxPolarAngle = Math.PI * 0.495; controls.minDistance = 0.8; controls.maxDistance = 18;
+  controls.addEventListener('change', () => { needsRender = true; labelsDirty = true; });
+  controls.addEventListener('start', () => { tween = null; });
+  root = new T.Group(); root.scale.setScalar(0.01); scene.add(root);
+  new ResizeObserver(resize).observe(wrap); resize();
+  applyThemeBg(); matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { applyThemeBg(); needsRender = true; });
+  threeReady = true;
+  rebuild(); setView('persp', true);
+  $('#loading').hidden = true;
+  requestAnimationFrame(loop);
+}
+function applyThemeBg() { if (scene) scene.background = new T.Color(cssVar('--stage') || '#e4e0d6'); }
+function resize() {
+  if (!renderer) return;
+  const w = $('#canvasWrap').clientWidth || 1, h = $('#canvasWrap').clientHeight || 1;
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  needsRender = true; labelsDirty = true;
+}
+function loop(now) {
+  requestAnimationFrame(loop);
+  if (tween) {
+    const k = Math.min(1, (now - tween.t0) / tween.dur), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    camera.position.lerpVectors(tween.p0, tween.p1, e); controls.target.lerpVectors(tween.c0, tween.c1, e);
+    if (k >= 1) tween = null;
+    needsRender = true; labelsDirty = true;
+  }
+  const moved = controls.update();
+  if (moved || needsRender) {
+    hideFacingWalls();
+    renderer.render(scene, camera); needsRender = false;
+  }
+  if (labelsDirty) { drawLabels(); labelsDirty = false; }
+}
+
+/* ---- seeded random + canvas textures ---- */
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function canvasTex(key, w, h, draw, cm = [100, 100], srgb = true) {
+  if (texCache.has(key)) return texCache.get(key);
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new T.CanvasTexture(c);
+  if (srgb) t.colorSpace = T.SRGBColorSpace;
+  t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(1 / cm[0], 1 / cm[1]);
+  t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  texCache.set(key, t); return t;
+}
+const shade = (hex, f) => { const c = new T.Color(hex); c.multiplyScalar(f); return '#' + c.getHexString(); };
+function woodTex(kind) {
+  const base = { oak: '#b68b5d', 'oak-light': '#cfb089', walnut: '#6a4a33' }[kind] || '#b68b5d';
+  return canvasTex('wood:' + kind, 512, 1024, (g, w, h) => {
+    const R = rng(kind.length * 97 + 7); g.fillStyle = base; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 260; i++) {
+      const x = R() * w, a = 0.04 + R() * 0.09; g.strokeStyle = R() > 0.5 ? `rgba(60,35,15,${a})` : `rgba(255,235,200,${a * 0.8})`;
+      g.lineWidth = 0.6 + R() * 2.4; g.beginPath(); g.moveTo(x, 0);
+      for (let y = 0; y <= h; y += 64) g.lineTo(x + Math.sin(y / 140 + i) * (2 + R() * 5), y);
+      g.stroke();
+    }
+  }, [60, 200]);
+}
+function floorTex(kind) {
+  if (kind === 'oak' || kind === 'oak-light' || kind === 'walnut') {
+    const base = { oak: '#b38a5f', 'oak-light': '#cdb08c', walnut: '#6c4c36' }[kind];
+    return canvasTex('floor:' + kind, 1024, 1024, (g, w, h) => {
+      const R = rng(kind.length * 31 + 3), rows = 10, ph = h / rows;
+      for (let r = 0; r < rows; r++) {
+        let x = -R() * w * 0.6;
+        while (x < w) {
+          const len = w * (0.45 + R() * 0.5); g.fillStyle = shade(base, 0.86 + R() * 0.26); g.fillRect(x, r * ph, len, ph);
+          for (let k = 0; k < 14; k++) { g.strokeStyle = `rgba(60,35,15,${0.05 + R() * 0.08})`; g.lineWidth = 0.6 + R() * 1.6; const y = r * ph + R() * ph; g.beginPath(); g.moveTo(x, y); g.bezierCurveTo(x + len * 0.3, y + R() * 6 - 3, x + len * 0.6, y + R() * 6 - 3, x + len, y); g.stroke(); }
+          g.fillStyle = 'rgba(40,25,10,.35)'; g.fillRect(x, r * ph, 1.5, ph); x += len;
+        }
+        g.fillStyle = 'rgba(40,25,10,.3)'; g.fillRect(0, r * ph, w, 1.5);
+      }
+    }, [200, 200]);
+  }
+  if (kind === 'tile') return canvasTex('floor:tile', 512, 512, (g, w, h) => {
+    const R = rng(11); g.fillStyle = '#77756f'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) { g.fillStyle = shade('#9c9a94', 0.94 + R() * 0.1); g.fillRect(i * w / 2 + 2, j * h / 2 + 2, w / 2 - 4, h / 2 - 4); }
+    for (let k = 0; k < 2500; k++) { g.fillStyle = `rgba(255,255,255,${R() * 0.05})`; g.fillRect(R() * w, R() * h, 2, 2); }
+  }, [120, 120]);
+  if (kind === 'terrazzo') return canvasTex('floor:terrazzo', 1024, 1024, (g, w, h) => {
+    const R = rng(5); g.fillStyle = '#e6e1d6'; g.fillRect(0, 0, w, h);
+    const cols = ['#b9b2a5', '#8f8a80', '#d3c2a8', '#a7b0a3', '#c9a892', '#6f6b65'];
+    for (let i = 0; i < 2600; i++) { g.fillStyle = cols[i % cols.length]; const s = 2 + R() * 9; g.beginPath(); g.ellipse(R() * w, R() * h, s, s * (0.5 + R() * 0.5), R() * 3, 0, 7); g.fill(); }
+  }, [160, 160]);
+  return canvasTex('floor:concrete', 1024, 1024, (g, w, h) => {
+    const R = rng(9); g.fillStyle = '#a9a7a1'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 90; i++) { const x = R() * w, y = R() * h, r = 40 + R() * 200; const gr = g.createRadialGradient(x, y, 0, x, y, r); const c = R() > 0.5 ? '255,255,255' : '40,40,40'; gr.addColorStop(0, `rgba(${c},${0.04 + R() * 0.05})`); gr.addColorStop(1, `rgba(${c},0)`); g.fillStyle = gr; g.fillRect(x - r, y - r, 2 * r, 2 * r); }
+  }, [300, 300]);
+}
+function flutedTex() {
+  return canvasTex('fluted', 64, 8, (g, w, h) => {
+    const img = g.createImageData(w, h);
+    for (let x = 0; x < w; x++) { const v = Math.round(255 * (0.5 + 0.5 * Math.cos((x / w) * Math.PI * 2))); for (let y = 0; y < h; y++) { const i = (y * w + x) * 4; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; } }
+    g.putImageData(img, 0, 0);
+  }, [3, 100], false);
+}
+function hobTex(kind, w) {
+  return canvasTex(`hob:${kind}:${w}`, 512, Math.round(512 * 52 / w), (g, cw, ch) => {
+    g.fillStyle = '#0b0b0c'; g.fillRect(0, 0, cw, ch);
+    if (kind !== 'induction') return;
+    g.strokeStyle = 'rgba(200,200,200,.55)'; g.lineWidth = 3;
+    const zones = w <= 30 ? [[0.5, 0.33, 0.2], [0.5, 0.72, 0.16]] : [[0.28, 0.32, 0.17], [0.72, 0.3, 0.13], [0.3, 0.72, 0.14], [0.72, 0.7, 0.18]];
+    for (const [x, y, r] of zones) { g.beginPath(); g.arc(x * cw, y * ch, r * Math.min(cw, ch * 1.6), 0, 7); g.stroke(); }
+    g.fillStyle = 'rgba(200,200,200,.5)'; g.font = '22px sans-serif'; g.fillText('— + —', cw * 0.42, ch * 0.95);
+  }, [1, 1]);
+}
+
+/* ---- materials ---- */
+function cm(key, make) { if (!matCache.has(key)) matCache.set(key, make()); return matCache.get(key); }
+function frontMat(ck, style) {
+  return cm(`front:${ck}:${style}`, () => {
+    const fc = FRONT_COLORS[ck] || FRONT_COLORS.cashmere;
+    const p = { color: new T.Color(fc.c), roughness: 0.6, metalness: 0, envMapIntensity: 0.45 };
+    if (fc.wood) { p.map = woodTex(ck); p.color = new T.Color('#ffffff'); p.roughness = 0.68; }
+    if (style === 'fluted') { p.bumpMap = flutedTex(); p.bumpScale = 3; }
+    return new T.MeshStandardMaterial(p);
+  });
+}
+const M_ = {
+  steel: () => cm('steel', () => new T.MeshStandardMaterial({ color: '#c8cacb', metalness: 1, roughness: 0.32, envMapIntensity: 1 })),
+  chrome: () => cm('chrome', () => new T.MeshStandardMaterial({ color: '#e8e9ea', metalness: 1, roughness: 0.12 })),
+  brass: () => cm('brass', () => new T.MeshStandardMaterial({ color: '#c9a35e', metalness: 1, roughness: 0.28 })),
+  black: () => cm('blackmetal', () => new T.MeshStandardMaterial({ color: '#1b1b1c', metalness: 0.6, roughness: 0.45 })),
+  glass: () => cm('blackglass', () => new T.MeshPhysicalMaterial({ color: '#0c0c0d', roughness: 0.06, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.04 })),
+  gola: () => cm('gola', () => new T.MeshStandardMaterial({ color: '#2b2c2c', metalness: 0.5, roughness: 0.5 })),
+  carcass: () => cm('carcass', () => new T.MeshStandardMaterial({ color: '#e7e3da', roughness: 0.8 })),
+  groove: () => cm('groove', () => new T.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.22, depthWrite: false })),
+  white: () => cm('white', () => new T.MeshStandardMaterial({ color: '#f1efe9', roughness: 0.6 })),
+  wood: () => cm('shelfwood', () => new T.MeshStandardMaterial({ map: woodTex('oak'), roughness: 0.7 })),
+  fabric: () => cm('fabric', () => new T.MeshStandardMaterial({ color: '#8a8478', roughness: 0.95 }))
+};
+function handleMat() { const h = S.front.handle; return h === 'bar-brass' ? M_.brass() : h === 'bar-steel' ? M_.steel() : M_.black(); }
+function faucetMat() { const h = S.front.handle; return h === 'bar-brass' ? M_.brass() : h === 'bar-black' ? M_.black() : M_.chrome(); }
+function wallMat() { const c = (WALL_COLORS[S.int.wall] || WALL_COLORS['warm-white']).c; return cm('wall:' + c, () => new T.MeshStandardMaterial({ color: c, roughness: 0.93, envMapIntensity: 0.3 })); }
+function floorMat() {
+  const k = S.int.floor; const rough = { tile: 0.42, terrazzo: 0.35, concrete: 0.8 }[k] ?? 0.62;
+  return cm('floor:' + k, () => new T.MeshStandardMaterial({ map: floorTex(k), roughness: rough, envMapIntensity: 0.4 }));
+}
+function stoneMat(key) {
+  return cm('stone:' + key, () => {
+    const m = mat(key), fin = finishParams(m.finish);
+    const material = new T.MeshPhysicalMaterial({ color: new T.Color(toneOf(m)), roughness: fin.r, metalness: 0, clearcoat: fin.cc, clearcoatRoughness: 0.12, envMapIntensity: fin.env });
+    new T.TextureLoader().load(ASSET_BASE + m.image, tex => {
+      const iw = tex.image.width, ih = tex.image.height, long = 280, portrait = ih >= iw;
+      const prev = texInfo.get(key); texInfo.set(key, { portrait });
+      tex.colorSpace = T.SRGBColorSpace; tex.wrapS = tex.wrapT = T.MirroredRepeatWrapping;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      tex.repeat.set(1 / (portrait ? long * iw / ih : long), 1 / (portrait ? long : long * ih / iw));
+      material.map = tex; material.color.set('#ffffff'); material.needsUpdate = true;
+      if (!prev || prev.portrait !== portrait) scheduleRebuild();
+      needsRender = true;
+    }, undefined, () => { /* keep tone colour if the photo is missing */ });
+    return material;
+  });
+}
+
+/* ---- geometry helpers (all in cm, root is scaled to metres) ---- */
+function boxGeo(x0, x1, y0, y1, z0, z1) {
+  const g = new T.BoxGeometry(Math.max(0.05, x1 - x0), Math.max(0.05, y1 - y0), Math.max(0.05, z1 - z0));
+  g.translate((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2); return g;
+}
+function uvSimple(g) {
+  const p = g.attributes.position, n = g.attributes.normal, uv = new Float32Array(p.count * 2);
+  for (let i = 0; i < p.count; i++) {
+    const ax = Math.abs(n.getX(i)), ay = Math.abs(n.getY(i)), az = Math.abs(n.getZ(i));
+    let u, v; if (ay >= ax && ay >= az) { u = p.getX(i); v = p.getZ(i); } else if (ax >= az) { u = p.getZ(i); v = p.getY(i); } else { u = p.getX(i); v = p.getY(i); }
+    uv[2 * i] = u; uv[2 * i + 1] = v;
+  }
+  g.setAttribute('uv', new T.BufferAttribute(uv, 2)); return g;
+}
+/* stone UV: long axis of the photo follows the run; optional fold continues veins down a waterfall */
+function uvStone(g, alongX, key, fold) {
+  const portrait = texInfo.get(key)?.portrait ?? true;
+  const p = g.attributes.position, n = g.attributes.normal, uv = new Float32Array(p.count * 2);
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+    const ax = Math.abs(n.getX(i)), ay = Math.abs(n.getY(i)), az = Math.abs(n.getZ(i));
+    let a, b;
+    if (ay >= ax && ay >= az) { a = alongX ? x : z; b = alongX ? z : x; }
+    else if ((alongX && ax >= az) || (!alongX && az >= ax)) { a = fold ? fold.a0 + fold.sign * (fold.yTop - y) : y; b = alongX ? z : x; }
+    else { a = alongX ? x : z; b = y; }
+    if (portrait) { uv[2 * i] = b; uv[2 * i + 1] = a; } else { uv[2 * i] = a; uv[2 * i + 1] = b; }
+  }
+  g.setAttribute('uv', new T.BufferAttribute(uv, 2)); return g;
+}
+function roundRect(path, x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2);
+  path.moveTo(x + r, y); path.lineTo(x + w - r, y); path.quadraticCurveTo(x + w, y, x + w, y + r);
+  path.lineTo(x + w, y + h - r); path.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  path.lineTo(x + r, y + h); path.quadraticCurveTo(x, y + h, x, y + h - r); path.lineTo(x, y + r); path.quadraticCurveTo(x, y, x + r, y);
+}
+function slabGeo(x0, x1, z0, z1, y0, thick, holes) {
+  const sh = new T.Shape(); sh.moveTo(x0, -z0); sh.lineTo(x1, -z0); sh.lineTo(x1, -z1); sh.lineTo(x0, -z1); sh.closePath();
+  for (const h of holes) { const p = new T.Path(); roundRect(p, h.x0, -h.z1, h.x1 - h.x0, h.z1 - h.z0, h.r ?? 1.5); sh.holes.push(p); }
+  const g = new T.ExtrudeGeometry(sh, { depth: thick, bevelEnabled: false, curveSegments: 6 });
+  g.rotateX(-Math.PI / 2); g.translate(0, y0, 0); return g;
+}
+function mesh(geo, material, { cast = true, recv = true } = {}) { const m = new T.Mesh(geo, material); m.castShadow = cast; m.receiveShadow = recv; return m; }
+/* axis-aligned box in run coordinates */
+function runBox(r, u0, u1, v0, v1, y0, y1) {
+  const p = wp(r, u0, v0), q2 = wp(r, u1, v1);
+  return boxGeo(Math.min(p.x, q2.x), Math.max(p.x, q2.x), y0, y1, Math.min(p.z, q2.z), Math.max(p.z, q2.z));
+}
+function disposeTree(o) { o.traverse(c => { if (c.geometry) c.geometry.dispose(); }); }
+/* merge the direct mesh children of a group by material + shadow flags: hundreds of boxes become a few dozen draw calls */
+function mergeGroup(g) {
+  const buckets = new Map();
+  for (const c of [...g.children]) {
+    if (!c.isMesh) continue;
+    const k = c.material.uuid + (c.castShadow ? 'c' : '') + (c.receiveShadow ? 'r' : '');
+    if (!buckets.has(k)) buckets.set(k, { mat: c.material, cast: c.castShadow, recv: c.receiveShadow, geos: [] });
+    let geo = c.geometry; if (geo.index) { const ni = geo.toNonIndexed(); geo.dispose(); geo = ni; }
+    for (const name of Object.keys(geo.attributes)) if (!['position', 'normal', 'uv'].includes(name)) geo.deleteAttribute(name);
+    if (!geo.attributes.uv) geo.setAttribute('uv', new T.BufferAttribute(new Float32Array(geo.attributes.position.count * 2), 2));
+    geo.clearGroups(); buckets.get(k).geos.push(geo); g.remove(c);
+  }
+  for (const b of buckets.values()) {
+    const merged = b.geos.length === 1 ? b.geos[0] : mergeGeos(b.geos, false);
+    if (b.geos.length > 1) b.geos.forEach(x => x.dispose());
+    if (merged) g.add(mesh(merged, b.mat, { cast: b.cast, recv: b.recv }));
+  }
+}
+
+/* ================= 3D: scene builders ================= */
+let rebuildQueued = false;
+function scheduleRebuild() { if (rebuildQueued || !threeReady) return; rebuildQueued = true; requestAnimationFrame(() => { rebuildQueued = false; rebuild(); }); }
+let walls = [];
+function rebuild() {
+  if (!threeReady) return;
+  const M = model;
+  for (const c of [...root.children]) { disposeTree(c); root.remove(c); }
+  for (const c of [...scene.children]) if (c.userData.light) scene.remove(c);
+  walls = [];
+  const g = new T.Group(); root.add(g);
+  upperGroup = new T.Group(); upperGroup.visible = $('#tgUpper').checked; root.add(upperGroup);
+  buildRoom(g, M);
+  for (const r of M.allRuns) buildRun(g, M, r);
+  if (M.isl) buildIslandShell(g, M);
+  buildStone(g, M);
+  buildUpper(upperGroup, M);
+  buildHoods(g, M);
+  buildLights(g, M);
+  mergeGroup(g); mergeGroup(upperGroup);
+  labelGroupData = buildLabelData(M);
+  needsRender = true; labelsDirty = true;
+}
+
+/* ---- room ---- */
+function buildRoom(g, M) {
+  const { RW, RD, RH } = M, wm = wallMat(), TH = 10;
+  const fl = new T.PlaneGeometry(RW + 200, RD + 200); fl.rotateX(-Math.PI / 2); fl.translate(RW / 2, 0, RD / 2);
+  const uv = fl.attributes.uv, pos = fl.attributes.position;
+  for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i), pos.getZ(i));
+  g.add(mesh(fl, floorMat(), { cast: false }));
+  const wallDef = { back: { len: RW }, left: { len: RD }, right: { len: RD } };
+  for (const side of ['back', 'left', 'right']) {
+    const grp = new T.Group(); grp.userData.wall = side; walls.push(grp); g.add(grp);
+    const len = wallDef[side].len;
+    const opens = M.feats.filter(f => f.wall === side && (f.t === 'window' || f.t === 'door'))
+      .map(f => ({ f, p0: clamp(f.x, 0, len), p1: clamp(f.x + f.w, 0, len), y0: f.t === 'door' ? 0 : f.sill, y1: Math.min(RH, f.t === 'door' ? f.h : f.sill + f.h) }))
+      .filter(o => o.p1 - o.p0 > 1).sort((a, b) => a.p0 - b.p0);
+    let cur = -TH;
+    for (const o of opens) {
+      if (o.p0 < cur) continue;
+      if (o.p0 - cur > 0.1) grp.add(mesh(wallBox(side, cur, o.p0, 0, RH, -TH, 0, M), wm, { cast: false }));
+      if (o.y0 > 0.1) grp.add(mesh(wallBox(side, o.p0, o.p1, 0, o.y0, -TH, 0, M), wm, { cast: false }));
+      if (RH - o.y1 > 0.1) grp.add(mesh(wallBox(side, o.p0, o.p1, o.y1, RH, -TH, 0, M), wm, { cast: false }));
+      if (o.f.t === 'window') buildWindow(grp, side, o, M); else buildDoor(grp, side, o, M);
+      cur = o.p1;
+    }
+    if (len + TH - cur > 0.1) grp.add(mesh(wallBox(side, cur, len + TH, 0, RH, -TH, 0, M), wm, { cast: false }));
+    for (const f of M.cols.filter(c => c.wall === side)) grp.add(mesh(wallBox(side, f.x, f.x + f.w, 0, RH, 0, f.d, M), wm));
+  }
+  for (const f of M.cols.filter(c => c.wall === 'front')) { const r = featRect(f, RW, RD, 0); g.add(mesh(boxGeo(r.x0, r.x1, 0, RH, r.z0, r.z1), wm)); }
+}
+function wallBox(side, a, b, y0, y1, d0, d1, M) {
+  if (side === 'back') return boxGeo(a, b, y0, y1, d0, d1);
+  if (side === 'left') return boxGeo(d0, d1, y0, y1, a, b);
+  return boxGeo(M.RW - d1, M.RW - d0, y0, y1, a, b);
+}
+function buildWindow(grp, side, o, M) {
+  const { p0, p1, y0, y1 } = o, F = 5, night = S.int.time === 'evening';
+  const glass = cm('glass:' + night, () => new T.MeshBasicMaterial({ color: night ? '#2a3442' : '#e3edf2' }));
+  grp.add(mesh(wallBox(side, p0, p1, y0, y1, -6, -5, M), glass, { cast: false, recv: false }));
+  const fm = M_.white();
+  for (const [a, b, c, d] of [[p0, p1, y0, y0 + F], [p0, p1, y1 - F, y1], [p0, p0 + F, y0, y1], [p1 - F, p1, y0, y1]]) grp.add(mesh(wallBox(side, a, b, c, d, -8, -2, M), fm, { cast: false }));
+  if (p1 - p0 > 100) { const m = (p0 + p1) / 2; grp.add(mesh(wallBox(side, m - 2.5, m + 2.5, y0, y1, -8, -2, M), fm, { cast: false })); }
+  grp.add(mesh(wallBox(side, p0 - 4, p1 + 4, y0 - 2, y0, -6, 4, M), fm));
+}
+function buildDoor(grp, side, o, M) {
+  const { p0, p1, y1 } = o, F = 6, fm = M_.white();
+  const leaf = cm('doorleaf', () => new T.MeshStandardMaterial({ color: '#d9d2c4', roughness: 0.7 }));
+  for (const [a, b, c, d] of [[p0 - F, p0, 0, y1 + F], [p1, p1 + F, 0, y1 + F], [p0 - F, p1 + F, y1, y1 + F]]) grp.add(mesh(wallBox(side, a, b, c, d, -11, 1.5, M), fm, { cast: false }));
+  grp.add(mesh(uvSimple(wallBox(side, p0 + 0.3, p1 - 0.3, 0.5, y1 - 0.3, -7, -3, M)), leaf, { cast: false }));
+  const hx = p1 - 8; grp.add(mesh(wallBox(side, hx - 6, hx + 2, 100, 102, -3, 2.5, M), M_.steel(), { cast: false }));
+}
+function hideFacingWalls() {
+  if (!camera) return;
+  const p = camera.position, M = model;
+  for (const grp of walls) {
+    const s = grp.userData.wall;
+    grp.visible = s === 'back' ? p.z > 0.02 : s === 'left' ? p.x > 0.02 : p.x < M.RW / 100 - 0.02;
+  }
+}
+
+/* ---- base & tall modules ---- */
+function frontColorFor(r) { return r.isIsl ? (S.front.isl || S.front.base) : S.front.base; }
+function addFront(g, r, u0, u1, y0, y1, fm, opts = {}) {
+  const cd = r.cd;
+  g.add(mesh(uvSimple(runBox(r, u0 + 0.15, u1 - 0.15, cd - 1.8, cd, y0, y1)), fm));
+  if (S.front.type === 'shaker' && u1 - u0 > 20 && y1 - y0 > 12) {
+    const bw = 6;
+    for (const [a, b, c, d] of [[u0 + 0.15, u1 - 0.15, y1 - bw, y1], [u0 + 0.15, u1 - 0.15, y0, y0 + bw], [u0 + 0.15, u0 + bw, y0, y1], [u1 - bw, u1 - 0.15, y0, y1]])
+      g.add(mesh(uvSimple(runBox(r, a, b, cd, cd + 0.7, c, d)), fm));
+  }
+  const h = S.front.handle;
+  if (h.startsWith('bar') && !opts.noHandle) {
+    const hm = handleMat(), out = cd + (S.front.type === 'shaker' ? 0.7 : 0);
+    if (opts.vertical) { const uu = opts.side === 'l' ? u0 + 4 : u1 - 4, yc = opts.yc ?? (y0 + y1) / 2; g.add(mesh(runBox(r, uu - 0.6, uu + 0.6, out, out + 2.2, yc - 18, yc + 18), hm)); }
+    else { const L = Math.min((u1 - u0) * 0.55, 32), uc = (u0 + u1) / 2, yy = opts.bottom ? y0 + 4 : y1 - 4; g.add(mesh(runBox(r, uc - L / 2, uc + L / 2, out, out + 2.2, yy - 0.6, yy + 0.6), hm)); }
+  }
+}
+function buildRun(g, M, r) {
+  const its = M.items[r.id], top = r.top, PL = M.PL, cd = r.cd;
+  const fm = frontMat(frontColorFor(r), S.front.type), plM = cm('plinth', () => new T.MeshStandardMaterial({ color: '#2f302e', roughness: 0.7 }));
+  const capY = top - (r.isIsl ? (M.isl ? M.vis : M.t) : M.vis);
+  const gola = S.front.handle === 'gola', topGap = gola ? 3.2 : 0.4;
+  if (r.id === 'A' && r.cs) { g.add(mesh(runBox(r, 0, M.D, 0, cd, 0, capY), fm)); g.add(mesh(runBox(r, 0, cd, cd, M.D, 0, capY), fm)); }
+  if (r.id === 'A' && r.ce) { g.add(mesh(runBox(r, r.len - M.D, r.len, 0, cd, 0, capY), fm)); g.add(mesh(runBox(r, r.len - cd, r.len, cd, M.D, 0, capY), fm)); }
+  for (const m of its) {
+    const u0 = m.u, u1 = m.u + m.w;
+    if (TALL.has(m.t)) { buildTall(g, M, r, m, fm, plM); continue; }
+    g.add(mesh(runBox(r, u0, u1, 0, cd - 6, 0, PL), plM));
+    g.add(mesh(runBox(r, u0, u1, 0, cd - 1.8, PL, capY), fm));
+    const fy0 = PL + 0.3, fy1 = capY - topGap;
+    if (gola) g.add(mesh(runBox(r, u0, u1, cd - 4, cd - 1.8, capY - 3.2, capY), M_.gola(), { cast: false }));
+    const drawers = (n) => {
+      const ratios = n === 3 ? [0.4, 0.34, 0.26] : [0.55, 0.45]; const gap = gola ? 3.2 : 0.3; const tot = fy1 - fy0 - gap * (n - 1);
+      let y = fy0;
+      ratios.forEach((k, i) => {
+        const hh = tot * k; addFront(g, r, u0, u1, y, y + hh, fm);
+        if (gola && i < n - 1) g.add(mesh(runBox(r, u0, u1, cd - 4, cd - 1.8, y + hh, y + hh + gap), M_.gola(), { cast: false }));
+        y += hh + gap;
+      });
+    };
+    switch (m.t) {
+      case 'drawers': case 'hob': drawers(3); break;
+      case 'door': case 'dw': addFront(g, r, u0, u1, fy0, fy1, fm); break;
+      case 'door2': case 'sink':
+        if (m.w >= 70) { addFront(g, r, u0, (u0 + u1) / 2, fy0, fy1, fm); addFront(g, r, (u0 + u1) / 2, u1, fy0, fy1, fm); }
+        else addFront(g, r, u0, u1, fy0, fy1, fm);
+        break;
+      case 'filler': g.add(mesh(uvSimple(runBox(r, u0, u1, cd - 1.8, cd, fy0, capY)), fm)); break;
+      case 'oven': {
+        const oy0 = fy1 - 59.5;
+        addFront(g, r, u0, u1, fy0, oy0 - 0.4, fm);
+        g.add(mesh(runBox(r, u0 + 0.3, u1 - 0.3, cd - 1.8, cd + 0.2, oy0, fy1), M_.glass()));
+        g.add(mesh(runBox(r, u0 + 6, u1 - 6, cd + 0.2, cd + 2.4, fy1 - 5, fy1 - 3.6), M_.steel()));
+        break;
+      }
+      default: addFront(g, r, u0, u1, fy0, fy1, fm);
+    }
+  }
+}
+function buildTall(g, M, r, m, fm, plM) {
+  const u0 = m.u, u1 = m.u + m.w, cd = r.cd, PL = M.PL, H = M.tallH;
+  if (m.t === 'fridgeFS') {
+    const sm = M_.steel(), hh = Math.min(185, H - 10);
+    g.add(mesh(runBox(r, u0 + 1, u1 - 1, 2, cd + 4, 0, hh), sm));
+    g.add(mesh(runBox(r, u0 + 1, u1 - 1, cd + 4, cd + 4.3, hh * 0.38, hh * 0.38 + 0.6), M_.black(), { cast: false }));
+    const mid = (u0 + u1) / 2;
+    g.add(mesh(runBox(r, mid - 0.3, mid + 0.3, cd + 4, cd + 4.3, hh * 0.38, hh), M_.black(), { cast: false }));
+    for (const uu of [mid - 3, mid + 3]) g.add(mesh(runBox(r, uu - 0.7, uu + 0.7, cd + 4.3, cd + 7, hh * 0.55, hh * 0.85), M_.steel()));
+    g.add(mesh(runBox(r, u0 + 1, u1 - 1, cd + 4.3, cd + 7, hh * 0.3, hh * 0.34), M_.steel()));
+    if (H - hh > 20) { g.add(mesh(runBox(r, u0, u1, 0, cd - 1.8, hh + 3, H), fm)); addFront(g, r, u0, u1, hh + 3.3, H - 0.3, fm, { bottom: true }); }
+    return;
+  }
+  g.add(mesh(runBox(r, u0, u1, 0, cd - 6, 0, PL), plM));
+  g.add(mesh(runBox(r, u0, u1, 0, cd - 1.8, PL, H), fm));
+  const fy0 = PL + 0.3, fy1 = H - 0.3, side = r.isIsl ? 'r' : (u0 < (r.u0 + r.u1) / 2 ? 'r' : 'l');
+  if (m.t === 'ovenTall') {
+    const a1 = 82, a2 = 141.8, a3 = 186;
+    addFront(g, r, u0, u1, fy0, (fy0 + a1) / 2 - 0.15, fm); addFront(g, r, u0, u1, (fy0 + a1) / 2 + 0.15, a1, fm);
+    g.add(mesh(runBox(r, u0 + 0.3, u1 - 0.3, cd - 1.8, cd + 0.2, a1 + 0.3, a2), M_.glass()));
+    g.add(mesh(runBox(r, u0 + 0.3, u1 - 0.3, cd - 1.8, cd + 0.2, a2 + 0.3, a3), M_.glass()));
+    g.add(mesh(runBox(r, u0 + 6, u1 - 6, cd + 0.2, cd + 2.4, a2 - 5, a2 - 3.6), M_.steel()));
+    if (fy1 - a3 > 10) addFront(g, r, u0, u1, a3 + 0.3, fy1, fm, { bottom: true });
+    return;
+  }
+  const split = PL + (H - PL) * 0.56;
+  addFront(g, r, u0, u1, fy0, split - 0.15, fm, { vertical: true, side, yc: split - 22 });
+  addFront(g, r, u0, u1, split + 0.15, fy1, fm, { vertical: true, side, yc: split + 22 });
+}
+function buildIslandShell(g, M) {
+  const I = M.isl, b = I.body, r = M.islRun, fm = frontMat(frontColorFor(r), S.front.type);
+  const back0 = r.oz;
+  const capY = I.top - M.vis;
+  if (b.z1 - back0 > 1) g.add(mesh(uvSimple(boxGeo(b.x0, b.x1, 0, capY, back0, b.z1)), fm));
+  if (S.isl.seat !== 'none') {
+    const n = Math.max(1, Math.floor((S.isl.seat === 'back' ? I.len : I.dep) / 60));
+    const seatH = S.isl.bar ? 76 : 64, mm = M_.black(), seat = cm('stool', () => new T.MeshStandardMaterial({ color: '#7a6a58', roughness: 0.8 }));
+    for (let i = 0; i < n; i++) {
+      let x, z;
+      if (S.isl.seat === 'back') { x = I.x0 + I.len * (i + 0.5) / n; z = I.z1 + 8; } else { x = I.x1 + 22; z = I.zk + I.dep * (i + 0.5) / n; }
+      const leg = new T.CylinderGeometry(1.2, 1.2, seatH, 8); leg.translate(x, seatH / 2, z); g.add(mesh(leg, mm));
+      const base = new T.CylinderGeometry(18, 18, 1.2, 24); base.translate(x, 0.6, z); g.add(mesh(base, mm));
+      const s = new T.CylinderGeometry(19, 17, 6, 28); s.translate(x, seatH + 3, z); g.add(mesh(s, seat));
+    }
+  }
+}
+
+/* ---- stone: worktops, island, waterfalls, backsplash, sinks, hobs ---- */
+function cutWorld(r, k) {
+  const c = wp(r, k.uc, k.vc);
+  const hw = r.alongX ? k.w / 2 : k.d / 2, hd = r.alongX ? k.d / 2 : k.w / 2;
+  return { cx: c.x, cz: c.z, hw, hd };
+}
+function buildStone(g, M) {
+  const vis = M.vis;
+  for (const p of M.pieces) {
+    const r = p.r, a = wp(r, p.s, 0), b = wp(r, p.e, p.d);
+    const holes = [];
+    for (const k of p.cuts) {
+      const c = cutWorld(r, k);
+      if (k.kind === 'sink' || S.hob.mount === 'flush') {
+        const hw = k.kind === 'hob' ? (r.alongX ? k.w / 2 : k.d / 2) : c.hw, hd = k.kind === 'hob' ? (r.alongX ? k.d / 2 : k.w / 2) : c.hd;
+        holes.push({ x0: c.cx - hw, x1: c.cx + hw, z0: c.cz - hd, z1: c.cz + hd, r: k.kind === 'sink' ? 2.5 : 0.6 });
+      }
+    }
+    const geo = slabGeo(Math.min(a.x, b.x), Math.max(a.x, b.x), Math.min(a.z, b.z), Math.max(a.z, b.z), p.top - vis, vis, holes);
+    g.add(mesh(uvStone(geo, r.alongX, p.mat), stoneMat(p.mat)));
+    for (const k of p.cuts) buildCutFixture(g, M, r, k, p.top, p.mat);
+  }
+  if (M.islPiece) {
+    const P = M.islPiece, I = M.isl, r = M.islRun, holes = [];
+    for (const k of P.cuts) {
+      const c = cutWorld(r, k);
+      if (k.kind === 'sink' || S.hob.mount === 'flush') holes.push({ x0: c.cx - c.hw, x1: c.cx + c.hw, z0: c.cz - c.hd, z1: c.cz + c.hd, r: k.kind === 'sink' ? 2.5 : 0.6 });
+    }
+    const geo = slabGeo(P.x0, P.x1, P.z0, P.z1, P.top - vis, vis, holes);
+    g.add(mesh(uvStone(geo, true, P.mat), stoneMat(P.mat)));
+    const t = M.t, sm = stoneMat(P.mat), yTop = P.top - vis;
+    if (I.wfL) g.add(mesh(uvStone(boxGeo(P.x0, P.x0 + t, 0, yTop, P.z0, P.z1), true, P.mat, { a0: P.x0, sign: -1, yTop }), sm));
+    if (I.wfR) g.add(mesh(uvStone(boxGeo(P.x1 - t, P.x1, 0, yTop, P.z0, P.z1), true, P.mat, { a0: P.x1, sign: 1, yTop }), sm));
+    for (const k of P.cuts) buildCutFixture(g, M, r, k, P.top, P.mat);
+  }
+  const bsKey = S.stone.bsMat || S.stone.main, bt = M.bsMatT / 10;
+  for (const x of M.bs) g.add(mesh(uvStone(runBox(x.r, x.s, x.e, 0, bt, M.TOP, M.TOP + x.h), x.r.alongX, bsKey), stoneMat(bsKey), { cast: false }));
+}
+function buildCutFixture(g, M, r, k, top, matKey) {
+  const c = cutWorld(r, k), vis = M.vis, y = top - vis;
+  if (k.kind === 'sink') {
+    const bm = S.sink.mount === 'integrated' ? stoneMat(matKey) : M_.steel(), depth = 19, th = 0.8;
+    const x0 = c.cx - c.hw, x1 = c.cx + c.hw, z0 = c.cz - c.hd, z1 = c.cz + c.hd, yb = y - depth;
+    g.add(mesh(boxGeo(x0, x1, yb - th, yb, z0, z1), bm, { cast: false }));
+    for (const [a, b2, cc, d] of [[x0 - th, x0, z0, z1], [x1, x1 + th, z0, z1]]) g.add(mesh(boxGeo(a, b2, yb, y, cc, d), bm, { cast: false }));
+    for (const [cc, d] of [[z0 - th, z0], [z1, z1 + th]]) g.add(mesh(boxGeo(x0, x1, yb, y, cc, d), bm, { cast: false }));
+    if (S.sink.bowls === '2' || S.sink.bowls === '1.5') {
+      const along = r.alongX, frac = S.sink.bowls === '2' ? 0.5 : 0.62;
+      if (along) { const xm = x0 + (x1 - x0) * frac; g.add(mesh(boxGeo(xm - 0.6, xm + 0.6, yb, y - 3, z0, z1), bm, { cast: false })); }
+      else { const zm = z0 + (z1 - z0) * frac; g.add(mesh(boxGeo(x0, x1, yb, y - 3, zm - 0.6, zm + 0.6), bm, { cast: false })); }
+    }
+    g.add(mesh(boxGeo(c.cx - 2, c.cx + 2, yb - 0.1, yb + 0.05, c.cz - 2, c.cz + 2), M_.black(), { cast: false }));
+    if (S.sink.mount === 'top') { const rw = 2.5; for (const [a, b2, cc, d] of [[x0 - rw, x1 + rw, z0 - rw, z0], [x0 - rw, x1 + rw, z1, z1 + rw], [x0 - rw, x0, z0, z1], [x1, x1 + rw, z0, z1]]) g.add(mesh(boxGeo(a, b2, top, top + 0.5, cc, d), M_.steel())); }
+    if (S.sink.drain !== 'none' && S.sink.mount !== 'top') {
+      const sgn = S.sink.drain === 'right' ? 1 : -1, rx = r.nz * sgn, rz = -r.nx * sgn;
+      for (let i = 0; i < 5; i++) {
+        const off = (i - 2) * 5;
+        if (r.alongX) { const xs = rx > 0 ? x1 + 4 : x0 - 36; g.add(mesh(boxGeo(xs, xs + 32, top + 0.02, top + 0.08, c.cz + off - 0.35, c.cz + off + 0.35), M_.groove(), { cast: false, recv: false })); }
+        else { const zs = rz > 0 ? z1 + 4 : z0 - 36; g.add(mesh(boxGeo(c.cx + off - 0.35, c.cx + off + 0.35, top + 0.02, top + 0.08, zs, zs + 32), M_.groove(), { cast: false, recv: false })); }
+      }
+    }
+    const back = wp(r, k.uc, k.vc - (k.d / 2 + 5));
+    const fmM = faucetMat();
+    const base = new T.CylinderGeometry(2.4, 2.6, 3, 20); base.translate(back.x, top + 1.5, back.z); g.add(mesh(base, fmM));
+    const col = new T.CylinderGeometry(1.3, 1.3, 30, 16); col.translate(back.x, top + 18, back.z); g.add(mesh(col, fmM));
+    const arc = new T.TorusGeometry(9, 1.3, 12, 24, Math.PI); arc.rotateY(r.alongX ? Math.PI / 2 : 0);
+    const toward = wp(r, k.uc, k.vc); const dx = toward.x - back.x, dz = toward.z - back.z, dl = Math.hypot(dx, dz) || 1;
+    arc.translate(back.x + dx / dl * 9, top + 33, back.z + dz / dl * 9);
+    g.add(mesh(arc, fmM));
+    const sp = new T.CylinderGeometry(1.3, 1.1, 8, 14); sp.translate(back.x + dx / dl * 18, top + 29, back.z + dz / dl * 18); g.add(mesh(sp, fmM));
+  } else {
+    const gw = r.alongX ? k.w : k.d, gd = r.alongX ? k.d : k.w;
+    const yy = S.hob.mount === 'flush' ? top - 0.6 : top;
+    const geo = boxGeo(c.cx - gw / 2, c.cx + gw / 2, yy, yy + 0.6, c.cz - gd / 2, c.cz + gd / 2);
+    const hm = cm(`hobm:${S.hob.type}:${S.hob.w}`, () => new T.MeshPhysicalMaterial({ map: hobTex(S.hob.type, S.hob.w), roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.04 }));
+    if (!r.alongX) { const uv = geo.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getY(i), 1 - uv.getX(i)); }
+    g.add(mesh(geo, hm, { cast: false }));
+    if (S.hob.type === 'gas') {
+      const pts = S.hob.w <= 30 ? [[0, -0.22], [0, 0.22]] : [[-0.25, -0.22], [0.25, -0.22], [-0.25, 0.22], [0.25, 0.22]];
+      for (const [fx, fz] of pts) {
+        const px = c.cx + (r.alongX ? fx * gw : fz * gw), pz = c.cz + (r.alongX ? fz * gd : fx * gd);
+        const bnr = new T.CylinderGeometry(4.2, 4.6, 2, 24); bnr.translate(px, yy + 1.6, pz); g.add(mesh(bnr, M_.black()));
+        const cap = new T.CylinderGeometry(3, 3, 0.8, 20); cap.translate(px, yy + 2.9, pz); g.add(mesh(cap, M_.black()));
+      }
+      for (const fz of [-0.42, 0, 0.42]) {
+        if (r.alongX) g.add(mesh(boxGeo(c.cx - gw / 2 + 2, c.cx + gw / 2 - 2, yy + 3, yy + 4, c.cz + fz * gd - 0.5, c.cz + fz * gd + 0.5), M_.black()));
+        else g.add(mesh(boxGeo(c.cx + fz * gw - 0.5, c.cx + fz * gw + 0.5, yy + 3, yy + 4, c.cz - gd / 2 + 2, c.cz + gd / 2 - 2), M_.black()));
+      }
+    }
+    if (S.hood === 'downdraft' && M.hoodEff === 'downdraft') {
+      const bk = wp(r, k.uc, k.vc - (k.d / 2 + 3));
+      g.add(mesh(boxGeo(bk.x - (r.alongX ? gw / 2 : 1), bk.x + (r.alongX ? gw / 2 : 1), top, top + 0.4, bk.z - (r.alongX ? 1 : gw / 2), bk.z + (r.alongX ? 1 : gw / 2)), M_.black()));
+    }
+  }
+}
+
+/* ---- wall cabinets, LED, hoods ---- */
+function buildUpper(g, M) {
+  const ck = S.front.up || S.front.base, fm = frontMat(ck, S.front.type), UD = 35;
+  for (const x of M.upper) {
+    const r = { ...x.r, cd: UD };
+    const u0 = x.u, u1 = x.u + x.w, y0 = x.y0, y1 = x.y0 + x.h;
+    if (S.up.type === 'shelves') {
+      for (const yy of [y0 + 6, y0 + x.h * 0.55]) g.add(mesh(uvSimple(runBox(r, u0 + 0.5, u1 - 0.5, 0, 26, yy, yy + 3)), M_.wood()));
+      continue;
+    }
+    g.add(mesh(runBox(r, u0, u1, 0, UD - 1.8, y0, y1), fm));
+    const yb = x.hood ? y0 + 6 : y0;
+    if (x.hood) g.add(mesh(runBox(r, u0 + 0.5, u1 - 0.5, 0, UD + 1, y0, y0 + 6), M_.steel()));
+    const opt = { bottom: true, noHandle: S.front.handle === 'gola' };
+    if (x.w >= 65) { addFront(g, r, u0, (u0 + u1) / 2, yb + 0.3, y1 - 0.3, fm, opt); addFront(g, r, (u0 + u1) / 2, u1, yb + 0.3, y1 - 0.3, fm, opt); }
+    else addFront(g, r, u0, u1, yb + 0.3, y1 - 0.3, fm, opt);
+    if (S.int.led) {
+      const led = cm('led:' + S.int.time, () => new T.MeshBasicMaterial({ color: S.int.time === 'evening' ? '#ffe2b8' : '#fff4e2' }));
+      g.add(mesh(runBox(r, u0 + 2, u1 - 2, UD - 8, UD - 6, y0 - 0.4, y0), led, { cast: false, recv: false }));
+    }
+  }
+}
+function buildHoods(g, M) {
+  const dark = ['graphite', 'black', 'navy'].includes(S.front.base) || S.front.handle === 'bar-black';
+  const hm = dark ? M_.black() : M_.steel();
+  for (const h of M.hoods) {
+    const r = h.r, top = r.top;
+    if (h.kind === 'wall') {
+      const y0 = top + 65;
+      g.add(mesh(runBox(r, h.s, h.e, 0, 50, y0, y0 + 7), hm));
+      const mid = (h.s + h.e) / 2;
+      g.add(mesh(runBox(r, mid - 15, mid + 15, 0, 25, y0 + 7, M.RH), hm));
+    } else if (h.kind === 'island') {
+      const c = wp(r, (h.s + h.e) / 2, r.isIsl ? r.oz - (M.isl.zk + M.isl.dep / 2) : M.D / 2), y0 = top + 70;
+      g.add(mesh(boxGeo(c.x - 45, c.x + 45, y0, y0 + 10, c.z - 25, c.z + 25), hm));
+      g.add(mesh(boxGeo(c.x - 13, c.x + 13, y0 + 10, M.RH, c.z - 13, c.z + 13), hm));
+    }
+  }
+}
+
+/* ---- lights ---- */
+function buildLights(g, M) {
+  const night = S.int.time === 'evening';
+  const add = o => { o.userData.light = true; scene.add(o); return o; };
+  renderer.toneMappingExposure = night ? 0.72 : 1.0;
+  add(new T.HemisphereLight('#fffaf1', '#cfc6b8', night ? 0.18 : 0.75));
+  const sun = add(new T.DirectionalLight(night ? '#9fb4d6' : '#fff3e2', night ? 0.25 : 2.1));
+  const W = M.RW / 100, Dd = M.RD / 100;
+  sun.position.set(W * 0.15, 5.5, Dd + 3.2); sun.target.position.set(W / 2, 0.6, Dd * 0.3); add(sun.target);
+  sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+  const sc = sun.shadow.camera, ext = Math.max(W, Dd) * 0.85 + 1; sc.left = -ext; sc.right = ext; sc.top = ext; sc.bottom = -ext; sc.near = 0.5; sc.far = 18; sc.updateProjectionMatrix();
+  if (S.int.led && M.upOn && S.up.type !== 'shelves') {
+    for (const r of M.runs) {
+      const ups = M.upper.filter(x => x.r === r); if (!ups.length) continue;
+      const s = Math.min(...ups.map(x => x.u)), e = Math.max(...ups.map(x => x.u + x.w));
+      const c = wp(r, (s + e) / 2, 24), len = (e - s) / 100;
+      const L = add(new T.RectAreaLight(night ? '#ffd8a8' : '#fff1dc', night ? 9 : 2.5, r.alongX ? len : 0.08, r.alongX ? 0.08 : len));
+      L.position.set(c.x / 100, (M.upY0 - 1) / 100, c.z / 100); L.lookAt(c.x / 100, 0, c.z / 100);
+    }
+  }
+  if (M.isl && S.int.pend > 0) {
+    const I = M.isl, n = S.int.pend, y0 = I.top + 78;
+    const shadeM = cm('pendant', () => new T.MeshStandardMaterial({ color: '#2a2a28', roughness: 0.5, metalness: 0.4, side: T.DoubleSide }));
+    const bulb = cm('bulb:' + night, () => new T.MeshBasicMaterial({ color: night ? '#ffd9a0' : '#f3eee4' }));
+    for (let i = 0; i < n; i++) {
+      const x = I.x0 + I.len * (i + 0.5) / n, z = (I.zk + I.z1) / 2;
+      const cord = new T.CylinderGeometry(0.25, 0.25, M.RH - y0 - 22, 6); cord.translate(x, (M.RH + y0 + 22) / 2, z); g.add(mesh(cord, M_.black(), { cast: false }));
+      const sh = new T.CylinderGeometry(4, 14, 22, 28, 1, true); sh.translate(x, y0 + 11, z); g.add(mesh(sh, shadeM, { cast: false }));
+      const bl = new T.SphereGeometry(4, 16, 12); bl.translate(x, y0 + 3, z); g.add(mesh(bl, bulb, { cast: false, recv: false }));
+      if (night) { const pl = add(new T.PointLight('#ffcf94', 6, 4, 2)); pl.position.set(x / 100, (y0 - 2) / 100, z / 100); }
+    }
+  }
+}
+
+/* ---- labels ---- */
+function buildLabelData(M) {
+  const out = [];
+  for (const r of M.runs) { const p = wp(r, r.len / 2, M.D); out.push({ x: p.x, y: M.TOP + 4, z: p.z, html: `<b>${r.id}</b>${r.len}` }); }
+  if (M.isl) out.push({ x: M.isl.cx, y: M.isl.top + 4, z: M.isl.z1, html: `<b>კუნძული</b>${M.isl.len}×${M.isl.dep}` });
+  return out;
+}
+function drawLabels() {
+  const host = $('#labels');
+  if (!threeReady || !$('#tgDims').checked) { host.replaceChildren(); return; }
+  const w = host.clientWidth, h = host.clientHeight, v = new T.Vector3();
+  host.innerHTML = labelGroupData.map(l => {
+    v.set(l.x / 100, l.y / 100, l.z / 100).project(camera);
+    if (v.z > 1 || Math.abs(v.x) > 1.05 || Math.abs(v.y) > 1.05) return '';
+    return `<span class="lbl" style="left:${((v.x + 1) / 2) * w}px;top:${((1 - v.y) / 2) * h}px">${l.html}</span>`;
+  }).join('');
+}
+
+/* ---- camera views ---- */
+function viewTarget(name) {
+  const M = model, W = M.RW, Dd = M.RD, fov = (camera.fov * Math.PI) / 180, asp = camera.aspect;
+  if (name === 'top') { const span = Math.max(W / asp, Dd) * 1.6; const d = span / 2 / Math.tan(fov / 2); return { p: [W / 2, d, Dd / 2 + 1], c: [W / 2, 0, Dd / 2] }; }
+  if (name === 'front') { const span = Math.max(W * 1.12 / asp, 200); const d = span / 2 / Math.tan(fov / 2); return { p: [W / 2, 150, Math.min(d, 1500)], c: [W / 2, 130, 0] }; }
+  if (name === 'island' && M.isl) { const I = M.isl, back = Math.min(I.z1 + 260, Dd + 120); return { p: [I.cx + 70, 210, back], c: [I.cx, 105, M.D * 0.5] }; }
+  const span = Math.max(W, Dd) * 1.05; const d = Math.max(340, span / 2 / Math.tan(fov / 2) * (asp < 1 ? 2.1 : 0.95));
+  return { p: [W * 0.5 + d * 0.4, 130 + d * 0.5, Dd * 0.42 + d * 0.84], c: [W / 2, 95, Dd * 0.34] };
+}
+function setView(name, instant) {
+  if (!threeReady) return;
+  document.querySelectorAll('.views button').forEach(b => b.classList.toggle('on', b.dataset.view === name));
+  const v = viewTarget(name);
+  const p1 = new T.Vector3(...v.p).multiplyScalar(0.01), c1 = new T.Vector3(...v.c).multiplyScalar(0.01);
+  if (instant) { camera.position.copy(p1); controls.target.copy(c1); controls.update(); needsRender = true; labelsDirty = true; return; }
+  tween = { t0: performance.now(), dur: matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 650, p0: camera.position.clone(), p1, c0: controls.target.clone(), c1 };
+}
+function snapshot(w = 1024, h = 768) {
+  const size = renderer.getSize(new T.Vector2()), pr = renderer.getPixelRatio();
+  renderer.setPixelRatio(1); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  hideFacingWalls(); renderer.render(scene, camera);
+  const url = renderer.domElement.toDataURL('image/jpeg', 0.9);
+  renderer.setPixelRatio(pr); renderer.setSize(size.x, size.y, false); camera.aspect = size.x / size.y; camera.updateProjectionMatrix();
+  needsRender = true; return url;
+}
+
+/* ================= UI: form helpers ================= */
+const STEPS = [
+  { id: 'room', t: 'სივრცე' }, { id: 'layout', t: 'განლაგება' }, { id: 'appl', t: 'ტექნიკა' }, { id: 'cab', t: 'კარადები' },
+  { id: 'stone', t: 'ქვა' }, { id: 'style', t: 'სტილი' }, { id: 'sum', t: 'შეჯამება' }
+];
+let step = 0, model = null;
+const ui = { pick: 'main', q: '', brand: 'all', tone: null, cabRun: 'A', shot: null, selFeat: null, drag: null, fullBackup: null };
+const pid = p => 'f-' + p.replace(/\./g, '-');
+function num(path, label, { min = 0, max = 2000, step: st = 1, unit = 'სმ', hint = '', ph = '' } = {}) {
+  const v = get(path);
+  return `<label class="f" for="${pid(path)}"><span class="f-l">${label}</span><span class="num"><input type="number" inputmode="decimal" id="${pid(path)}" data-path="${path}" data-kind="num" min="${min}" max="${max}" step="${st}" value="${v ?? ''}" placeholder="${esc(ph)}"><span class="u">${unit}</span></span>${hint ? `<span class="f-h">${hint}</span>` : ''}</label>`;
+}
+function seg(path, label, opts, hint = '') {
+  const v = get(path);
+  return `<div class="f"><span class="f-l" id="${pid(path)}-l">${label}</span><div class="seg" role="radiogroup" aria-labelledby="${pid(path)}-l">${opts.map(o => {
+    const on = JSON.stringify(o.v) === JSON.stringify(v);
+    return `<button type="button" role="radio" aria-checked="${on}" class="${on ? 'on' : ''}" data-path="${path}" data-kind="seg" data-v='${esc(JSON.stringify(o.v))}'${o.dis ? ' disabled' : ''}${o.title ? ` title="${esc(o.title)}"` : ''}>${o.icon || ''}<span>${o.l}</span></button>`;
+  }).join('')}</div>${hint ? `<span class="f-h">${hint}</span>` : ''}</div>`;
+}
+function tog(path, label) { return `<label class="toggle" for="${pid(path)}"><span>${label}</span><input type="checkbox" id="${pid(path)}" data-path="${path}" data-kind="tog"${get(path) ? ' checked' : ''}></label>`; }
+function swatch(path, label, map, sameLabel) {
+  const v = get(path);
+  const same = sameLabel ? `<button type="button" class="same${v == null ? ' on' : ''}" data-path="${path}" data-kind="seg" data-v="null">${sameLabel}</button>` : '';
+  const cur = v == null ? sameLabel : map[v]?.l;
+  return `<div class="f"><span class="f-l">${label}</span><div class="sw">${same}${Object.entries(map).map(([k, o]) => `<button type="button" title="${esc(o.l)}" aria-label="${esc(o.l)}" class="${k === v ? 'on' : ''}" style="background:${o.wood ? `linear-gradient(90deg,${o.c},${shadeHex(o.c, 0.8)} 40%,${o.c} 70%,${shadeHex(o.c, 0.85)})` : o.c}" data-path="${path}" data-kind="seg" data-v='${esc(JSON.stringify(k))}'></button>`).join('')}</div><span class="sw-name">${esc(cur || '')}</span></div>`;
+}
+function shadeHex(hex, f) { const n = parseInt(hex.slice(1), 16); const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(x => Math.round(x * f)); return `rgb(${c.join(',')})`; }
+function notesFor(stepNo) {
+  const list = model.warns.filter(w => w.step === stepNo);
+  if (!list.length) return '';
+  const ord = { error: 0, warn: 1, info: 2 };
+  return `<div class="notes">${list.sort((a, b) => ord[a.level] - ord[b.level]).map(w => `<div class="note ${w.level}"><i class="dot"></i><span>${esc(w.text)}</span></div>`).join('')}</div>`;
+}
+const live = (key, html) => `<div data-live="${key}">${html}</div>`;
+const icon = {
+  I: '<svg width="22" height="16" viewBox="0 0 22 16"><rect x="1" y="1" width="20" height="5" fill="currentColor"/></svg>',
+  L: '<svg width="22" height="16" viewBox="0 0 22 16"><path d="M1 1h20v5H6v9H1z" fill="currentColor"/></svg>',
+  U: '<svg width="22" height="16" viewBox="0 0 22 16"><path d="M1 1h20v14h-5V6H6v9H1z" fill="currentColor"/></svg>',
+  eased: '<svg width="26" height="14" viewBox="0 0 26 14"><path d="M1 3h22.5a1.5 1.5 0 0 1 1.5 1.5V9.5A1.5 1.5 0 0 1 23.5 11H1z" fill="currentColor"/></svg>',
+  bevel: '<svg width="26" height="14" viewBox="0 0 26 14"><path d="M1 3h20l4 4v4H1z" fill="currentColor"/></svg>',
+  round: '<svg width="26" height="14" viewBox="0 0 26 14"><path d="M1 3h20a4 4 0 0 1 4 4 4 4 0 0 1-4 4H1z" fill="currentColor"/></svg>',
+  miter: '<svg width="26" height="14" viewBox="0 0 26 14"><path d="M1 1h24v12h-3V4H1z" fill="currentColor"/></svg>'
+};
+
+/* ---- live mini plan (layout step) ---- */
+function planSVG() {
+  const M = model, W = M.RW, Dd = M.RD, pad = 26, vw = 360, sc = Math.min((vw - 2 * pad) / W, 220 / Dd), vh = Dd * sc + 2 * pad;
+  const X = x => pad + x * sc, Z = z => pad + z * sc;
+  let s = `<svg viewBox="0 0 ${vw} ${vh}" role="img" aria-label="ზედხედი"><rect x="${X(0)}" y="${Z(0)}" width="${W * sc}" height="${Dd * sc}" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>`;
+  s += `<line x1="${X(0)}" y1="${Z(Dd)}" x2="${X(W)}" y2="${Z(Dd)}" stroke="var(--paper)" stroke-width="2"/><line x1="${X(0)}" y1="${Z(Dd)}" x2="${X(W)}" y2="${Z(Dd)}" stroke="var(--line-strong)" stroke-dasharray="3 3"/>`;
+  for (const w of M.wins) {
+    if (w.wall === 'back') s += `<line x1="${X(w.x)}" y1="${Z(0)}" x2="${X(w.x + w.w)}" y2="${Z(0)}" stroke="var(--info)" stroke-width="4"/>`;
+    else if (w.wall !== 'front') { const x = w.wall === 'left' ? 0 : W; s += `<line x1="${X(x)}" y1="${Z(w.x)}" x2="${X(x)}" y2="${Z(w.x + w.w)}" stroke="var(--info)" stroke-width="4"/>`; }
+  }
+  for (const r of M.runs) {
+    const cs = r.id === 'A' ? 0 : M.D, a = wp(r, cs, 0), b = wp(r, r.len, M.D);
+    const x0 = Math.min(a.x, b.x), z0 = Math.min(a.z, b.z);
+    s += `<rect x="${X(x0)}" y="${Z(z0)}" width="${Math.abs(b.x - a.x) * sc}" height="${Math.abs(b.z - a.z) * sc}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>`;
+    for (const m of M.items[r.id]) if (TALL.has(m.t)) { const p = wp(r, m.u, 0), q2 = wp(r, m.u + m.w, M.CD); s += `<rect x="${X(Math.min(p.x, q2.x))}" y="${Z(Math.min(p.z, q2.z))}" width="${Math.abs(q2.x - p.x) * sc}" height="${Math.abs(q2.z - p.z) * sc}" fill="var(--line-strong)"/>`; }
+    const mid = wp(r, r.len / 2, M.D / 2);
+    s += `<text x="${X(mid.x)}" y="${Z(mid.z) + 4}" text-anchor="middle" font-size="10" font-family="var(--f-num)" fill="var(--ink)">${r.alongX ? r.id + ' ' + r.len : r.id}</text>`;
+  }
+  if (M.runs[0] && M.runs[0].cs) s += `<rect x="${X(M.runs[0].ox)}" y="${Z(0)}" width="${M.D * sc}" height="${M.D * sc}" fill="var(--accent)" fill-opacity=".35"/>`;
+  if (M.runs[0] && M.runs[0].ce) s += `<rect x="${X(M.runs[0].ox + M.runs[0].len - M.D)}" y="${Z(0)}" width="${M.D * sc}" height="${M.D * sc}" fill="var(--accent)" fill-opacity=".35"/>`;
+  if (M.isl) {
+    const I = M.isl;
+    s += `<rect x="${X(I.x0)}" y="${Z(I.zk)}" width="${I.len * sc}" height="${I.dep * sc}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>`;
+    s += `<text x="${X(I.cx)}" y="${Z(I.zk + I.dep / 2) + 4}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--ink)">${I.len}×${I.dep}</text>`;
+    const ax = X(I.cx + I.len / 2 - 8);
+    s += `<line x1="${ax}" y1="${Z(M.D)}" x2="${ax}" y2="${Z(I.zk)}" stroke="var(--muted)"/><text x="${ax - 4}" y="${(Z(M.D) + Z(I.zk)) / 2 + 4}" text-anchor="end" font-size="10" font-family="var(--f-num)" fill="var(--muted)">${S.isl.aisle}</text>`;
+  }
+  s += `<text x="${X(W / 2)}" y="${Z(Dd) + 16}" text-anchor="middle" font-size="10" fill="var(--muted)">ღია მხარე · ოთახი ${W}×${Dd}</text></svg>`;
+  return s;
+}
+function ergoHTML() {
+  const h = S.base.userH;
+  if (!h) return '<span>მიუთითე შენი სიმაღლე და მიიღებ რეკომენდებულ სიმაღლეს.</span>';
+  const lo = Math.round(h / 2 + 5), hi = Math.round(h / 2 + 10);
+  return `<span>რეკომენდებულია <b>${lo}–${hi} სმ</b></span><button type="button" class="btn" data-act="ergo" data-v="${Math.round((lo + hi) / 2)}">გამოყენება: ${Math.round((lo + hi) / 2)}</button>`;
+}
+
+/* ================= steps ================= */
+function stepRoom() {
+  return `<h2 class="st">სივრცე</h2><p class="lead">ოთახის ზომები, ფანჯრები, კარები, კოლონები და წყლის წერტილი. გაზომე იატაკის დონეზე, კედლიდან კედლამდე.</p>${live('notes1', notesFor(1))}
+  <div class="grid2">
+    ${num('room.w', 'უკანა კედლის სიგრძე', { min: 200, max: 1200, hint: 'კედელი, რომელზეც A მონაკვეთი დგება' })}
+    ${num('room.d', 'ოთახის სიღრმე', { min: 200, max: 1200, hint: 'უკანა კედლიდან ოთახის ღია მხრამდე' })}
+    ${num('room.h', 'ჭერის სიმაღლე', { min: 220, max: 400 })}
+  </div>
+  <div style="margin-top:12px">${sketchHTML()}</div>`;
+}
+function stepLayout() {
+  const L = S.lay, I = S.isl;
+  return `<h2 class="st">განლაგება</h2><p class="lead">A იზომება უკანა კედლის გასწვრივ ზედაპირის ერთი ბოლოდან მეორემდე. B და C — გვერდითი კედლის გასწვრივ, უკანა კედლიდან ზედაპირის ბოლომდე. კუთხე ორივეში შედის.</p>
+  ${live('notes2', notesFor(2))}
+  ${seg('lay.type', 'ფორმა', [{ v: 'I', l: 'სწორი', icon: icon.I }, { v: 'L', l: 'კუთხის', icon: icon.L }, { v: 'U', l: 'სამმხრივი', icon: icon.U }])}
+  <div class="grid2" style="margin-top:12px">
+    ${L.type === 'L' ? `<div class="full">${seg('lay.corner', 'კუთხე', [{ v: 'left', l: 'მარცხნივ' }, { v: 'right', l: 'მარჯვნივ' }])}</div>` : ''}
+    ${num('lay.a', 'A — უკანა კედელი', { min: 60, max: 1200 })}
+    ${L.type !== 'I' ? num('lay.b', L.type === 'U' ? 'B — მარცხენა მხარე' : 'B — გვერდითი მხარე', { min: 90, max: 1200 }) : num('lay.off', 'დაშორება მარცხენა კედლიდან', { min: 0, max: 1000 })}
+    ${L.type === 'U' ? num('lay.c', 'C — მარჯვენა მხარე', { min: 90, max: 1200, hint: 'თუ A ოთახზე მოკლეა, C ნახევარკუნძულად იქცევა' }) : ''}
+  </div>
+  <div class="plan" style="margin-top:12px" data-live="plan">${planSVG()}</div>
+  <div class="sec"><h3>სამუშაო ზედაპირი</h3><div class="grid2">
+    ${num('base.depth', 'სიღრმე', { min: 50, max: 80, hint: 'სტანდარტი 60–65 სმ' })}
+    ${num('base.top', 'სიმაღლე იატაკიდან', { min: 80, max: 105, hint: 'სტანდარტი 90 სმ' })}
+    ${num('base.userH', 'შენი სიმაღლე', { min: 140, max: 210, ph: 'არჩევითი' })}
+    <div class="f"><span class="f-l">ერგონომიკა</span><div class="ergo" data-live="ergo">${ergoHTML()}</div></div>
+  </div></div>
+  <div class="sec"><h3>კუნძული</h3>${tog('isl.on', 'სამზარეულოს აქვს კუნძული')}
+  ${I.on ? `<div class="grid2" style="margin-top:12px">
+    ${num('isl.len', 'სიგრძე', { min: 100, max: 400 })}${num('isl.dep', 'სიღრმე', { min: 60, max: 140 })}
+    ${num('isl.aisle', 'გასასვლელი A-მდე', { min: 60, max: 250, hint: 'რეკომენდებულია 100–120' })}${num('isl.shift', 'გვერდითი წანაცვლება', { min: -200, max: 200, hint: '+ მარჯვნივ, − მარცხნივ' })}
+    <div class="full">${seg('isl.seat', 'სასადილო მხარე', [{ v: 'none', l: 'არა' }, { v: 'back', l: 'უკანა მხარე' }, { v: 'end', l: 'ბოლოში' }])}</div>
+    ${I.seat !== 'none' ? num('isl.over', 'გადმოშვერა', { min: 15, max: 40, hint: 'მუხლებისთვის 25–30' }) : ''}
+    <div class="f" style="justify-content:flex-end">${tog('isl.bar', 'ბარის სიმაღლე (105)')}</div>
+  </div>` : ''}</div>`;
+}
+function runOpts(withIsland) {
+  const ids = model.runs.map(r => r.id); if (withIsland && model.isl) ids.push('I');
+  return ids.map(id => ({ v: id, l: id === 'I' ? 'კუნძული' : id }));
+}
+function stepAppl() {
+  const M = model, fr = M.runs.find(r => r.id === S.fridge.run) || M.runs[0];
+  const startL = fr.id === 'A' ? 'მარცხენა ბოლო' : 'კუთხე', endL = fr.id === 'A' ? 'მარჯვენა ბოლო' : 'წინა ბოლო';
+  const custom = Object.entries(M.mode).filter(([, m]) => m === 'custom').map(([k]) => RUN_NAME[k]);
+  return `<h2 class="st">ტექნიკა</h2><p class="lead">აირჩიე ტექნიკა და მისი მონაკვეთი. ადგილს სისტემა ავტომატურად შეარჩევს; ზუსტი პოზიცია სურვილისამებრ ჩაწერე სანტიმეტრებში.</p>
+  ${custom.length ? `<div class="notes"><div class="note info"><i class="dot"></i><span>${esc(custom.join(', '))} ხელით არის აწყობილი — იქ ტექნიკის ადგილს მოდულების სია განსაზღვრავს (ნაბიჯი 4).</span></div></div>` : ''}
+  ${live('notes3', notesFor(3))}
+  <div class="sec" style="border:0;margin:0;padding:0"><h3>ნიჟარა</h3><div class="grid2">
+    <div class="full">${seg('sink.run', 'მონაკვეთი', runOpts(true))}</div>
+    <div class="full">${seg('sink.bowls', 'ჯამი', [{ v: '1', l: '1 ჯამი' }, { v: '1.5', l: '1.5' }, { v: '2', l: '2 ჯამი' }])}</div>
+    ${num('sink.pos', 'ცენტრის პოზიცია', { min: 0, max: 1200, ph: 'ავტო', hint: 'მონაკვეთის დასაწყისიდან; ცარიელი — ავტომატურად, ფანჯრის ქვეშ' })}
+    <div class="f">${seg('dw', 'ჭურჭლის სარეცხი', [{ v: 'none', l: 'არა' }, { v: 'left', l: 'მარცხნივ' }, { v: 'right', l: 'მარჯვნივ' }])}</div>
+  </div></div>
+  <div class="sec"><h3>ქურა და ღუმელი</h3><div class="grid2">
+    <div class="full">${seg('hob.run', 'მონაკვეთი', runOpts(true))}</div>
+    <div class="full">${seg('hob.type', 'ტიპი', [{ v: 'induction', l: 'ინდუქცია' }, { v: 'gas', l: 'გაზი' }])}</div>
+    <div class="full">${seg('hob.w', 'სიგანე', [30, 60, 80, 90].map(v => ({ v, l: v + ' სმ' })))}</div>
+    ${num('hob.pos', 'ცენტრის პოზიცია', { min: 0, max: 1200, ph: 'ავტო', hint: 'ცარიელი — ნიჟარიდან ~120 სმ-ზე' })}
+    <div class="f">${seg('oven', 'ღუმელი', [{ v: 'under', l: 'ქურის ქვეშ' }, { v: 'tall', l: 'კოლონაში' }, { v: 'none', l: 'არა' }])}</div>
+    <div class="full">${seg('hood', 'გამწოვი', Object.entries(HOOD).map(([v, l]) => ({ v, l })))}</div>
+  </div></div>
+  <div class="sec"><h3>მაცივარი და მაღალი კარადები</h3><div class="grid2">
+    <div class="full">${seg('fridge.type', 'მაცივარი', [{ v: 'builtin', l: 'ჩაშენებული' }, { v: 'freestanding', l: 'თავისუფლად მდგომი' }, { v: 'none', l: 'არა' }])}</div>
+    <div class="f">${seg('fridge.run', 'მონაკვეთი', runOpts(false))}</div>
+    <div class="f">${seg('fridge.end', 'ბოლო', [{ v: 'start', l: startL, dis: fr.cs }, { v: 'end', l: endL, dis: fr.ce }])}</div>
+    <div class="full">${seg('pantry', 'მაღალი კარადა მაცივრის გვერდით', [0, 1, 2, 3].map(v => ({ v, l: v ? v + ' × 60' : 'არა' })))}</div>
+  </div></div>`;
+}
+function stepCab() {
+  const M = model, runs = M.allRuns.map(r => r.id);
+  if (!runs.includes(ui.cabRun)) ui.cabRun = runs[0];
+  return `<h2 class="st">კარადები</h2><p class="lead">ქვედა მოდულები ავტომატურად ლაგდება ტექნიკის მიხედვით. საჭიროებისას შეცვალე ტიპი, სიგანე ან რიგი — მონაკვეთი ხელით რეჟიმზე გადავა.</p>
+  ${live('notes4', notesFor(4))}
+  <div class="grid2">${seg('cab.fill', 'შევსება', [{ v: 'drawers', l: 'უჯრები' }, { v: 'doors', l: 'კარები' }, { v: 'mixed', l: 'შერეული' }])}${num('cab.plinth', 'ცოკოლი', { min: 8, max: 15 })}</div>
+  <div class="sec"><h3><span>მოდულები</span><span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">${M.mode[ui.cabRun] === 'custom' ? 'ხელით' : 'ავტომატური'}</span></h3>
+    <div class="runtabs seg">${runs.map(id => `<button type="button" class="${id === ui.cabRun ? 'on' : ''}" data-act="cabrun" data-v="${id}">${id === 'I' ? 'კუნძული' : id}</button>`).join('')}</div>
+    <div data-live="mods">${modsHTML()}</div>
+  </div>
+  <div class="sec"><h3>ზედა კარადები</h3><div class="grid2">
+    <div class="full">${seg('up.type', 'ტიპი', [{ v: 'none', l: 'არა' }, { v: 'std', l: 'სტანდარტული' }, { v: 'ceil', l: 'ჭერამდე' }, { v: 'shelves', l: 'ღია თაროები' }])}</div>
+    ${S.up.type === 'std' || S.up.type === 'shelves' ? num('up.h', 'სიმაღლე', { min: 40, max: 110 }) : ''}
+    ${S.up.type !== 'none' ? num('up.gap', 'ზედაპირიდან', { min: 45, max: 80, hint: 'ზედაპირიდან ზედა კარადის ქვედა ნაპირამდე' }) : ''}
+  </div></div>`;
+}
+function modsHTML() {
+  const M = model, r = M.allRuns.find(x => x.id === ui.cabRun); if (!r) return '';
+  const its = M.items[r.id], sum = its.reduce((s, m) => s + m.w, 0), avail = r.u1 - r.u0, bad = Math.abs(sum - avail) > 0.5;
+  const opts = sel => Object.entries(MODTYPES).map(([k, l]) => `<option value="${k}"${k === sel ? ' selected' : ''}>${l}</option>`).join('');
+  let h = '<div class="mods">';
+  if (r.cs || r.ce) h += `<div class="mrow locked"><span class="i">◢</span><span class="lk">კუთხის ზონა ${M.D} სმ — ${r.id === 'A' ? 'ბრმა კუთხის კორპუსი' : 'ეკუთვნის A-ს'}</span><span></span><span></span></div>`;
+  its.forEach((m, i) => {
+    h += `<div class="mrow"><span class="i">${i + 1}</span><select aria-label="მოდულის ტიპი ${i + 1}" data-act="mod-t" data-i="${i}">${opts(m.t)}</select><span class="num"><input type="number" aria-label="სიგანე ${i + 1}" data-act="mod-w" data-i="${i}" min="3" max="300" step="0.5" value="${r1(m.w)}"><span class="u">სმ</span></span><span class="acts"><button type="button" data-act="mod-up" data-i="${i}" aria-label="ზემოთ"${i ? '' : ' disabled'}>↑</button><button type="button" data-act="mod-dn" data-i="${i}" aria-label="ქვემოთ"${i < its.length - 1 ? '' : ' disabled'}>↓</button><button type="button" data-act="mod-del" data-i="${i}" aria-label="წაშლა">×</button></span></div>`;
+  });
+  h += `</div><div class="msum${bad ? ' bad' : ''}"><span>ჯამი <b>${r1(sum)}</b> / თავისუფალი <b>${r1(avail)}</b> სმ</span><span>${bad ? `სხვაობა <b>${r1(avail - sum)}</b>` : ''}</span></div>
+  <div class="row" style="margin-top:10px"><button type="button" class="btn" data-act="mod-add">+ მოდული</button><button type="button" class="btn" data-act="mod-auto"${M.mode[r.id] === 'auto' ? ' disabled' : ''}>ავტომატური განლაგება</button></div>`;
+  return h;
+}
+function stepStone() {
+  const m = mat(S.stone.main), th = thickOpts(m);
+  const slot = (k, label, key) => {
+    const mm = mat(key || S.stone.main);
+    return `<button type="button" class="slot${ui.pick === k ? ' on' : ''}" data-act="pick" data-v="${k}"><span class="k">${label}</span><img src="${ASSET_BASE + mm.thumbnail}" alt="" loading="lazy"${key ? '' : ' style="opacity:.45"'}><span class="v">${key ? esc(mm.name) : '<span class="same-l">იგივე ქვა</span>'}</span></button>`;
+  };
+  const showBs = S.stone.bs !== 'none', showIsl = S.isl.on;
+  return `<h2 class="st">ქვა</h2><p class="lead">აირჩიე მასალა ზედაპირისთვის. ფარტუკსა და კუნძულს შეიძლება სხვა ქვა ჰქონდეს — დააჭირე ბარათს და აირჩიე ქვემოთ.</p>
+  ${live('notes5', notesFor(5))}
+  <div class="slots">${slot('main', 'ზედაპირი', S.stone.main)}${showBs ? slot('bs', 'ფარტუკი', S.stone.bsMat) : ''}${showIsl ? slot('isl', 'კუნძული', S.stone.islMat) : ''}</div>
+  ${ui.pick !== 'main' && get(ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat') ? `<div class="row" style="margin-top:8px"><button type="button" class="btn" data-act="pick-same">${ui.pick === 'bs' ? 'ფარტუკი' : 'კუნძული'}: იგივე ქვა, რაც ზედაპირზე</button></div>` : ''}
+  ${matPickerHTML()}
+  <div class="sec"><h3>სისქე და კიდე</h3><div class="grid2">
+    <div class="full">${seg('stone.t', 'სისქე', th.map(v => ({ v, l: v + ' მმ' })), th.length === 1 ? 'ამ მასალას კატალოგში ერთი სისქე აქვს.' : '')}</div>
+    <div class="full">${seg('stone.edge', 'კიდის პროფილი', Object.entries(EDGE).map(([v, l]) => ({ v, l, icon: icon[v] })), S.stone.edge === 'miter' ? 'ორი ფილა 45°-ით ერწყმის — კიდე სქლად ჩანს.' : '')}</div>
+    ${S.stone.edge === 'miter' ? `<div class="full">${seg('stone.miter', 'ხილული სისქე', [2, 4, 6].map(v => ({ v, l: v + ' სმ' })))}</div>` : ''}
+  </div></div>
+  <div class="sec"><h3>ფარტუკი და კუნძული</h3><div class="grid2">
+    <div class="full">${seg('stone.bs', 'ფარტუკი', Object.entries(BS).map(([v, l]) => ({ v, l })))}</div>
+    ${showIsl ? `<div class="full">${seg('stone.wf', 'კუნძულის გვერდები (waterfall)', [{ v: 'none', l: 'არა' }, { v: 'one', l: 'ერთი ბოლო' }, { v: 'both', l: 'ორივე ბოლო' }], 'ქვა ზედაპირიდან იატაკამდე ჩადის; ვენები გვერდზე გრძელდება.')}</div>` : ''}
+  </div></div>
+  <div class="sec"><h3>ამონაჭრები</h3><div class="grid2">
+    <div class="full">${seg('sink.mount', 'ნიჟარის ჩასმა', Object.entries(SINK_MOUNT).map(([v, l]) => ({ v, l })))}</div>
+    <div class="f">${seg('sink.drain', 'წყლის ღარები', [{ v: 'none', l: 'არა' }, { v: 'left', l: 'მარცხნივ' }, { v: 'right', l: 'მარჯვნივ' }], S.sink.mount === 'top' ? 'ზემოდან დადებულ ნიჟარასთან ღარები არ კეთდება.' : '')}</div>
+    <div class="f">${seg('hob.mount', 'ქურის ჩასმა', [{ v: 'top', l: 'ზემოდან' }, { v: 'flush', l: 'ერთ დონეზე' }])}</div>
+  </div></div>`;
+}
+function gridHTML() {
+  const cur = ui.pick === 'main' ? S.stone.main : ui.pick === 'bs' ? S.stone.bsMat : S.stone.islMat;
+  const q = ui.q.trim().toLocaleLowerCase();
+  const list = CATALOG.filter(m => {
+    if (ui.brand === 'NEOLITH' && m.type !== 'neolith') return false;
+    if (ui.brand === 'quartz' && m.type !== 'quartz') return false;
+    if (ui.tone && !(m.searchKeywords || []).includes(ui.tone)) return false;
+    if (q && !(m.name + ' ' + m.brandLabel + ' ' + (m.aliases || []).join(' ') + ' ' + (m.searchKeywords || []).join(' ') + (m.type === 'quartz' ? ' კვარცი' : '')).toLocaleLowerCase().includes(q)) return false;
+    return true;
+  });
+  if (!list.length) return '<p class="fine" style="grid-column:1/-1">ვერაფერი მოიძებნა — შეცვალე ძებნა ან ფილტრი.</p>';
+  return list.map(m => `<button type="button" class="mcard${m.key === cur ? ' on' : ''}" data-act="mat" data-v="${m.key}"><img src="${ASSET_BASE + m.thumbnail}" alt="" loading="lazy"><span class="nm">${esc(m.name)}</span><span class="br">${esc(m.brandLabel)}</span></button>`).join('');
+}
+function stepStyle() {
+  return `<h2 class="st">სტილი</h2><p class="lead">სტილის პრესეტი ერთბაშად ცვლის ფასადებს, სახელურებს, კედელსა და იატაკს. ქვა უცვლელი რჩება.</p>
+  ${presetsHTML()}
+  <div class="sec"><h3>ფასადები</h3><div class="grid2">
+    <div class="full">${seg('front.type', 'ფასადის ტიპი', [{ v: 'flat', l: 'გლუვი' }, { v: 'shaker', l: 'ჩარჩოიანი' }, { v: 'fluted', l: 'ვერტიკალური ღარებით' }])}</div>
+    <div class="full">${swatch('front.base', 'ქვედა და მაღალი კარადები', FRONT_COLORS)}</div>
+    <div class="full">${swatch('front.up', 'ზედა კარადები', FRONT_COLORS, 'იგივე')}</div>
+    ${S.isl.on ? `<div class="full">${swatch('front.isl', 'კუნძული', FRONT_COLORS, 'იგივე')}</div>` : ''}
+    <div class="full">${seg('front.handle', 'სახელურები', Object.entries(HANDLES).map(([v, l]) => ({ v, l })))}</div>
+  </div></div>
+  <div class="sec"><h3>ინტერიერი</h3><div class="grid2">
+    <div class="full">${swatch('int.wall', 'კედელი', WALL_COLORS)}</div>
+    <div class="full">${seg('int.floor', 'იატაკი', Object.entries(FLOORS).map(([v, l]) => ({ v, l })))}</div>
+    <div class="full">${tog('int.led', 'LED განათება ზედა კარადების ქვეშ')}</div>
+    ${S.isl.on ? `<div class="full">${seg('int.pend', 'საკიდი სანათები კუნძულზე', [0, 1, 2, 3, 4].map(v => ({ v, l: v ? String(v) : 'არა' })))}</div>` : ''}
+    <div class="full">${seg('int.time', 'განათება ხედში', [{ v: 'day', l: 'დღე' }, { v: 'evening', l: 'საღამო' }])}</div>
+  </div></div>`;
+}
+
+/* ================= room sketch (both modes) + quick-mode steps ================= */
+const QSTEPS = [{ id: 'sketch', t: 'ესკიზი' }, { id: 'look', t: 'სტილი და ქვა' }, { id: 'qsum', t: 'შედეგი' }];
+const curSteps = () => (S.flow === 'quick' ? QSTEPS : STEPS);
+/* model warnings carry full-mode step numbers 1–7; map them onto the current step list */
+const warnStep = n => (S.flow === 'quick' ? (n <= 4 ? 0 : n <= 6 ? 1 : 2) : n - 1);
+function sketchGeom() { const W = S.room.w, Dd = S.room.d, pad = 34, vw = 420, sc = Math.min((vw - 2 * pad) / W, 300 / Dd); return { W, Dd, pad, sc, vw, vh: Math.round(Dd * sc + 2 * pad + 4) }; }
+function wallFrame(wall, W, Dd) {
+  if (wall === 'back') return { P: t => [t, 0], n: [0, 1], d: [1, 0], len: W };
+  if (wall === 'front') return { P: t => [t, Dd], n: [0, -1], d: [1, 0], len: W };
+  if (wall === 'left') return { P: t => [0, t], n: [1, 0], d: [0, 1], len: Dd };
+  return { P: t => [W, t], n: [-1, 0], d: [0, 1], len: Dd };
+}
+function sketchInner() {
+  const M = model, { W, Dd, pad, sc } = sketchGeom(), X = x => +(pad + x * sc).toFixed(1), Z = z => +(pad + z * sc).toFixed(1);
+  const quick = S.flow === 'quick', av = S.sk.walls;
+  let s = `<rect x="${X(0)}" y="${Z(0)}" width="${(W * sc).toFixed(1)}" height="${(Dd * sc).toFixed(1)}" fill="var(--paper)"/>`;
+  for (const r of M.runs) {
+    const cs = r.id === 'A' ? 0 : M.D, a = wp(r, cs, 0), b = wp(r, r.len, M.D);
+    s += `<rect x="${X(Math.min(a.x, b.x))}" y="${Z(Math.min(a.z, b.z))}" width="${(Math.abs(b.x - a.x) * sc).toFixed(1)}" height="${(Math.abs(b.z - a.z) * sc).toFixed(1)}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"/>`;
+    for (const m of M.items[r.id]) {
+      if (!(TALL.has(m.t) || m.t === 'sink' || m.t === 'hob' || m.t === 'oven')) continue;
+      const p = wp(r, m.u, 0), q2 = wp(r, m.u + m.w, M.CD), x0 = Math.min(p.x, q2.x), z0 = Math.min(p.z, q2.z), w = Math.abs(q2.x - p.x), h = Math.abs(q2.z - p.z);
+      if (TALL.has(m.t)) s += `<rect x="${X(x0)}" y="${Z(z0)}" width="${(w * sc).toFixed(1)}" height="${(h * sc).toFixed(1)}" fill="var(--line-strong)"/>`;
+      else s += `<rect x="${X(x0 + (r.alongX ? 8 : 10))}" y="${Z(z0 + (r.alongX ? 10 : 8))}" width="${((w - (r.alongX ? 16 : 20)) * sc).toFixed(1)}" height="${((h - (r.alongX ? 20 : 16)) * sc).toFixed(1)}" rx="3" fill="none" stroke="var(--ink)" stroke-width="1"${m.t === 'sink' ? '' : ' stroke-dasharray="2 2"'}/>`;
+    }
+  }
+  if (M.isl) { const I = M.isl; s += `<rect x="${X(I.x0)}" y="${Z(I.zk)}" width="${(I.len * sc).toFixed(1)}" height="${(I.dep * sc).toFixed(1)}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"/>`; }
+  const wl = (side, x1, z1, x2, z2) => `<line x1="${X(x1)}" y1="${Z(z1)}" x2="${X(x2)}" y2="${Z(z2)}" stroke="${quick && !av[side] ? 'var(--line-strong)' : 'var(--ink)'}" stroke-width="${quick && av[side] ? 7 : 5}" stroke-linecap="square"${quick && !av[side] ? ' stroke-dasharray="6 4"' : ''}/>`;
+  s += wl('back', 0, 0, W, 0) + wl('left', 0, 0, 0, Dd) + wl('right', W, 0, W, Dd);
+  s += `<line x1="${X(0)}" y1="${Z(Dd)}" x2="${X(W)}" y2="${Z(Dd)}" stroke="var(--line-strong)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+  M.feats.forEach((f, i) => {
+    const fr = wallFrame(f.wall, W, Dd), w = f.w || 0, [ax, az] = fr.P(f.x), [bx, bz] = fr.P(f.x + w), sel = ui.selFeat === i;
+    let g = '';
+    if (f.t === 'window') g = `<line x1="${X(ax)}" y1="${Z(az)}" x2="${X(bx)}" y2="${Z(bz)}" stroke="var(--info)" stroke-width="8"/><line x1="${X(ax)}" y1="${Z(az)}" x2="${X(bx)}" y2="${Z(bz)}" stroke="var(--paper)" stroke-width="2"/>`;
+    if (f.t === 'door') {
+      const le = [ax + fr.n[0] * w, az + fr.n[1] * w], sweep = fr.n[0] * fr.d[1] - fr.n[1] * fr.d[0] > 0 ? 1 : 0, r = (w * sc).toFixed(1);
+      g = `<line x1="${X(ax)}" y1="${Z(az)}" x2="${X(bx)}" y2="${Z(bz)}" stroke="var(--paper)" stroke-width="9"/><path d="M${X(ax)} ${Z(az)} L${X(le[0])} ${Z(le[1])} A${r} ${r} 0 0 ${sweep} ${X(bx)} ${Z(bz)}" fill="none" stroke="var(--muted)" stroke-width="1.2"/>`;
+    }
+    if (f.t === 'column') { const r2 = featRect(f, W, Dd, 0); g = `<rect x="${X(r2.x0)}" y="${Z(r2.z0)}" width="${((r2.x1 - r2.x0) * sc).toFixed(1)}" height="${((r2.z1 - r2.z0) * sc).toFixed(1)}" fill="var(--ink)" fill-opacity=".72"/>`; }
+    if (f.t === 'water') { const cx = ax + fr.n[0] * 30, cz = az + fr.n[1] * 30; g = `<circle cx="${X(cx)}" cy="${Z(cz)}" r="8" fill="var(--info)"/><path d="M${X(cx)} ${Z(cz) - 4.5}c2.4 3 3.4 4.6 3.4 6a3.4 3.4 0 0 1-6.8 0c0-1.4 1-3 3.4-6z" fill="var(--paper)"/>`; }
+    const off = f.t === 'water' ? 30 : f.t === 'column' ? (f.d || 0) / 2 : 0, hx = (ax + bx) / 2 + fr.n[0] * off, hz = (az + bz) / 2 + fr.n[1] * off;
+    s += `<g class="feat${sel ? ' sel' : ''}" data-fi="${i}" role="button" tabindex="0" aria-label="${esc(FEAT[f.t].l)} — გადაათრიე">${g}<circle cx="${X(hx)}" cy="${Z(hz)}" r="16" fill="transparent"/>${sel ? `<circle cx="${X(hx)}" cy="${Z(hz)}" r="13" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 2"/>` : ''}</g>`;
+  });
+  s += `<text x="${X(W / 2)}" y="${Z(0) - 12}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)">${W} სმ</text>`;
+  s += `<text x="${X(0) - 12}" y="${Z(Dd / 2)}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)" transform="rotate(-90 ${X(0) - 12} ${Z(Dd / 2)})">${Dd} სმ</text>`;
+  s += `<text x="${X(W / 2)}" y="${Z(Dd) + 18}" text-anchor="middle" font-size="10.5" fill="var(--muted)">ღია მხარე</text>`;
+  return s;
+}
+function sketchHTML() {
+  const g = sketchGeom();
+  return `<div class="sketch"><svg id="sketchSvg" data-live="sketch" viewBox="0 0 ${g.vw} ${g.vh}" role="application" aria-label="ოთახის ესკიზი: ელემენტები გადაათრიე კედლის გასწვრივ">${sketchInner()}</svg></div>
+  <div class="row tools"><button type="button" class="btn" data-act="addfeat" data-v="window">+ ფანჯარა</button><button type="button" class="btn" data-act="addfeat" data-v="door">+ კარი</button><button type="button" class="btn" data-act="addfeat" data-v="column">+ კოლონა</button><button type="button" class="btn" data-act="addfeat" data-v="water">+ წყლის წერტილი</button><button type="button" class="btn ghost" data-act="rot" title="მარცხენა კედელი გახდება მთავარი">↻ მოაბრუნე</button></div>
+  <p class="fine" style="margin:4px 0 10px">გადაათრიე ელემენტი თითით ან მაუსით — კედლიდან კედელზეც გადადის. ზუსტი ზომა ქვემოთ ჩაწერე.</p>
+  <div data-live="feats">${featsHTML()}</div>`;
+}
+function featsHTML() {
+  if (!S.feats.length) return '<p class="fine">ელემენტი ჯერ არ არის — დაამატე ფანჯარა, კარი ან წყლის წერტილი.</p>';
+  const n = (i, k, label, v, min, max) => `<label class="mini"><span>${label}</span><span class="num"><input type="number" inputmode="decimal" data-act="feat" data-i="${i}" data-k="${k}" min="${min}" max="${max}" value="${v}" aria-label="${esc(label)}"><span class="u">სმ</span></span></label>`;
+  return `<div class="fcards">${S.feats.map((f, i) => {
+    const walls = f.t === 'door' || f.t === 'column' ? ['back', 'left', 'right', 'front'] : ['back', 'left', 'right'];
+    const fields = [n(i, 'x', f.wall === 'back' || f.wall === 'front' ? 'მარცხენა კუთხიდან' : 'უკანა კედლიდან', f.x, 0, 1200)];
+    if (f.t !== 'water') fields.push(n(i, 'w', 'სიგანე', f.w, 10, 600));
+    if (f.t === 'window') fields.push(n(i, 'sill', 'რაფა', f.sill, 0, 250), n(i, 'h', 'სიმაღლე', f.h, 20, 300));
+    if (f.t === 'column') fields.push(n(i, 'd', 'სიღრმე', f.d, 5, 200));
+    return `<div class="fcard${ui.selFeat === i ? ' sel' : ''}"><div class="fhead"><i class="ficon ${f.t}"></i><b>${FEAT[f.t].l}</b><select data-act="featwall" data-i="${i}" aria-label="კედელი">${walls.map(w => `<option value="${w}"${w === f.wall ? ' selected' : ''}>${WALLS[w]} კედელი</option>`).join('')}</select><button type="button" class="x" data-act="featdel" data-i="${i}" aria-label="წაშლა">×</button></div><div class="fgrid">${fields.join('')}</div></div>`;
+  }).join('')}</div>`;
+}
+function autoHTML() {
+  const errs = model.warns.filter(w => w.step <= 4 && w.level !== 'info');
+  const ok = autoNotes.filter(n => n.level === 'ok'), bad = autoNotes.filter(n => n.level !== 'ok');
+  return `${bad.length || errs.length ? `<div class="notes">${[...bad, ...errs].map(w => `<div class="note ${w.level}"><i class="dot"></i><span>${esc(w.text)}</span></div>`).join('')}</div>` : ''}
+  <ul class="auto-list">${ok.map(n => `<li>${esc(n.text)}</li>`).join('')}</ul>`;
+}
+function stepSketch() {
+  return `<h2 class="st">ოთახის ესკიზი</h2><p class="lead">დახაზე ოთახი: ზომები, ფანჯრები, კარები, კოლონები და წყლის წერტილი. სამზარეულოს ჩვენ ავაწყობთ — ნიჟარას, ქურას, მაცივარს და გასასვლელებს სტანდარტებით ვალაგებთ. ზედა კედელი მთავარია.</p>
+  ${ui.fullBackup ? `<div class="notes"><div class="note info"><i class="dot"></i><span>დეტალურ რეჟიმში შენ მიერ აწყობილი პროექტი შენახულია.</span><button type="button" data-act="restore">დაბრუნება</button></div></div>` : ''}
+  <div class="grid2">${num('room.w', 'სიგანე — ზედა კედელი', { min: 200, max: 1200 })}${num('room.d', 'სიღრმე', { min: 200, max: 1200 })}${num('room.h', 'ჭერის სიმაღლე', { min: 220, max: 400 })}
+    <div class="f"><span class="f-l">სამზარეულო დადგეს</span><div class="seg">${['back', 'left', 'right'].map(w => `<button type="button" class="${S.sk.walls[w] ? 'on' : ''}" aria-pressed="${!!S.sk.walls[w]}" data-act="skwall" data-v="${w}">${WALLS[w]}</button>`).join('')}</div></div>
+  </div>
+  <div style="margin-top:12px">${sketchHTML()}</div>
+  <div class="sec"><h3>სურვილები</h3><div class="grid2">
+    <div class="full">${seg('sk.isl', 'კუნძული', [{ v: 'auto', l: 'თუ ეტევა' }, { v: 'yes', l: 'კი' }, { v: 'no', l: 'არა' }])}</div>
+    <div class="full">${seg('hob.type', 'ქურა', [{ v: 'induction', l: 'ინდუქცია' }, { v: 'gas', l: 'გაზი' }])}</div>
+  </div></div>
+  <div class="sec"><h3>რა ავაწყეთ</h3><div data-live="auto">${autoHTML()}</div></div>`;
+}
+function presetsHTML() {
+  return `<div class="presets">${Object.entries(PRESETS).map(([k, p]) => `<button type="button" class="preset${S.front.preset === k ? ' on' : ''}" data-act="preset" data-v="${k}"><span class="pal">${[p.front.base, p.front.up || p.front.base, p.front.isl || p.front.base].map(c => `<i style="background:${FRONT_COLORS[c].c}"></i>`).join('')}<i style="background:${WALL_COLORS[p.int.wall].c}"></i></span><span>${p.l}</span></button>`).join('')}</div>`;
+}
+function matPickerHTML() {
+  const m = mat(S.stone.main);
+  return `<div class="mat-tools">
+    <input class="search" type="search" id="matSearch" placeholder="ძებნა: Calacatta, შავი, კვარცი…" value="${esc(ui.q)}" aria-label="მასალის ძებნა">
+    <div class="filters">${[['all', 'ყველა'], ['NEOLITH', 'NEOLITH'], ['quartz', 'კვარცი']].map(([v, l]) => `<button type="button" class="${ui.brand === v ? 'on' : ''}" data-act="fbrand" data-v="${v}">${l}</button>`).join('')}
+    ${TONES.map(t => `<button type="button" class="${ui.tone === t ? 'on' : ''}" data-act="ftone" data-v="${t}">${t}</button>`).join('')}</div>
+  </div>
+  <div class="mgrid" id="matGrid">${gridHTML()}</div>
+  <p class="minfo">${esc(m.brandLabel)} · ${esc(m.name)} · ${esc(finishParams(m.finish).l)} · ფილა ${(m.formats || []).map(f => `${f[0]}×${f[1]}${f[2] ? '×' + f[2] : ''}`).join(', ')} მმ</p>`;
+}
+function stepLook() {
+  ui.pick = 'main';
+  const th = thickOpts(mat(S.stone.main));
+  return `<h2 class="st">სტილი და ქვა</h2><p class="lead">აირჩიე სტილი და ქვა — დანარჩენი უკვე აწყობილია. 3D ხედი მაშინვე იცვლება.</p>
+  ${presetsHTML()}
+  <div style="margin-top:14px">${swatch('front.base', 'ფასადების ფერი', FRONT_COLORS)}</div>
+  <div class="sec"><h3>ქვა</h3>${matPickerHTML()}
+    <div class="grid2" style="margin-top:8px"><div class="full">${seg('stone.t', 'სისქე', th.map(v => ({ v, l: v + ' მმ' })))}</div>
+    ${S.isl.on ? `<div class="full">${seg('stone.wf', 'კუნძულის გვერდები ქვით', [{ v: 'none', l: 'არა' }, { v: 'both', l: 'კი' }])}</div>` : ''}</div>
+  </div>`;
+}
+function stepQSum() {
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><span class="fine">გინდა ზუსტად შეცვალო მოდულები, ტექნიკა ან ფარტუკი?</span><button type="button" class="btn" data-act="flow" data-v="full">დეტალური რედაქტირება →</button></div>${stepSum()}`;
+}
+
+/* ================= summary, quote, sharing, AI ================= */
+function stepSum() {
+  const endpoint = window.lithosDesignerConfig?.endpoint || '';
+  return `<h2 class="st">შეჯამება</h2><p class="lead">ქვის რაოდენობა ელემენტებად, ფილების შეფასება და შენიშვნები. ეს საორიენტაციოა — საბოლოო ზომას და ფასს LITHOS აზომვის შემდეგ დააზუსტებს.</p>
+  <div data-live="sumtop">${sumTopHTML()}</div>
+  <div class="sec"><h3>საორიენტაციო ფასი</h3><p class="fine" style="margin:0 0 10px">საჯარო კატალოგში ფასი არ წერია. თუ შეთავაზება უკვე გაქვს, ჩაწერე ტარიფი.</p><div class="grid2">
+    ${num('quote.rate', 'მასალა და დამუშავება', { min: 0, max: 100000, step: 0.01, unit: '₾/მ²', ph: 'უცნობია' })}
+    ${num('quote.waste', 'ნარჩენის რეზერვი', { min: 0, max: 40, unit: '%' })}
+    ${num('quote.install', 'მონტაჟი', { min: 0, max: 100000, step: 0.01, unit: '₾', ph: 'უცნობია' })}
+    ${num('quote.extra', 'დამატებითი სამუშაო', { min: 0, max: 100000, step: 0.01, unit: '₾', ph: 'მაგ. ამონაჭრები' })}
+  </div><div data-live="quote">${quoteHTML()}</div></div>
+  <div class="sec"><h3>გაგზავნა და შენახვა</h3>
+    <div data-live="send">${sendHTML()}</div>
+    <details class="more"><summary>პროექტის ფაილი (JSON)</summary>
+      <p class="fine">დააკოპირე და შეინახე, ან ჩასვი აქ ადრე შენახული პროექტი და დააჭირე „ჩატვირთვას“.</p>
+      <textarea class="code" id="jsonBox" aria-label="პროექტის JSON">${esc(JSON.stringify(S))}</textarea>
+      <div class="row" style="margin-top:6px"><button type="button" class="btn" data-act="copy" data-src="jsonBox">კოპირება</button><button type="button" class="btn" data-act="import">ჩატვირთვა</button><span class="fine" id="importMsg" role="status"></span></div>
+    </details>
+  </div>
+  <div class="sec"><h3>AI ფოტორეალისტური ვიზუალიზაცია</h3>
+    <p class="fine" style="margin:0 0 10px">3D კადრი AI-ს აძლევს ზუსტ გეომეტრიას, ქვის ფოტო — ტექსტურას. ასე სამზარეულოს ფოტოს გარეშეც მიიღებ რეალისტურ სურათს.</p>
+    <div class="row"><button type="button" class="btn primary" data-act="shot">3D კადრის აღება</button><span class="fine">კამერა იმ კუთხითაა, რაც ახლა ეკრანზე ჩანს.</span></div>
+    <div id="shotBox" style="margin-top:10px">${ui.shot ? `<img class="shot" src="${ui.shot}" alt="3D კადრი AI-სთვის, 1024×768">` : ''}</div>
+    <div data-live="ai">${aiHTML()}</div>
+    ${endpoint ? `<div class="grid2" style="margin-top:10px">
+      <label class="f" for="accessCode"><span class="f-l">სატესტო წვდომის კოდი</span><span class="num"><input id="accessCode" type="password" autocomplete="off"><span class="u">კოდი</span></span></label>
+      <label class="toggle full" for="consent"><span>ვეთანხმები კადრისა და ქვის ფოტოს AI სერვისზე გაგზავნას</span><input type="checkbox" id="consent"></label>
+      <div class="full row"><button type="button" class="btn primary" data-act="gen">ვიზუალიზაციის შექმნა</button><span class="fine" id="genMsg" role="status"></span></div>
+      <div class="full" id="genOut"></div></div>`
+    : `<p class="fine" style="margin-top:10px">ავტომატური გენერაცია ჩაირთვება, როცა Worker-ის მისამართი <span class="mono">config.js</span>-ში ჩაიწერება. მანამდე კადრი და prompt შეგიძლია ხელით გამოსცადო Google AI Studio-ში.</p>`}
+  </div>`;
+}
+function sumTopHTML() {
+  const M = model, q = M.q, nSlabs = M.slabs.reduce((s, x) => s + x.count, 0);
+  const ord = { error: 0, warn: 1, info: 2 };
+  const notes = [...M.warns].sort((a, b) => ord[a.level] - ord[b.level]);
+  const row = (l, a, extra = '') => a > 0.0001 ? `<tr><td>${l}${extra}</td><td class="r">${nf.format(a)} მ²</td></tr>` : '';
+  return `<div class="metrics"><div class="metric"><div class="k">ქვა სულ</div><div class="v">${nf1.format(q.total)}<small>მ²</small></div></div>
+    <div class="metric"><div class="k">ფილები</div><div class="v">${nSlabs}<small>ცალი</small></div></div>
+    <div class="metric"><div class="k">ამონაჭრები</div><div class="v">${q.cuts.sink + q.cuts.hob + q.cuts.tap}<small>ცალი</small></div></div></div>
+  ${notes.length ? `<div class="notes" style="margin-top:12px">${notes.map(w => `<div class="note ${w.level}"><i class="dot"></i><span>${esc(w.text)}</span>${warnStep(w.step) !== curSteps().length - 1 ? `<button type="button" data-act="goto" data-v="${warnStep(w.step)}">ნაბიჯი ${warnStep(w.step) + 1}</button>` : ''}</div>`).join('')}</div>` : ''}
+  <table class="t" style="margin-top:8px"><thead><tr><th>ელემენტი</th><th class="r">ფართობი</th></tr></thead><tbody>
+    ${row('სამუშაო ზედაპირი', q.ct, ` <span class="fine">· ${M.pieces.length} ნაჭერი, ${M.tmm} მმ</span>`)}
+    ${row('კუნძული', q.isl)}${row('Waterfall', q.wf, ` <span class="fine">· ${q.wfN} გვერდი</span>`)}
+    ${row('ფარტუკი', q.bs, ` <span class="fine">· ${BS[S.stone.bs]}</span>`)}${row('45° კიდის ზოლი', q.apron)}
+    <tr class="tot"><td>ჯამი</td><td class="r">${nf.format(q.total)} მ²</td></tr></tbody></table>
+  <table class="t" style="margin-top:10px"><tbody>
+    <tr><td>კიდის დამუშავება · ${EDGE[S.stone.edge]}</td><td class="r">${nf1.format(q.edge)} გრძ.მ</td></tr>
+    ${q.cuts.sink ? `<tr><td>ნიჟარის ამონაჭერი · ${SINK_MOUNT[S.sink.mount]}</td><td class="r">${q.cuts.sink}</td></tr>` : ''}
+    ${q.cuts.hob ? `<tr><td>ქურის ამონაჭერი · ${S.hob.mount === 'flush' ? 'ერთ დონეზე' : 'ზემოდან'}</td><td class="r">${q.cuts.hob}</td></tr>` : ''}
+    ${q.cuts.tap ? `<tr><td>ონკანის ხვრელი</td><td class="r">${q.cuts.tap}</td></tr>` : ''}
+    ${q.cuts.drain ? `<tr><td>წყლის ღარები</td><td class="r">${q.cuts.drain}</td></tr>` : ''}
+  </tbody></table>
+  <div style="margin-top:12px">${M.slabs.map(s => `<div class="slab"><div class="s1"><span>${esc(s.m.brandLabel)} ${esc(s.m.name)} · ${s.th} მმ</span><span class="mono">${s.count} × ${s.SL * 10}×${s.SW * 10}</span></div><div class="s2">ქვა ${nf.format(s.area)} მ² · ფილის გამოყენება ${Math.round(s.util * 100)}% · ნაკერი ${s.seams}</div></div>`).join('')}
+  <p class="fine" style="margin-top:8px">ფილების რაოდენობა თაროებად განლაგებით არის შეფასებული (ჭრის ხაზი 5 მმ). ვენების თანხვედრა და ფილის დეფექტები რეალურ ჭრას ცვლის.</p></div>`;
+}
+function quoteHTML() {
+  const q = model.q, Q = S.quote, w = Q.waste || 0, area = q.total * (1 + w / 100);
+  const rows = [['ქვა რეზერვით', nf.format(area) + ' მ²']];
+  if (Q.rate != null) rows.push(['მასალა და დამუშავება', nf.format(area * Q.rate) + ' ₾']);
+  if (Q.install != null) rows.push(['მონტაჟი', nf.format(Q.install) + ' ₾']);
+  if (Q.extra != null) rows.push(['დამატებითი სამუშაო', nf.format(Q.extra) + ' ₾']);
+  const total = Q.rate == null ? null : area * Q.rate + (Q.install || 0) + (Q.extra || 0);
+  return `<table class="t" style="margin-top:10px"><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td class="r">${r[1]}</td></tr>`).join('')}</tbody></table>
+  <p class="total">${total == null ? 'ფასი დასაზუსტებელია' : nf.format(total) + ' ₾'}</p>
+  <p class="fine">ეს არ არის LITHOS-ის კომერციული შეთავაზება. საბოლოო თანხაზე მოქმედებს ფილის ფორმატი, ჭრის განლაგება, ამონაჭრები, კიდეები და მონტაჟი.</p>`;
+}
+function requestText() {
+  const M = model, m = mat(S.stone.main), L = S.lay;
+  const shape = { I: 'სწორი', L: 'კუთხის', U: 'სამმხრივი' }[L.type];
+  const dims = L.type === 'I' ? `A ${L.a}` : L.type === 'L' ? `A ${L.a}, B ${L.b}` : `A ${L.a}, B ${L.b}, C ${L.c}`;
+  const lines = [
+    'გამარჯობა, LITHOS. მსურს შეთავაზება სამზარეულოს ქვის ზედაპირზე.',
+    `ფორმა: ${shape} (${dims} სმ), სიღრმე ${S.base.depth}, სიმაღლე ${S.base.top}`,
+    S.isl.on ? `კუნძული: ${S.isl.len} × ${S.isl.dep} სმ, waterfall: ${{ none: 'არა', one: 'ერთი ბოლო', both: 'ორივე ბოლო' }[S.stone.wf]}` : '',
+    `მასალა: ${m.brandLabel} ${m.name}, ${M.tmm} მმ, კიდე: ${EDGE[S.stone.edge]}`,
+    S.stone.bsMat ? `ფარტუკის მასალა: ${mat(S.stone.bsMat).name}` : '', S.stone.islMat && S.isl.on ? `კუნძულის მასალა: ${mat(S.stone.islMat).name}` : '',
+    `ფარტუკი: ${BS[S.stone.bs]}`,
+    `ნიჟარა: ${SINK_MOUNT[S.sink.mount]}, ${S.sink.bowls} ჯამი${M.q.cuts.drain ? ', წყლის ღარებით' : ''}; ქურა: ${S.hob.type === 'gas' ? 'გაზი' : 'ინდუქცია'} ${S.hob.w}, ${S.hob.mount === 'flush' ? 'ერთ დონეზე' : 'ზემოდან'}`,
+    `ქვა სულ: ${nf.format(M.q.total)} მ²; ფილები: ${M.slabs.map(s => `${s.count} × ${s.SL * 10}×${s.SW * 10}`).join(', ')}`,
+    `ამონაჭრები: ნიჟარა ${M.q.cuts.sink}, ქურა ${M.q.cuts.hob}, ონკანი ${M.q.cuts.tap}`
+  ].filter(Boolean);
+  return lines.join('\n');
+}
+let shareLink = '';
+function sendHTML() {
+  const txt = requestText() + (shareLink && onSite ? '\nპროექტი: ' + shareLink : '');
+  const href = 'https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt);
+  const hasErr = model.warns.some(w => w.level === 'error');
+  return `<div class="row"><a class="btn primary" href="${href}" target="_blank" rel="noopener noreferrer">მოთხოვნა WhatsApp-ით</a><button type="button" class="btn" data-act="share">ბმულის კოპირება</button><span class="fine" id="shareMsg" role="status"></span></div>
+  ${hasErr ? '<p class="fine" style="color:var(--error);margin-top:6px">პროექტში შეცდომებია — მოთხოვნა გაიგზავნება, მაგრამ ჯობია ჯერ გაასწორო.</p>' : ''}
+  <p class="fine" style="margin-top:6px">ნომერი: <span class="mono">+995 551 04 40 13</span></p>`;
+}
+
+/* English prompt for the image model (FLUX handles English best); built only from validated state */
+function buildPrompt() {
+  const M = model, m = mat(S.stone.main), L = S.lay;
+  const lay = L.type === 'I' ? `a straight ${L.a} cm run along the back wall` : L.type === 'L' ? `an L-shaped kitchen: ${L.a} cm along the back wall and ${L.b} cm along the ${L.corner} wall` : `a U-shaped kitchen: ${L.a} cm along the back wall, ${L.b} cm left and ${L.c} cm right`;
+  const fc = k => (FRONT_COLORS[k] ? { white: 'matte white', cashmere: 'matte cashmere beige', sand: 'matte sand', sage: 'matte sage green', olive: 'matte olive green', navy: 'matte navy blue', graphite: 'matte graphite', black: 'matte black', oak: 'natural oak veneer', walnut: 'walnut veneer' }[k] : k);
+  const ft = { flat: 'flat slab', shaker: 'shaker-style framed', fluted: 'vertically fluted' }[S.front.type];
+  const hd = { gola: 'handleless with recessed gola profiles', 'bar-black': 'slim black bar handles', 'bar-brass': 'brushed brass bar handles', 'bar-steel': 'stainless steel bar handles', push: 'handleless push-to-open fronts' }[S.front.handle];
+  const edge = { eased: 'a straight eased edge', bevel: 'a small bevelled edge', round: 'a softly rounded edge', miter: `a ${S.stone.miter} cm mitred edge that makes the slab look thick` }[S.stone.edge];
+  const parts = [
+    `Photorealistic interior photograph of a kitchen. Match the first reference image (a 3D layout render) exactly: same camera angle, layout, proportions, cabinet divisions and appliance positions.`,
+    `Layout: ${lay}${M.isl ? `, plus a freestanding island ${M.isl.len} x ${M.isl.dep} cm${S.isl.seat !== 'none' ? ' with a seating overhang and stools' : ''}${M.isl.wfL || M.isl.wfR ? `, stone waterfall ${M.isl.wfL && M.isl.wfR ? 'on both ends' : 'on one end'}` : ''}` : ''}.`,
+    `Countertops${S.stone.bs !== 'none' ? ', backsplash' : ''}${M.isl ? ' and island' : ''}: ${m.brandLabel} ${m.name} ${m.type === 'quartz' ? 'quartz' : 'sintered stone'}, ${finishParams(m.finish).l.toLowerCase()} finish, ${M.tmm} mm slab with ${edge}. Take the colour, veining pattern and texture strictly from the second reference image (the stone sample); veins run continuously along the surfaces.`,
+    `Cabinet fronts: ${ft}, ${fc(S.front.base)}${S.front.up ? `; wall cabinets ${fc(S.front.up)}` : ''}${M.isl && S.front.isl ? `; island ${fc(S.front.isl)}` : ''}; ${hd}.`,
+    `Appliances: ${SINK_EN()}, ${S.hob.type === 'gas' ? 'gas' : 'induction'} hob ${S.hob.w} cm${S.oven === 'under' ? ' with a built-in oven below' : S.oven === 'tall' ? ', built-in oven in a tall column' : ''}, ${{ wall: 'wall-mounted chimney hood', builtin: 'hood integrated in the wall cabinet', island: 'ceiling-hung island hood', downdraft: 'downdraft extractor behind the hob', none: 'no visible hood' }[M.hoodEff] || 'no visible hood'}${S.fridge.type === 'builtin' ? ', integrated fridge column' : S.fridge.type === 'freestanding' ? ', stainless steel freestanding fridge' : ''}.`,
+    `Walls ${(WALL_COLORS[S.int.wall] || {}).l ? { 'warm-white': 'warm white', white: 'white', greige: 'greige', sage: 'pale sage', clay: 'clay', concrete: 'concrete grey' }[S.int.wall] : 'white'}, ${{ oak: 'oak plank', 'oak-light': 'light oak plank', walnut: 'walnut plank', tile: 'large grey tile', terrazzo: 'terrazzo', concrete: 'microcement' }[S.int.floor]} floor.`,
+    `Lighting: ${S.int.time === 'evening' ? 'warm evening light' : 'soft natural daylight'}${S.int.led ? ', warm LED strips under the wall cabinets' : ''}${M.isl && S.int.pend ? `, ${S.int.pend} pendant lights above the island` : ''}.`,
+    `Do not add or remove cabinets, appliances, windows or furniture. No people, text, logos or watermarks.`
+  ];
+  return parts.join('\n');
+  function SINK_EN() { return `${{ under: 'undermount', top: 'top-mounted', flush: 'flush-mounted', integrated: 'integrated stone' }[S.sink.mount]} ${S.sink.bowls === '2' ? 'double' : S.sink.bowls === '1.5' ? '1.5-bowl' : 'single'} sink with a ${S.front.handle === 'bar-brass' ? 'brass' : S.front.handle === 'bar-black' ? 'black' : 'chrome'} faucet${model.q.cuts.drain ? ' and drainer grooves cut into the stone' : ''}`; }
+}
+function aiHTML() {
+  const req = { mode: 'render3d', materialId: S.stone.main, project: '…პროექტის JSON…', image: { mime_type: 'image/jpeg', data: '…3D კადრი, base64…' }, stoneImage: { mime_type: 'image/jpeg', data: '…ქვის ფოტო, base64…' } };
+  return `<div class="f" style="margin-top:12px"><span class="f-l">Prompt (ინგლისურად — სურათის მოდელი მას უკეთ იგებს)</span><textarea class="code" id="promptBox" readonly>${esc(buildPrompt())}</textarea>
+  <div class="row"><button type="button" class="btn" data-act="copy" data-src="promptBox">Prompt-ის კოპირება</button></div></div>
+  <details class="more"><summary>მოთხოვნის სტრუქტურა Worker-ისთვის</summary><textarea class="code" readonly>${esc(JSON.stringify(req, null, 2))}</textarea></details>`;
+}
+async function toJpegB64(src, max) {
+  const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  const s = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement('canvas');
+  c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', 0.88).split(',')[1];
+}
+async function generate() {
+  const msg = $('#genMsg'), out = $('#genOut'), endpoint = window.lithosDesignerConfig?.endpoint;
+  if (!$('#consent')?.checked) { msg.textContent = 'ჯერ მონიშნე თანხმობა.'; return; }
+  if (model.warns.some(w => w.level === 'error')) { msg.textContent = 'ჯერ გაასწორე შეცდომები.'; return; }
+  if (!/^https:\/\//.test(endpoint || '')) { msg.textContent = 'Worker-ის მისამართი არასწორია.'; return; }
+  if (!ui.shot) { ui.shot = snapshot(); $('#shotBox').innerHTML = `<img class="shot" src="${ui.shot}" alt="3D კადრი">`; }
+  msg.textContent = 'იგზავნება… ეს 30–90 წამს გრძელდება.';
+  try {
+    const body = { mode: 'render3d', materialId: S.stone.main, project: S, image: { mime_type: 'image/jpeg', data: ui.shot.split(',')[1] }, stoneImage: { mime_type: 'image/jpeg', data: await toJpegB64(ASSET_BASE + mat(S.stone.main).image, 500) } };
+    const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('#accessCode').value }, body: JSON.stringify(body), signal: AbortSignal.timeout(150000) });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.image) throw new Error(data.error || ('HTTP ' + res.status));
+    out.innerHTML = `<img class="shot" src="data:${esc(data.image.mime_type)};base64,${data.image.data}" alt="AI ვიზუალიზაცია">`;
+    msg.textContent = 'მზადაა.';
+  } catch (e) { msg.textContent = 'ვერ შეიქმნა: ' + e.message; }
+}
+
+/* ================= rendering & events ================= */
+const RENDERERS = { room: stepRoom, layout: stepLayout, appl: stepAppl, cab: stepCab, stone: stepStone, style: stepStyle, sum: stepSum, sketch: stepSketch, look: stepLook, qsum: stepQSum };
+function renderSteps() {
+  const STEPS_ = curSteps();
+  const fl = i => { const ws = model.warns.filter(w => warnStep(w.step) === i).concat(i === 0 ? autoNotes.filter(n => n.level !== 'ok') : []); return ws.some(w => w.level === 'error') ? 'err' : ws.some(w => w.level === 'warn') ? 'wrn' : ''; };
+  $('#modebar').innerHTML = `<div class="seg" role="radiogroup" aria-label="რეჟიმი"><button type="button" role="radio" aria-checked="${S.flow === 'quick'}" class="${S.flow === 'quick' ? 'on' : ''}" data-flow="quick">მარტივი — ესკიზიდან</button><button type="button" role="radio" aria-checked="${S.flow === 'full'}" class="${S.flow === 'full' ? 'on' : ''}" data-flow="full">დეტალური</button></div>`;
+  $('#steps').innerHTML = STEPS_.map((s, i) => { const f = fl(i); return `<button type="button" class="${i === step ? 'on' : ''}" data-step="${i}"${i === step ? ' aria-current="step"' : ''}><span class="n">${i + 1}</span>${s.t}${f ? `<i class="flag ${f}"></i>` : ''}</button>`; }).join('');
+  $('#stepCount').textContent = `${step + 1} / ${STEPS_.length}`;
+  $('#prev').disabled = step === 0; $('#next').hidden = step === STEPS_.length - 1;
+}
+function renderStep() { step = clamp(step, 0, curSteps().length - 1); $('#stepBody').innerHTML = RENDERERS[curSteps()[step].id](); }
+function renderStats() {
+  const M = model, e = M.warns.filter(w => w.level === 'error').length, w = M.warns.filter(x => x.level === 'warn').length;
+  const sl = M.slabs.reduce((s, x) => s + x.count, 0);
+  $('#stageStats').innerHTML = `<span class="chip">ქვა <span class="mono">${nf1.format(M.q.total)} მ²</span></span><span class="chip">ფილა <span class="mono">${sl}</span></span>${e ? `<button type="button" class="chip err" data-goto="${curSteps().length - 1}"><i class="dot"></i>${e} შეცდომა</button>` : ''}${w ? `<button type="button" class="chip wrn" data-goto="${curSteps().length - 1}"><i class="dot"></i>${w} შენიშვნა</button>` : ''}`;
+}
+function refreshLive() {
+  for (const el of document.querySelectorAll('#stepBody [data-live]')) {
+    const k = el.dataset.live;
+    if (k === 'sketch') { const g = sketchGeom(); el.setAttribute('viewBox', `0 0 ${g.vw} ${g.vh}`); }
+    const html = k === 'sketch' ? sketchInner() : k === 'feats' ? featsHTML() : k === 'auto' ? autoHTML() : k === 'plan' ? planSVG() : k === 'ergo' ? ergoHTML() : k.startsWith('notes') ? notesFor(+k.slice(5)) : k === 'mods' ? modsHTML()
+      : k === 'sumtop' ? sumTopHTML() : k === 'quote' ? quoteHTML() : k === 'send' ? sendHTML() : k === 'ai' ? aiHTML() : null;
+    if (html != null && el.innerHTML !== html) el.innerHTML = html;
+  }
+}
+function normalize() {
+  let changed = false;
+  const fix = (p, v) => { if (get(p) !== v) { set(p, v); changed = true; } };
+  fix('sink.run', model.sinkRun); fix('hob.run', model.hobRun); fix('fridge.run', model.fRun); fix('fridge.end', model.fEnd);
+  return changed;
+}
+let shareTimer = 0;
+function update(rerender) {
+  autoNotes = S.flow === 'quick' ? autoDesign(S) : [];
+  model = computeModel(S);
+  const infos = model.warns.filter(w => w.level === 'info' && w.step === 3);
+  if (normalize()) { model = computeModel(S); model.warns.push(...infos.filter(i => !model.warns.some(w => w.text === i.text))); }
+  storeSave();
+  if (rerender) renderStep(); else refreshLive();
+  renderSteps(); renderStats(); scheduleRebuild();
+  clearTimeout(shareTimer); shareTimer = setTimeout(async () => { try { const code = await encodeProject(S); shareLink = location.origin + location.pathname + '#p.' + code; if (step === 6) refreshLive(); } catch { shareLink = ''; } }, 500);
+}
+function go(i) {
+  step = clamp(i, 0, curSteps().length - 1); renderStep(); renderSteps(); $('#stepBody').scrollTop = 0;
+  if (matchMedia('(max-width:860px)').matches) $('.panel').scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+function afterSet(path) {
+  if (path === 'stone.t' || path.startsWith('stone.main')) { const m = mat(S.stone.main); if (!thickOpts(m).includes(S.stone.t)) S.stone.t = defaultThick(m); }
+  if ((path.startsWith('front.') && path !== 'front.preset') || path === 'int.wall' || path === 'int.floor') S.front.preset = null;
+  if (path === 'stone.bs' && S.stone.bs === 'none' && ui.pick === 'bs') ui.pick = 'main';
+  if (path === 'isl.on' && !S.isl.on && ui.pick === 'isl') ui.pick = 'main';
+}
+async function copyFrom(el, msgEl, okText) {
+  const text = el.value ?? el.textContent;
+  try { await navigator.clipboard.writeText(text); if (msgEl) msgEl.textContent = okText || 'დაკოპირდა'; }
+  catch { el.focus?.(); el.select?.(); if (msgEl) msgEl.textContent = 'მონიშნულია — დააკოპირე Ctrl/Cmd + C-ით'; }
+}
+function materialize(id) { if (!Array.isArray(S.mods[id])) S.mods[id] = model.items[id].map(m => ({ t: m.t, w: r1(m.w) })); return S.mods[id]; }
+
+const body = $('#stepBody');
+body.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'matSearch') { ui.q = t.value; $('#matGrid').innerHTML = gridHTML(); return; }
+  if (t.dataset.kind !== 'num') return;
+  const p = t.dataset.path, raw = t.value.trim();
+  if (raw === '') { if (NULLABLE.has(p)) { set(p, null); update(false); } return; }
+  const v = Number(raw.replace(',', '.')); if (!Number.isFinite(v)) return;
+  set(p, v); afterSet(p); update(false);
+});
+body.addEventListener('change', e => {
+  const t = e.target, a = t.dataset.act;
+  if (t.dataset.kind === 'tog') { set(t.dataset.path, t.checked); afterSet(t.dataset.path); update(true); return; }
+  if (a === 'feat') { const f = S.feats[+t.dataset.i], v = Number(t.value); if (f && Number.isFinite(v)) { f[t.dataset.k] = Math.max(0, v); update(false); } return; }
+  if (a === 'featwall') { const f = S.feats[+t.dataset.i]; if (f) { f.wall = t.value; update(false); } return; }
+  if (a === 'mod-t' || a === 'mod-w') {
+    const list = materialize(ui.cabRun), i = +t.dataset.i;
+    if (a === 'mod-t') list[i].t = t.value; else { const v = Number(t.value); if (Number.isFinite(v) && v > 0) list[i].w = v; }
+    update(false);
+  }
+});
+body.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.kind === 'seg') { const p = b.dataset.path; set(p, JSON.parse(b.dataset.v)); afterSet(p); update(true); return; }
+  const a = b.dataset.act, v = b.dataset.v; if (!a) return;
+  switch (a) {
+    case 'ergo': S.base.top = +v; update(true); break;
+    case 'cabrun': ui.cabRun = v; renderStep(); break;
+    case 'mod-up': case 'mod-dn': { const list = materialize(ui.cabRun), i = +b.dataset.i, j = a === 'mod-up' ? i - 1 : i + 1; [list[i], list[j]] = [list[j], list[i]]; update(false); break; }
+    case 'mod-del': { const list = materialize(ui.cabRun); list.splice(+b.dataset.i, 1); update(false); break; }
+    case 'mod-add': { const list = materialize(ui.cabRun); list.push({ t: 'door', w: 40 }); update(false); break; }
+    case 'mod-auto': S.mods[ui.cabRun] = null; update(true); break;
+    case 'pick': ui.pick = v; renderStep(); break;
+    case 'pick-same': set(ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat', null); update(true); break;
+    case 'mat': { const p = ui.pick === 'main' ? 'stone.main' : ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat'; set(p, v); afterSet(p); update(true); break; }
+    case 'fbrand': ui.brand = v; renderStep(); break;
+    case 'ftone': ui.tone = ui.tone === v ? null : v; renderStep(); break;
+    case 'preset': { const p = PRESETS[v]; Object.assign(S.front, clone(p.front), { preset: v }); Object.assign(S.int, clone(p.int)); update(true); break; }
+    case 'goto': go(+v); break;
+    case 'copy': copyFrom($('#' + b.dataset.src), b.nextElementSibling?.classList.contains('fine') ? b.nextElementSibling : null); break;
+    case 'import': {
+      const msg = $('#importMsg');
+      try { S = sanitize(JSON.parse($('#jsonBox').value)); update(true); $('#importMsg') && ($('#importMsg').textContent = 'პროექტი ჩაიტვირთა.'); }
+      catch { msg.textContent = 'JSON ვერ წავიკითხე — შეამოწმე ტექსტი.'; }
+      break;
+    }
+    case 'share': {
+      const msg = $('#shareMsg');
+      if (!shareLink) { msg.textContent = 'ბმული მზადდება, სცადე წამში.'; break; }
+      const box = Object.assign(document.createElement('textarea'), { value: shareLink }); box.className = 'code'; box.style.minHeight = '60px';
+      navigator.clipboard.writeText(shareLink).then(() => { msg.textContent = 'ბმული დაკოპირდა.'; }, () => { msg.textContent = 'მონიშნე და დააკოპირე:'; msg.after(box); box.select(); });
+      break;
+    }
+    case 'shot': if (!threeReady) break; ui.shot = snapshot(); $('#shotBox').innerHTML = `<img class="shot" src="${ui.shot}" alt="3D კადრი AI-სთვის, 1024×768"><p class="fine">შეინახე სურათი (მარჯვენა ღილაკი ან ხანგრძლივი შეხება) და ატვირთე AI Studio-ში ქვის ფოტოსთან ერთად.</p>`; break;
+    case 'gen': generate(); break;
+    case 'flow': switchFlow(v); break;
+    case 'restore': if (ui.fullBackup) { S = ui.fullBackup; ui.fullBackup = null; S.flow = 'full'; step = 1; update(true); } break;
+    case 'skwall': S.sk.walls[v] = !S.sk.walls[v]; update(true); break;
+    case 'addfeat': {
+      const d = FEAT[v], W0 = S.room.w, D0 = S.room.d;
+      const f = v === 'window' ? { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 - 60)), w: 120, h: d.h, sill: d.sill }
+        : v === 'door' ? { t: v, wall: 'right', x: Math.max(0, D0 - 130), w: 90, h: 210 }
+        : v === 'column' ? { t: v, wall: 'back', x: Math.max(0, W0 - 40), w: 40, d: 40 } : { t: v, wall: 'back', x: Math.round(W0 / 2) };
+      S.feats.push(f); ui.selFeat = S.feats.length - 1; update(false); break;
+    }
+    case 'featdel': S.feats.splice(+b.dataset.i, 1); ui.selFeat = null; update(false); break;
+    case 'rot': rotateRoom(S); ui.selFeat = null; update(true); break;
+  }
+});
+function switchFlow(v) {
+  if (v === S.flow) return;
+  if (v === 'quick') ui.fullBackup = clone(S);
+  S.flow = v; step = v === 'quick' ? 0 : 1; update(true); go(step);
+}
+$('#modebar').addEventListener('click', e => { const b = e.target.closest('[data-flow]'); if (b) switchFlow(b.dataset.flow); });
+/* sketch: drag features along (and between) walls */
+function sketchPoint(e) {
+  const svg = $('#sketchSvg'), pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+  const p = pt.matrixTransform(svg.getScreenCTM().inverse()), g = sketchGeom();
+  return { x: (p.x - g.pad) / g.sc, z: (p.y - g.pad) / g.sc };
+}
+body.addEventListener('pointerdown', e => {
+  const el = e.target.closest('#sketchSvg .feat'); if (!el) return;
+  e.preventDefault(); const i = +el.dataset.fi;
+  ui.drag = { i, moved: false, sx: e.clientX, sy: e.clientY }; ui.selFeat = i;
+  $('#sketchSvg').setPointerCapture(e.pointerId);
+});
+body.addEventListener('pointermove', e => {
+  if (!ui.drag) return;
+  if (!ui.drag.moved && Math.hypot(e.clientX - ui.drag.sx, e.clientY - ui.drag.sy) < 4) return;
+  ui.drag.moved = true;
+  const f = S.feats[ui.drag.i]; if (!f) return;
+  const { x, z } = sketchPoint(e), W0 = S.room.w, D0 = S.room.d;
+  const dist = { back: z, left: x, right: W0 - x, front: D0 - z };
+  const allowed = f.t === 'door' || f.t === 'column' ? ['back', 'left', 'right', 'front'] : ['back', 'left', 'right'];
+  const wall = allowed.reduce((m, k) => (dist[k] < dist[m] ? k : m), allowed[0]);
+  const len = wall === 'back' || wall === 'front' ? W0 : D0, along = wall === 'back' || wall === 'front' ? x : z, w = f.w || 0;
+  f.wall = wall; f.x = Math.round(clamp(along - w / 2, 0, Math.max(0, len - w)) / 5) * 5;
+  update(false);
+});
+const endDrag = () => { if (!ui.drag) return; const d = ui.drag; ui.drag = null; if (!d.moved) refreshLive(); };
+body.addEventListener('pointerup', endDrag); body.addEventListener('pointercancel', endDrag);
+body.addEventListener('keydown', e => {
+  const el = e.target.closest?.('#sketchSvg .feat'); if (!el) return;
+  const f = S.feats[+el.dataset.fi]; if (!f) return;
+  const step5 = { ArrowLeft: -5, ArrowUp: -5, ArrowRight: 5, ArrowDown: 5 }[e.key]; if (!step5) return;
+  e.preventDefault(); f.x = Math.max(0, f.x + step5); ui.selFeat = +el.dataset.fi; update(false);
+  requestAnimationFrame(() => $(`#sketchSvg .feat[data-fi="${el.dataset.fi}"]`)?.focus());
+});
+$('#steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (b) go(+b.dataset.step); });
+$('#stageStats').addEventListener('click', e => { const b = e.target.closest('[data-goto]'); if (b) go(+b.dataset.goto); });
+$('#prev').addEventListener('click', () => go(step - 1));
+$('#next').addEventListener('click', () => go(step + 1));
+document.querySelector('.views').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
+$('#tgDims').addEventListener('change', () => { labelsDirty = true; });
+$('#tgUpper').addEventListener('change', e => { if (upperGroup) { upperGroup.visible = e.target.checked; needsRender = true; } });
+let resetArmed = 0;
+$('#btnReset').addEventListener('click', e => {
+  const b = e.currentTarget;
+  if (!resetArmed) { b.textContent = 'დააჭირე კიდევ ერთხელ'; resetArmed = setTimeout(() => { resetArmed = 0; b.textContent = 'თავიდან დაწყება'; }, 3000); return; }
+  clearTimeout(resetArmed); resetArmed = 0; b.textContent = 'თავიდან დაწყება';
+  S = clone(DEFAULTS); ui.pick = 'main'; ui.shot = null; update(true); go(0);
+});
+
+(async function boot() {
+  let src = null;
+  if (location.hash.startsWith('#p.')) { try { src = await decodeProject(location.hash.slice(3)); } catch { src = null; } }
+  if (!src) src = storeLoad();
+  S = sanitize(src);
+  model = computeModel(S); normalize(); model = computeModel(S);
+  renderSteps(); renderStep(); renderStats();
+  if (src) $('#saveState').textContent = 'შენახულია ამ ბრაუზერში';
+  update(true);
+  init3D().catch(err => { $('#loading').textContent = '3D ხედი ვერ ჩაიტვირთა. მენიუ და გამოთვლები მაინც მუშაობს. (' + err.message + ')'; });
 })();
-</script></body></html>
+</script>
+
+</body>
+</html>
