@@ -50,6 +50,16 @@ jobs:
           for route in ("materials", "neolith", "quartz"):
               text = text.replace("'/" + route + "/':", "'" + base + "/" + route + "/':")
           app.write_text(text)
+          # Adapt secondary tools without changing the original dist sources.
+          designer = Path("_site/designer/designer.mjs")
+          text = designer.read_text()
+          text = text.replace(".src='/'+selected.image", ".src=" + repr(base + "/") + "+selected.image")
+          text = text.replace(".href='/'+selected.image", ".href=" + repr(base + "/") + "+selected.image")
+          designer.write_text(text)
+          lab_boot = Path("_site/lab/boot.js")
+          lab_boot.write_text(lab_boot.read_text().replace("import('/lab/", "import('" + base + "/lab/"))
+          lab_css = Path("_site/lab/lab.css")
+          lab_css.write_text(lab_css.read_text().replace('url("/lab/', 'url("' + base + '/lab/'))
           Path("_site/.nojekyll").touch()
           assert Path("_site/index.html").is_file()
           assert 'href="' + base + '/"' in Path("_site/index.html").read_text()
