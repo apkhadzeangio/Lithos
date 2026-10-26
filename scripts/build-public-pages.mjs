@@ -3,6 +3,7 @@ import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 import vm from 'node:vm';
 import {loadArticles, blogTeaser, buildBlog} from './build-blog.mjs';
+import {buildHomepage} from './build-homepage.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),context=vm.createContext({});
 const articles=await loadArticles();
 for(const name of ['site-config.js','neolith-data.js','quartz-data.js','catalog-view.js','projects-data.js'])vm.runInContext(await readFile(resolve(root,'dist',name),'utf8'),context,{filename:name});
@@ -45,5 +46,6 @@ const notFound=`<!doctype html><html lang="ka"><head><meta charset="utf-8"><meta
 await writeFile(resolve(root,'dist/404.html'),notFound);
 await writeFile(resolve(root,'dist/robots.txt'),'User-agent: *\nAllow: /\n\nSitemap: https://lithos.ge/sitemap.xml\n');
 const blogPaths=await buildBlog({config,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),articles});
+await buildHomepage({config,articles,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),projects:vm.runInContext('projectCards()',context)});
 await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...Object.values(pages).map(page=>page.url),...blogPaths.map(path=>'https://lithos.ge'+path)].map(url=>`  <url><loc>${url}</loc></url>`).join('\n')+'\n</urlset>\n');
 console.log(`Generated 4 public pages, blog index, ${articles.length} articles and custom 404; missing business data omitted.`);

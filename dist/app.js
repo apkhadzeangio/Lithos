@@ -1,5 +1,6 @@
 const grid=document.querySelector('#stone-grid'),search=document.querySelector('#search'),detail=document.querySelector('#detail'),contact=document.querySelector('#contact');
 let filter='all',opener=null;
+if(search)search.value=new URLSearchParams(location.search).get('q')||'';
 function syncPageMeta(key){
 const meta=publicPages[key]||publicPages.work;
 document.title=meta.title;
@@ -81,7 +82,7 @@ document.querySelectorAll('.page').forEach(section=>section.hidden=section.id!==
 document.querySelectorAll('[data-nav]').forEach(link=>{const active=link.dataset.nav===page;link.classList.toggle('active',active);if(active&&!(link.getAttribute('href')||'').includes('#'))link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
 if(legacy[hash])history.replaceState(null,'',publicPages[key].path);
 if(page==='materials')setFilter(key,{updateUrl:false});else syncPageMeta('work');
-if(hash==='#projects')requestAnimationFrame(()=>document.querySelector('#projects').scrollIntoView());else window.scrollTo({top:0,behavior:'instant'});
+if(hash&&!legacy[hash]&&document.getElementById(hash.slice(1)))requestAnimationFrame(()=>document.getElementById(hash.slice(1)).scrollIntoView());else window.scrollTo({top:0,behavior:'instant'});
 }
 window.addEventListener('hashchange',route);window.addEventListener('popstate',route);route();
 
