@@ -1,0 +1,870 @@
+{
+  "retrieved": "2026-10-25",
+  "specification_source": "User-supplied NEOLITH 2026 inventory list; names, finishes and dimensions only. No pricing retained.",
+  "images": [
+    {
+      "id": "avorio",
+      "name": "Avorio",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/colorfeel-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/colorfeel-avorio.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "barro",
+      "name": "Barro",
+      "source_page": "https://www.neolith.com/en/collections/fusion/barro",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/c4dccf16f4/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "just-white",
+      "name": "Just White",
+      "source_page": "https://www.neolith.com/en/collections/colorfeel/just-white",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/c0a4f72e7d/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "pietra-di-luna",
+      "name": "Pietra di Luna",
+      "source_page": "https://www.neolith.com/en/collections/fusion/pietra-di-luna",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/d790973313/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "creme",
+      "name": "Crème",
+      "source_page": "https://www.neolith.com/en/collections/fusion/creme",
+      "source_image": "https://a.storyblok.com/f/150360/1500x3096/7ddf0b7b95/neolith_creme_slab.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1500,
+        3096
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "pietra-di-piombo",
+      "name": "Pietra di Piombo",
+      "source_page": "https://www.neolith.com/en/collections/fusion/pietra-di-piombo",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/8c341f5ee2/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "pietra-di-osso",
+      "name": "Pietra di Osso",
+      "source_page": "https://www.neolith.com/en/collections/fusion/pietra-di-osso",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/c728339536/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "cement",
+      "name": "Cement",
+      "source_page": "https://www.neolith.com/en/collections/fusion/cement",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/01143c6850/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "arena",
+      "name": "Arena",
+      "source_page": "https://www.neolith.com/en/collections/fusion/arena",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/643be8efca/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "lava",
+      "name": "Lava",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/fusion-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/lava-neolith-fusion.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "mamba",
+      "name": "Mamba",
+      "source_page": "https://www.neolith.com/en/collections/fusion/mamba",
+      "source_image": "https://a.storyblok.com/f/150360/1500x3000/7c9402cf28/neolith_mamba_slab.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1500,
+        3000
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "taj-mahal",
+      "name": "Taj Mahal",
+      "source_page": "https://www.neolith.com/en/collections/classtone/taj-mahal",
+      "source_image": "https://a.storyblok.com/f/150360/1500x2959/235921307b/neolith_taj-mahal_slab.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1500,
+        2959
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "krater",
+      "name": "Krater",
+      "source_page": "https://www.neolith.com/en/collections/fusion/krater",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/8c9d1c9a41/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "retrostone",
+      "name": "Retrostone",
+      "source_page": "https://www.neolith.com/en/collections/fusion/retrostone",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/4a1556ad37/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "shilin",
+      "name": "Shilin",
+      "source_page": "https://www.neolith.com/en/collections/fusion/shilin",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/8bf0a83199/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 1
+    },
+    {
+      "id": "summer-dala",
+      "name": "Summer Dala",
+      "source_page": "https://www.neolith.com/en/collections/timber/summer-dala",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/465419f739/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "terrazo-ceppo",
+      "name": "Terrazo Ceppo",
+      "source_page": "https://www.neolith.com/en/collections/fusion/terrazo-ceppo",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/f5130944e2/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "wulong",
+      "name": "Wulong",
+      "source_page": "https://www.neolith.com/en/collections/fusion/wulong",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/cf9d80159d/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "zaha-stone",
+      "name": "Zaha Stone",
+      "source_page": "https://www.neolith.com/en/collections/fusion/zaha-stone",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/057d6dedbf/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "azure",
+      "name": "Azure",
+      "source_page": "https://www.neolith.com/en/collections/classtone/azure",
+      "source_image": "https://a.storyblok.com/f/150360/1500x2959/6b38c92141/neolith_azure_slab.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1500,
+        2959
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "calacatta-roma",
+      "name": "Calacatta Roma",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calacatta-roma",
+      "source_image": "https://a.storyblok.com/f/150360/2000x3945/3ed0cbb471/calacatta-roma_2000x3945px.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        2000,
+        3945
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "artisan",
+      "name": "Artisan",
+      "source_page": "https://www.neolith.com/en/collections/fusion/artisan",
+      "source_image": "https://a.storyblok.com/f/150360/1181x2437/c2bab79474/neolith_artisan_imagen-destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1181,
+        2437
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "ignea",
+      "name": "Ignea",
+      "source_page": "https://www.neolith.com/en/collections/fusion/ignea",
+      "source_image": "https://a.storyblok.com/f/150360/1181x2437/1473fc809f/neolith_ignea_imagen-destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1181,
+        2437
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "nero",
+      "name": "Nero",
+      "source_page": "https://www.neolith.com/en/collections/colorfeel/nero",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/fce782c065/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "aspen-grey",
+      "name": "Aspen Grey",
+      "source_page": "https://www.neolith.com/en/collections/fusion/aspen-grey",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/519b77e8b1/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "textile-white",
+      "name": "Textil White",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/textil-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/textil-neolith.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "textile-black",
+      "name": "Textil Black",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/textil-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/textil-black.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "cappadocia-sunset",
+      "name": "Cappadocia Sunset",
+      "source_page": "https://www.neolith.com/en/collections/fusion/cappadocia-sunset",
+      "source_image": "https://a.storyblok.com/f/150360/1250x2581/b4162a4717/cappadocia-sunset-2.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        2581
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "basalt-black",
+      "name": "Basalt Black",
+      "source_page": "https://www.neolith.com/en/collections/fusion/basalt-black",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/5ebd9b5996/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "basalt-grey",
+      "name": "Basalt Grey",
+      "source_page": "https://www.neolith.com/en/collections/fusion/basalt-grey",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/3ebaa32da3/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "beton",
+      "name": "Beton",
+      "source_page": "https://www.neolith.com/en/collections/fusion/beton",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/52853cb9b6/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "calatorao",
+      "name": "Calatorao",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calatorao",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/fd66057830/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "black-obsession",
+      "name": "Black Obsession",
+      "source_page": "https://www.neolith.com/en/collections/fusion/black-obsession",
+      "source_image": "https://a.storyblok.com/f/150360/2812x6000/c57940c7d1/neolith_black-obsession.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1920,
+        4097
+      ],
+      "pdf_page": 2
+    },
+    {
+      "id": "la-boheme-b01",
+      "name": "La Bohème B01",
+      "source_page": "https://www.neolith.com/en/collections/timber/la-boheme-b01",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/4f2cc87a11/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "layla",
+      "name": "Layla",
+      "source_page": "https://www.neolith.com/en/collections/classtone/layla",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/4e70578277/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "nero-zimbabwe",
+      "name": "Nero Zimbabwe",
+      "source_page": "https://www.neolith.com/en/collections/fusion/nero-zimbabwe",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/498a439dab/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "new-york-new-york",
+      "name": "New York - New York",
+      "source_page": "https://www.neolith.com/en/collections/fusion/new-york-new-york",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/d01b785cda/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "pierre-blue",
+      "name": "Pierre Bleue",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/fusion-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/pierre-bleue-neolith-fusion.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "pietra-grey",
+      "name": "Pietra Grey",
+      "source_page": "https://www.neolith.com/en/collections/fusion/pietra-grey",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/3e7593800d/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "rapolano",
+      "name": "Rapolano",
+      "source_page": "https://www.neolith.com/en/collections/fusion/rapolano",
+      "source_image": "https://a.storyblok.com/f/150360/1181x2466/25243dbafc/neolith_rapolano_imagen-destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1181,
+        2437
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "pulpis",
+      "name": "Pulpis",
+      "source_page": "https://www.neolith.com/en/collections/classtone/pulpis",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/6fb12a8da2/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "blanco-carrara",
+      "name": "Blanco Carrara",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/classtone-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/blanco-carrara.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "calista",
+      "name": "Calista",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calista",
+      "source_image": "https://a.storyblok.com/f/150360/1563x3000/042da8b800/calista.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1563,
+        3000
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "niagara",
+      "name": "Niagara",
+      "source_page": "https://www.neolith.com/en/collections/classtone/niagara",
+      "source_image": "https://a.storyblok.com/f/150360/1563x3000/d43bf0262d/niagara.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1563,
+        3000
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "nero-marquina",
+      "name": "Nero Marquina",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/classtone-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/nero-marquina-neolith.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "nieve",
+      "name": "Nieve",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/colorfeel-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/colorfeel-nieve.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "metropolitan",
+      "name": "Metropolitan",
+      "source_page": "https://www.neolith.com/en/collections/steel/metropolitan",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/fcd90e1500/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "amazonico",
+      "name": "Amazonico",
+      "source_page": "https://www.neolith.com/en/collections/classtone/amazonico",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/de6d9f93ae/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "arctic-white",
+      "name": "Arctic White",
+      "source_page": "https://www.neolith.com/en/collections/colorfeel/arctic-white",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/3454df2ae0/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "iron-copper",
+      "name": "Iron Copper",
+      "source_page": "https://www.neolith.com/en/collections/iron/iron-copper",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/c5bce76a83/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 3
+    },
+    {
+      "id": "iron-corten",
+      "name": "Iron Corten",
+      "source_page": "https://www.neolith.com/en/collections/iron/iron-corten",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/8640a96bf3/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "iron-frost",
+      "name": "Iron Frost",
+      "source_page": "https://www.neolith.com/en/collections/iron/iron-frost",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/42c7bff6fe/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "iron-grey",
+      "name": "Iron Grey",
+      "source_page": "https://www.neolith.com/en/collections/iron/iron-grey",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/f5f7599a2b/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "iron-moss",
+      "name": "Iron Moss",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/iron-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/iron-moss-neolith-iron.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "iron-ash",
+      "name": "Iron Ash",
+      "source_page": "https://www.cragliamarmigroup.it/en/neolith-dealer/iron-neolith",
+      "source_image": "https://www.cragliamarmigroup.it/images/2017/08/06/iron-ash-neolith-iron.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1185,
+        419
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "strata-argentum",
+      "name": "Strata Argentum",
+      "source_page": "https://www.neolith.com/en/collections/classtone/strata-argentum",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/8d264ca993/neolith_strata-argentum_slab.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "abu-dhabi-white",
+      "name": "Abu Dhabi White",
+      "source_page": "https://www.neolith.com/en/collections/classtone/abu-dhabi-white",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/a4f716895d/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "alexandra",
+      "name": "Alexandra",
+      "source_page": "https://www.yourstoneconnection.com/products.html",
+      "source_image": "https://www.yourstoneconnection.com/images/alexandra.jpg",
+      "source_kind": "distributor",
+      "original_dimensions": [
+        1400,
+        729
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "arabesque",
+      "name": "Arabesque",
+      "source_page": "https://www.neolith.com/en/collections/classtone/arabesque",
+      "source_image": "https://a.storyblok.com/f/150360/1563x3000/13d4a57045/arabesque.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1563,
+        3000
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "calacatta",
+      "name": "Calacatta",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calacatta-c01-c01r",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/4e724b7ab3/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "calacatta-gold",
+      "name": "Calacatta Gold",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calacatta-gold-cg01-cg01r",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/0ec315745f/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "calacatta-luxe",
+      "name": "Calacatta Luxe",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calacatta-luxe-cl01-cl01r",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/30f4c9b87a/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "calacatta-royale",
+      "name": "Calacatta Royale",
+      "source_page": "https://www.neolith.com/en/collections/classtone/calacatta-royale",
+      "source_image": "https://a.storyblok.com/f/150360/1563x3000/5a0c1cf142/calacatta-royale.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1563,
+        3000
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "colorado-dunes",
+      "name": "Colorado Dunes",
+      "source_page": "https://www.neolith.com/en/collections/classtone/colorado-dunes",
+      "source_image": "https://a.storyblok.com/f/150360/3000x1563/f072c8fde3/neolith_new_classtone_colorado_dunes_v2.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1500,
+        2959
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "everest-sunrise",
+      "name": "Everest Sunrise",
+      "source_page": "https://www.neolith.com/en/collections/classtone/everest-sunrise",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/1eb29d5aac/everest-sunrise-2.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "estatuario",
+      "name": "Estatuario",
+      "source_page": "https://www.neolith.com/en/collections/classtone/estatuario-e01-e01r",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/8953e29ce7/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1497,
+        2953
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "himalaya-crystal",
+      "name": "Himalaya Crystal",
+      "source_page": "https://www.neolith.com/en/collections/classtone/himalaya-crystal",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/b3947b26f4/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "lux",
+      "name": "Lux",
+      "source_page": "https://www.neolith.com/en/collections/colorfeel/lux",
+      "source_image": "https://a.storyblok.com/f/150360/1500x2959/a3668e334a/neolith_colorfeel_lux_slab.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1500,
+        2959
+      ],
+      "pdf_page": 4
+    },
+    {
+      "id": "mont-blanc",
+      "name": "Mont Blanc",
+      "source_page": "https://www.neolith.com/en/collections/classtone/mont-blanc",
+      "source_image": "https://a.storyblok.com/f/150360/1250x1824/b40f1a3edc/imagen_destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1250,
+        1824
+      ],
+      "pdf_page": 5
+    },
+    {
+      "id": "san-simone",
+      "name": "San Simone",
+      "source_page": "https://www.neolith.com/en/collections/classtone/san-simone",
+      "source_image": "https://a.storyblok.com/f/150360/1563x3000/206f262a3b/san-simone.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1563,
+        3000
+      ],
+      "pdf_page": 5
+    },
+    {
+      "id": "whitesands",
+      "name": "WhiteSands",
+      "source_page": "https://www.neolith.com/en/collections/classtone/whitesands",
+      "source_image": "https://a.storyblok.com/f/150360/1181x2438/52c32d0d71/neolith_whitesands_imagen-destacada.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1181,
+        2438
+      ],
+      "pdf_page": 5
+    },
+    {
+      "id": "victoria",
+      "name": "Victoria",
+      "source_page": "https://www.neolith.com/en/collections/iconic-design/victoria",
+      "source_image": "https://a.storyblok.com/f/150360/1673x3264/f6fd660ee6/neoltih_iconic-design_slab_victoria_3200x1600.jpg/m/",
+      "source_kind": "manufacturer",
+      "original_dimensions": [
+        1673,
+        3264
+      ],
+      "pdf_page": 5
+    }
+  ]
+}

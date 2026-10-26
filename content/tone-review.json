@@ -1,0 +1,933 @@
+{
+  "approved": false,
+  "note": "სავარაუდო დაყოფა არსებული ფოტოების ძირითადი ფონის მიხედვით. ფერადი მოიცავს ყავისფერ, ჟანგისფერ და მრავალფეროვან ზედაპირებს. თეთრი ვენებიანი ზედაპირებიც თეთრის ჯგუფშია. მომხმარებლის გადამოწმებამდე ტონის ფილტრი გამორთულია.",
+  "rows": [
+    {
+      "id": "avorio",
+      "name": "Avorio",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/avorio.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "barro",
+      "name": "Barro",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/barro.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "just-white",
+      "name": "Just White",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/just-white.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "pietra-di-luna",
+      "name": "Pietra di Luna",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/pietra-di-luna.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "creme",
+      "name": "Crème",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/creme.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "pietra-di-piombo",
+      "name": "Pietra di Piombo",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/pietra-di-piombo.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "pietra-di-osso",
+      "name": "Pietra di Osso",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/pietra-di-osso.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "cement",
+      "name": "Cement",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/cement.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "arena",
+      "name": "Arena",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/arena.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "lava",
+      "name": "Lava",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/lava.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "mamba",
+      "name": "Mamba",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/mamba.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "taj-mahal",
+      "name": "Taj Mahal",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/taj-mahal.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "krater",
+      "name": "Krater",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/krater.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "retrostone",
+      "name": "Retrostone",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/retrostone.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "shilin",
+      "name": "Shilin",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/shilin.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "summer-dala",
+      "name": "Summer Dala",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/summer-dala.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "terrazo-ceppo",
+      "name": "Terrazo Ceppo",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/terrazo-ceppo.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "wulong",
+      "name": "Wulong",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/wulong.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "zaha-stone",
+      "name": "Zaha Stone",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/zaha-stone.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "azure",
+      "name": "Azure",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/azure.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calacatta-roma",
+      "name": "Calacatta Roma",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/calacatta-roma.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "artisan",
+      "name": "Artisan",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/artisan.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "ignea",
+      "name": "Ignea",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/ignea.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "nero",
+      "name": "Nero",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/nero.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "aspen-grey",
+      "name": "Aspen Grey",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/aspen-grey.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "textile-white",
+      "name": "Textil White",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/textile-white.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "textile-black",
+      "name": "Textil Black",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/textile-black.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "cappadocia-sunset",
+      "name": "Cappadocia Sunset",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/cappadocia-sunset.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "basalt-black",
+      "name": "Basalt Black",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/basalt-black.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "basalt-grey",
+      "name": "Basalt Grey",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/basalt-grey.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "beton",
+      "name": "Beton",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/beton.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calatorao",
+      "name": "Calatorao",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/calatorao.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "black-obsession",
+      "name": "Black Obsession",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/black-obsession.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "la-boheme-b01",
+      "name": "La Bohème B01",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/la-boheme-b01.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "layla",
+      "name": "Layla",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/layla.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "nero-zimbabwe",
+      "name": "Nero Zimbabwe",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/nero-zimbabwe.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "new-york-new-york",
+      "name": "New York - New York",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/new-york-new-york.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "pierre-blue",
+      "name": "Pierre Bleue",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/pierre-blue.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "pietra-grey",
+      "name": "Pietra Grey",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/pietra-grey.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "rapolano",
+      "name": "Rapolano",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/rapolano.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "pulpis",
+      "name": "Pulpis",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/pulpis.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "blanco-carrara",
+      "name": "Blanco Carrara",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/blanco-carrara.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calista",
+      "name": "Calista",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/calista.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "niagara",
+      "name": "Niagara",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/niagara.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "nero-marquina",
+      "name": "Nero Marquina",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/nero-marquina.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "nieve",
+      "name": "Nieve",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/nieve.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "metropolitan",
+      "name": "Metropolitan",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/metropolitan.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "amazonico",
+      "name": "Amazonico",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/amazonico.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "arctic-white",
+      "name": "Arctic White",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/arctic-white.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "iron-copper",
+      "name": "Iron Copper",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/iron-copper.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "iron-corten",
+      "name": "Iron Corten",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/iron-corten.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "iron-frost",
+      "name": "Iron Frost",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/iron-frost.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "iron-grey",
+      "name": "Iron Grey",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/neolith/iron-grey.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "iron-moss",
+      "name": "Iron Moss",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/iron-moss.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "iron-ash",
+      "name": "Iron Ash",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/neolith/iron-ash.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "strata-argentum",
+      "name": "Strata Argentum",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/strata-argentum.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "abu-dhabi-white",
+      "name": "Abu Dhabi White",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/abu-dhabi-white.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "alexandra",
+      "name": "Alexandra",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/alexandra.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "arabesque",
+      "name": "Arabesque",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/arabesque.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calacatta",
+      "name": "Calacatta",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/calacatta.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calacatta-gold",
+      "name": "Calacatta Gold",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/calacatta-gold.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calacatta-luxe",
+      "name": "Calacatta Luxe",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/calacatta-luxe.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "calacatta-royale",
+      "name": "Calacatta Royale",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/calacatta-royale.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "colorado-dunes",
+      "name": "Colorado Dunes",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/neolith/colorado-dunes.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "everest-sunrise",
+      "name": "Everest Sunrise",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/everest-sunrise.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "estatuario",
+      "name": "Estatuario",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/estatuario.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "himalaya-crystal",
+      "name": "Himalaya Crystal",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/himalaya-crystal.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "lux",
+      "name": "Lux",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/lux.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "mont-blanc",
+      "name": "Mont Blanc",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/mont-blanc.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "san-simone",
+      "name": "San Simone",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/san-simone.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "whitesands",
+      "name": "WhiteSands",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/neolith/whitesands.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "victoria",
+      "name": "Victoria",
+      "category": "NEOLITH",
+      "manufacturer": "NEOLITH",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/neolith/victoria.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-atlantis",
+      "name": "Atlantis",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/quartz/atlantis-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-calacatta-nysa",
+      "name": "Calacatta Nysa",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/calacatta-nysa-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-calacatta-perlia",
+      "name": "Calacatta Perlia",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/calacatta-perlia-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-calacatta-vita",
+      "name": "Calacatta Vita",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/calacatta-vita-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-camel-via",
+      "name": "Camel Via",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/quartz/camel-via-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-carrara-oro-ultra",
+      "name": "Carrara Oro Ultra",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/carrara-oro-ultra-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-cristaluna",
+      "name": "Cristaluna",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/cristaluna-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-dravone",
+      "name": "Dravone",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/quartz/dravone-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-elysee",
+      "name": "Elysee",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/elysee-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-galaxy",
+      "name": "Galaxy",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/quartz/galaxy-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-hielo",
+      "name": "Hielo",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/hielo-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-hygassos",
+      "name": "Hygassos",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/quartz/hygassos-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-idyma",
+      "name": "Idyma",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/idyma-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-kalynda",
+      "name": "Kalynda",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/quartz/kalynda-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-keramos",
+      "name": "Keramos",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/keramos-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-lucca",
+      "name": "Lucca",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/lucca-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-magnesia",
+      "name": "Magnesia",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/quartz/magnesia-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-majestic-brown-ultra",
+      "name": "Majestic Brown Ultra",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/majestic-brown-ultra-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-marin",
+      "name": "Marin",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/quartz/marin-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-novarion-bronze",
+      "name": "Novarion Bronze",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "ფერადი",
+      "thumbnail": "assets/quartz/novarion-bronze-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-novarion-gold-leather",
+      "name": "Novarion Gold Leather",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/quartz/novarion-gold-leather-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-orange-bourbon-gusto",
+      "name": "Orange Bourbon Gusto",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/orange-bourbon-gusto-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-petra-taj",
+      "name": "Petra Taj",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "ბეჟი",
+      "thumbnail": "assets/quartz/petra-taj-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-piatto",
+      "name": "Piatto",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/piatto-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-potenza",
+      "name": "Potenza",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/quartz/potenza-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-snow-flake",
+      "name": "Snow Flake",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/snow-flake-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-tenera-ultra",
+      "name": "Tenera Ultra",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/tenera-ultra-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-thunder-ultra",
+      "name": "Thunder Ultra",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/thunder-ultra-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-trento",
+      "name": "Trento",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "ნაცრისფერი",
+      "thumbnail": "assets/quartz/trento-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-troya",
+      "name": "Troya",
+      "category": "კვარცი",
+      "manufacturer": "Grado",
+      "proposedTone": "შავი",
+      "thumbnail": "assets/quartz/troya-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    },
+    {
+      "id": "quartz-valtheris",
+      "name": "Valtheris",
+      "category": "კვარცი",
+      "manufacturer": "Coante",
+      "proposedTone": "თეთრი",
+      "thumbnail": "assets/quartz/valtheris-1.thumb.webp",
+      "status": "გადასამოწმებელი"
+    }
+  ]
+}

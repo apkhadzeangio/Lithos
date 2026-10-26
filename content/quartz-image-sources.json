@@ -1,0 +1,809 @@
+{
+  "retrievedAt": "2026-10-25",
+  "categoryPages": [
+    "https://gstone.ge/material/quartz/",
+    "https://gstone.ge/material/quartz/page/2/"
+  ],
+  "catalog": "https://gstone.ge/wp-content/uploads/2026/09/G_STONE_QUARTZ_CATALOG-სრული.pdf",
+  "counts": {
+    "liveProducts": 30,
+    "catalogOnly": [
+      "Galaxy"
+    ],
+    "publishedModels": 31,
+    "photos": 57
+  },
+  "specPolicy": "PDF specifications take precedence where provided. For Calacatta Perlia structured product specifications (305 × 144 cm) take precedence over conflicting generic description (330 × 164). Unspecified finishes and thicknesses remain null. No prices or supplier links are shipped to the frontend.",
+  "products": [
+    {
+      "name": "ATLANTIS",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1.webp",
+      "source": "https://gstone.ge/products/atlantis/",
+      "id": "atlantis",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-1024x768.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "ATLANTIS",
+      "catalogPage": 41,
+      "files": [
+        "atlantis-0.bin"
+      ]
+    },
+    {
+      "name": "CALACATTA NYSA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-4.webp",
+      "source": "https://gstone.ge/products/calacatta-nysa/",
+      "id": "calacatta-nysa",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-4-1024x768.webp"
+      ],
+      "formats": [
+        [
+          3250,
+          1520,
+          20
+        ]
+      ],
+      "country": null,
+      "finish": "პრიალა (Polished)",
+      "catalogName": "CALACATTA NYSA",
+      "catalogPage": 55,
+      "files": [
+        "calacatta-nysa-0.bin"
+      ]
+    },
+    {
+      "name": "CALACATTA PERLIA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/2.webp",
+      "source": "https://gstone.ge/products/calacatta-perlia/",
+      "id": "calacatta-perlia",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/2-1024x768.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": null,
+      "catalogName": "CALACATTA PERLIA",
+      "files": [
+        "calacatta-perlia-0.bin"
+      ]
+    },
+    {
+      "name": "CALACATTA VITA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-7.webp",
+      "source": "https://gstone.ge/products/calacatta-vita/",
+      "id": "calacatta-vita",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-7-1024x768.webp"
+      ],
+      "formats": [
+        [
+          3250,
+          1520,
+          20
+        ]
+      ],
+      "country": null,
+      "finish": "პრიალა (Polished)",
+      "catalogName": "CALACATTA VITA",
+      "catalogPage": 53,
+      "files": [
+        "calacatta-vita-0.bin"
+      ]
+    },
+    {
+      "name": "CAMEL VIA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/10/CAMEL-VIA-720x540.avif",
+      "source": "https://gstone.ge/products/camel-via/",
+      "id": "camel-via",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/10/CAMEL-VIA-1024x1024.avif",
+        "https://gstone.ge/wp-content/uploads/2026/10/CAMEL-VIA1-1024x768.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "CAMEL VIA",
+      "catalogPage": 22,
+      "files": [
+        "camel-via-0.bin",
+        "camel-via-1.bin"
+      ]
+    },
+    {
+      "name": "CARRARA ORO ULTRA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-2-1.avif",
+      "source": "https://gstone.ge/products/carrara-oro-ultra/",
+      "id": "carrara-oro-ultra",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-2-1.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/1780554090930-resize-9021_Carrara_Oro_Ultra_Render.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": null,
+      "catalogName": "CARRARA ORO ULTRA",
+      "files": [
+        "carrara-oro-ultra-0.bin",
+        "carrara-oro-ultra-1.bin"
+      ]
+    },
+    {
+      "name": "CRISTALUNA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/CRISTALUNA-720x540.jpeg",
+      "source": "https://gstone.ge/products/cristaluna/",
+      "id": "cristaluna",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/CRISTALUNA-1024x1024.jpeg",
+        "https://gstone.ge/wp-content/uploads/2026/06/1785311772211-10340_-_Cristaluna__3_-1024x576.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "CRISTALUNA",
+      "catalogPage": 8,
+      "files": [
+        "cristaluna-0.bin",
+        "cristaluna-1.bin"
+      ]
+    },
+    {
+      "name": "DRAVONE",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1787828816918-Dravone_Close-up-720x540.avif",
+      "source": "https://gstone.ge/products/dravone/",
+      "id": "dravone",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1787828816918-Dravone_Close-up-1024x1024.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/1791457310670-30706_-_Dravone-1024x576.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "DRAVONE",
+      "catalogPage": 10,
+      "files": [
+        "dravone-0.bin",
+        "dravone-1.bin"
+      ]
+    },
+    {
+      "name": "ELYSEE",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-10.webp",
+      "source": "https://gstone.ge/products/elysee/",
+      "id": "elysee",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-10-1024x1024.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/render-2-1.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "ELYSEE",
+      "catalogPage": 16,
+      "files": [
+        "elysee-0.bin",
+        "elysee-1.bin"
+      ]
+    },
+    {
+      "id": "galaxy",
+      "name": "GALAXY",
+      "brand": "Grado",
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "finish": "პრიალა (Polished)",
+      "catalogPage": 43,
+      "photos": [],
+      "files": [
+        "galaxy-0.bin",
+        "galaxy-1.bin"
+      ],
+      "source": "quartz-catalog.pdf"
+    },
+    {
+      "name": "HIELO",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-5.avif",
+      "source": "https://gstone.ge/products/hielo/",
+      "id": "hielo",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-5.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/render-8.webp"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "HIELO",
+      "catalogPage": 20,
+      "files": [
+        "hielo-0.bin",
+        "hielo-1.bin"
+      ]
+    },
+    {
+      "name": "HYGASSOS",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup.avif",
+      "source": "https://gstone.ge/products/hygassos/",
+      "id": "hygassos",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/render.avif"
+      ],
+      "formats": [
+        [
+          3100,
+          1520,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "HYGASSOS",
+      "catalogPage": 30,
+      "files": [
+        "hygassos-0.bin",
+        "hygassos-1.bin"
+      ]
+    },
+    {
+      "name": "IDYMA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/10/closeup-720x540.jpg",
+      "source": "https://gstone.ge/products/idyma/",
+      "id": "idyma",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/10/closeup-1024x1024.jpg",
+        "https://gstone.ge/wp-content/uploads/2026/10/idyma-1024x683.jpeg"
+      ],
+      "formats": [
+        [
+          3100,
+          1520,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "IDYMA",
+      "catalogPage": 4,
+      "files": [
+        "idyma-0.bin",
+        "idyma-1.bin"
+      ]
+    },
+    {
+      "name": "KALYNDA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/10/KALYNDA1.png",
+      "source": "https://gstone.ge/products/kalynda/",
+      "id": "kalynda",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/10/KALYNDA1.png",
+        "https://gstone.ge/wp-content/uploads/2026/10/KALYNDA.jpeg"
+      ],
+      "formats": [
+        [
+          3100,
+          1520,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "KALYNDA",
+      "catalogPage": 28,
+      "files": [
+        "kalynda-0.bin",
+        "kalynda-1.bin"
+      ]
+    },
+    {
+      "name": "KERAMOS",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-6.avif",
+      "source": "https://gstone.ge/products/keramos/",
+      "id": "keramos",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-6.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/render-5.avif"
+      ],
+      "formats": [
+        [
+          3100,
+          1520,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "KERAMOS",
+      "catalogPage": 32,
+      "files": [
+        "keramos-0.bin",
+        "keramos-1.bin"
+      ]
+    },
+    {
+      "name": "LUCCA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-1.webp",
+      "source": "https://gstone.ge/products/lucca/",
+      "id": "lucca",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-1-1024x768.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/265022791225552318341-lucca-min.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          null
+        ]
+      ],
+      "country": null,
+      "finish": null,
+      "catalogName": "LUCCA",
+      "files": [
+        "lucca-0.bin",
+        "lucca-1.bin"
+      ]
+    },
+    {
+      "name": "MAGNESIA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/4.webp",
+      "source": "https://gstone.ge/products/magnesia/",
+      "id": "magnesia",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/4-1024x768.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/3.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          null
+        ]
+      ],
+      "country": null,
+      "finish": null,
+      "catalogName": "MAGNESIA",
+      "files": [
+        "magnesia-0.bin",
+        "magnesia-1.bin"
+      ]
+    },
+    {
+      "name": "MAJESTIC BROWN ULTRA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-8-720x540.avif",
+      "source": "https://gstone.ge/products/majestic-brown-ultra/",
+      "id": "majestic-brown-ultra",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-8-1024x1024.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/1791457126920-9003_-_Majestic_Brown_Ultra-1024x1024.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "MAJESTIC BROWN",
+      "catalogPage": 34,
+      "files": [
+        "majestic-brown-ultra-0.bin",
+        "majestic-brown-ultra-1.bin"
+      ]
+    },
+    {
+      "name": "MARIN",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-3.webp",
+      "source": "https://gstone.ge/products/marin/",
+      "id": "marin",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-3-1024x768.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/2752926798293832468910-marin-min.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "country": null,
+      "finish": "პრიალა (Polished)",
+      "catalogName": "MARIN",
+      "catalogPage": 45,
+      "files": [
+        "marin-0.bin",
+        "marin-1.bin"
+      ]
+    },
+    {
+      "name": "NOVARION BRONZE",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-2.avif",
+      "source": "https://gstone.ge/products/novarion-bronze/",
+      "id": "novarion-bronze",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-2.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/render-2.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "NOVARION BRONZE",
+      "catalogPage": 36,
+      "files": [
+        "novarion-bronze-0.bin",
+        "novarion-bronze-1.bin"
+      ]
+    },
+    {
+      "name": "NOVARION GOLD LEATHER",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/10/NOV.GOLD_-720x540.avif",
+      "source": "https://gstone.ge/products/novarion-gold-leather/",
+      "id": "novarion-gold-leather",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/10/NOV.GOLD_-1024x503.avif",
+        "https://gstone.ge/wp-content/uploads/2026/10/GOLDD-1024x576.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "Leather",
+      "catalogName": "NOVARION GOLD",
+      "catalogPage": 18,
+      "files": [
+        "novarion-gold-leather-0.bin",
+        "novarion-gold-leather-1.bin"
+      ]
+    },
+    {
+      "name": "ORANGE BOURBON GUSTO",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-3-1.avif",
+      "source": "https://gstone.ge/products/orange-bourbon-gusto/",
+      "id": "orange-bourbon-gusto",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-3-1.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/ORANGE-1024x576.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "ORANGE BOURBON GU",
+      "catalogPage": 24,
+      "files": [
+        "orange-bourbon-gusto-0.bin",
+        "orange-bourbon-gusto-1.bin"
+      ]
+    },
+    {
+      "name": "PETRA TAJ",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-1-1.avif",
+      "source": "https://gstone.ge/products/petra-taj/",
+      "id": "petra-taj",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-1-1.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/PETRA-1024x576.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "PETRA TAJ",
+      "catalogPage": 6,
+      "files": [
+        "petra-taj-0.bin",
+        "petra-taj-1.bin"
+      ]
+    },
+    {
+      "name": "PIATTO",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-6.webp",
+      "source": "https://gstone.ge/products/piatto/",
+      "id": "piatto",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-6-1024x768.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/213622349328064277703-piatto-min.png"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          null
+        ]
+      ],
+      "country": null,
+      "finish": null,
+      "catalogName": "PIATTO",
+      "files": [
+        "piatto-0.bin",
+        "piatto-1.bin"
+      ]
+    },
+    {
+      "name": "POTENZA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/11.webp",
+      "source": "https://gstone.ge/products/potenza/",
+      "id": "potenza",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/11-1024x768.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/301152009031066201678-potenza-min.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "country": null,
+      "finish": "პრიალა (Polished)",
+      "catalogName": "POTENZA",
+      "catalogPage": 51,
+      "files": [
+        "potenza-0.bin",
+        "potenza-1.bin"
+      ]
+    },
+    {
+      "name": "SNOW FLAKE",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-1.avif",
+      "source": "https://gstone.ge/products/snow-flake/",
+      "id": "snow-flake",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-1.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/render-1.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ],
+        [
+          3100,
+          1520,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "SNOW FLAKE",
+      "catalogPage": 14,
+      "files": [
+        "snow-flake-0.bin",
+        "snow-flake-1.bin"
+      ]
+    },
+    {
+      "name": "TENERA ULTRA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/10/TENERA-720x540.avif",
+      "source": "https://gstone.ge/products/tenera-ultra/",
+      "id": "tenera-ultra",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/10/TENERA-1024x1024.avif",
+        "https://gstone.ge/wp-content/uploads/2026/10/TENERA1-1024x683.jpeg"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "TENERA ULTRA",
+      "catalogPage": 12,
+      "files": [
+        "tenera-ultra-0.bin",
+        "tenera-ultra-1.bin"
+      ]
+    },
+    {
+      "name": "THUNDER ULTRA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/closeup-3.avif",
+      "source": "https://gstone.ge/products/thunder-ultra/",
+      "id": "thunder-ultra",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/closeup-3.avif",
+        "https://gstone.ge/wp-content/uploads/2026/06/render-1-1.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "THUNDER ULTRA",
+      "catalogPage": 38,
+      "files": [
+        "thunder-ultra-0.bin",
+        "thunder-ultra-1.bin"
+      ]
+    },
+    {
+      "name": "TRENTO",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-5.webp",
+      "source": "https://gstone.ge/products/trento/",
+      "id": "trento",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-5-1024x768.webp",
+        "https://gstone.ge/wp-content/uploads/2026/06/299102442129449266307-trento-min.png"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "country": null,
+      "finish": "პრიალა (Polished)",
+      "catalogName": "TRENTO",
+      "catalogPage": 47,
+      "files": [
+        "trento-0.bin",
+        "trento-1.bin"
+      ]
+    },
+    {
+      "name": "TROYA",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/06/1-2.webp",
+      "source": "https://gstone.ge/products/troya/",
+      "id": "troya",
+      "brand": "Grado",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/06/1-2-1024x768.webp"
+      ],
+      "formats": [
+        [
+          3050,
+          1440,
+          20
+        ]
+      ],
+      "country": null,
+      "finish": "პრიალა (Polished)",
+      "catalogName": "TROYA",
+      "catalogPage": 49,
+      "files": [
+        "troya-0.bin"
+      ]
+    },
+    {
+      "name": "VALTHERIS",
+      "thumbnailSource": "https://gstone.ge/wp-content/uploads/2026/10/VALTHERIS-720x540.avif",
+      "source": "https://gstone.ge/products/valtheris/",
+      "id": "valtheris",
+      "brand": "Coante",
+      "photos": [
+        "https://gstone.ge/wp-content/uploads/2026/10/VALTHERIS-1024x502.avif",
+        "https://gstone.ge/wp-content/uploads/2026/10/VALTH-1024x539.avif"
+      ],
+      "formats": [
+        [
+          3300,
+          1640,
+          20
+        ]
+      ],
+      "country": "თურქეთი",
+      "finish": "პრიალა (Polished)",
+      "catalogName": "VALTHERIS",
+      "catalogPage": 26,
+      "files": [
+        "valtheris-0.bin",
+        "valtheris-1.bin"
+      ]
+    }
+  ]
+}

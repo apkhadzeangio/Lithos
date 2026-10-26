@@ -1,0 +1,13 @@
+{
+  "name": "lithos-designer-api",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-25",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://lithos.ge",
+    "DAILY_ATTEMPT_LIMIT": "20"
+  },
+  "durable_objects": {"bindings": [{"name": "QUOTA", "class_name": "DesignerQuota"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["DesignerQuota"]}],
+  "observability": {"enabled": false}
+}

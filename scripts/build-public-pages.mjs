@@ -1,0 +1,46 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import {resolve,dirname} from 'node:path';
+import vm from 'node:vm';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),context=vm.createContext({});
+for(const name of ['site-config.js','neolith-data.js','quartz-data.js','catalog-view.js','projects-data.js'])vm.runInContext(await readFile(resolve(root,'dist',name),'utf8'),context,{filename:name});
+const pages=vm.runInContext('publicPages',context),config=vm.runInContext('siteConfig',context),escape=vm.runInContext('esc',context),real=vm.runInContext('realValue',context);
+const template=await readFile(resolve(root,'src/page.html'),'utf8');
+const replaceContents=(html,id,content)=>html.replace(new RegExp(`(<([a-z0-9]+)\\b[^>]*\\bid="${id}"[^>]*>)[\\s\\S]*?(</\\2>)`),(_,open,tag,close)=>open+content+close);
+const area=config.serviceArea.filter(real),maps=real(config.mapsUrl)&&/^https:\/\//.test(config.mapsUrl)?config.mapsUrl:'';
+const schema={'@context':'https://schema.org','@type':'LocalBusiness','@id':'https://lithos.ge/#business',name:config.name,alternateName:'LITHOS',url:'https://lithos.ge/',logo:'https://lithos.ge/assets/lithos-logo-v1.webp',image:'https://lithos.ge/assets/lithos-og-real.jpg',telephone:config.phone,email:config.email,description:'ქვის ზედაპირების დამზადება და მონტაჟი — სამზარეულო, აბაზანა, ბუხარი.',sameAs:[config.facebook],openingHoursSpecification:[{'@type':'OpeningHoursSpecification',dayOfWeek:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].map(day=>'https://schema.org/'+day),opens:'09:00',closes:'18:00'}]};
+if(area.length)schema.areaServed=area;
+if(real(config.address))schema.address={'@type':'PostalAddress',streetAddress:config.address};
+if(real(config.address)&&config.geo&&Number.isFinite(config.geo.latitude)&&Number.isFinite(config.geo.longitude))schema.geo={'@type':'GeoCoordinates',latitude:config.geo.latitude,longitude:config.geo.longitude};
+const steps=[['კონსულტაცია და ფასი','გაგვიზიარეთ სასურველი მასალა და სავარაუდო ზომები — განვიხილოთ პროექტი და ღირებულება.',''],['მასალის შერჩევა','დაგეხმარებით მასალისა და დამუშავების შერჩევაში.',''],['აზომვა','ზუსტი აზომვა, როგორც წესი, კარადების დამონტაჟების შემდეგ ხდება.',config.timeline.measurement],['დამზადება','შერჩეულ მასალას შეთანხმებულ ზომებსა და დეტალებზე ვამუშავებთ.',config.timeline.fabrication],['მონტაჟი','მზა ქვის ზედაპირს ადგილზე ვამონტაჟებთ.',config.timeline.installation]];
+const process=steps.map(([title,copy,time],i)=>`<li><span class="step-number">${String(i+1).padStart(2,'0')}</span><h3>${title}</h3><p>${copy}</p>${real(time)?`<p class="step-time">ვადა: ${escape(time)}</p>`:''}</li>`).join('');
+const trust=[['გარანტია',config.warranty],['საამქრო',config.workshop],['მომსახურების არეალი',area.join(', ')]].filter(([,value])=>real(value));
+const why=trust.length?`<section class="wrap why-section" id="why-lithos"><div class="section-top"><h2>რატომ LITHOS</h2></div><div class="trust-grid">${trust.map(([title,value])=>`<div><h3>${title}</h3><p>${escape(value)}</p></div>`).join('')}</div></section>`:'';
+const location=real(config.address)||maps?`<section class="wrap location-section" id="location"><div><h2>სად გვიპოვოთ</h2>${real(config.address)?`<p>${escape(config.address)}</p>`:''}</div>${maps?`<a class="map-link dark-btn" href="${escape(maps)}" target="_blank" rel="noopener noreferrer">ნახეთ Google Maps-ზე</a>`:''}</section>`:'';
+const times=[['აზომვა',config.timeline.measurement],['დამზადება',config.timeline.fabrication],['მონტაჟი',config.timeline.installation]].filter(([,v])=>real(v));
+const faqs=[['როგორ ითვლება ფასი?',real(config.priceCalculation)||'ღირებულების დასაზუსტებლად მოგვწერეთ სასურველი მასალა, სავარაუდო ზომები და გამოგვიგზავნეთ სივრცის ფოტო.'],['როდის მოხდება აზომვა და მონტაჟი?',times.map(([name,time])=>name+': '+time).join('. ')],['როგორ ხდება აზომვა?',real(config.measurementTerms)||'ზუსტი აზომვა, როგორც წესი, კარადების დამონტაჟების შემდეგ ხდება. დროის შესათანხმებლად დაგვიკავშირდით.'],['როგორ მოვუარო ზედაპირს?',config.careInstructions],['რა გარანტია ვრცელდება ნამუშევარზე?',config.warranty],['რომელ ქალაქებში მუშაობთ?',area.join(', ')]];
+const faq=faqs.filter(([,answer])=>real(answer)).map(([question,answer])=>`<details><summary>${escape(question)}</summary><p>${escape(answer)}</p></details>`).join('');
+const finishOptions=vm.runInContext("[...new Set(materials.flatMap(finishOptions))].sort().map(f=>'<option value=\"'+esc(f)+'\">'+esc(f)+'</option>').join('')",context);
+const thicknessOptions=vm.runInContext("[...new Set(materials.flatMap(m=>m.thicknesses||[]))].sort((a,b)=>a-b).map(t=>'<option value=\"'+t+'\">'+t+' მმ</option>').join('')",context);
+const materialOptions=vm.runInContext("materials.map(m=>'<option value=\"'+esc(m.name)+'\">'+esc(m.name)+(m.brand?' — '+esc(m.brand):' — NEOLITH')+'</option>').join('')",context);
+for(const [key,page] of Object.entries(pages)){
+ const isCatalog=key!=='work';let html=template.replace('<!--BUSINESS_JSONLD-->','<script type="application/ld+json">'+JSON.stringify(schema).replaceAll('<','\\u003c')+'</script>').replaceAll('{{EMAIL}}',escape(config.email)).replace('<!--PROCESS_STEPS-->',process).replace('<!--WHY_SECTION-->',why).replace('<!--LOCATION_SECTION-->',location).replace('<!--FAQ_ITEMS-->',faq);
+ html=html.replace('<!--PROJECT_CARDS-->',isCatalog?'':vm.runInContext('projectCards()',context)).replace('<!--PROJECT_COUNT-->',vm.runInContext('`${lithosProjects.length} პროექტი / ${lithosProjects.reduce((sum,p)=>sum+p.photos.length,0)} ფოტო`',context)).replace('<!--FINISH_OPTIONS-->',finishOptions).replace('<!--THICKNESS_OPTIONS-->',thicknessOptions).replace('<!--FORM_MATERIAL_OPTIONS-->',materialOptions);
+ html=html.replace(/<title>[\s\S]*?<\/title>/,`<title>${escape(page.title)}</title>`).replace(/(<meta name="description" content=")[^"]*"/,(_,open)=>open+escape(page.description)+'"').replace(/(<link rel="canonical" href=")[^"]*"/,(_,open)=>open+page.url+'"');
+ for(const [name,value]of Object.entries({'og:title':page.title,'og:description':page.description,'og:url':page.url}))html=html.replace(new RegExp(`(<meta property="${name}" content=")[^"]*"`),(_,open)=>open+escape(value)+'"');
+ if(isCatalog){
+  html=html.replace(/<section id="work"[\s\S]*?(?=<section id="materials")/,'').replace('<section id="materials" class="page" hidden>','<section id="materials" class="page">');
+  const view=vm.runInContext(`catalogView(${JSON.stringify(key)})`,context);
+  for(const[id,value]of Object.entries({'catalog-title':view.heading,'catalog-eyebrow':escape(view.eyebrow),'catalog-description':escape(view.description),'catalog-kind':escape(view.kind),'catalog-note':escape(view.note),'result-count':escape(view.countLabel),'stone-grid':view.html}))html=replaceContents(html,id,value);
+  html=html.replace(/<(a|button)\b([^>]*data-filter="([^"]+)"[^>]*)>/g,(_,tag,attrs,filter)=>`<${tag}${attrs.replace(/ class="selected"/g,'').replace(/aria-pressed="(?:true|false)"/,`aria-pressed="${filter===key}"`)}${filter===key?' class="selected"':''}>`);
+  html=html.replace('data-nav="materials"','data-nav="materials" class="active" aria-current="page"');
+ }else html=html.replace(/<section id="materials"[\s\S]*?(?=<\/main>)/,'');
+ const scripts=['site-config.js',...(isCatalog?['neolith-data.js','quartz-data.js','catalog-view.js']:['projects-data.js']),'app.js'];
+ html=html.replace('<!--PAGE_SCRIPTS-->',scripts.map(name=>`<script src="${name}" defer></script>`).join(''));
+ const directory=resolve(root,'dist',page.path.slice(1));await mkdir(directory,{recursive:true});await writeFile(resolve(directory,'index.html'),html);
+}
+const notFound=`<!doctype html><html lang="ka"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><meta name="referrer" content="strict-origin-when-cross-origin"><title>გვერდი ვერ მოიძებნა — LITHOS</title><link rel="icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"></head><body><header><a class="brand" href="/" aria-label="LITHOS მთავარი"><img class="brand-logo" src="/assets/lithos-logo-v1.webp" width="100" height="100" alt="LITHOS Stone Surfaces"></a></header><main class="wrap not-found"><p class="not-found-code" aria-hidden="true">404</p><h1>გვერდი ვერ მოიძებნა</h1><p>ბმული შეიძლება შეიცვალა ან მისამართი არასწორადაა მითითებული.</p><div class="not-found-actions"><a class="dark-btn" href="/">მთავარ გვერდზე</a><a class="outline-btn" href="/materials/">მასალების კატალოგი</a></div></main></body></html>`;
+await writeFile(resolve(root,'dist/404.html'),notFound);
+await writeFile(resolve(root,'dist/robots.txt'),'User-agent: *\nAllow: /\n\nSitemap: https://lithos.ge/sitemap.xml\n');
+await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+Object.values(pages).map(page=>`  <url><loc>${page.url}</loc></url>`).join('\n')+'\n</urlset>\n');
+console.log('Generated 4 public pages and custom 404; missing business data omitted.');
