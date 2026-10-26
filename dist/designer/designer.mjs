@@ -64,16 +64,34 @@ if(endpoint&&/^https:\/\//.test(endpoint)){
   $('automatic-panel').hidden=false;
   $('connection-note').textContent='ავტომატური გენერაცია ხელმისაწვდომია საცდელი წვდომის კოდით. ფოტო იგზავნება მხოლოდ თქვენი თანხმობით.';
 }
+async function aiReference(blob){
+  // Workers AI reference images must be smaller than 512x512.
+  const bitmap=await createImageBitmap(blob);
+  try{
+    const scale=Math.min(1,500/Math.max(bitmap.width,bitmap.height));
+    const canvas=document.createElement('canvas');
+    canvas.width=Math.max(1,Math.round(bitmap.width*scale));
+    canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+    const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    const output=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.85));
+    if(!output||output.size>1024*1024)throw Error('AI საცნობარო სურათის მომზადება ვერ მოხერხდა.');
+    return output;
+  }finally{bitmap.close();}
+}
 const toBase64=blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(',')[1]);reader.onerror=reject;reader.readAsDataURL(blob);});
 $('generate').addEventListener('click',async()=>{
   if(!photo||choice.disabled){status('აირჩიეთ სივრცის ფოტო და მასალა.',true);return;}
-  if(!$('consent').checked){status('გენერაციისთვის დაადასტურეთ ფოტოს Google Gemini-სთვის გაგზავნა.',true);return;}
+  if(!$('consent').checked){status('გენერაციისთვის დაადასტურეთ ფოტოს Cloudflare Workers AI-სთვის გაგზავნა.',true);return;}
   if(!$('access-code').value){status('მიუთითეთ საცდელი წვდომის კოდი.',true);return;}
   let dims;try{dims=dimensions(values());}catch(error){status(error.message,true);return;}
   const requestMaterial=selected,requestPhoto=photo;
   const button=$('generate');button.disabled=true;status('ვიზუალიზაცია იქმნება…');
   try{
-    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+$('access-code').value},body:JSON.stringify({materialId:requestMaterial.type+':'+requestMaterial.id,dimensions:dims,image:{mime_type:'image/jpeg',data:await toBase64(requestPhoto)}}),signal:AbortSignal.timeout(150000)});
+    const stoneResponse=await fetch('/'+requestMaterial.image);
+    if(!stoneResponse.ok)throw Error('ქვის საცნობარო ფოტო ვერ ჩაიტვირთა.');
+    const [kitchenRef,stoneRef]=await Promise.all([aiReference(requestPhoto),aiReference(await stoneResponse.blob())]);
+    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+$('access-code').value},body:JSON.stringify({materialId:requestMaterial.type+':'+requestMaterial.id,dimensions:dims,image:{mime_type:'image/jpeg',data:await toBase64(kitchenRef)},stoneImage:{mime_type:'image/jpeg',data:await toBase64(stoneRef)}}),signal:AbortSignal.timeout(150000)});
     const data=await response.json();if(!response.ok)throw Error(data.error||'გენერაცია ვერ დასრულდა.');
     if(!['image/png','image/jpeg','image/webp'].includes(data.image?.mime_type)||typeof data.image.data!=='string')throw Error('სერვისმა გამოსადეგი ფოტო ვერ დააბრუნა.');
     const bytes=Uint8Array.from(atob(data.image.data),c=>c.charCodeAt(0));
