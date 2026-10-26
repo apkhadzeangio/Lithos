@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="დახაზე ოთახი ან ააწყე სამზარეულო ნაბიჯ-ნაბიჯ: LITHOS-ის ქვა, 3D ხედი, ქვის რაოდენობა, ფილები და საორიენტაციო ფასი.">
 <meta name="robots" content="index,follow">
+<meta name="lithos-tex" content="1024">
 <link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js" crossorigin>
 <title>LITHOS სამზარეულოს დიზაინერი</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +56,7 @@ button{cursor:pointer}
 .canvas-wrap{position:absolute;inset:0}
 .canvas-wrap canvas{width:100%;height:100%;display:block;touch-action:none}
 .labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.lbl{position:absolute;transform:translate(-50%,-100%);background:var(--overlay);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font:500 11px/1.5 var(--f-num);white-space:nowrap}
+.lbl{position:absolute;left:0;top:0;will-change:transform;transform:translate(-50%,-100%);background:var(--overlay);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font:500 11px/1.5 var(--f-num);white-space:nowrap}
 .lbl b{font-family:var(--f-ui);font-weight:600;margin-right:4px}
 .views{position:absolute;left:12px;top:12px;display:flex;gap:2px;background:var(--overlay);border:1px solid var(--line);border-radius:999px;padding:3px}
 .views button{border:0;background:none;padding:5px 11px;border-radius:999px;font-size:12px;color:var(--muted)}
@@ -237,7 +240,7 @@ details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
 <script src="/neolith-data.js"></script>
 <script src="/quartz-data.js"></script>
 <script src="/designer/config.js"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 
 </head>
 <body>
@@ -1020,32 +1023,52 @@ function rotateRoom(S) {
 let T = null, renderer, scene, camera, controls, root, upperGroup, labelGroupData = [];
 let needsRender = true, labelsDirty = true, tween = null, threeReady = false, mergeGeos = null;
 const texCache = new Map(), matCache = new Map(), texInfo = new Map();
+const TEX_VARIANT = !!document.querySelector('meta[name="lithos-tex"]');
 const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
+/* quality tier: phones, tablets and low-memory/low-core machines get a lighter pipeline */
+const TIER = (() => {
+  const coarse = matchMedia('(pointer: coarse)').matches, mem = navigator.deviceMemory || 8, cores = navigator.hardwareConcurrency || 8;
+  return coarse || mem <= 4 || cores <= 4 ? 'low' : 'high';
+})();
+const DPR = window.devicePixelRatio || 1;
+const Q = TIER === 'low'
+  ? { pr: Math.min(DPR, 1.3), aa: true, shadow: 1024, aniso: 4 }   /* phone GPUs resolve MSAA on-chip cheaply; pixel count is what costs */
+  : { pr: Math.min(DPR, 1.75), aa: true, shadow: 2048, aniso: 8 };
+let lights = null, prNow = Q.pr, moving = false, idleTimer = 0, lastFrame = 0, frameEma = 16;
+
 async function init3D() {
-  const [THREE, oc, re, ra, bu] = await Promise.all([
+  const [THREE, oc, re, bu] = await Promise.all([
     import('three'), import('three/addons/controls/OrbitControls.js'),
-    import('three/addons/environments/RoomEnvironment.js'), import('three/addons/lights/RectAreaLightUniformsLib.js'),
-    import('three/addons/utils/BufferGeometryUtils.js')
+    import('three/addons/environments/RoomEnvironment.js'), import('three/addons/utils/BufferGeometryUtils.js')
   ]);
-  T = THREE; ra.RectAreaLightUniformsLib.init(); mergeGeos = bu.mergeGeometries;
+  T = THREE; mergeGeos = bu.mergeGeometries;
   const wrap = $('#canvasWrap');
-  renderer = new T.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer = new T.WebGLRenderer({ antialias: Q.aa, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(prNow);
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  /* the kitchen does not move, so the shadow map is drawn once per rebuild, not every frame */
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFShadowMap; renderer.shadowMap.autoUpdate = false;
   wrap.appendChild(renderer.domElement);
   scene = new T.Scene();
   const pm = new T.PMREMGenerator(renderer);
   scene.environment = pm.fromScene(new re.RoomEnvironment(renderer), 0.04).texture;
+  pm.dispose();
   camera = new T.PerspectiveCamera(38, 1, 0.05, 80);
   controls = new oc.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true; controls.dampingFactor = 0.09;
+  controls.enableDamping = true; controls.dampingFactor = 0.12;
   controls.maxPolarAngle = Math.PI * 0.495; controls.minDistance = 0.8; controls.maxDistance = 18;
   controls.addEventListener('change', () => { needsRender = true; labelsDirty = true; });
   controls.addEventListener('start', () => { tween = null; });
   root = new T.Group(); root.scale.setScalar(0.01); scene.add(root);
+  /* a fixed light rig: changing the number of lights would recompile every shader */
+  const hemi = new T.HemisphereLight('#fffaf1', '#cfc6b8', 0.75);
+  const sun = new T.DirectionalLight('#fff3e2', 2.1);
+  sun.castShadow = true; sun.shadow.mapSize.set(Q.shadow, Q.shadow); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+  const lamp = new T.PointLight('#ffcf94', 0, 5, 2);
+  scene.add(hemi, sun, sun.target, lamp);
+  lights = { hemi, sun, lamp };
   new ResizeObserver(resize).observe(wrap); resize();
   applyThemeBg(); matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { applyThemeBg(); needsRender = true; });
   threeReady = true;
@@ -1060,6 +1083,7 @@ function resize() {
   renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   needsRender = true; labelsDirty = true;
 }
+function setPR(pr) { if (Math.abs(pr - prNow) < 0.01) return; prNow = pr; renderer.setPixelRatio(pr); const w = $('#canvasWrap').clientWidth || 1, h = $('#canvasWrap').clientHeight || 1; renderer.setSize(w, h, false); }
 function loop(now) {
   requestAnimationFrame(loop);
   if (tween) {
@@ -1069,10 +1093,21 @@ function loop(now) {
     needsRender = true; labelsDirty = true;
   }
   const moved = controls.update();
-  if (moved || needsRender) {
-    hideFacingWalls();
-    renderer.render(scene, camera); needsRender = false;
+  if (moved || tween) {
+    moving = true; clearTimeout(idleTimer);
+    /* when settled, draw one sharp frame at full resolution */
+    idleTimer = setTimeout(() => { moving = false; if (prNow !== Q.pr) { setPR(Q.pr); needsRender = true; } }, 180);
   }
+  if (moved || needsRender) {
+    if (moving && lastFrame) {
+      const dt = now - lastFrame;
+      if (dt < 250) frameEma = frameEma * 0.7 + dt * 0.3;
+      /* below ~30 fps while orbiting: render smaller until the camera stops */
+      if (frameEma > 34 && prNow > 0.65) setPR(Math.max(0.6, prNow * 0.75));
+    }
+    hideFacingWalls();
+    renderer.render(scene, camera); needsRender = false; lastFrame = now;
+  } else lastFrame = 0;
   if (labelsDirty) { drawLabels(); labelsDirty = false; }
 }
 
@@ -1085,7 +1120,7 @@ function canvasTex(key, w, h, draw, cm = [100, 100], srgb = true) {
   const t = new T.CanvasTexture(c);
   if (srgb) t.colorSpace = T.SRGBColorSpace;
   t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(1 / cm[0], 1 / cm[1]);
-  t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  t.anisotropy = Math.min(Q.aniso, renderer.capabilities.getMaxAnisotropy());
   texCache.set(key, t); return t;
 }
 const shade = (hex, f) => { const c = new T.Color(hex); c.multiplyScalar(f); return '#' + c.getHexString(); };
@@ -1166,7 +1201,7 @@ const M_ = {
   chrome: () => cm('chrome', () => new T.MeshStandardMaterial({ color: '#e8e9ea', metalness: 1, roughness: 0.12 })),
   brass: () => cm('brass', () => new T.MeshStandardMaterial({ color: '#c9a35e', metalness: 1, roughness: 0.28 })),
   black: () => cm('blackmetal', () => new T.MeshStandardMaterial({ color: '#1b1b1c', metalness: 0.6, roughness: 0.45 })),
-  glass: () => cm('blackglass', () => new T.MeshPhysicalMaterial({ color: '#0c0c0d', roughness: 0.06, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.04 })),
+  glass: () => cm('blackglass', () => new T.MeshStandardMaterial({ color: '#0c0c0d', roughness: 0.08, metalness: 0, envMapIntensity: 1.2 })),
   gola: () => cm('gola', () => new T.MeshStandardMaterial({ color: '#2b2c2c', metalness: 0.5, roughness: 0.5 })),
   carcass: () => cm('carcass', () => new T.MeshStandardMaterial({ color: '#e7e3da', roughness: 0.8 })),
   groove: () => cm('groove', () => new T.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.22, depthWrite: false })),
@@ -1184,17 +1219,22 @@ function floorMat() {
 function stoneMat(key) {
   return cm('stone:' + key, () => {
     const m = mat(key), fin = finishParams(m.finish);
-    const material = new T.MeshPhysicalMaterial({ color: new T.Color(toneOf(m)), roughness: fin.r, metalness: 0, clearcoat: fin.cc, clearcoatRoughness: 0.12, envMapIntensity: fin.env });
-    new T.TextureLoader().load(ASSET_BASE + m.image, tex => {
+    /* standard material: a polished look comes from low roughness + the environment map, without the clearcoat pass */
+    const material = new T.MeshStandardMaterial({ color: new T.Color(toneOf(m)), roughness: fin.cc ? 0.1 : fin.r, metalness: 0, envMapIntensity: fin.cc ? 1.15 : fin.env });
+    const onTex = tex => {
       const iw = tex.image.width, ih = tex.image.height, long = 280, portrait = ih >= iw;
       const prev = texInfo.get(key); texInfo.set(key, { portrait });
       tex.colorSpace = T.SRGBColorSpace; tex.wrapS = tex.wrapT = T.MirroredRepeatWrapping;
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      tex.anisotropy = Math.min(Q.aniso, renderer.capabilities.getMaxAnisotropy());
       tex.repeat.set(1 / (portrait ? long * iw / ih : long), 1 / (portrait ? long : long * ih / iw));
       material.map = tex; material.color.set('#ffffff'); material.needsUpdate = true;
       if (!prev || prev.portrait !== portrait) scheduleRebuild();
       needsRender = true;
-    }, undefined, () => { /* keep tone colour if the photo is missing */ });
+    };
+    const loader = new T.TextureLoader(), full = ASSET_BASE + m.image;
+    /* on the site a 1024-px copy (*.tex.webp) is served for 3D; fall back to the catalog photo */
+    if (TEX_VARIANT) loader.load(full.replace(/\.webp$/, '.tex.webp'), onTex, undefined, () => loader.load(full, onTex));
+    else loader.load(full, onTex);
     return material;
   });
 }
@@ -1267,14 +1307,20 @@ function mergeGroup(g) {
 }
 
 /* ================= 3D: scene builders ================= */
-let rebuildQueued = false;
-function scheduleRebuild() { if (rebuildQueued || !threeReady) return; rebuildQueued = true; requestAnimationFrame(() => { rebuildQueued = false; rebuild(); }); }
+/* rebuild the scene after a short pause: typing and dragging update the panel and sketch at once, the 3D follows */
+let rebuildTimer = 0, rebuildAt = 0;
+function scheduleRebuild(delay = 0) {
+  if (!threeReady) return;
+  const at = performance.now() + delay;
+  if (rebuildTimer && at >= rebuildAt && delay === 0) return;
+  clearTimeout(rebuildTimer); rebuildAt = at;
+  rebuildTimer = setTimeout(() => { rebuildTimer = 0; requestAnimationFrame(rebuild); }, delay);
+}
 let walls = [];
 function rebuild() {
   if (!threeReady) return;
   const M = model;
   for (const c of [...root.children]) { disposeTree(c); root.remove(c); }
-  for (const c of [...scene.children]) if (c.userData.light) scene.remove(c);
   walls = [];
   const g = new T.Group(); root.add(g);
   upperGroup = new T.Group(); upperGroup.visible = $('#tgUpper').checked; root.add(upperGroup);
@@ -1286,8 +1332,8 @@ function rebuild() {
   buildHoods(g, M);
   buildLights(g, M);
   mergeGroup(g); mergeGroup(upperGroup);
-  labelGroupData = buildLabelData(M);
-  needsRender = true; labelsDirty = true;
+  labelGroupData = buildLabelData(M); labelEls = null;
+  renderer.shadowMap.needsUpdate = true; needsRender = true; labelsDirty = true;
 }
 
 /* ---- room ---- */
@@ -1519,7 +1565,7 @@ function buildCutFixture(g, M, r, k, top, matKey) {
     const fmM = faucetMat();
     const base = new T.CylinderGeometry(2.4, 2.6, 3, 20); base.translate(back.x, top + 1.5, back.z); g.add(mesh(base, fmM));
     const col = new T.CylinderGeometry(1.3, 1.3, 30, 16); col.translate(back.x, top + 18, back.z); g.add(mesh(col, fmM));
-    const arc = new T.TorusGeometry(9, 1.3, 12, 24, Math.PI); arc.rotateY(r.alongX ? Math.PI / 2 : 0);
+    const arc = new T.TorusGeometry(9, 1.3, 8, 16, Math.PI); arc.rotateY(r.alongX ? Math.PI / 2 : 0);
     const toward = wp(r, k.uc, k.vc); const dx = toward.x - back.x, dz = toward.z - back.z, dl = Math.hypot(dx, dz) || 1;
     arc.translate(back.x + dx / dl * 9, top + 33, back.z + dz / dl * 9);
     g.add(mesh(arc, fmM));
@@ -1528,7 +1574,7 @@ function buildCutFixture(g, M, r, k, top, matKey) {
     const gw = r.alongX ? k.w : k.d, gd = r.alongX ? k.d : k.w;
     const yy = S.hob.mount === 'flush' ? top - 0.6 : top;
     const geo = boxGeo(c.cx - gw / 2, c.cx + gw / 2, yy, yy + 0.6, c.cz - gd / 2, c.cz + gd / 2);
-    const hm = cm(`hobm:${S.hob.type}:${S.hob.w}`, () => new T.MeshPhysicalMaterial({ map: hobTex(S.hob.type, S.hob.w), roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.04 }));
+    const hm = cm(`hobm:${S.hob.type}:${S.hob.w}`, () => new T.MeshStandardMaterial({ map: hobTex(S.hob.type, S.hob.w), roughness: 0.08, envMapIntensity: 1.2 }));
     if (!r.alongX) { const uv = geo.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getY(i), 1 - uv.getX(i)); }
     g.add(mesh(geo, hm, { cast: false }));
     if (S.hob.type === 'gas') {
@@ -1592,23 +1638,18 @@ function buildHoods(g, M) {
 
 /* ---- lights ---- */
 function buildLights(g, M) {
-  const night = S.int.time === 'evening';
-  const add = o => { o.userData.light = true; scene.add(o); return o; };
-  renderer.toneMappingExposure = night ? 0.72 : 1.0;
-  add(new T.HemisphereLight('#fffaf1', '#cfc6b8', night ? 0.18 : 0.75));
-  const sun = add(new T.DirectionalLight(night ? '#9fb4d6' : '#fff3e2', night ? 0.25 : 2.1));
+  const night = S.int.time === 'evening', { hemi, sun, lamp } = lights;
+  renderer.toneMappingExposure = night ? 0.78 : 1.0;
+  hemi.intensity = night ? 0.22 : 0.75;
+  sun.color.set(night ? '#9fb4d6' : '#fff3e2'); sun.intensity = night ? 0.25 : 2.1;
   const W = M.RW / 100, Dd = M.RD / 100;
-  sun.position.set(W * 0.15, 5.5, Dd + 3.2); sun.target.position.set(W / 2, 0.6, Dd * 0.3); add(sun.target);
-  sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+  sun.position.set(W * 0.15, 5.5, Dd + 3.2); sun.target.position.set(W / 2, 0.6, Dd * 0.3); sun.target.updateMatrixWorld();
   const sc = sun.shadow.camera, ext = Math.max(W, Dd) * 0.85 + 1; sc.left = -ext; sc.right = ext; sc.top = ext; sc.bottom = -ext; sc.near = 0.5; sc.far = 18; sc.updateProjectionMatrix();
-  if (S.int.led && M.upOn && S.up.type !== 'shelves') {
-    for (const r of M.runs) {
-      const ups = M.upper.filter(x => x.r === r); if (!ups.length) continue;
-      const s = Math.min(...ups.map(x => x.u)), e = Math.max(...ups.map(x => x.u + x.w));
-      const c = wp(r, (s + e) / 2, 24), len = (e - s) / 100;
-      const L = add(new T.RectAreaLight(night ? '#ffd8a8' : '#fff1dc', night ? 9 : 2.5, r.alongX ? len : 0.08, r.alongX ? 0.08 : len));
-      L.position.set(c.x / 100, (M.upY0 - 1) / 100, c.z / 100); L.lookAt(c.x / 100, 0, c.z / 100);
-    }
+  /* one warm point light stands in for pendants and under-cabinet LEDs in the evening */
+  lamp.intensity = 0;
+  if (night) {
+    if (M.isl && S.int.pend > 0) { lamp.position.set(M.isl.cx / 100, (M.isl.top + 70) / 100, (M.isl.zk + M.isl.z1) / 200); lamp.intensity = 4 + S.int.pend * 2; }
+    else if (S.int.led && M.upOn) { lamp.position.set(M.RW / 200, (M.upY0 - 10) / 100, M.D / 100); lamp.intensity = 6; }
   }
   if (M.isl && S.int.pend > 0) {
     const I = M.isl, n = S.int.pend, y0 = I.top + 78;
@@ -1617,9 +1658,8 @@ function buildLights(g, M) {
     for (let i = 0; i < n; i++) {
       const x = I.x0 + I.len * (i + 0.5) / n, z = (I.zk + I.z1) / 2;
       const cord = new T.CylinderGeometry(0.25, 0.25, M.RH - y0 - 22, 6); cord.translate(x, (M.RH + y0 + 22) / 2, z); g.add(mesh(cord, M_.black(), { cast: false }));
-      const sh = new T.CylinderGeometry(4, 14, 22, 28, 1, true); sh.translate(x, y0 + 11, z); g.add(mesh(sh, shadeM, { cast: false }));
-      const bl = new T.SphereGeometry(4, 16, 12); bl.translate(x, y0 + 3, z); g.add(mesh(bl, bulb, { cast: false, recv: false }));
-      if (night) { const pl = add(new T.PointLight('#ffcf94', 6, 4, 2)); pl.position.set(x / 100, (y0 - 2) / 100, z / 100); }
+      const sh = new T.CylinderGeometry(4, 14, 22, 20, 1, true); sh.translate(x, y0 + 11, z); g.add(mesh(sh, shadeM, { cast: false }));
+      const bl = new T.SphereGeometry(4, 12, 8); bl.translate(x, y0 + 3, z); g.add(mesh(bl, bulb, { cast: false, recv: false }));
     }
   }
 }
@@ -1631,15 +1671,19 @@ function buildLabelData(M) {
   if (M.isl) out.push({ x: M.isl.cx, y: M.isl.top + 4, z: M.isl.z1, html: `<b>კუნძული</b>${M.isl.len}×${M.isl.dep}` });
   return out;
 }
+let labelEls = null;
 function drawLabels() {
   const host = $('#labels');
-  if (!threeReady || !$('#tgDims').checked) { host.replaceChildren(); return; }
+  if (!threeReady || !$('#tgDims').checked) { host.replaceChildren(); labelEls = null; return; }
+  if (!labelEls) { host.innerHTML = labelGroupData.map(l => `<span class="lbl">${l.html}</span>`).join(''); labelEls = [...host.children]; }
   const w = host.clientWidth, h = host.clientHeight, v = new T.Vector3();
-  host.innerHTML = labelGroupData.map(l => {
+  labelGroupData.forEach((l, i) => {
+    const el = labelEls[i]; if (!el) return;
     v.set(l.x / 100, l.y / 100, l.z / 100).project(camera);
-    if (v.z > 1 || Math.abs(v.x) > 1.05 || Math.abs(v.y) > 1.05) return '';
-    return `<span class="lbl" style="left:${((v.x + 1) / 2) * w}px;top:${((1 - v.y) / 2) * h}px">${l.html}</span>`;
-  }).join('');
+    const off = v.z > 1 || Math.abs(v.x) > 1.05 || Math.abs(v.y) > 1.05;
+    el.style.display = off ? 'none' : '';
+    if (!off) el.style.transform = `translate(${(((v.x + 1) / 2) * w).toFixed(1)}px,${(((1 - v.y) / 2) * h).toFixed(1)}px) translate(-50%,-100%)`;
+  });
 }
 
 /* ---- camera views ---- */
@@ -2196,14 +2240,14 @@ function normalize() {
   return changed;
 }
 let shareTimer = 0;
-function update(rerender) {
+function update(rerender, delay = rerender ? 0 : 160) {
   autoNotes = S.flow === 'quick' ? autoDesign(S) : [];
   model = computeModel(S);
   const infos = model.warns.filter(w => w.level === 'info' && w.step === 3);
   if (normalize()) { model = computeModel(S); model.warns.push(...infos.filter(i => !model.warns.some(w => w.text === i.text))); }
   storeSave();
   if (rerender) renderStep(); else refreshLive();
-  renderSteps(); renderStats(); scheduleRebuild();
+  renderSteps(); renderStats(); scheduleRebuild(ui.drag ? 260 : delay);
   clearTimeout(shareTimer); shareTimer = setTimeout(async () => { try { const code = await encodeProject(S); shareLink = location.origin + location.pathname + '#p.' + code; if (step === 6) refreshLive(); } catch { shareLink = ''; } }, 500);
 }
 function go(i) {
@@ -2310,9 +2354,15 @@ body.addEventListener('pointerdown', e => {
   ui.drag = { i, moved: false, sx: e.clientX, sy: e.clientY }; ui.selFeat = i;
   $('#sketchSvg').setPointerCapture(e.pointerId);
 });
+/* pointer events can fire faster than the screen refreshes: handle at most one per frame */
+let dragEvt = null;
 body.addEventListener('pointermove', e => {
   if (!ui.drag) return;
   if (!ui.drag.moved && Math.hypot(e.clientX - ui.drag.sx, e.clientY - ui.drag.sy) < 4) return;
+  if (!dragEvt) requestAnimationFrame(() => { const ev = dragEvt; dragEvt = null; if (ev && ui.drag) dragTo(ev); });
+  dragEvt = { clientX: e.clientX, clientY: e.clientY };
+});
+function dragTo(e) {
   ui.drag.moved = true;
   const f = S.feats[ui.drag.i]; if (!f) return;
   const { x, z } = sketchPoint(e), W0 = S.room.w, D0 = S.room.d;
@@ -2320,10 +2370,12 @@ body.addEventListener('pointermove', e => {
   const allowed = f.t === 'door' || f.t === 'column' ? ['back', 'left', 'right', 'front'] : ['back', 'left', 'right'];
   const wall = allowed.reduce((m, k) => (dist[k] < dist[m] ? k : m), allowed[0]);
   const len = wall === 'back' || wall === 'front' ? W0 : D0, along = wall === 'back' || wall === 'front' ? x : z, w = f.w || 0;
-  f.wall = wall; f.x = Math.round(clamp(along - w / 2, 0, Math.max(0, len - w)) / 5) * 5;
+  const nx = Math.round(clamp(along - w / 2, 0, Math.max(0, len - w)) / 5) * 5;
+  if (f.wall === wall && f.x === nx) return;
+  f.wall = wall; f.x = nx;
   update(false);
-});
-const endDrag = () => { if (!ui.drag) return; const d = ui.drag; ui.drag = null; if (!d.moved) refreshLive(); };
+}
+const endDrag = () => { if (!ui.drag) return; const d = ui.drag; ui.drag = null; if (!d.moved) refreshLive(); else scheduleRebuild(0); };
 body.addEventListener('pointerup', endDrag); body.addEventListener('pointercancel', endDrag);
 body.addEventListener('keydown', e => {
   const el = e.target.closest?.('#sketchSvg .feat'); if (!el) return;
@@ -2338,7 +2390,7 @@ $('#prev').addEventListener('click', () => go(step - 1));
 $('#next').addEventListener('click', () => go(step + 1));
 document.querySelector('.views').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
 $('#tgDims').addEventListener('change', () => { labelsDirty = true; });
-$('#tgUpper').addEventListener('change', e => { if (upperGroup) { upperGroup.visible = e.target.checked; needsRender = true; } });
+$('#tgUpper').addEventListener('change', e => { if (upperGroup) { upperGroup.visible = e.target.checked; renderer.shadowMap.needsUpdate = true; needsRender = true; } });
 let resetArmed = 0;
 $('#btnReset').addEventListener('click', e => {
   const b = e.currentTarget;
