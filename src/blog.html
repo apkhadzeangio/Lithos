@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#f4f1eb">
+  <link rel="canonical" href="{{URL}}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/favicon-32-v1.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon-v1.png" sizes="180x180">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="blog/blog.css">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{DESCRIPTION}}">
+  <meta property="og:type" content="{{TYPE}}">
+  <meta property="og:url" content="{{URL}}">
+  <meta property="og:image" content="{{IMAGE}}">
+  <meta property="og:image:alt" content="{{IMAGE_ALT}}">
+  <meta property="og:locale" content="ka_GE">
+  <meta name="twitter:card" content="summary_large_image">
+  {{JSONLD}}
+</head>
+<body class="blog-page">
+  <a class="blog-skip-link" href="{{PATH}}#main-content">მთავარ შიგთავსზე გადასვლა</a>
+  {{HEADER}}
+  <main id="main-content">{{BODY}}</main>
+  {{FOOTER}}
+  {{MOBILE_CONTACT}}
+  {{SCRIPTS}}
+</body>
+</html>
