@@ -1,0 +1,64 @@
+name: Deploy LITHOS to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dist/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Prepare static website
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          python3 - <<'PY'
+          import os, re, shutil
+          from pathlib import Path
+          base = os.environ.get("BASE_PATH", "").rstrip("/")
+          shutil.copytree("dist", "_site")
+          for path in Path("_site").rglob("*.html"):
+              text = path.read_text()
+              text = re.sub(r"""((?:href|src|action)=["'])/(?!/)""", lambda m: m[1] + base + "/", text)
+              path.write_text(text)
+          config = Path("_site/site-config.js")
+          text = config.read_text()
+          text = re.sub(r"""(path:\s*["'])/(?!/)""", lambda m: m[1] + base + "/", text)
+          config.write_text(text)
+          app = Path("_site/app.js")
+          text = app.read_text()
+          for route in ("materials", "neolith", "quartz"):
+              text = text.replace("'/" + route + "/':", "'" + base + "/" + route + "/':")
+          app.write_text(text)
+          Path("_site/.nojekyll").touch()
+          assert Path("_site/index.html").is_file()
+          assert 'href="' + base + '/"' in Path("_site/index.html").read_text()
+          print("Prepared website at " + (base or "/"))
+          PY
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
