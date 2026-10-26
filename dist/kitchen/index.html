@@ -274,7 +274,8 @@ details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
 <script type="module">
 'use strict';
 /* ---------- config ---------- */
-const ASSET_BASE = '/';
+/* asset root = wherever the catalog script was served from ("", "/" or a sub-path like "/Lithos/") */
+const ASSET_BASE = (document.querySelector('script[src$="neolith-data.js"]')?.getAttribute('src') || '').replace(/neolith-data\.js$/, '');
 const WA_PHONE = '995551044013';
 const STORE_KEY = 'lithos-kitchen-v1';
 const $ = (s, r = document) => r.querySelector(s);
