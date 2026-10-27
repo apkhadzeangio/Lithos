@@ -19,7 +19,7 @@ export function articleCard(article, {featured = false, index = 0} = {}) {
     <a class="blog-card-image" href="${path}" tabindex="-1" aria-hidden="true"><img src="${article.image.replace('.webp', '.thumb.webp')}" width="720" height="540" alt="" loading="lazy" decoding="async"></a>
     <div class="blog-card-copy"><div class="blog-meta"><span>${escape(article.category)}</span><span>${readingTime(article)} წუთი</span></div>
     <h2><a href="${path}">${escape(article.title)}</a></h2><p>${escape(article.excerpt)}</p>
-    <div class="blog-card-bottom"><span>${String(index + 1).padStart(2, '0')} / გზამკვლევი</span><a href="${path}" aria-label="${escape(article.title)} — სტატიის წაკითხვა">წაიკითხეთ <span aria-hidden="true">↗</span></a></div></div>
+    <div class="blog-card-bottom"><a href="${path}" aria-label="${escape(article.title)} — სტატიის წაკითხვა">წაიკითხეთ <span aria-hidden="true">↗</span></a></div></div>
   </article>`;
 }
 
@@ -30,18 +30,17 @@ export function blogTeaser(articles) {
 export async function buildBlog({config, homepage, articles}) {
   const template = await readFile(resolve(root, 'src/blog.html'), 'utf8');
   const contactUrl = `https://wa.me/${config.phone.replace(/\D/g, '')}`;
-  const header = homepage.match(/<header>[\s\S]*?<\/header>/)[0]
-    .replace('data-nav="blog"', 'data-nav="blog" class="active" aria-current="page"')
-    .replace(/<button class="contact-btn" data-contact>([\s\S]*?)<\/button>/, `<a class="contact-btn" href="${contactUrl}" target="_blank" rel="noopener noreferrer">$1</a>`);
-  const footer = homepage.match(/<footer>[\s\S]*?<\/footer>/)[0]
-    .replace(/<button class="footer-contact" data-contact>([\s\S]*?)<\/button>/, `<a class="footer-contact" href="${contactUrl}" target="_blank" rel="noopener noreferrer">$1</a>`);
+  const header = homepage.match(/<header class="atelier-header">[\s\S]*?<\/header>\s*<nav id="mobile-menu"[\s\S]*?<\/nav>/)[0]
+    .replace('data-nav="blog"', 'data-nav="blog" class="active" aria-current="page"');
+  const footer = homepage.match(/<footer class="atelier-footer[\s\S]*?<\/footer>/)[0]
+    .replace(/<button class="atelier-action atelier-action-light" data-contact>([\s\S]*?)<\/button>/, `<a class="atelier-action atelier-action-light" href="${contactUrl}" target="_blank" rel="noopener noreferrer">$1</a>`);
   const mobileContact = homepage.match(/<nav class="mobile-contact-bar"[\s\S]*?<\/nav>/)[0];
   const render = ({title, description, path, body, schema, image = 'assets/lithos-og-real.jpg', imageAlt = 'LITHOS — ქვის ზედაპირები', article = false}) => {
-    const values = {PATH:path, TITLE:escape(title), DESCRIPTION:escape(description), URL:`https://lithos.ge${path}`, IMAGE:`https://lithos.ge/${image}`, IMAGE_ALT:escape(imageAlt), TYPE:article ? 'article' : 'website', JSONLD:`<script type="application/ld+json">${jsonLd(schema)}</script>`, HEADER:header, FOOTER:footer, MOBILE_CONTACT:mobileContact, BODY:body, SCRIPTS:article ? '' : '<script src="blog/blog.js" defer></script>'};
+    const values = {PATH:path, TITLE:escape(title), DESCRIPTION:escape(description), URL:`https://lithos.ge${path}`, IMAGE:`https://lithos.ge/${image}`, IMAGE_ALT:escape(imageAlt), TYPE:article ? 'article' : 'website', JSONLD:`<script type="application/ld+json">${jsonLd(schema)}</script>`, HEADER:header, FOOTER:footer, MOBILE_CONTACT:mobileContact, BODY:body, SCRIPTS:(article ? '' : '<script src="blog/blog.js" defer></script>') + '<script src="architectural.js" defer></script>'};
     return template.replace(/\{\{([A-Z_]+)\}\}/g, (_, key) => values[key]);
   };
   const categories = [...new Set(articles.map(article => article.category))];
-  const indexBody = `<section class="wrap blog-intro"><span class="eyebrow muted">LITHOS / ბლოგი</span><div class="blog-intro-grid"><h1>პატარა რჩევები.<br><span class="text-accent">თქვენი სივრცისთვის.</span></h1><p>ქვის შერჩევიდან ყოველდღიურ მოვლამდე — პრაქტიკული სტატიები, რომლებიც სამზარეულოს დაგეგმვასა და მოწყობაში დაგეხმარებათ.</p></div></section>
+  const indexBody = `<section class="wrap blog-intro"><span class="eyebrow muted">LITHOS / ჟურნალი</span><div class="blog-intro-grid"><h1>პატარა რჩევები<br>თქვენი სივრცისთვის.</h1><p>ქვის შერჩევიდან ყოველდღიურ მოვლამდე — პრაქტიკული სტატიები, რომლებიც სამზარეულოს დაგეგმვასა და მოწყობაში დაგეხმარებათ.</p></div></section>
   <section class="wrap blog-library" aria-labelledby="articles-heading"><h2 id="articles-heading" class="visually-hidden">სტატიები</h2>
     <form class="blog-tools" role="search" hidden data-blog-tools><label class="blog-search" for="blog-search"><span>მოძებნეთ სტატია</span><input type="search" id="blog-search" placeholder="მაგ.: ნიჟარა, მოვლა, კვარცი" autocomplete="off" aria-controls="blog-grid"></label>
     <fieldset class="blog-categories"><legend class="visually-hidden">სტატიის თემა</legend>${['ყველა', ...categories].map((category, index) => `<button type="button" data-blog-category="${index ? escape(category) : ''}" aria-pressed="${!index}" aria-controls="blog-grid">${escape(category)}</button>`).join('')}</fieldset></form>
@@ -55,7 +54,7 @@ export async function buildBlog({config, homepage, articles}) {
   for (const article of articles) {
     const path = articlePath(article);
     const related = articles.filter(item => item.slug !== article.slug).sort((a, b) => Number(b.category === article.category) - Number(a.category === article.category)).slice(0, 2);
-    const body = `<div class="wrap article-breadcrumbs"><nav aria-label="სანავიგაციო ჯაჭვი"><a href="/">მთავარი</a><span aria-hidden="true">/</span><a href="/blog/">ბლოგი</a></nav></div>
+    const body = `<div class="wrap article-breadcrumbs"><nav aria-label="სანავიგაციო ჯაჭვი"><a href="/">მთავარი</a><span aria-hidden="true">/</span><a href="/blog/">ჟურნალი</a></nav></div>
     <article class="blog-article"><div class="wrap article-heading"><div class="blog-meta"><span>${escape(article.category)}</span><span>${readingTime(article)} წუთი</span></div><h1>${escape(article.title)}</h1><p class="article-summary">${escape(article.excerpt)}</p><div class="article-byline"><span>LITHOS · გზამკვლევი</span><time datetime="${article.date}">${dateLabel(article.date)}</time></div></div>
     <figure class="wrap article-cover"><img src="${article.image}" width="1536" height="1024" alt="${escape(article.imageAlt)}" fetchpriority="high" decoding="async"><figcaption>LITHOS-ის შესრულებული ნამუშევარი · ფოტო საილუსტრაციოდ</figcaption></figure>
     <div class="wrap article-layout"><aside class="article-toc" aria-label="სტატიის სარჩევი"><p>ამ სტატიაში</p><ol>${article.sections.map(section => `<li><a href="${path}#${section.id}">${escape(section.heading.replace(/^\d+\. /, ''))}</a></li>`).join('')}</ol></aside>
