@@ -147,7 +147,8 @@ test('live invalid dimensions preserve the state, model, saved data and calculat
   assert.equal(f.run('computeCalls'), 0); assert.equal(f.storage.get('lithos-kitchen-v1'), saved);
   assert.equal(el.getAttribute('aria-invalid'), 'true'); assert.match(el.validationMessage, /200/);
   assert.equal(f.node('#inputStatus').hidden, false); assert.doesNotMatch(f.shareHTML(), /href=/);
-  f.run('go(2); switchFlow("full");'); assert.equal(f.run('step'), 0); assert.equal(f.run('S.flow'), 'quick');
+  // The default flow is now the workspace ('ws'); an invalid entry still blocks both navigation and switching flow.
+  f.run('go(2); switchFlow("full");'); assert.equal(f.run('step'), 0); assert.equal(f.run('S.flow'), 'ws');
   el.value = '500'; f.input(el); assert.equal(f.run('S.room.w'), 500); assert.ok(f.run('computeCalls') > 0);
   assert.equal(el.getAttribute('aria-invalid'), null); await f.clock.flush(); assert.match(f.shareHTML(), /href=/);
 });
@@ -272,7 +273,7 @@ test('an invalid shared project falls back to the valid saved project', async ()
   assert.equal(f.run('S.room.w'), 500); assert.equal(f.run('rejectedStoredProject'), false); assert.match(f.run('loadNotice'), /ბმულიდან/);
 });
 
-for (const [flow, step] of [['quick', 2], ['full', 6]]) test(`${flow}: WhatsApp and copied URLs contain the same updated project`, async () => {
+for (const [flow, step] of [['quick', 2], ['full', 6], ['ws', 3]]) test(`${flow}: WhatsApp and copied URLs contain the same updated project`, async () => {
   const f = fixture(); f.run(`S.flow=${JSON.stringify(flow)}; step=${step}; update(true);`); await f.clock.flush();
   const el = f.field('quote.waste', '15'); f.input(el);
   assert.doesNotMatch(f.shareHTML(), /href=/); // Old URL must not be clickable while new encoding is pending.
@@ -376,4 +377,164 @@ for (const [id, type, a, b, island, area, warnings] of [
   assert.equal(f.run('S.isl.on'), island); assert.ok(Math.abs(f.run('model.q.total') - area) < 1e-9);
   assert.equal(f.run('model.warns.filter(w=>w.level==="error").length'), 0);
   assert.equal(f.run('model.warns.filter(w=>w.level==="warn").length'), warnings);
+});
+
+/* ---------------- workspace: shape & island → materials → fit to the room → price ---------------- */
+const layoutOf = f => f.json('{ lay: S.lay, isl: S.isl, sink: S.sink, hob: S.hob, fridge: S.fridge, dw: S.dw, pantry: S.pantry, mods: S.mods, oven: S.oven, hood: S.hood }');
+const materialsOf = f => f.json('{ stone: S.stone, front: S.front, int: S.int }');
+const fitErrors = f => f.json('autoNotes.filter(n => n.level === "error").map(n => ({ text: n.text, fixes: (n.fixes || []).map(x => x.label) }))');
+
+test('a first visit opens the workspace with a labelled, complete sample kitchen', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  assert.equal(f.run('S.flow'), 'ws'); assert.equal(f.run('S.sk.dims'), 'sample'); assert.equal(f.run('S.sk.fsample'), true);
+  assert.equal(f.run('curSteps().map(s => s.t).join("|")'), 'ფორმა|მასალები|ზომები|ფასი');
+  assert.equal(f.run('S.lay.type'), 'L'); assert.equal(f.run('!!model.isl'), true); assert.deepEqual(fitErrors(f), []);
+  assert.match(f.run('wsStageHTML()'), /ნიმუში<\/b> — ზომები შეგიძლია შეცვალო/);
+  assert.match(f.run('requestText()'), /ზომები: ნიმუში/);   // the sample is never sent as measured data
+});
+
+for (const shape of ['I', 'L', 'U']) for (const island of [true, false]) test(`workspace sample: ${shape} ${island ? 'with' : 'without'} island is fully arranged and fits`, async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.click('ws-shape', { v: shape }); f.click('ws-island', { v: island ? 'yes' : 'no' });
+  assert.equal(f.run('S.lay.type'), shape); assert.equal(f.run('S.isl.on'), island);
+  assert.deepEqual(f.json('S.room'), f.json(`WS_SAMPLES[${JSON.stringify(shape + (island ? '+' : ''))}].room`));
+  assert.equal(f.run('S.sk.dims'), 'sample'); assert.deepEqual(fitErrors(f), []);
+  assert.equal(f.run('model.warns.filter(w => w.level === "error").length'), 0);
+  assert.ok(f.run('model.items.A.some(m => m.t === "sink") || model.items[model.sinkRun].some(m => m.t === "sink")'));
+  assert.ok(f.run('model.q.total') > 2);
+});
+
+test('changing the stone never moves the layout; an unavailable thickness is switched and explained', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const before = layoutOf(f);
+  f.click('mat', { v: 'quartz:quartz-calacatta-vita' });
+  assert.equal(f.run('S.stone.main'), 'quartz:quartz-calacatta-vita'); assert.equal(f.run('S.stone.t'), 20);
+  assert.match(f.node('#toast').textContent, /12 მმ სისქით არ მზადდება — არჩეულია 20 მმ/);
+  assert.deepEqual(layoutOf(f), before);
+  f.click('mat', { v: 'neolith:nero-marquina' }); assert.deepEqual(layoutOf(f), before);
+});
+
+test('changing the shape or the room keeps every material and colour', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.click('mat', { v: 'neolith:beton' }); f.run('ui.wsScope = "all"'); f.click('ws-color', { v: 'navy' }); f.run('S.front.type = "shaker"; update(false)');
+  const mats = materialsOf(f);
+  for (const v of ['U', 'I', 'L']) { f.click('ws-shape', { v }); assert.deepEqual(materialsOf(f), mats, v); }
+  f.click('ws-island', { v: 'no' }); assert.deepEqual(materialsOf(f), mats);
+  const w = f.field('room.w', '520'); f.input(w); assert.deepEqual(materialsOf(f), mats);
+});
+
+test('cabinet colour applies to the named group only', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.run('ui.wsScope = "all"'); f.click('ws-color', { v: 'white' });
+  assert.deepEqual(f.json('[S.front.base, S.front.up, S.front.isl]'), ['white', null, null]);
+  f.run('ui.wsScope = "base"'); f.click('ws-color', { v: 'sage' });
+  assert.deepEqual(f.json('[S.front.base, S.front.up, S.front.isl]'), ['sage', 'white', 'white']);   // uppers and island keep their look
+  f.run('ui.wsScope = "up"'); f.click('ws-color', { v: 'sage' });
+  assert.equal(f.run('S.front.up'), null);   // same as base again
+  assert.match(f.run('ui.wsT = "cab"; ui.wsScope = "isl"; wsChangingHTML()'), /კუნძულის კარადების ფერი/);
+});
+
+test('typing the room size turns the sample into the user\'s room; the kitchen refits automatically', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const a0 = f.run('S.lay.a');
+  const w = f.field('room.w', '380'); f.input(w);
+  assert.equal(f.run('S.room.w'), 380); assert.equal(f.run('S.sk.dims'), 'user'); assert.notEqual(f.run('S.lay.a'), a0);
+  assert.ok(f.run('S.feats.every(x => x.x + (x.w || 0) <= (x.wall === "back" || x.wall === "front" ? S.room.w : S.room.d))'));   // sample window/door slid inside
+  assert.doesNotMatch(f.run('requestText()'), /ზომები: ნიმუში/);
+  assert.doesNotMatch(f.run('wsStageHTML()'), /ნიმუში/);
+});
+
+test('a typed run length is kept, a too-long one is explained with fixes, "automatic" gives it back', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const a = f.field('lay.a', '300'); f.input(a);
+  assert.equal(f.run('S.sk.fix.a'), true); assert.equal(f.run('S.lay.a'), 300);
+  f.run('S.room.d = 450; update(false);'); assert.equal(f.run('S.lay.a'), 300);
+  a.value = '700'; f.input(a);
+  const errs = fitErrors(f); assert.equal(errs.length, 1); assert.match(errs[0].text, /A მონაკვეთი 700 სმ-ია/);
+  assert.ok(errs[0].fixes.includes('ავტომატურად'));
+  f.click('ws-fix', { n: '0', f: '0' }); assert.ok(f.run('S.lay.a') <= f.run('S.room.w')); assert.deepEqual(fitErrors(f), []);
+  f.click('ws-auto', { v: 'a' }); assert.equal(f.run('S.sk.fix.a'), false);
+});
+
+test('an island that no longer fits is kept as a choice, with the reason and concrete fixes', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const d = f.field('room.d', '300'); f.input(d);
+  assert.equal(f.run('S.sk.island'), true); assert.equal(f.run('S.isl.on'), false);   // not silently deleted
+  const errs = fitErrors(f); assert.equal(errs.length, 1);
+  assert.match(errs[0].text, /კუნძული ვერ ეტევა: ოთახის სიღრმე 300 სმ-ია/);
+  assert.ok(errs[0].fixes.some(x => /სიღრმე → \d+ სმ/.test(x))); assert.ok(errs[0].fixes.includes('კუნძულის გარეშე'));
+  assert.match(f.run('wsStageHTML()'), /კუნძული ვერ ეტევა — გამოსავალი/);
+  f.click('ws-fix', { n: '0', f: '0' });   // deepen the room
+  assert.equal(f.run('S.isl.on'), true); assert.deepEqual(fitErrors(f), []);
+});
+
+test('a U kitchen that does not fit says why and offers another shape; the choice is preserved', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.click('ws-island', { v: 'no' });
+  const w = f.field('room.w', '220'); f.input(w);   // 2 × 62 cm legs leave less than 100 cm in the middle
+  f.click('ws-shape', { v: 'U' });
+  assert.equal(f.run('S.sk.shape'), 'U');
+  const errs = fitErrors(f); assert.ok(errs.length >= 1);
+  assert.match(errs[0].text, /U-ს ფორმის სამზარეულო ამ ოთახში ბოლომდე ვერ ეტევა/);
+  assert.ok(errs[0].fixes.some(x => /სიგანე → \d+ სმ/.test(x)));
+});
+
+test('undo returns the previous shape, island and sample room', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const room0 = f.json('S.room');
+  f.clock.now += 1000; f.click('ws-shape', { v: 'U' });
+  f.clock.now += 1000; f.click('ws-island', { v: 'no' });
+  f.run('histGo(true)'); assert.equal(f.run('S.sk.island'), true); assert.equal(f.run('S.sk.shape'), 'U');
+  f.run('histGo(true)'); assert.equal(f.run('S.sk.shape'), 'L'); assert.deepEqual(f.json('S.room'), room0);
+  f.run('histGo(false)'); assert.equal(f.run('S.sk.shape'), 'U');
+});
+
+test('workspace: saved project, shared link and screen state are the same; reopening restores it', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.click('ws-shape', { v: 'U' }); f.click('mat', { v: 'neolith:arena' }); f.input(f.field('room.w', '520'));
+  await f.clock.flush();
+  const saved = JSON.parse(f.storage.get('lithos-kitchen-v1'));
+  assert.deepEqual(saved, f.json('S'));
+  f.run('step = 3; update(true)'); await f.clock.flush();
+  const wa = whatsappProject(f.shareHTML()); assert.deepEqual(projectFromLink(wa.url), f.json('S'));
+  const g = fixture({ stored: JSON.stringify(saved) }); await g.boot(); await g.clock.flush();
+  assert.deepEqual(g.json('S'), saved); assert.equal(g.run('S.sk.shape'), 'U'); assert.equal(g.run('S.sk.dims'), 'user');
+  const h = fixture({ hash: new URL(wa.url).hash }); await h.boot(); await h.clock.flush();
+  assert.deepEqual(h.json('S'), saved);
+});
+
+test('a project from the earlier sketch mode opens in the workspace with the same kitchen', async () => {
+  const f = fixture(); f.run('S = clone(DEFAULTS); S.flow = "quick"; S.room.w = 400; S.room.d = 400; S.sk.isl = "no"; autoDesign(S);');
+  const old = f.json('S'), before = f.json('{ lay: S.lay, on: S.isl.on }');
+  const g = fixture({ stored: JSON.stringify(old) }); await g.boot(); await g.clock.flush();
+  assert.equal(g.run('S.flow'), 'ws'); assert.equal(g.run('S.sk.dims'), 'user');
+  assert.deepEqual(g.json('{ lay: S.lay, on: S.isl.on }'), before);
+});
+
+test('moving a sample window makes the room the user\'s: a later shape change keeps it', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const x = f.field(null, '40', { act: 'feat', i: 0, k: 'x', min: 0, max: 1200 }); f.change(x);
+  assert.equal(f.run('S.sk.fsample'), false); assert.equal(f.run('S.sk.dims'), 'sample');
+  const room = f.json('S.room'), feats = f.json('S.feats');
+  f.click('ws-shape', { v: 'I' }); assert.deepEqual(f.json('S.room'), room); assert.deepEqual(f.json('S.feats'), feats);
+  assert.match(f.run('requestText()'), /ზომები: ნიმუში/); assert.doesNotMatch(f.run('requestText()'), /ნიმუშის ადგილებზე/);
+});
+
+test('detailed editing and back: materials-only changes keep the sample; layout changes can be restored', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.run('switchFlow("full")'); assert.equal(f.run('S.flow'), 'full');
+  f.click('mat', { v: 'neolith:beton' }); f.run('switchFlow("ws")');
+  assert.equal(f.run('S.flow'), 'ws'); assert.equal(f.run('S.sk.dims'), 'sample'); assert.equal(f.run('ui.fullBackup'), null);
+  assert.equal(f.run('S.stone.main'), 'neolith:beton');
+  f.run('switchFlow("full"); S.oven = "tall"; update(false); switchFlow("ws")');
+  assert.equal(f.run('S.sk.dims'), 'sample');   // room untouched in detail mode
+  assert.equal(f.run('ui.fullBackup && ui.fullBackup.oven'), 'tall');   // re-planned, but the detailed version can be restored
+  f.click('restore'); assert.equal(f.run('S.flow'), 'full'); assert.equal(f.run('S.oven'), 'tall');
+});
+
+test('reset returns to the sample in the workspace', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.click('ws-shape', { v: 'I' }); f.input(f.field('room.w', '520'));
+  f.run('S = clone(DEFAULTS); applySample(S); update(true)');
+  assert.equal(f.run('S.sk.shape'), 'L'); assert.equal(f.run('S.sk.dims'), 'sample'); assert.deepEqual(f.json('S.room'), { w: 460, d: 420, h: 270 });
 });

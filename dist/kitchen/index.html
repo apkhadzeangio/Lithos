@@ -19,7 +19,7 @@
   --paper:#f3f0e9; --surface:#fbf9f4; --sunk:#ebe7de; --ink:#252923; --muted:#656a61; --line:#d7d3c7; --line-strong:#b5b1a4;
   --accent:#727c55; --accent-ink:#4a5235; --accent-soft:#e3e6d6; --primary:#2f382c; --on-primary:#f6f4ee;
   --error:#a03a25; --error-soft:#f5e1d9; --warn:#8a6110; --warn-soft:#f3e8cf; --info:#46606c; --info-soft:#e0e8eb;
-  --stage:#e4e0d6; --overlay:rgba(251,249,244,.93);
+  --stage:#e4e0d6; --overlay:rgba(251,249,244,.93); --hl:#2f6fd6; --hl-soft:#e4ecf9;
   --f-ui:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-num:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
   --radius:7px;
@@ -28,12 +28,12 @@
   --paper:#161815; --surface:#1d201c; --sunk:#262a24; --ink:#e9e6dd; --muted:#a0a397; --line:#353930; --line-strong:#4d5247;
   --accent:#a8b285; --accent-ink:#c9d1aa; --accent-soft:#2b3123; --primary:#dfe4cc; --on-primary:#1a1d17;
   --error:#e48a72; --error-soft:#3a221b; --warn:#dcb05c; --warn-soft:#352c19; --info:#94b3c0; --info-soft:#1e292d;
-  --stage:#20231f; --overlay:rgba(29,32,28,.92); color-scheme:dark}}
+  --stage:#20231f; --overlay:rgba(29,32,28,.92); --hl:#7fa9ec; --hl-soft:#1d2738; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#161815; --surface:#1d201c; --sunk:#262a24; --ink:#e9e6dd; --muted:#a0a397; --line:#353930; --line-strong:#4d5247;
   --accent:#a8b285; --accent-ink:#c9d1aa; --accent-soft:#2b3123; --primary:#dfe4cc; --on-primary:#1a1d17;
   --error:#e48a72; --error-soft:#3a221b; --warn:#dcb05c; --warn-soft:#352c19; --info:#94b3c0; --info-soft:#1e292d;
-  --stage:#20231f; --overlay:rgba(29,32,28,.92); color-scheme:dark}
+  --stage:#20231f; --overlay:rgba(29,32,28,.92); --hl:#7fa9ec; --hl-soft:#1d2738; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{height:100%}
@@ -245,6 +245,87 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
 .sel{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:7px 8px;font-size:12.5px;min-height:36px;color:var(--ink);width:100%}
 .sugg{display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .sugg label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px}
+/* ---- workspace: one screen — shape, materials, sizes, price ---- */
+.wsbar{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);min-height:30px;padding:0 4px}
+.linkbtn{border:0;background:none;padding:4px 0;color:var(--accent-ink);font-size:12.5px;font-weight:500;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:28px}
+.f-h .linkbtn{font-size:inherit;min-height:24px;padding:0}
+.wscards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.wscards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wscard{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:1px;text-align:left;border:1px solid var(--line-strong);background:var(--surface);border-radius:10px;padding:8px 8px 10px;min-width:0;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.wscard:hover{border-color:var(--ink)}
+.wscard.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);background:var(--paper)}
+.wscard.on::after{content:"";position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--primary)}
+.wscard.on::before{content:"";position:absolute;top:13.5px;right:13px;width:9px;height:5px;border-left:2px solid var(--on-primary);border-bottom:2px solid var(--on-primary);transform:rotate(-45deg);z-index:1}
+.wsfig{width:100%;height:auto;display:block;margin-bottom:4px}
+.wsfig .fl{fill:var(--paper)}.wscard.on .wsfig .fl{fill:var(--surface)}
+.wsfig .ct,.wsfig .isl{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1}
+.wsfig .isl{stroke-width:1.4}
+.wsfig .tall{fill:var(--line-strong)}
+.wsfig .wl{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:square}
+.wsfig .op{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 3}
+.wsfig .sk{fill:none;stroke:var(--ink);stroke-width:.9}.wsfig .hb{fill:var(--ink)}
+.wt{font-size:13.5px;font-weight:600;line-height:1.3}
+.wsub{font-size:11.5px;color:var(--muted);line-height:1.35}
+h3.wsh{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-ink);margin:18px 0 10px}
+.wscorner{margin-top:10px}
+.note .nb{display:flex;flex-direction:column;gap:7px;min-width:0}
+.fixes{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fixbtn,.note .fixbtn{margin:0;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);text-decoration:none;border-radius:999px;padding:4px 12px;font-size:12px;min-height:32px;font-weight:500}
+.fixbtn:hover{border-color:var(--ink)}
+.tgts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.tgt{display:flex;align-items:center;gap:8px;border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--radius);padding:6px 8px;text-align:left;min-width:0;min-height:50px;color:var(--ink)}
+.tgt img,.tgt .cdot{width:34px;height:34px;border-radius:5px;object-fit:cover;flex:0 0 auto;background:var(--sunk);display:block}
+.tgt .cdot{border-radius:50%;border:1px solid var(--line-strong)}
+.tgt .cdot.none{background:repeating-linear-gradient(45deg,var(--sunk) 0 4px,var(--paper) 4px 8px)}
+.tgt span{display:flex;flex-direction:column;min-width:0}
+.tgt b{font-size:12.5px;font-weight:600}
+.tgt small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tgt.on{border-color:var(--hl);box-shadow:0 0 0 1px var(--hl);background:var(--hl-soft)}
+.changing{margin:10px 0 14px;font-size:13px;padding:8px 10px;border-radius:var(--radius);background:var(--hl-soft);border-left:3px solid var(--hl)}
+.changing .k{color:var(--muted)}
+.cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ccard{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:4px 4px 6px;text-align:left;display:flex;flex-direction:column;gap:1px;min-width:0;color:var(--ink)}
+.ccard img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;background:var(--sunk);display:block;margin-bottom:3px}
+.ccard .nm{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccard .br{font-size:10px;color:var(--muted);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccard.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.ccard.same img{opacity:.5}
+details.cat{border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;margin-top:12px;background:var(--surface)}
+details.cat summary{font-weight:500}
+.cswg{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:10px 6px}
+.csw{display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:none;padding:3px 2px;font-size:11px;color:var(--muted);text-align:center;min-width:0;border-radius:var(--radius)}
+.csw i{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);display:block}
+.csw.on i{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.csw.on{color:var(--ink);font-weight:600}
+.csw span{line-height:1.25}
+.dimpill{cursor:pointer}
+.dimpill rect{fill:var(--surface);stroke:var(--accent);stroke-width:1.3}
+.dimpill text{font:600 11px var(--f-num);fill:var(--accent-ink)}
+.dimpill.fixed rect{fill:var(--primary);stroke:var(--primary)}
+.dimpill.fixed text{fill:var(--on-primary)}
+.dimpill:hover rect{stroke:var(--ink)}
+.dimpill:focus{outline:none}.dimpill:focus-visible rect{stroke:var(--hl);stroke-width:2.5}
+.lgk{display:inline-block;width:16px;height:10px;border-radius:5px;border:1.3px solid var(--accent);background:var(--surface)}
+.lgk.fixed{background:var(--primary);border-color:var(--primary)}
+.lgk.room{border-radius:0;border:0;border-top:3px solid var(--ink);height:7px;background:none}
+.fwrap{display:flex;flex-direction:column;gap:4px;min-width:0}
+.tag{display:inline-block;font-size:10.5px;padding:0 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);font-weight:600;margin-left:4px;vertical-align:1px}
+table.t td.kk{color:var(--muted);width:32%;padding-right:10px}
+.chip.sample{background:var(--warn-soft);color:var(--ink);border-color:color-mix(in srgb,var(--warn) 45%,var(--line));font-size:12.5px;padding:5px 12px}
+.chip.sample b{color:var(--warn)}
+.chip.sample .go{display:none;font-weight:600}
+.chip.tgt{border-color:var(--hl);background:var(--hl-soft)}
+.chip.act{background:var(--primary);color:var(--on-primary);border-color:var(--primary);font-weight:500;min-height:32px;padding:5px 14px}
+button.lbl{pointer-events:auto;cursor:pointer;color:var(--ink)}
+button.lbl:hover{border-color:var(--ink)}
+.toast{position:absolute;left:50%;top:56px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);background:var(--primary);color:var(--on-primary);border-radius:999px;padding:7px 15px;font-size:12.5px;box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:4;text-align:center;pointer-events:none}
+.sharepop{position:fixed;top:58px;right:max(12px,env(safe-area-inset-right,0px));width:min(380px,calc(100vw - 24px));z-index:50;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,.2);padding:10px 14px 12px}
+.sp-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sp-h b{font-weight:600;font-size:14px}
+.sp-saved{margin:2px 0 10px}
+#spLink{font-size:11.5px}
+#btnReset .ico{display:none;font-size:15px}
+.sheet-handle{display:none}
 /* workshop drawing: on-screen preview and print */
 .sheet-wrap{position:fixed;inset:0;z-index:60;background:var(--stage);overflow:auto;-webkit-overflow-scrolling:touch}
 .sheet-bar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -302,8 +383,29 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
   .stage-tools{top:auto;bottom:12px;right:12px;padding:4px 10px}
   .stage-stats{bottom:52px}
 }
+/* phones, workspace: the picture stays on top, the panel is a sheet that opens from the bottom */
+@media (max-width:860px){
+  .app.ws{height:100%;height:100dvh;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+  .app.ws .work{display:flex;flex-direction:column;min-height:0;height:100%}
+  .app.ws .stage{position:relative;top:auto;flex:1 1 auto;height:auto;min-height:120px;border-bottom:0}
+  .app.ws .panel{flex:0 0 52%;min-height:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;margin-top:-14px;position:relative;z-index:6;box-shadow:0 -8px 24px rgba(0,0,0,.10);overflow:hidden}
+  .app.ws[data-sheet="tall"] .panel{flex-basis:80%}
+  .app.ws[data-sheet="min"] .panel{flex:0 0 auto}
+  .app.ws[data-sheet="min"] .step-body,.app.ws[data-sheet="min"] #inputStatus{display:none}
+  .app.ws .step-body{overflow-y:auto;overscroll-behavior:contain;padding-top:12px}
+  .app.ws .step-nav{position:static;padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}
+  .app.ws .sheet-handle{display:flex;justify-content:center;align-items:center;width:100%;height:24px;border:0;background:none;padding:0;cursor:grab;touch-action:none;flex:0 0 auto}
+  .app.ws .sheet-handle i{width:42px;height:4px;border-radius:2px;background:var(--line-strong)}
+  .app.ws .modebar{padding-top:0}
+  .app.ws .steps{padding-top:6px;padding-bottom:8px}
+  .app.ws .views [data-view="front"],.app.ws .views [data-view="island"]{display:none}
+  .app.ws .stage-tools{top:12px;bottom:auto}
+  .app.ws .stage-stats{bottom:24px}
+  .toast{top:52px}
+}
+@media (max-width:560px){.chip.act.alt,.chip.tgt{display:none}.chip.sample .go{display:inline}#btnReset:not(.armed) .rl{display:none}#btnReset:not(.armed) .ico{display:inline}.top{gap:8px;padding-left:12px;padding-right:12px}.top-actions{gap:4px}.brand .mark{letter-spacing:.22em}}
 @media (max-width:520px){.save-state{display:none}}
-@media (max-width:420px){.grid2{grid-template-columns:minmax(0,1fr)}.mgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.metric .v{font-size:17px}}
+@media (max-width:420px){.wscard{padding:6px 6px 8px}.wt{font-size:12.5px}.wsub{font-size:10.5px}.grid2{grid-template-columns:minmax(0,1fr)}.mgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.metric .v{font-size:17px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <script src="/neolith-data.js"></script>
@@ -313,10 +415,10 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
 </head>
 <body>
 
-<div class="app">
+<div class="app" data-sheet="mid">
   <header class="top">
     <div class="brand"><a class="mark" href="/" style="color:inherit;text-decoration:none">LITHOS</a><span class="sub">სამზარეულოს დიზაინერი · ქვა, ზომები, 3D</span></div>
-    <div class="top-actions"><span class="save-state" id="saveState"></span><button class="btn ghost icon" type="button" id="btnUndo" title="დაბრუნება (Ctrl+Z)" aria-label="დაბრუნება" disabled>↶</button><button class="btn ghost icon" type="button" id="btnRedo" title="წინ (Ctrl+Shift+Z)" aria-label="წინ" disabled>↷</button><button class="btn ghost" type="button" id="btnReset">თავიდან დაწყება</button></div>
+    <div class="top-actions"><span class="save-state" id="saveState"></span><button class="btn ghost icon" type="button" id="btnUndo" title="დაბრუნება (Ctrl+Z)" aria-label="დაბრუნება" disabled>↶</button><button class="btn ghost icon" type="button" id="btnRedo" title="წინ (Ctrl+Shift+Z)" aria-label="წინ" disabled>↷</button><button class="btn" type="button" id="btnShare" aria-haspopup="dialog" aria-expanded="false">გაზიარება</button><button class="btn ghost" type="button" id="btnReset" title="თავიდან დაწყება" aria-label="თავიდან დაწყება"><span class="ico" aria-hidden="true">⟲</span><span class="rl">თავიდან დაწყება</span></button></div>
   </header>
   <main class="work">
     <section class="stage" id="stage" aria-label="3D ხედი">
@@ -333,9 +435,11 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
         <label><input type="checkbox" id="tgUpper" checked> ზედა კარადები</label>
       </div>
       <div class="stage-stats" id="stageStats"></div>
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
       <div class="loading" id="loading">3D ხედი იტვირთება…</div>
     </section>
     <aside class="panel" aria-label="პარამეტრები">
+      <button type="button" class="sheet-handle" id="sheetHandle" aria-label="პანელის ზომა — შეეხე ან გადაათრიე" aria-expanded="true"><i></i></button>
       <div class="modebar" id="modebar"></div>
       <div class="note error" id="inputStatus" role="status" aria-live="polite" hidden></div>
       <nav class="steps" id="steps" aria-label="ნაბიჯები"></nav>
@@ -344,6 +448,7 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
     </aside>
   </main>
 </div>
+<div class="sharepop" id="sharePop" role="dialog" aria-label="შენახვა და გაზიარება" hidden></div>
 <div class="sheet-wrap" id="sheetWrap" hidden role="dialog" aria-modal="true" aria-label="ნახაზი ხელოსნისთვის"><div class="sheet-bar"><b>ნახაზი ხელოსნისთვის</b><span class="fine">A4 ჰორიზონტალური · PDF-ისთვის ბეჭდვაში აირჩიე „Save as PDF"</span><button type="button" class="btn primary" id="btnPrint">ბეჭდვა / PDF</button><button type="button" class="btn" id="btnSheetClose">დახურვა</button></div><div id="printSheet"></div></div>
 <script type="module">
 import { NUMBER_RULES, numericResult, projectNumericErrors, createShareController } from './state-guards.mjs';
@@ -433,8 +538,10 @@ const WALLS = { back: 'უკანა', left: 'მარცხენა', right
 const DEFAULTS = {
   v: 1,
   room: { w: 460, d: 420, h: 270 },
-  flow: 'quick',
-  sk: { walls: { back: true, left: true, right: true }, isl: 'auto', family: 'mid', pin: { sink: null, hob: null, fridge: null } },
+  flow: 'ws',
+  /* workspace: the shape and island the user picked; dims 'sample' until the user enters or confirms their own room */
+  sk: { walls: { back: true, left: true, right: true }, isl: 'auto', family: 'mid', pin: { sink: null, hob: null, fridge: null },
+    shape: 'L', corner: 'left', island: true, dims: 'sample', fsample: true, fbase: 'L+', fix: { a: false, b: false, c: false, isl: false } },
   feats: [
     { t: 'window', wall: 'back', x: 150, w: 120, h: 140, sill: 105 },
     { t: 'door', wall: 'right', x: 300, w: 90, h: 210 },
@@ -496,6 +603,16 @@ function sanitize(src) {
     return g;
   });
   if (src && !src.flow && (src.lay || src.win)) out.flow = 'full';
+  if (!['ws', 'quick', 'full'].includes(out.flow)) out.flow = 'ws';
+  if (!['I', 'L', 'U'].includes(out.sk.shape)) out.sk.shape = 'L';
+  if (!['left', 'right'].includes(out.sk.corner)) out.sk.corner = 'left';
+  if (!['sample', 'user'].includes(out.sk.dims)) out.sk.dims = 'sample';
+  if (!['I', 'I+', 'L', 'L+', 'U', 'U+'].includes(out.sk.fbase)) out.sk.fbase = 'L+';
+  /* projects from the earlier sketch mode open in the workspace with the shape they had; their room was measured, so it is the user's */
+  if (out.flow === 'quick' && src && src.flow === 'quick') {
+    out.flow = 'ws'; out.sk.shape = ['I', 'L', 'U'].includes(out.lay.type) ? out.lay.type : 'L'; out.sk.corner = out.lay.corner === 'right' ? 'right' : 'left';
+    out.sk.island = !!out.isl.on; out.sk.dims = 'user'; out.sk.fsample = false; out.sk.fix = { a: false, b: false, c: false, isl: false };
+  }
   if (!MAT.has(out.stone.main)) out.stone.main = DEFAULTS.stone.main;
   if (out.stone.bsMat && !MAT.has(out.stone.bsMat)) out.stone.bsMat = null;
   /* quick-mode pins: where the user dragged sink / hob / fridge, kept in wall terms so they survive a layout change */
@@ -1267,8 +1384,11 @@ function computeModel(S) {
 
 /* ================= quick mode: room sketch → kitchen by best practice ================= */
 let autoNotes = [];
-function autoDesign(S) {
+/* opts (workspace only): shape 'I'|'L'|'U', corner, island true/false, len {a,b,c} the user fixed, islLen/islDep.
+   Without opts the quick-mode behaviour is unchanged. Notes may carry fixes: [{ label, set: {path: value}, shape, corner, island, unfix }]. */
+function autoDesign(S, opts = null) {
   const notes = [], ok = text => notes.push({ level: 'ok', text });
+  const ws = !!(opts && opts.shape);
   const RW = S.room.w, RD = S.room.d, D = S.base.depth, TOP = S.base.top;
   const feats = S.feats || [];
   /* 1. what blocks a 60-cm cabinet strip along each wall. Columns do not: the kitchen is built round them
@@ -1291,7 +1411,7 @@ function autoDesign(S) {
     }
     return ivs;
   }
-  const WA = S.sk.walls;
+  const WA = ws ? { back: true, left: true, right: true } : S.sk.walls;   /* the workspace looks at every wall so it can suggest alternatives */
   const fb = WA.back ? free('back') : [], fl = WA.left ? free('left') : [], fr = WA.right ? free('right') : [];
   const fromStart = ivs => ivs.find(([a]) => a < 0.5)?.[1] ?? 0;
   const toEnd = (ivs, len) => { const iv = ivs.find(([, b]) => b > len - 0.5); return iv ? len - iv[0] : 0; };
@@ -1318,19 +1438,92 @@ function autoDesign(S) {
     for (const w of PINW) if (w !== 'isl' && covers(w)) k.score += 60;
   }
   cands.sort((x, y) => y.score - x.score);
-  const best = cands[0];
+  let best = cands[0];
+  if (ws) {
+    /* the user chose the shape: keep it. If it does not fit, still draw it and say exactly why, with fixes. */
+    const corner = opts.corner === 'right' ? 'right' : 'left';
+    best = cands.find(k => k.type === opts.shape && (opts.shape !== 'L' || k.corner === corner));
+    if (!best && opts.shape === 'U' && RW > 600) {
+      const k = { type: 'U', a: RW, b: legCap(leftF), c: legCap(rightF) };
+      if (backL >= RW - 0.5 && RW - 2 * D >= 100 && k.b >= D + 60 && k.c >= D + 60) best = k;   /* a long U is fine in the workspace */
+    }
+    if (!best) {
+      const sideF = corner === 'left' ? leftF : rightF, backF = corner === 'left' ? backL : backR;
+      const why = [], fixes = [], r10 = v => Math.ceil(v / 10) * 10;
+      const NAME = { I: 'ხაზოვანი', L: 'კუთხის', U: 'U-ს ფორმის' };
+      if (opts.shape === 'I') {
+        const free = Math.round(longest[1] - longest[0]);
+        why.push(`უკანა კედელზე თავისუფალი მხოლოდ ${free} სმ-ია — საჭიროა მინიმუმ 150 სმ`);
+        best = { type: 'I', a: Math.max(60, Math.min(free || RW, 600)), off: longest[0], b: 0, c: 0 };
+      } else if (opts.shape === 'L') {
+        if (RD - 100 < D + 60) { why.push(`ოთახის სიღრმე ${RD} სმ-ია — გვერდითი მონაკვეთისთვის საჭიროა მინიმუმ ${D + 160} სმ`); fixes.push({ label: `სიღრმე → ${r10(D + 200)} სმ`, set: { 'room.d': r10(D + 200) } }); }
+        else if (sideF < D + 60) why.push(sideF < 1 ? `${corner === 'left' ? 'მარცხენა' : 'მარჯვენა'} კედელზე კუთხესთან კარი ან დაბალი ფანჯარაა` : `${corner === 'left' ? 'მარცხენა' : 'მარჯვენა'} კედელზე კუთხიდან მხოლოდ ${Math.round(sideF)} სმ-ია თავისუფალი (კარი ან დაბალი ფანჯარა)`);
+        if (backF < D + 90) why.push(backF < 1 ? 'უკანა კედელზე ამ კუთხესთან კარის გასასვლელია' : `უკანა კედელზე კუთხიდან მხოლოდ ${Math.round(backF)} სმ-ია თავისუფალი`);
+        const other = corner === 'left' ? 'right' : 'left', oSide = other === 'left' ? leftF : rightF, oBack = other === 'left' ? backL : backR;
+        if (legCap(oSide) >= D + 60 && oBack >= D + 90) fixes.push({ label: `კუთხე ${other === 'left' ? 'მარცხნივ' : 'მარჯვნივ'}`, corner: other });
+        best = { type: 'L', corner, a: Math.max(D + 90, Math.min(backF || RW, 600)), b: Math.max(D + 60, legCap(sideF)), c: 0 };
+      } else {
+        if (RW - 2 * D < 100) { why.push(`U-ს შუა ნაწილისთვის ოთახის სიგანე მინიმუმ ${2 * D + 100} სმ უნდა იყოს (ახლა ${RW} სმ)`); fixes.push({ label: `სიგანე → ${r10(2 * D + 140)} სმ`, set: { 'room.w': r10(2 * D + 140) } }); }
+        if (backL < RW - 0.5) why.push('უკანა კედელზე კარი ან დაბალი ფანჯარაა — U-ს მთელი კედელი სჭირდება');
+        if (RD - 100 < D + 60) { why.push(`ოთახის სიღრმე ${RD} სმ-ია — გვერდითი მონაკვეთებისთვის საჭიროა მინიმუმ ${D + 160} სმ`); fixes.push({ label: `სიღრმე → ${r10(D + 200)} სმ`, set: { 'room.d': r10(D + 200) } }); }
+        else if (legCap(leftF) < D + 60 || legCap(rightF) < D + 60) why.push('გვერდით კედელზე კუთხესთან კარი ან დაბალი ფანჯარაა');
+        const fw = fixes.find(x => x.set && 'room.w' in x.set), fd = fixes.find(x => x.set && 'room.d' in x.set);
+        if (fw && fd) fixes.unshift({ label: `ოთახი → ${fw.set['room.w']} × ${fd.set['room.d']} სმ`, set: { 'room.w': fw.set['room.w'], 'room.d': fd.set['room.d'] } });
+        best = { type: 'U', a: RW, b: Math.max(D + 60, legCap(leftF)), c: Math.max(D + 60, legCap(rightF)) };
+      }
+      if (opts.shape !== 'L' && cands.some(k => k.type === 'L')) fixes.push({ label: 'აირჩიე კუთხის', shape: 'L', corner: cands.find(k => k.type === 'L').corner });
+      if (opts.shape !== 'I' && cands.some(k => k.type === 'I')) fixes.push({ label: 'აირჩიე ხაზოვანი', shape: 'I' });
+      notes.push({ level: 'error', kind: 'shape', text: `${NAME[opts.shape]} სამზარეულო ამ ოთახში ბოლომდე ვერ ეტევა: ${why.join('; ') || 'კედლები დაკავებულია'}. ნაჩვენებია უახლოესი ვარიანტი — არჩევანი შენახულია.`, fixes });
+    }
+  }
   if (!best) {
     notes.push({ level: 'error', text: 'სამზარეულოსთვის საკმარისი თავისუფალი კედელი ვერ ვიპოვეთ: უკანა კედელზე საჭიროა მინიმუმ 150 სმ. მონიშნე მეტი კედელი, გადაიტანე კარი ან კოლონა, ან მოაბრუნე ოთახი.' });
     return notes;
   }
   S.lay = { ...S.lay, type: best.type, corner: best.corner || 'left', a: Math.round(best.a), b: Math.round(best.b || S.lay.b), c: Math.round(best.c || S.lay.c), off: Math.round(best.off || 0) };
+  if (ws && opts.len) {
+    /* lengths the user typed win over the automatic ones; if one is longer than the wall allows, say so and keep it */
+    const room = { a: best.type === 'I' ? longest[1] - longest[0] : best.type === 'L' ? (best.corner === 'right' ? backR : backL) : RW, b: best.type === 'L' ? legCap(best.corner === 'right' ? rightF : leftF) : legCap(leftF), c: legCap(rightF) };
+    for (const k of ['a', 'b', 'c']) {
+      const v = opts.len[k]; if (v == null || (k !== 'a' && best.type === 'I') || (k === 'c' && best.type !== 'U')) continue;
+      S.lay[k] = Math.round(v);
+      const max = Math.floor(room[k]);
+      if (v > max + 0.5) notes.push({ level: 'error', kind: 'len-' + k, text: `${k.toUpperCase()} მონაკვეთი ${Math.round(v)} სმ-ია, ამ კედელზე კი მაქსიმუმ ${max} სმ ეტევა${k === 'a' ? '' : ' (100 სმ გასასვლელი რჩება)'}.`, fixes: [{ label: `${k.toUpperCase()} → ${max} სმ`, set: { ['lay.' + k]: max } }, { label: 'ავტომატურად', unfix: k }] });
+    }
+    if (best.type === 'I') S.lay.off = Math.round(clamp(best.off || 0, 0, Math.max(0, RW - S.lay.a)));
+  }
   const shape = { I: 'სწორი', L: 'კუთხის (L)', U: 'სამმხრივი (U)' }[best.type];
   ok(`ფორმა: ${shape} — A ${S.lay.a} სმ${best.type !== 'I' ? `, B ${S.lay.b} სმ` : ''}${best.type === 'U' ? `, C ${S.lay.c} სმ` : ''}. ${best.type === 'L' ? 'კუთხე სრულად გამოიყენება და სამუშაო სამკუთხედი მოკლეა.' : best.type === 'U' ? 'U ყველაზე მეტ სამუშაო ზედაპირს იძლევა.' : 'თავისუფალი კედელი სწორ რიგს ერგება.'}`);
   if (touched.size) ok('კარის წინ 100 სმ და დაბალი ფანჯრები გვერდზე ავუარეთ.');
 
   /* 3. island: 110 cm aisle, 90 cm walkway behind, 100 cm from a side leg */
   let isl = { on: false };
-  if (S.sk.isl !== 'no' && best.type !== 'U') {
+  if (ws) {
+    if (opts.island) {
+      const zk = D + 110, r10 = v => Math.ceil(v / 10) * 10;
+      let fx0, fx1, c0;
+      if (best.type === 'L') { if (best.corner === 'left') { fx0 = D + 100; fx1 = RW - 90; c0 = (D + RW) / 2; } else { fx0 = 90; fx1 = RW - D - 100; c0 = (RW - D) / 2; } }
+      else if (best.type === 'U') { fx0 = D + 100; fx1 = RW - D - 100; c0 = RW / 2; }
+      else { fx0 = Math.max(90, S.lay.off); fx1 = Math.min(RW - 90, S.lay.off + S.lay.a); c0 = S.lay.off + S.lay.a / 2; }
+      const availD = RD - zk - 90, availW = fx1 - fx0;
+      const dep = opts.islDep ?? (availD >= 95 ? 95 : 80), len = opts.islLen ?? Math.max(150, Math.min(240, Math.floor(availW / 10) * 10));
+      const why = [], fixes = [];
+      const needD = r10(zk + dep + 90), needW = r10(RW + len - availW);
+      /* both directions short: one fix for the whole room comes first (a single-direction fix would not be enough) */
+      if (availD < dep && availW < len) fixes.push({ label: `ოთახი → ${needW} × ${needD} სმ`, set: { 'room.w': needW, 'room.d': needD } });
+      if (availD < dep) { why.push(`ოთახის სიღრმე ${RD} სმ-ია — ${dep} სმ კუნძულს გასასვლელებით (110 + 90 სმ) სჭირდება მინიმუმ ${zk + dep + 90} სმ`); fixes.push({ label: `სიღრმე → ${needD} სმ`, set: { 'room.d': needD } }); if (availD >= 60) fixes.push({ label: `კუნძული ${Math.floor(availD / 5) * 5} სმ სიღრმის`, set: { 'isl.dep': Math.floor(availD / 5) * 5 } }); }
+      if (availW < len) { why.push(`${len} სმ კუნძულს გვერდებზე 90–100 სმ გასასვლელით ${Math.round(availW)} სმ რჩება`); fixes.push({ label: `სიგანე → ${needW} სმ`, set: { 'room.w': needW } }); if (availW >= 120) fixes.push({ label: `კუნძული ${Math.floor(availW / 10) * 10} სმ`, set: { 'isl.len': Math.floor(availW / 10) * 10 } }); }
+      const cx = (fx0 + fx1) / 2, body = { x0: cx - len / 2, x1: cx + len / 2, z0: zk, z1: zk + dep };
+      if (!why.length && feats.some(f => (f.t === 'column' && rectHit({ ...body, x0: body.x0 - 90, x1: body.x1 + 90, z1: body.z1 + 60 }, featRect(f, RW, RD, 0))) || (f.t === 'door' && rectHit(body, featRect(f, RW, RD, 100))))) why.push('კუნძულის ადგილს კარი ან კოლონა ეღობება');
+      if (!why.length) {
+        isl = { on: true, len, dep, aisle: 110, shift: Math.round(cx - c0), seat: dep >= 90 ? 'back' : 'none', over: 30, bar: false };
+        ok(`კუნძული ${isl.len} × ${isl.dep} სმ${isl.seat === 'back' ? ' სასადილო მხარით' : ''} — გასასვლელი 110 სმ, უკან ${Math.round(RD - zk - isl.dep)} სმ.`);
+      } else {
+        fixes.push({ label: 'კუნძულის გარეშე', island: false });
+        notes.push({ level: 'error', kind: 'island', text: `კუნძული ვერ ეტევა: ${why.join('; ')}. არჩევანი შენახულია — ზომების შეცვლისას კუნძული დაბრუნდება.`, fixes });
+      }
+    }
+  } else if (S.sk.isl !== 'no' && best.type !== 'U') {
     const zk = D + 110, availD = RD - zk - 90;
     let fx0, fx1, c0;
     if (best.type === 'L') { if (best.corner === 'left') { fx0 = D + 100; fx1 = RW - 90; c0 = (D + RW) / 2; } else { fx0 = 90; fx1 = RW - D - 100; c0 = (RW - D) / 2; } }
@@ -1343,8 +1536,9 @@ function autoDesign(S) {
     }
     if (isl.on) ok(`კუნძული ${isl.len} × ${isl.dep} სმ${isl.seat === 'back' ? ' სასადილო მხარით' : ''} — გასასვლელი 110 სმ, უკან ${Math.round(RD - zk - isl.dep)} სმ.`);
     else if (S.sk.isl === 'yes') notes.push({ level: 'warn', text: `კუნძული ვერ ეტევა: საჭიროა ოთახის სიღრმე მინიმუმ ${D + 110 + 80 + 90} სმ და 150 სმ-იანი თავისუფალი სიგანე გასასვლელებით.` });
-  } else if (S.sk.isl === 'yes' && best.type === 'U') notes.push({ level: 'warn', text: 'U-ფორმაში კუნძული არ ჩავსვით — შუა გასასვლელი ძალიან ვიწრო გახდებოდა.' });
+  } else if (!ws && S.sk.isl === 'yes' && best.type === 'U') notes.push({ level: 'warn', text: 'U-ფორმაში კუნძული არ ჩავსვით — შუა გასასვლელი ძალიან ვიწრო გახდებოდა.' });
   S.isl = { ...S.isl, ...isl };
+  if (opts && opts.probe) return notes;   /* fit check only: shape, lengths and island are decided above */
 
   /* 4. appliances, sized for the household */
   const fam = S.sk.family || 'mid';
@@ -1426,6 +1620,68 @@ function autoDesign(S) {
   ok(`ნიჟარა${S.sink.bowls === '1.5' ? ' (1½ ჯამი)' : ''}: ${RUN_NAME[sinkRun]} — ${why}${S.dw !== 'none' ? ', გვერდით ჭურჭლის სარეცხი' : ''}.`);
   ok(`ქურა ${S.hob.w} სმ: ${hobRun !== sinkRun ? `${RUN_NAME[hobRun]} მონაკვეთზე, ნიჟარისგან ცალკე${hobWhy || ' — მოკლე სამუშაო სამკუთხედი'}` : `ნიჟარის რიგზე, მისგან ~120 სმ-ზე${hobWhy}`}.`);
   if (chosen) ok(`${S.fridge.type === 'freestanding' ? 'დიდი მაცივარი (75 სმ)' : 'ჩაშენებული მაცივარი'}${S.pantry ? ` და ${S.pantry} მაღალი კარადა` : ''}: ${RUN_NAME[S.fridge.run]} მონაკვეთის ბოლოში${pf ? ' — სადაც მიუთითე' : doorF ? ' — შესასვლელთან ახლოს' : ''}.`);
+  return notes;
+}
+/* ---------- workspace: the six sample kitchens and the design call ---------- */
+const WS_WIN = x => ({ t: 'window', wall: 'back', x, w: 120, h: 140, sill: 105 });
+const WS_SAMPLES = {
+  I: { room: { w: 420, d: 360, h: 270 }, feats: [WS_WIN(150), { t: 'door', wall: 'right', x: 250, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 210 }] },
+  'I+': { room: { w: 500, d: 480, h: 270 }, feats: [WS_WIN(190), { t: 'door', wall: 'right', x: 370, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 250 }] },
+  L: { room: { w: 460, d: 420, h: 270 }, feats: [WS_WIN(150), { t: 'door', wall: 'right', x: 300, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 210 }] },
+  'L+': { room: { w: 460, d: 420, h: 270 }, feats: [WS_WIN(150), { t: 'door', wall: 'right', x: 300, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 210 }] },
+  U: { room: { w: 400, d: 340, h: 270 }, feats: [WS_WIN(140), { t: 'door', wall: 'front', x: 255, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 200 }] },
+  'U+': { room: { w: 560, d: 420, h: 270 }, feats: [WS_WIN(220), { t: 'door', wall: 'front', x: 30, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 280 }] }
+};
+/* show the sample for the current shape and island (only while the dimensions are still the sample's) */
+function applySample(S) {
+  const key = S.sk.shape + (S.sk.island ? '+' : ''), smp = WS_SAMPLES[key];
+  S.room = { ...S.room, ...clone(smp.room) }; S.feats = clone(smp.feats); S.sk.fbase = key;
+  S.sk.fix = { a: false, b: false, c: false, isl: false }; S.sk.pin = { sink: null, hob: null, fridge: null }; S.sk.dims = 'sample'; S.sk.fsample = true;
+}
+/* the sample's window, door and water point slide along their wall to stay inside a resized room, and go back to
+   their sample places when it grows again; the user's own elements are never moved */
+function fitSampleFeats(S) {
+  const smp = WS_SAMPLES[S.sk.fbase];
+  if (!S.sk.fsample || !smp) return;
+  S.feats = smp.feats.map(o => {
+    const f = { ...o }, len = f.wall === 'back' || f.wall === 'front' ? S.room.w : S.room.d, w = f.w || 0;
+    if (f.x + w > len) f.x = Math.max(0, Math.round(len - w - (w ? Math.min(30, Math.max(0, len - w) / 2) : 30)));
+    return f;
+  });
+}
+/* a fix applied to a project: the same bookkeeping as typing the value (own sizes are kept, the sample label goes) */
+function wsApplyTo(T, f) {
+  for (const [p, v] of Object.entries(f.set || {})) {
+    const ks = p.split('.'); ks.slice(0, -1).reduce((o, k) => o[k], T)[ks.at(-1)] = v;
+    if (p.startsWith('room.')) { T.sk.dims = 'user'; fitSampleFeats(T); }
+    else if (/^lay\.[abc]$/.test(p)) { T.sk.fix[p.slice(4)] = true; T.sk.dims = 'user'; }
+    else if (p === 'isl.len' || p === 'isl.dep') { T.sk.fix.isl = true; T.sk.dims = 'user'; }
+  }
+  if (f.shape) T.sk.shape = f.shape;
+  if (f.corner) T.sk.corner = f.corner;
+  if (f.island === false) T.sk.island = false;
+  if (f.unfix) T.sk.fix[f.unfix] = false;
+}
+/* every suggested fix is tried on a copy first: one that would not remove the problem is not offered,
+   and a room size that is just short (a door in the way) is raised in 20-cm steps until it works */
+function wsVerifiedFix(S, note, f) {
+  const works = g => { const T = clone(S); wsApplyTo(T, g); return !designWorkspace(T, true).some(n => n.level === 'error' && n.kind === note.kind); };
+  if (works(f)) return f;
+  const ks = Object.keys(f.set || {});
+  if (ks.length && ks.every(k => /^room\.[wd]$/.test(k))) for (let k = 1; k <= 6; k++) {
+    const set = Object.fromEntries(ks.map(p => [p, f.set[p] + 20 * k]));
+    if (Object.values(set).some(v => v > 1200)) break;
+    const g = { ...f, set, label: ks.length === 2 ? `ოთახი → ${set['room.w']} × ${set['room.d']} სმ` : f.label.replace(/\d+ სმ$/, set[ks[0]] + ' სმ') };
+    if (works(g)) return g;
+  }
+  return null;
+}
+function designWorkspace(S, probe = false) {
+  const sh = S.sk.shape, corner = S.sk.corner === 'right' ? 'right' : 'left', fx = S.sk.fix || {};
+  S.sk.walls = sh === 'I' ? { back: true, left: false, right: false } : sh === 'L' ? { back: true, left: corner === 'left', right: corner === 'right' } : { back: true, left: true, right: true };
+  S.sk.isl = S.sk.island ? 'yes' : 'no';
+  const notes = autoDesign(S, { shape: sh, corner, island: !!S.sk.island, len: { a: fx.a ? S.lay.a : null, b: fx.b ? S.lay.b : null, c: fx.c ? S.lay.c : null }, islLen: fx.isl ? S.isl.len : null, islDep: fx.isl ? S.isl.dep : null, probe });
+  if (!probe) for (const n of notes) if (n.fixes) n.fixes = n.fixes.map(f => wsVerifiedFix(S, n, f)).filter(Boolean);
   return notes;
 }
 /* turn the room 90° so the wall that was on the left becomes the main (back) wall */
@@ -1610,13 +1866,14 @@ function hobTex(kind, w) {
 
 /* ---- materials ---- */
 function cm(key, make) { if (!matCache.has(key)) matCache.set(key, make()); return matCache.get(key); }
-function frontMat(ck, style) {
-  return cm(`front:${ck}:${style}`, () => {
+/* every material that the user can choose carries a role, so a tap on the picture knows what was touched */
+function frontMat(ck, style, role = 'front') {
+  return cm(`front:${ck}:${style}:${role}`, () => {
     const fc = FRONT_COLORS[ck] || FRONT_COLORS.cashmere;
     const p = { color: new T.Color(fc.c), roughness: 0.6, metalness: 0, envMapIntensity: 0.45 };
     if (fc.wood) { p.map = woodTex(ck); p.color = new T.Color('#ffffff'); p.roughness = 0.68; }
     if (style === 'fluted') { p.bumpMap = flutedTex(); p.bumpScale = 3; }
-    return new T.MeshStandardMaterial(p);
+    const m = new T.MeshStandardMaterial(p); m.userData.role = role; return m;
   });
 }
 const M_ = {
@@ -1639,7 +1896,14 @@ function floorMat() {
   const k = S.int.floor; const rough = { tile: 0.42, terrazzo: 0.35, concrete: 0.8 }[k] ?? 0.62;
   return cm('floor:' + k, () => new T.MeshStandardMaterial({ map: floorTex(k), roughness: rough, envMapIntensity: 0.4 }));
 }
-function stoneMat(key) {
+const stoneKids = new Map();
+function stoneMat(key, role) {
+  /* one texture per stone; worktop, backsplash and island get their own copy of the material so each can be picked and highlighted */
+  if (role) return cm(`stone:${key}:${role}`, () => {
+    const m = stoneMat(key).clone(); m.userData = { role };
+    if (!stoneKids.has(key)) stoneKids.set(key, []);
+    stoneKids.get(key).push(m); return m;
+  });
   return cm('stone:' + key, () => {
     const m = mat(key), fin = finishParams(m.finish);
     /* standard material: a polished look comes from low roughness + the environment map, without the clearcoat pass */
@@ -1650,7 +1914,7 @@ function stoneMat(key) {
       tex.colorSpace = T.SRGBColorSpace; tex.wrapS = tex.wrapT = T.MirroredRepeatWrapping;
       tex.anisotropy = Math.min(Q.aniso, renderer.capabilities.getMaxAnisotropy());
       tex.repeat.set(1 / (portrait ? long * iw / ih : long), 1 / (portrait ? long : long * ih / iw));
-      material.map = tex; material.color.set('#ffffff'); material.needsUpdate = true;
+      for (const x of [material, ...(stoneKids.get(key) || [])]) { x.map = tex; x.color.set('#ffffff'); x.needsUpdate = true; }
       if (!prev || prev.portrait !== portrait) scheduleRebuild();
       needsRender = true;
     };
@@ -1798,6 +2062,7 @@ function rebuild() {
   mergeGroup(g); mergeGroup(upperGroup);
   labelGroupData = buildLabelData(M); labelEls = null;
   renderer.shadowMap.needsUpdate = true; needsRender = true; labelsDirty = true;
+  applyHighlight(true);
 }
 
 /* ---- room ---- */
@@ -1887,7 +2152,7 @@ function addFront(g, r, u0, u1, y0, y1, fm, opts = {}) {
 }
 function buildRun(g, M, r) {
   const its = M.items[r.id], top = r.top, PL = M.PL, cd = r.cd;
-  const fm = frontMat(frontColorFor(r), S.front.type), plM = cm('plinth', () => new T.MeshStandardMaterial({ color: '#2f302e', roughness: 0.7 }));
+  const fm = frontMat(frontColorFor(r), S.front.type, r.isIsl ? 'islf' : 'front'), plM = cm('plinth', () => new T.MeshStandardMaterial({ color: '#2f302e', roughness: 0.7 }));
   const capY = top - (r.isIsl ? (M.isl ? M.vis : M.t) : M.vis);
   const gola = S.front.handle === 'gola', topGap = gola ? 3.2 : 0.4;
   if (r.id === 'A' && r.cs) { g.add(mesh(runBox(r, 0, M.D, 0, cd, 0, capY), fm)); g.add(mesh(runBox(r, 0, cd, cd, M.D, 0, capY), fm)); }
@@ -1971,7 +2236,7 @@ function buildTall(g, M, r, m, fm, plM) {
   addFront(g, r, u0, u1, split + 0.15, fy1, fm, { vertical: true, side, yc: split + 22 });
 }
 function buildIslandShell(g, M) {
-  const I = M.isl, b = I.body, r = M.islRun, fm = frontMat(frontColorFor(r), S.front.type);
+  const I = M.isl, b = I.body, r = M.islRun, fm = frontMat(frontColorFor(r), S.front.type, 'islf');
   const back0 = r.oz;
   const capY = I.top - M.vis;
   if (b.z1 - back0 > 1) g.add(mesh(uvSimple(boxGeo(b.x0, b.x1, 0, capY, back0, b.z1)), fm));
@@ -2005,7 +2270,7 @@ function buildStone(g, M) {
     }
     const bites = (p.notch || []).map(n => { const q1 = wp(r, n.u0, n.v0), q2 = wp(r, n.u1, n.v1); return { x0: Math.min(q1.x, q2.x), x1: Math.max(q1.x, q2.x), z0: Math.min(q1.z, q2.z), z1: Math.max(q1.z, q2.z) }; });
     const geo = slabGeo(Math.min(a.x, b.x), Math.max(a.x, b.x), Math.min(a.z, b.z), Math.max(a.z, b.z), p.top - vis, vis, holes, bites);
-    g.add(mesh(uvStone(geo, r.alongX, p.mat), stoneMat(p.mat)));
+    g.add(mesh(uvStone(geo, r.alongX, p.mat), stoneMat(p.mat, 'ct')));
     for (const k of p.cuts) buildCutFixture(g, M, r, k, p.top, p.mat);
   }
   if (M.islPiece) {
@@ -2015,14 +2280,14 @@ function buildStone(g, M) {
       if (k.kind === 'sink' || S.hob.mount === 'flush') holes.push({ x0: c.cx - c.hw, x1: c.cx + c.hw, z0: c.cz - c.hd, z1: c.cz + c.hd, r: k.kind === 'sink' ? 2.5 : 0.6 });
     }
     const geo = slabGeo(P.x0, P.x1, P.z0, P.z1, P.top - vis, vis, holes);
-    g.add(mesh(uvStone(geo, true, P.mat), stoneMat(P.mat)));
-    const t = M.t, sm = stoneMat(P.mat), yTop = P.top - vis;
+    g.add(mesh(uvStone(geo, true, P.mat), stoneMat(P.mat, 'isl')));
+    const t = M.t, sm = stoneMat(P.mat, 'isl'), yTop = P.top - vis;
     if (I.wfL) g.add(mesh(uvStone(boxGeo(P.x0, P.x0 + t, 0, yTop, P.z0, P.z1), true, P.mat, { a0: P.x0, sign: -1, yTop }), sm));
     if (I.wfR) g.add(mesh(uvStone(boxGeo(P.x1 - t, P.x1, 0, yTop, P.z0, P.z1), true, P.mat, { a0: P.x1, sign: 1, yTop }), sm));
     for (const k of P.cuts) buildCutFixture(g, M, r, k, P.top, P.mat);
   }
   const bsKey = S.stone.bsMat || S.stone.main, bt = M.bsMatT / 10;
-  for (const x of M.bs) g.add(mesh(uvStone(runBox(x.r, x.s, x.e, x.v0 ?? 0, x.v1 ?? bt, M.TOP, M.TOP + x.h), x.r.alongX, bsKey), stoneMat(bsKey), { cast: false }));
+  for (const x of M.bs) g.add(mesh(uvStone(runBox(x.r, x.s, x.e, x.v0 ?? 0, x.v1 ?? bt, M.TOP, M.TOP + x.h), x.r.alongX, bsKey), stoneMat(bsKey, 'bs'), { cast: false }));
   /* worktop sockets: a white double plate on the stone (or wall), the pop-up as a steel disc on the island */
   for (const e of M.elec) {
     if (e.kind === 'sock') {
@@ -2047,7 +2312,7 @@ function buildCutFixture(g, M, r, k, top, matKey) {
     return;
   }
   if (k.kind === 'sink') {
-    const bm = S.sink.mount === 'integrated' ? stoneMat(matKey) : M_.steel(), depth = 19, th = 0.8;
+    const bm = S.sink.mount === 'integrated' ? stoneMat(matKey, r.isIsl ? 'isl' : 'ct') : M_.steel(), depth = 19, th = 0.8;
     const x0 = c.cx - c.hw, x1 = c.cx + c.hw, z0 = c.cz - c.hd, z1 = c.cz + c.hd, yb = y - depth;
     g.add(mesh(boxGeo(x0, x1, yb - th, yb, z0, z1), bm, { cast: false }));
     for (const [a, b2, cc, d] of [[x0 - th, x0, z0, z1], [x1, x1 + th, z0, z1]]) g.add(mesh(boxGeo(a, b2, yb, y, cc, d), bm, { cast: false }));
@@ -2104,7 +2369,7 @@ function buildCutFixture(g, M, r, k, top, matKey) {
 
 /* ---- wall cabinets, LED, hoods ---- */
 function buildUpper(g, M) {
-  const ck = S.front.up || S.front.base, fm = frontMat(ck, S.front.type), UD = 35;
+  const ck = S.front.up || S.front.base, fm = frontMat(ck, S.front.type, 'up'), UD = 35;
   for (const x of M.upper) {
     const r = { ...x.r, cd: UD };
     const u0 = x.u, u1 = x.u + x.w, y0 = x.y0, y1 = x.y0 + x.h;
@@ -2173,15 +2438,16 @@ function buildLights(g, M) {
 /* ---- labels ---- */
 function buildLabelData(M) {
   const out = [];
-  for (const r of M.runs) { const p = wp(r, r.len / 2, M.D); out.push({ x: p.x, y: M.TOP + 4, z: p.z, html: `<b>${r.id}</b>${r.len}` }); }
-  if (M.isl) out.push({ x: M.isl.cx, y: M.isl.top + 4, z: M.isl.z1, html: `<b>კუნძული</b>${M.isl.len}×${M.isl.dep}` });
+  for (const r of M.runs) { const p = wp(r, r.len / 2, M.D); out.push({ x: p.x, y: M.TOP + 4, z: p.z, html: `<b>${r.id}</b>${r.len} სმ`, focus: 'lay.' + r.id.toLowerCase(), label: `${r.id} მონაკვეთი ${r.len} სმ — ზომის შეცვლა` }); }
+  if (M.isl) out.push({ x: M.isl.cx, y: M.isl.top + 4, z: M.isl.z1, html: `<b>კუნძული</b>${M.isl.len}×${M.isl.dep} სმ`, focus: 'isl.len', label: `კუნძული ${M.isl.len} × ${M.isl.dep} სმ — ზომის შეცვლა` });
   return out;
 }
 let labelEls = null;
 function drawLabels() {
   const host = $('#labels');
   if (!threeReady || !$('#tgDims').checked) { host.replaceChildren(); labelEls = null; return; }
-  if (!labelEls) { host.innerHTML = labelGroupData.map(l => `<span class="lbl">${l.html}</span>`).join(''); labelEls = [...host.children]; }
+  /* in the workspace a length on the picture is a button that opens its field */
+  if (!labelEls) { host.innerHTML = labelGroupData.map(l => S.flow === 'ws' && l.focus ? `<button type="button" class="lbl" data-focus="${l.focus}" aria-label="${esc(l.label)}">${l.html}</button>` : `<span class="lbl">${l.html}</span>`).join(''); labelEls = [...host.children]; }
   const w = host.clientWidth, h = host.clientHeight, v = new T.Vector3();
   labelGroupData.forEach((l, i) => {
     const el = labelEls[i]; if (!el) return;
@@ -2203,6 +2469,7 @@ function viewTarget(name) {
 }
 function setView(name, instant) {
   if (!threeReady) return;
+  ui.view = name;
   document.querySelectorAll('.views button').forEach(b => b.classList.toggle('on', b.dataset.view === name));
   const v = viewTarget(name);
   const p1 = new T.Vector3(...v.p).multiplyScalar(0.01), c1 = new T.Vector3(...v.c).multiplyScalar(0.01);
@@ -2212,7 +2479,7 @@ function setView(name, instant) {
 function snapshot(w = 1024, h = 768) {
   const size = renderer.getSize(new T.Vector2()), pr = renderer.getPixelRatio();
   renderer.setPixelRatio(1); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-  hideFacingWalls(); renderer.render(scene, camera);
+  hideFacingWalls(); hlHidden(true); renderer.render(scene, camera); hlHidden(false);
   const url = renderer.domElement.toDataURL('image/jpeg', 0.9);
   renderer.setPixelRatio(pr); renderer.setSize(size.x, size.y, false); camera.aspect = size.x / size.y; camera.updateProjectionMatrix();
   needsRender = true; return url;
@@ -2317,7 +2584,7 @@ function commitNumber(el) {
   clearNumberError(el); inputStatus();
   if (previous === result.value) { refreshShareActions(); return true; }
   if (el.dataset.kind === 'num') { set(el.dataset.path, result.value); afterSet(el.dataset.path); }
-  else if (el.dataset.act === 'feat') { const f = S.feats[+el.dataset.i]; if (!f) return true; f[el.dataset.k] = result.value; }
+  else if (el.dataset.act === 'feat') { const f = S.feats[+el.dataset.i]; if (!f) return true; f[el.dataset.k] = result.value; wsOwnFeats(); }
   else { const m = materialize(ui.cabRun)[+el.dataset.i]; if (!m) return true; m.w = result.value; }
   update(false); return true;
 }
@@ -2555,9 +2822,9 @@ function stepStyle() {
 
 /* ================= room sketch (both modes) + quick-mode steps ================= */
 const QSTEPS = [{ id: 'sketch', t: 'ესკიზი' }, { id: 'look', t: 'სტილი და ქვა' }, { id: 'qsum', t: 'შედეგი' }];
-const curSteps = () => (S.flow === 'quick' ? QSTEPS : STEPS);
-/* model warnings carry full-mode step numbers 1–7; map them onto the current step list */
-const warnStep = n => (S.flow === 'quick' ? (n <= 4 ? 0 : n <= 6 ? 1 : 2) : n - 1);
+const curSteps = () => (S.flow === 'ws' ? WSTEPS : S.flow === 'quick' ? QSTEPS : STEPS);
+/* model warnings carry full-mode step numbers 1–7; map them onto the current step list (workspace: room & layout → sizes, stone & style → materials) */
+const warnStep = n => (S.flow === 'ws' ? (n <= 4 ? 2 : n <= 6 ? 1 : 3) : S.flow === 'quick' ? (n <= 4 ? 0 : n <= 6 ? 1 : 2) : n - 1);
 function sketchGeom() { const W = S.room.w, Dd = S.room.d, pad = 34, vw = 420, sc = Math.min((vw - 2 * pad) / W, 300 / Dd); return { W, Dd, pad, sc, vw, vh: Math.round(Dd * sc + 2 * pad + 4) }; }
 function wallFrame(wall, W, Dd) {
   if (wall === 'back') return { P: t => [t, 0], n: [0, 1], d: [1, 0], len: W };
@@ -2582,7 +2849,7 @@ const APP_GLYPH = { sink: 'ნ', hob: 'ქ', fridge: 'მ' };
 const APP_NAME = { sink: 'ნიჟარა', hob: 'ქურა', fridge: 'მაცივარი' };
 function sketchInner() {
   const M = model, { W, Dd, pad, sc } = sketchGeom(), X = x => +(pad + x * sc).toFixed(1), Z = z => +(pad + z * sc).toFixed(1);
-  const quick = S.flow === 'quick', av = S.sk.walls;
+  const quick = S.flow !== 'full', ws = S.flow === 'ws', av = S.sk.walls;
   const rect = (R, attrs) => `<rect x="${X(R.x0)}" y="${Z(R.z0)}" width="${Math.max(0.5, (R.x1 - R.x0) * sc).toFixed(1)}" height="${Math.max(0.5, (R.z1 - R.z0) * sc).toFixed(1)}" ${attrs}/>`;
   let s = `<defs><pattern id="skHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" stroke-width="1.2"/></pattern></defs>`;
   s += `<rect x="${X(0)}" y="${Z(0)}" width="${(W * sc).toFixed(1)}" height="${(Dd * sc).toFixed(1)}" fill="var(--paper)"/>`;
@@ -2631,8 +2898,20 @@ function sketchInner() {
     s += `<g class="app" data-app="${a.k}" role="button" tabindex="0" aria-label="${APP_NAME[a.k]} — გადაათრიე სხვა ადგილას"><circle cx="${X(a.x)}" cy="${Z(a.z)}" r="15" fill="transparent"/>${pinned ? `<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="11.5" fill="none" stroke="var(--accent)" stroke-width="1.5"/>` : ''}<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="8.5" fill="var(--primary)"/><text x="${X(a.x)}" y="${Z(a.z) + 3.6}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--on-primary)">${APP_GLYPH[a.k]}</text></g>`;
     if (ui.drag && ui.drag.app === a.k && ui.drag.moved) info = `${APP_NAME[a.k]}: გაუშვი იქ, სადაც გინდა`;
   }
-  s += `<text x="${X(W / 2)}" y="${Z(0) - 12}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)">${W} სმ</text>`;
-  s += `<text x="${X(0) - 12}" y="${Z(Dd / 2)}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)" transform="rotate(-90 ${X(0) - 12} ${Z(Dd / 2)})">${Dd} სმ</text>`;
+  s += `<text x="${X(W / 2)}" y="${Z(0) - 12}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)">${ws ? 'ოთახი · ' : ''}${W} სმ</text>`;
+  s += `<text x="${X(0) - 12}" y="${Z(Dd / 2)}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)" transform="rotate(-90 ${X(0) - 12} ${Z(Dd / 2)})">${ws ? 'ოთახი · ' : ''}${Dd} სმ</text>`;
+  /* workspace: each worktop run and the island carry their length; tap one to edit it (filled = a length the user typed) */
+  if (ws) {
+    const pill = (x, z, text, focus, fixed, label) => {
+      const w = text.length * 6.4 + 18;
+      return `<g class="dimpill${fixed ? ' fixed' : ''}" data-focus="${focus}" role="button" tabindex="0" aria-label="${esc(label)}"><rect x="${(X(x) - w / 2).toFixed(1)}" y="${(Z(z) - 10).toFixed(1)}" width="${w.toFixed(1)}" height="20" rx="10"/><text x="${X(x)}" y="${(Z(z) + 4).toFixed(1)}" text-anchor="middle">${esc(text)}</text></g>`;
+    };
+    for (const r of M.runs) {
+      const text = `${r.id} · ${r.len} სმ`, w = text.length * 6.4 + 18, off = ((r.alongX ? 10 : w / 2) + 7) / sc, p = wp(r, (r.u0 + r.u1) / 2, M.D);   /* centred on the free part, away from the shared corner */
+      s += pill(p.x + r.nx * off, p.z + r.nz * off, text, 'lay.' + r.id.toLowerCase(), !!S.sk.fix[r.id.toLowerCase()], `${r.id} მონაკვეთი ${r.len} სმ — შეცვლა`);
+    }
+    if (M.isl) { const I = M.isl; s += pill(I.cx, I.zk + I.dep / 2, `კუნძული ${I.len}×${I.dep} სმ`, 'isl.len', !!S.sk.fix.isl, `კუნძული ${I.len} × ${I.dep} სმ — შეცვლა`); }
+  }
   s += info ? `<g><rect x="${X(W / 2) - 120}" y="${Z(Dd) + 6}" width="240" height="20" rx="10" fill="var(--primary)"/><text x="${X(W / 2)}" y="${Z(Dd) + 20}" text-anchor="middle" font-size="11" fill="var(--on-primary)">${esc(info)}</text></g>`
     : `<text x="${X(W / 2)}" y="${Z(Dd) + 18}" text-anchor="middle" font-size="10.5" fill="var(--muted)">ღია მხარე</text>`;
   return s;
@@ -2927,7 +3206,7 @@ function drawingHTML() {
   const head = (t, n) => `<div class="pg-h"><b>LITHOS</b><span>${t}</span><span>${date}</span><span>${n}</span></div>`;
   const pages = M.allRuns.length + 2;
   const spec = [
-    ['ოთახი', `${M.RW} × ${M.RD} სმ, ჭერი ${M.RH} სმ`],
+    ['ოთახი', `${M.RW} × ${M.RD} სმ, ჭერი ${M.RH} სმ${wsSampleDims() ? ' — ნიმუში, არ არის გაზომილი' : ''}`],
     ['ფორმა', `${shape}: ${M.runs.map(r => `${r.id} ${r.len}`).join(', ')} სმ${M.isl ? `; კუნძული ${M.isl.len}×${M.isl.dep}` : ''}`],
     ['ზედაპირი', `${m.brandLabel} ${m.name}, ${M.tmm} მმ, კიდე: ${EDGE[S.stone.edge]}; სიღრმე ${M.D}, სიმაღლე ${M.TOP} სმ`],
     ['ფარტუკი', `${BS[S.stone.bs]}${S.stone.bsMat ? ' — ' + mat(S.stone.bsMat).name : ''}`],
@@ -2938,7 +3217,7 @@ function drawingHTML() {
   ];
   const legend = `<div class="lg"><span><i class="k stone"></i>ქვა</span><span><i class="k cab"></i>კარადა</span><span><i class="k tall"></i>მაღალი მოდული / კოლონის შეფუთვა</span><span><i class="k col"></i>კოლონა</span><span><i class="k sock"></i>როზეტი</span><span>წ / გ / ვ — წყალი, გაზი, ვენტილაცია</span><span>↓N — შემცირებული სიღრმის კარადა</span></div>`;
   let h = `<section class="pg">${head('სამზარეულოს ნახაზი · გეგმა', `1 / ${pages}`)}<div class="pg-grid"><div>${planSheetSVG(M)}${legend}</div><table class="spec">${spec.map(([k, v]) => `<tr><th>${k}</th><td>${esc(v)}</td></tr>`).join('')}</table></div>
-    <p class="pg-f">ზომები სანტიმეტრებში. ნახაზი მომხმარებლის ზომებზეა აგებული — ქვის ჭრამდე LITHOS ზომებს ადგილზე ამოწმებს.</p></section>`;
+    <p class="pg-f">ზომები სანტიმეტრებში. ${wsSampleDims() ? '<b style="color:#a03a25">ნახაზი ნიმუშის ზომებზეა აგებული — ჭრისთვის არ გამოდგება, სანამ ოთახი არ გაიზომება.</b>' : 'ნახაზი მომხმარებლის ზომებზეა აგებული —'} ქვის ჭრამდე LITHOS ზომებს ადგილზე ამოწმებს.</p></section>`;
   M.allRuns.forEach((r, i) => {
     h += `<section class="pg">${head(`ხედი: ${r.isIsl ? 'კუნძული' : `${r.id} — ${RUN_WALL[r.wall] || ''}`}`, `${i + 2} / ${pages}`)}${elevSVG(M, r)}<p class="pg-f">ხედი ოთახიდან, კარადების წინ მდგომი ადამიანის თვალით. ქვედა ჯაჭვი — მოდულების სიგანეები.</p></section>`;
   });
@@ -2957,6 +3236,430 @@ function openDrawing() {
   $('#sheetWrap').scrollTop = 0; $('#btnPrint').focus();
 }
 function closeDrawing() { $('#sheetWrap').hidden = true; document.body.classList.remove('sheet-open'); $('#printSheet').innerHTML = ''; }
+
+/* ================= workspace: shape & island → materials → fit to your room → price, on one screen ================= */
+const WSTEPS = [{ id: 'wsShape', t: 'ფორმა' }, { id: 'wsMat', t: 'მასალები' }, { id: 'wsDims', t: 'ზომები' }, { id: 'wsPrice', t: 'ფასი' }];
+const WS_NAME = { I: 'ხაზოვანი', L: 'კუთხის', U: 'U-ს ფორმის' };
+const WS_SUB = { I: 'ერთი კედლის გასწვრივ', L: 'ორ კედელზე, კუთხით', U: 'სამ კედელზე' };
+/* a short first choice from the real catalog; everything else is one tap away in the full catalog */
+const WS_CURATED = ['neolith:calacatta-luxe', 'neolith:estatuario', 'quartz:quartz-calacatta-vita', 'neolith:arena', 'neolith:pietra-grey', 'neolith:beton', 'neolith:iron-grey', 'neolith:nero-marquina'];
+const WS_TEX = [{ v: 'flat', l: 'გლუვი' }, { v: 'shaker', l: 'ჩარჩოიანი' }, { v: 'fluted', l: 'ღარიანი' }];
+const WS_TGT = { ct: 'სამუშაო ზედაპირი', cab: 'კარადები', bs: 'ფარტუკი', isl: 'კუნძულის ზედაპირი' };
+const WS_SCOPE = { all: 'ყველა კარადის ფერი', base: 'ქვედა და მაღალი კარადების ფერი', up: 'ზედა კარადების ფერი', isl: 'კუნძულის კარადების ფერი' };
+Object.assign(ui, { wsT: 'ct', wsScope: 'all', sheet: 'mid', view: 'persp', wsBackup: null, open: {} });
+/* expandable parts stay open when the panel is redrawn */
+const openAttr = k => `data-ui="${k}"${ui.open[k] ? ' open' : ''}`;
+
+const wsOn = () => S.flow === 'ws';
+const wsSec = () => (wsOn() ? WSTEPS[step]?.id : null);
+const wsSampleDims = () => wsOn() && S.sk.dims === 'sample';
+/* the sample room may be swapped for another sample only while nothing in it is the user's own */
+const wsCanResample = () => S.sk.dims === 'sample' && S.sk.fsample;
+const wsOwnFeats = () => { if (wsOn()) S.sk.fsample = false; };
+const wsTarget = () => (ui.wsT === 'isl' && !model.isl ? 'ct' : ui.wsT);
+const wsScope = () => (ui.wsScope === 'isl' && !model.isl ? 'all' : ui.wsScope);
+const swBg = o => (o.wood ? `linear-gradient(90deg,${o.c},${shadeHex(o.c, 0.8)} 40%,${o.c} 70%,${shadeHex(o.c, 0.85)})` : o.c);
+
+/* plan pictogram for the shape and island cards (top view, open side at the bottom) */
+function wsFig(shape, island, corner = 'left') {
+  const D = 13, x0 = 8, x1 = 112, z0 = 8, z1 = 86, leg = 58, R = (a, b, c, d, cls) => `<rect class="${cls}" x="${a}" y="${b}" width="${c - a}" height="${d - b}"/>`;
+  const sink = (x, y) => `<rect class="sk" x="${x}" y="${y}" width="12" height="7" rx="1.6"/>`;
+  const hob = (x, y) => [[0, 0], [5, 0], [0, 5], [5, 5]].map(([a, b]) => `<circle class="hb" cx="${x + a}" cy="${y + b}" r="1.5"/>`).join('');
+  const left = corner !== 'right';
+  let s = `<svg class="wsfig" viewBox="0 0 120 94" aria-hidden="true">${R(x0, z0, x1, z1, 'fl')}`;
+  if (shape === 'I') s += R(24, z0, 96, z0 + D, 'ct') + R(84, z0, 96, z0 + D, 'tall') + sink(38, z0 + 3) + hob(62, z0 + 4);
+  else if (shape === 'L') {
+    s += left ? R(x0, z0, 92, z0 + D, 'ct') + R(x0, z0 + D, x0 + D, leg, 'ct') + R(80, z0, 92, z0 + D, 'tall') + sink(44, z0 + 3) + hob(x0 + 4, 32)
+      : R(28, z0, x1, z0 + D, 'ct') + R(x1 - D, z0 + D, x1, leg, 'ct') + R(28, z0, 40, z0 + D, 'tall') + sink(64, z0 + 3) + hob(x1 - 9, 32);
+  } else s += R(x0, z0, x1, z0 + D, 'ct') + R(x0, z0 + D, x0 + D, leg, 'ct') + R(x1 - D, z0 + D, x1, leg, 'ct') + R(x1 - D, leg - 12, x1, leg, 'tall') + sink(54, z0 + 3) + hob(x0 + 4, 34);
+  if (island) s += shape === 'U' ? R(42, 46, 78, 58, 'isl') : shape === 'L' ? (left ? R(46, 50, 92, 64, 'isl') : R(28, 50, 74, 64, 'isl')) : R(38, 48, 82, 62, 'isl');
+  return s + `<path class="wl" d="M${x0} ${z1}V${z0}H${x1}V${z1}"/><line class="op" x1="${x0}" y1="${z1}" x2="${x1}" y2="${z1}"/></svg>`;
+}
+function wsCard(act, v, on, fig, t, sub) {
+  return `<button type="button" role="radio" aria-checked="${on}" class="wscard${on ? ' on' : ''}" data-act="${act}" data-v="${v}">${fig}<span class="wt">${t}</span><span class="wsub">${sub}</span></button>`;
+}
+
+/* ---- notes that say why the chosen shape or island does not fit, with one-tap fixes ---- */
+const wsFitNotes = () => autoNotes.filter(n => n.level === 'error' || n.level === 'warn');
+function wsFitHTML() {
+  const ns = wsFitNotes(), errs = model.warns.filter(w => w.step <= 4 && w.level !== 'info');
+  if (!ns.length && !errs.length) return '';
+  return `<div class="notes">${ns.map((n, i) => `<div class="note ${n.level}"><i class="dot"></i><div class="nb"><span>${esc(n.text)}</span>${n.fixes && n.fixes.length ? `<div class="fixes"><span class="fine">გამოსავალი:</span>${n.fixes.map((f, j) => `<button type="button" class="fixbtn" data-act="ws-fix" data-n="${i}" data-f="${j}">${esc(f.label)}</button>`).join('')}</div>` : ''}</div></div>`).join('')}
+  ${errs.map(w => `<div class="note ${w.level}"><i class="dot"></i><div class="nb"><span>${esc(w.text)}</span></div></div>`).join('')}</div>`;
+}
+function wsApplyFix(f) {
+  wsApplyTo(S, f);
+  update(true); if (f.shape || f.island === false) wsReframe();
+  toast('შეიცვალა: ' + f.label);
+}
+function wsSetShape(v) {
+  if (!['I', 'L', 'U'].includes(v) || v === S.sk.shape) return;
+  S.sk.shape = v;
+  if (wsCanResample()) applySample(S);
+  update(true); wsReframe();
+}
+function wsSetIsland(on) {
+  if (on === !!S.sk.island) return;
+  S.sk.island = on;
+  if (wsCanResample()) applySample(S);
+  update(true); wsReframe();
+}
+/* a different sample room needs the camera framed again */
+function wsReframe() { if (threeReady) setView(ui.view === 'top' ? 'top' : 'persp'); }
+
+/* ---- section 1: shape and island ---- */
+function wsShape() {
+  const sh = S.sk.shape, isl = !!S.sk.island, c = S.sk.corner;
+  return `${ui.fullBackup ? `<div class="notes"><div class="note info"><i class="dot"></i><span>დეტალურ რეჟიმში აწყობილი ვერსია (მოდულები, ტექნიკის ადგილები) შენახულია.</span><button type="button" data-act="restore">დაბრუნება</button></div></div>` : ''}
+  <h2 class="st">აირჩიე სამზარეულოს ფორმა</h2>
+  <p class="lead">ზომები ახლა არ გჭირდება. აირჩიე ფორმა და კუნძული — მოწყობილ სამზარეულოს მაშინვე დაინახავ. ზომებს ბოლოს მოარგებ შენს სივრცეს.</p>
+  <div class="wscards" role="radiogroup" aria-label="სამზარეულოს ფორმა">${['I', 'L', 'U'].map(k => wsCard('ws-shape', k, k === sh, wsFig(k, isl, c), WS_NAME[k], WS_SUB[k])).join('')}</div>
+  ${sh === 'L' ? `<div class="wscorner">${seg('sk.corner', 'კუთხე', [{ v: 'left', l: 'მარცხნივ' }, { v: 'right', l: 'მარჯვნივ' }])}</div>` : ''}
+  <h3 class="wsh">კუნძული</h3>
+  <div class="wscards two" role="radiogroup" aria-label="კუნძული">${wsCard('ws-island', 'yes', isl, wsFig(sh, true, c), 'კუნძულით', 'დამატებითი ზედაპირი შუაში')}${wsCard('ws-island', 'no', !isl, wsFig(sh, false, c), 'კუნძულის გარეშე', 'მეტი თავისუფალი ადგილი')}</div>
+  <div data-live="wsFit">${wsFitHTML()}</div>
+  <details class="more" ${openAttr('wishes')}><summary>სურვილები (არჩევითი)</summary><div class="grid2" style="margin-top:10px">
+    <div class="full">${seg('sk.family', 'ვინ იყენებს', [{ v: 'small', l: '1–2 კაცი' }, { v: 'mid', l: '3–4 კაცი' }, { v: 'large', l: '5+ / ხშირი სტუმარი' }])}</div>
+    <div class="full">${seg('hob.type', 'ქურა', [{ v: 'induction', l: 'ინდუქცია' }, { v: 'gas', l: 'გაზი' }])}</div>
+  </div></details>`;
+}
+
+/* ---- section 2: materials — tap the picture or a button; the panel names exactly what changes ---- */
+function wsChangingLabel() { const t = wsTarget(); return t === 'cab' ? WS_SCOPE[wsScope()] : WS_TGT[t]; }
+function wsChangingHTML() {
+  const t = wsTarget(), also = [];
+  if (t === 'ct') { if (!S.stone.bsMat && S.stone.bs !== 'none') also.push('ფარტუკიც'); if (!S.stone.islMat && model.isl) also.push('კუნძულიც'); }
+  return `<span class="k">იცვლება:</span> <b>${esc(wsChangingLabel())}</b>${also.length ? `<span class="fine"> · იგივე ქვაა, ამიტომ ერთად იცვლება ${also.join(' და ')}</span>` : ''}`;
+}
+function wsTargetsHTML() {
+  const t = wsTarget(), th = k => `<img src="${ASSET_BASE + mat(k).thumbnail}" alt="" loading="lazy">`;
+  const fc = FRONT_COLORS[S.front.base] || FRONT_COLORS.cashmere;
+  const items = [
+    { k: 'ct', pv: th(S.stone.main), sub: mat(S.stone.main).name },
+    { k: 'cab', pv: `<i class="cdot" style="background:${swBg(fc)}"></i>`, sub: fc.l },
+    { k: 'bs', pv: S.stone.bs === 'none' ? '<i class="cdot none"></i>' : th(S.stone.bsMat || S.stone.main), sub: S.stone.bs === 'none' ? 'ქვის გარეშე' : S.stone.bsMat ? mat(S.stone.bsMat).name : 'იგივე ქვა' }
+  ];
+  if (model.isl) items.push({ k: 'isl', pv: th(S.stone.islMat || S.stone.main), sub: S.stone.islMat ? mat(S.stone.islMat).name : 'იგივე ქვა' });
+  return `<div class="tgts" role="tablist" aria-label="რას ვცვლით">${items.map(i => `<button type="button" role="tab" aria-selected="${i.k === t}" class="tgt${i.k === t ? ' on' : ''}" data-act="ws-target" data-v="${i.k}">${i.pv}<span><b>${WS_TGT[i.k]}</b><small>${esc(i.sub)}</small></span></button>`).join('')}</div>`;
+}
+function wsStoneInfoHTML(t) {
+  const key = (t === 'bs' ? S.stone.bsMat : t === 'isl' ? S.stone.islMat : null) || S.stone.main, m = mat(key), th = thickOpts(mat(S.stone.main));
+  return `<p class="minfo">${esc(m.brandLabel)} · ${esc(m.name)} · ${esc(finishParams(m.finish).l)} · ფილა ${(m.formats || []).map(f => `${f[0]}×${f[1]}${f[2] ? '×' + f[2] : ''}`).join(', ')} მმ</p>
+  ${t === 'ct' ? `<div style="margin-top:10px">${seg('stone.t', 'სისქე', th.map(v => ({ v, l: v + ' მმ' })), th.length === 1 ? 'ეს მასალა კატალოგში მხოლოდ ერთი სისქით არის.' : '')}</div>` : ''}
+  ${t === 'isl' ? `<div style="margin-top:10px">${seg('stone.wf', 'კუნძულის გვერდები ქვით', [{ v: 'none', l: 'არა' }, { v: 'both', l: 'ორივე' }, { v: 'one', l: 'ერთი' }])}</div>` : ''}`;
+}
+function wsStoneHTML(t) {
+  ui.pick = t === 'ct' ? 'main' : t;
+  const own = t === 'ct' ? S.stone.main : t === 'bs' ? S.stone.bsMat : S.stone.islMat;
+  const keys = WS_CURATED.filter(k => MAT.has(k));
+  if (own && !keys.includes(own)) keys.unshift(own);
+  const card = k => { const m = mat(k), on = k === own; return `<button type="button" class="ccard${on ? ' on' : ''}" data-act="mat" data-v="${k}" aria-pressed="${on}"><img src="${ASSET_BASE + m.thumbnail}" alt="" loading="lazy"><span class="nm">${esc(m.name)}</span><span class="br">${esc(m.brandLabel)}${m.type === 'quartz' ? ' · კვარცი' : ''}</span></button>`; };
+  const same = t === 'ct' ? '' : `<button type="button" class="ccard same${own ? '' : ' on'}" data-act="pick-same" aria-pressed="${!own}"><img src="${ASSET_BASE + mat(S.stone.main).thumbnail}" alt="" loading="lazy"><span class="nm">იგივე ქვა</span><span class="br">რაც ზედაპირზე</span></button>`;
+  const bsSeg = t === 'bs' ? `<div style="margin-bottom:12px">${seg('stone.bs', 'ფარტუკი ქვით', Object.entries(BS).map(([v, l]) => ({ v, l })))}</div>` : '';
+  if (t === 'bs' && S.stone.bs === 'none') return bsSeg + '<p class="fine">ფარტუკი ქვით არ კეთდება. აირჩიე სიმაღლე, თუ გინდა, რომ კედელიც ქვით იყოს.</p>';
+  return `${bsSeg}<h3 class="wsh">შერჩეული ქვები</h3>
+  <div class="cgrid">${same}${keys.map(card).join('')}</div>
+  <details class="more cat" ${openAttr('fullCat')}><summary>სრული კატალოგი და ძიება · ${CATALOG.length} მასალა</summary>${matPickerHTML()}</details>
+  <div data-live="wsStoneInfo">${wsStoneInfoHTML(t)}</div>`;
+}
+function wsScopeColor(sc) { const F = S.front; return sc === 'up' ? F.up || F.base : sc === 'isl' ? F.isl || F.base : F.base; }
+function wsCabHTML() {
+  const sc = wsScope(), cur = wsScopeColor(sc), F = S.front;
+  const scopes = [{ v: 'all', l: 'ყველა' }, { v: 'base', l: 'ქვედა' }, { v: 'up', l: 'ზედა' }];
+  if (model.isl) scopes.push({ v: 'isl', l: 'კუნძული' });
+  const sw = ([k, o]) => `<button type="button" class="csw${k === cur ? ' on' : ''}" data-act="ws-color" data-v="${k}" aria-pressed="${k === cur}"><i style="background:${swBg(o)}"></i><span>${esc(o.l)}</span></button>`;
+  const all = Object.entries(FRONT_COLORS), mixed = sc === 'all' && ((F.up && F.up !== F.base) || (model.isl && F.isl && F.isl !== F.base));
+  return `<div class="f"><span class="f-l" id="wsScopeL">რომელი კარადები</span><div class="seg" role="radiogroup" aria-labelledby="wsScopeL">${scopes.map(o => `<button type="button" role="radio" aria-checked="${o.v === sc}" class="${o.v === sc ? 'on' : ''}" data-act="ws-scope" data-v="${o.v}">${o.l}</button>`).join('')}</div>
+    ${mixed ? '<span class="f-h">ზედა ან კუნძულის კარადებს ახლა სხვა ფერი აქვს — „ყველა“-ზე არჩეული ფერი ყველას ერთნაირს გახდის.</span>' : ''}</div>
+  <h3 class="wsh">ფერი — მქრქალი საღებავი</h3><div class="cswg">${all.filter(([, o]) => !o.wood).map(sw).join('')}</div>
+  <h3 class="wsh">მასალა — ხის შპონი</h3><div class="cswg">${all.filter(([, o]) => o.wood).map(sw).join('')}</div>
+  <div class="grid2" style="margin-top:14px"><div class="full">${seg('front.type', 'ფაქტურა — ყველა კარადა', WS_TEX)}</div>
+    <div class="full">${seg('front.handle', 'სახელური', Object.entries(HANDLES).map(([v, l]) => ({ v, l })))}</div></div>
+  <div class="sec"><h3>მზა კომბინაციები</h3>${presetsHTML()}<p class="fine" style="margin-top:6px">კომბინაცია ცვლის კარადებს, კედელსა და იატაკს — ქვა და განლაგება იგივე რჩება.</p></div>`;
+}
+/* colour for the chosen group of cabinets; the other groups keep what they look like now */
+function wsSetColor(k) {
+  if (!FRONT_COLORS[k]) return;
+  const F = S.front, sc = wsScope(), old = F.base;
+  if (sc === 'all') { F.base = k; F.up = null; F.isl = null; }
+  else if (sc === 'base') { if (F.up == null) F.up = old; if (F.isl == null && model.isl) F.isl = old; F.base = k; }
+  else if (sc === 'up') F.up = k;
+  else F.isl = k;
+  if (F.up === F.base) F.up = null;
+  if (F.isl === F.base) F.isl = null;
+  F.preset = null;
+}
+function wsMat() {
+  const t = wsTarget();
+  return `<h2 class="st">მასალები</h2>
+  <p class="lead">შეეხე სურათზე სამუშაო ზედაპირს ან კარადას — ან აირჩიე აქ. ცვლილება მაშინვე ჩანს; განლაგება არ იცვლება.</p>
+  <div data-live="wsTargets">${wsTargetsHTML()}</div>
+  <p class="changing" data-live="wsChanging">${wsChangingHTML()}</p>
+  ${t === 'cab' ? wsCabHTML() : wsStoneHTML(t)}
+  <details class="more" ${openAttr('room')}><summary>კედელი და იატაკი</summary><div class="grid2" style="margin-top:10px">
+    <div class="full">${swatch('int.wall', 'კედელი', WALL_COLORS)}</div>
+    <div class="full">${seg('int.floor', 'იატაკი', Object.entries(FLOORS).map(([v, l]) => ({ v, l })))}</div>
+  </div></details>`;
+}
+function wsSyncCards() {
+  const own = get(ui.pick === 'main' ? 'stone.main' : ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat');
+  for (const el of document.querySelectorAll('#stepBody [data-act="mat"]')) { const on = el.dataset.v === own; el.classList.toggle('on', on); if (el.hasAttribute('aria-pressed')) el.setAttribute('aria-pressed', String(on)); }
+  for (const el of document.querySelectorAll('#stepBody [data-act="pick-same"]')) { el.classList.toggle('on', !own); el.setAttribute('aria-pressed', String(!own)); }
+}
+
+/* ---- section 3: fit to your room ---- */
+function wsSampleHTML() {
+  if (!wsSampleDims()) return '';
+  return `<div class="notes"><div class="note info"><i class="dot"></i><div class="nb"><span><b>ნიმუში — ზომები შეგიძლია შეცვალო.</b> ახლა ნაჩვენებია ${S.room.w} × ${S.room.d} სმ ოთახი. ჩაწერე შენი ზომები — ან, თუ ემთხვევა, დაადასტურე.</span>
+    <div class="fixes"><button type="button" class="fixbtn" data-act="ws-confirm">ზომები ემთხვევა — დადასტურება</button></div></div></div></div>`;
+}
+function wsFixHTML(k) {
+  return S.sk.fix[k] ? `შენი ზომა · <button type="button" class="linkbtn" data-act="ws-auto" data-v="${k}">ავტომატურად მორგება</button>` : 'ავტომატური — ოთახის ზომას ერგება';
+}
+function wsDims() {
+  const sh = S.sk.shape, g = sketchGeom();
+  const side = S.sk.corner === 'right' ? 'მარჯვენა' : 'მარცხენა';
+  const runF = (k, label) => `<div class="fwrap">${num('lay.' + k, label)}<span class="f-h" data-live="fix-${k}">${wsFixHTML(k)}</span></div>`;
+  const tools = ['door', 'window', 'column', 'beam', 'radiator', 'water', 'gas', 'vent'];
+  return `<h2 class="st">მოარგე შენს სივრცეს</h2>
+  <p class="lead">ჩაწერე ოთახის ზომები — სამზარეულო თავად მოერგება. ფორმა, მასალები და ფერები არ შეიცვლება.</p>
+  <div data-live="wsSample">${wsSampleHTML()}</div>
+  <div data-live="wsFit">${wsFitHTML()}</div>
+  <div class="sketch"><svg id="sketchSvg" data-live="sketch" viewBox="0 0 ${g.vw} ${g.vh}" role="application" aria-label="ზედხედი: ოთახი და სამზარეულოს მონაკვეთები ზომებით">${sketchInner()}</svg></div>
+  <div class="legend"><span><i class="lgk room"></i>ოთახი</span><span><i class="lgk run"></i>ავტომატური ზომა</span><span><i class="lgk run fixed"></i>შენი ზომა</span><span class="fine">ზომაზე დააჭირე და შეცვალე</span></div>
+  <div class="sec"><h3>ოთახის ზომები</h3><div class="grid2">${num('room.w', 'სიგანე — მთავარი კედელი')}${num('room.d', 'სიღრმე — მთავარი კედლიდან')}${num('room.h', 'ჭერის სიმაღლე')}</div></div>
+  <div class="sec"><h3>სამზარეულოს მონაკვეთები</h3><div class="grid2">${runF('a', 'A — მთავარი კედელი')}${sh !== 'I' ? runF('b', sh === 'U' ? 'B — მარცხენა მხარე' : `B — ${side} მხარე`) : ''}${sh === 'U' ? runF('c', 'C — მარჯვენა მხარე') : ''}</div>
+    ${S.sk.island ? `<div class="grid2" style="margin-top:12px">${num('isl.len', 'კუნძულის სიგრძე')}${num('isl.dep', 'კუნძულის სიღრმე')}<span class="f-h full" data-live="fix-isl">${wsFixHTML('isl')}</span></div>` : ''}
+    <p class="fine" style="margin-top:8px">A იზომება მთავარი კედლის გასწვრივ, B და C — გვერდით კედლებზე, მთავარი კედლიდან ზედაპირის ბოლომდე; კუთხე ორივეში შედის.</p></div>
+  <div class="sec"><h3>კარი, ფანჯარა და სხვა</h3>
+    ${S.sk.fsample ? '<p class="fine" style="margin:0 0 8px">ფანჯარა, კარი და წყალი ახლა ნიმუშის ადგილებზეა — გადაათრიე ზედხედზე ან ჩაწერე ზუსტი მანძილი.</p>' : ''}
+    <div class="row tools">${tools.map(t => `<button type="button" class="chip-btn" data-act="addfeat" data-v="${t}"><i class="ficon ${t}"></i>${FEAT[t].s}</button>`).join('')}<button type="button" class="chip-btn ghost" data-act="rot" title="მარცხენა კედელი გახდება მთავარი">↻ მოაბრუნე</button></div>
+    <div data-live="feats" style="margin-top:10px">${featsHTML()}</div>
+    <div style="margin-top:12px">${measureGuideHTML()}${photoHTML()}</div>
+  </div>`;
+}
+/* jump to the field behind a dimension on the plan or in 3D */
+function wsFocusField(path) {
+  if (wsOn() && wsSec() !== 'wsDims') go(2);
+  wsSheet('mid', true);
+  const el = document.getElementById(pid(path));
+  if (!el) return;
+  el.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  el.focus({ preventScroll: true }); el.select?.();
+}
+
+/* ---- section 4: price request from this variant ---- */
+function wsSumHTML() {
+  const M = model, L = S.lay, m = mat(S.stone.main), sl = M.slabs.reduce((s, x) => s + x.count, 0), q = M.q;
+  const fc = k => FRONT_COLORS[k]?.l || k, tag = wsSampleDims() ? ' <span class="tag">ნიმუში</span>' : '';
+  const rows = [
+    ['ფორმა', `${WS_NAME[L.type]}${M.isl ? ', კუნძულით' : S.sk.island ? ' — კუნძული ამ ზომებში ვერ ეტევა' : ', კუნძულის გარეშე'}`],
+    ['ოთახი', `${S.room.w} × ${S.room.d} სმ, ჭერი ${S.room.h} სმ${tag}`],
+    ['მონაკვეთები', `A ${L.a}${L.type !== 'I' ? ` · B ${L.b}` : ''}${L.type === 'U' ? ` · C ${L.c}` : ''} სმ${M.isl ? `; კუნძული ${M.isl.len} × ${M.isl.dep} სმ` : ''}`],
+    ['ზედაპირი', `${m.brandLabel} ${m.name}, ${M.tmm} მმ`],
+    S.stone.bs !== 'none' ? ['ფარტუკი', `${BS[S.stone.bs]}${S.stone.bsMat ? ' — ' + mat(S.stone.bsMat).name : ''}`] : null,
+    M.isl && S.stone.islMat ? ['კუნძულის ქვა', mat(S.stone.islMat).name] : null,
+    ['კარადები', `${fc(S.front.base)}${S.front.up ? `, ზედა — ${fc(S.front.up)}` : ''}${M.isl && S.front.isl ? `, კუნძული — ${fc(S.front.isl)}` : ''}; ${WS_TEX.find(x => x.v === S.front.type)?.l.toLowerCase() || ''}`]
+  ].filter(Boolean);
+  return `<div class="metrics"><div class="metric"><div class="k">ქვა სულ</div><div class="v">${nf1.format(q.total)}<small>მ²</small></div></div>
+    <div class="metric"><div class="k">ფილები</div><div class="v">${sl}<small>ცალი</small></div></div>
+    <div class="metric"><div class="k">ამონაჭრები</div><div class="v">${q.cuts.sink + q.cuts.hob + q.cuts.tap + q.cuts.notch + q.cuts.vent + q.cuts.sock + q.cuts.pop}<small>ცალი</small></div></div></div>
+  <table class="t"><tbody>${rows.map(([k, v]) => `<tr><td class="kk">${k}</td><td>${v.includes('<span class="tag">') ? v : esc(v)}</td></tr>`).join('')}</tbody></table>`;
+}
+function wsPrice() {
+  return `<h2 class="st">ფასის მოთხოვნა</h2>
+  <p class="lead">გაუგზავნე LITHOS-ს ეს ვარიანტი. ქვის რაოდენობა, ზომები და მასალა მოთხოვნაში ავტომატურად ჩაიწერება; საბოლოო ფასს აზომვის შემდეგ დავაზუსტებთ.</p>
+  ${wsSampleDims() ? `<div class="notes"><div class="note warn"><i class="dot"></i><div class="nb"><span>ზომები ჯერ ნიმუშისაა და მოთხოვნაში ასეც მიეთითება. ზუსტი ფასისთვის ჩაწერე შენი ოთახის ზომები.</span><div class="fixes"><button type="button" class="fixbtn" data-act="ws-go" data-v="2">მოარგე შენს სივრცეს</button></div></div></div></div>` : ''}
+  <div data-live="wsSum">${wsSumHTML()}</div>
+  <div class="sec"><h3>გაგზავნა</h3><div data-live="send">${sendHTML()}</div></div>
+  <div class="sec"><h3>ნახაზი და დეტალები</h3>
+    <div class="row"><button type="button" class="btn" data-act="drawing">ნახაზი და PDF ხელოსნისთვის</button><button type="button" class="btn ghost" data-flow="full">დეტალურად შეცვლა →</button></div>
+    <details class="more" ${openAttr('qty')}><summary>ქვის რაოდენობა და შენიშვნები</summary><div data-live="sumtop">${sumTopHTML()}</div></details>
+    <details class="more" ${openAttr('json')}><summary>პროექტის ფაილი (JSON)</summary>
+      <p class="fine">დააკოპირე და შეინახე, ან ჩასვი აქ ადრე შენახული პროექტი და დააჭირე „ჩატვირთვას“.</p>
+      <textarea class="code" id="jsonBox" aria-label="პროექტის JSON">${esc(JSON.stringify(S))}</textarea>
+      <div class="row" style="margin-top:6px"><button type="button" class="btn" data-act="copy" data-src="jsonBox">კოპირება</button><button type="button" class="btn" data-act="import">ჩატვირთვა</button><span class="fine" id="importMsg" role="status"></span></div>
+    </details>
+  </div>`;
+}
+const WS_LIVE = {
+  wsTargets: wsTargetsHTML, wsChanging: wsChangingHTML, wsStoneInfo: () => wsStoneInfoHTML(wsTarget()), wsFit: wsFitHTML, wsSample: wsSampleHTML, wsSum: wsSumHTML,
+  'fix-a': () => wsFixHTML('a'), 'fix-b': () => wsFixHTML('b'), 'fix-c': () => wsFixHTML('c'), 'fix-isl': () => wsFixHTML('isl')
+};
+
+/* ---- the picture: what is shown over the 3D view ---- */
+function wsStageHTML() {
+  const sec = wsSec(), out = [], sample = wsSampleDims();
+  /* on a phone the sample label itself opens the sizes, so one row is enough */
+  if (sample) out.push(sec === 'wsDims' ? '<span class="chip sample"><b>ნიმუში</b> — ზომები შეგიძლია შეცვალო</span>'
+    : '<button type="button" class="chip sample" data-goto="2"><b>ნიმუში</b> — ზომები შეგიძლია შეცვალო<span class="go" aria-hidden="true"> →</span></button>');
+  const err = wsFitNotes().find(n => n.level === 'error');
+  if (err) out.push(`<button type="button" class="chip err" data-goto="2"><i class="dot"></i>${esc(err.text.split(':')[0])} — გამოსავალი</button>`);
+  if (sec === 'wsMat') out.push(`<span class="chip tgt">იცვლება: <b>${esc(wsChangingLabel())}</b></span>`);
+  if (sec !== 'wsDims') out.push(`<button type="button" class="chip act${sample ? ' alt' : ''}" data-goto="2">მოარგე შენს სივრცეს</button>`);
+  return out.join('');
+}
+let toastTimer = 0;
+function toast(text, ms = 3200) {
+  const el = $('#toast'); if (!el) return;
+  el.textContent = text; el.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, ms);
+}
+
+/* ---- 3D: tap a surface to choose its material; the part being changed is highlighted ---- */
+const HL_COLOR = '#2f6fd6';
+let hlObjs = [], hlKey = '', hlT0 = 0;
+function hlRoles() {
+  if (wsSec() !== 'wsMat') return [];
+  const t = wsTarget();
+  if (t === 'ct') return ['ct', ...(S.stone.bsMat ? [] : ['bs']), ...(S.stone.islMat ? [] : ['isl'])];
+  if (t === 'bs' || t === 'isl') return [t];
+  return { all: ['front', 'up', 'islf'], base: ['front'], up: ['up'], isl: ['islf'] }[wsScope()] || [];
+}
+function applyHighlight(force = false) {
+  if (!threeReady) return;
+  const roles = hlRoles(), key = roles.join(',');
+  if (!force && key === hlKey) return;
+  const changed = key !== hlKey; hlKey = key;
+  for (const o of hlObjs) { o.parent?.remove(o); if (o.isLineSegments) o.geometry.dispose(); }
+  hlObjs = [];
+  if (roles.length) {
+    const fill = cm('hl:fill', () => new T.MeshBasicMaterial({ color: HL_COLOR, transparent: true, opacity: 0.2, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }));
+    const line = cm('hl:line', () => new T.LineBasicMaterial({ color: HL_COLOR, transparent: true, opacity: 0.75 }));
+    const targets = [];
+    root.traverse(o => { if (o.isMesh && roles.includes(o.material?.userData?.role)) targets.push(o); });
+    for (const o of targets) {
+      const f = new T.Mesh(o.geometry, fill); f.raycast = () => {}; f.renderOrder = 2;
+      const e = new T.LineSegments(new T.EdgesGeometry(o.geometry, 35), line); e.raycast = () => {}; e.renderOrder = 3;
+      o.add(f, e); hlObjs.push(f, e);
+    }
+    if (changed) { hlT0 = performance.now(); requestAnimationFrame(hlPulse); }
+  }
+  needsRender = true;
+}
+function hlPulse(now) {
+  const k = Math.min(1, (now - hlT0) / 900), fill = matCache.get('hl:fill');
+  if (fill) fill.opacity = 0.2 + 0.3 * (1 - k) * (0.5 + 0.5 * Math.cos(k * Math.PI * 4));
+  needsRender = true;
+  if (k < 1) requestAnimationFrame(hlPulse);
+}
+function hlHidden(on) { for (const o of hlObjs) o.visible = !on; }
+function roleAt(cx, cy) {
+  if (!threeReady) return null;
+  const rect = renderer.domElement.getBoundingClientRect();
+  const rc = new T.Raycaster(); rc.setFromCamera(new T.Vector2(((cx - rect.left) / rect.width) * 2 - 1, -((cy - rect.top) / rect.height) * 2 + 1), camera);
+  const shown = o => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
+  const hits = rc.intersectObject(root, true).filter(h => h.object.isMesh && shown(h.object));
+  if (!hits.length) return null;
+  /* a handle or a socket plate in front of a door still counts as that door */
+  const h = hits.find(x => x.distance - hits[0].distance < 0.05 && x.object.material?.userData?.role);
+  return h ? h.object.material.userData.role : null;
+}
+function pickRole(role) {
+  if (!wsOn()) {
+    const stone = { ct: 'main', bs: 'bs', isl: 'isl' }[role];
+    if (stone) { ui.pick = stone === 'bs' && S.stone.bs === 'none' ? 'main' : stone; go(STEPS.findIndex(s => s.id === 'stone')); }
+    else go(STEPS.findIndex(s => s.id === 'style'));
+    return;
+  }
+  if (role === 'ct' || role === 'bs' || role === 'isl') ui.wsT = role;
+  else {
+    ui.wsT = 'cab';
+    const F = S.front, same = !F.up && (!F.isl || !model.isl);
+    ui.wsScope = role === 'up' ? 'up' : role === 'islf' ? 'isl' : same ? 'all' : 'base';
+  }
+  if (wsSec() !== 'wsMat') go(1); else { renderStep(); renderSteps(); renderStats(); }
+  wsSheet('mid', true);
+  toast('იცვლება: ' + wsChangingLabel(), 1800);
+}
+/* a tap is one finger (or the left button), released within 6 px and 0.6 s; a pinch or a drag turns the camera instead */
+const tap = { x: 0, y: 0, t: 0, id: null, live: new Set() };
+$('#canvasWrap').addEventListener('pointerdown', e => {
+  if (e.isPrimary) tap.live.clear();   /* the first finger down: no other touch is active, so nothing stale is kept */
+  tap.live.add(e.pointerId);
+  if (e.button || tap.live.size > 1) { tap.id = null; return; }
+  Object.assign(tap, { x: e.clientX, y: e.clientY, t: performance.now(), id: e.pointerId });
+});
+const tapEnd = e => {
+  tap.live.delete(e.pointerId);
+  if (e.type !== 'pointerup' || e.pointerId !== tap.id) return;
+  tap.id = null;
+  if (Math.hypot(e.clientX - tap.x, e.clientY - tap.y) > 6 || performance.now() - tap.t > 600) return;
+  const role = roleAt(e.clientX, e.clientY);
+  if (role) pickRole(role);
+};
+$('#canvasWrap').addEventListener('pointerup', tapEnd);
+$('#canvasWrap').addEventListener('pointercancel', tapEnd);
+/* mouse: show that a surface can be clicked */
+let hoverEvt = null;
+$('#canvasWrap').addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse' || e.buttons) return;
+  if (!hoverEvt) requestAnimationFrame(() => { const ev = hoverEvt; hoverEvt = null; if (ev && threeReady) renderer.domElement.style.cursor = roleAt(ev.x, ev.y) ? 'pointer' : ''; });
+  hoverEvt = { x: e.clientX, y: e.clientY };
+});
+$('#labels').addEventListener('click', e => { const b = e.target.closest('[data-focus]'); if (b) wsFocusField(b.dataset.focus); });
+
+/* ---- phones: the panel is a sheet under the picture; its handle makes it taller or shorter ---- */
+const SHEETS = ['min', 'mid', 'tall'];
+function wsSheet(v, atLeast = false) {
+  if (atLeast && SHEETS.indexOf(ui.sheet) >= SHEETS.indexOf(v)) return;
+  ui.sheet = v;
+  const app = $('.app'); if (app && app.dataset) app.dataset.sheet = v;
+  const h = $('#sheetHandle'); if (h && h.setAttribute) h.setAttribute('aria-expanded', String(v !== 'min'));
+}
+const sheetDrag = { y: 0, id: null };
+$('#sheetHandle').addEventListener('pointerdown', e => { sheetDrag.y = e.clientY; sheetDrag.id = e.pointerId; });
+$('#sheetHandle').addEventListener('pointerup', e => {
+  if (e.pointerId !== sheetDrag.id) return;
+  sheetDrag.id = null;
+  const dy = e.clientY - sheetDrag.y, i = SHEETS.indexOf(ui.sheet);
+  if (Math.abs(dy) < 8) wsSheet(ui.sheet === 'tall' ? 'mid' : ui.sheet === 'mid' ? 'tall' : 'mid');
+  else wsSheet(SHEETS[clamp(i + (dy < 0 ? 1 : -1) * (Math.abs(dy) > 160 ? 2 : 1), 0, 2)]);
+});
+$('#sheetHandle').addEventListener('keydown', e => {
+  const d = { ArrowUp: 1, ArrowDown: -1 }[e.key]; if (!d) return;
+  e.preventDefault(); wsSheet(SHEETS[clamp(SHEETS.indexOf(ui.sheet) + d, 0, 2)]);
+});
+
+/* ---- save & share: one small window from the header ---- */
+function sharePopHTML() {
+  return `<div class="sp-h"><b>შენახვა და გაზიარება</b><button type="button" class="btn ghost icon" data-sp="close" aria-label="დახურვა">×</button></div>
+  <p class="fine sp-saved">✓ პროექტი ავტომატურად ინახება ამ ბრაუზერში — შემდეგ ვიზიტზე აქვე დაგხვდება.</p>
+  <label class="f" for="spLink"><span class="f-l">ბმული — გახსნის ზუსტად ამ ვარიანტს</span><input class="search mono" id="spLink" readonly></label>
+  <div class="row" style="margin-top:8px"><button type="button" class="btn primary" data-sp="copy">ბმულის კოპირება</button><button type="button" class="btn" data-sp="file">ფაილად შენახვა</button></div>
+  <p class="fine" id="spMsg" role="status"></p>`;
+}
+function refreshSharePop() {
+  const pop = $('#sharePop'); if (!pop || pop.hidden) return;
+  const sh = shareController.current(), ready = !!sh.url && !sh.pending && !sh.error && !inputErrors.size;
+  const link = $('#spLink'), copy = $('#sharePop [data-sp="copy"]');
+  if (link) { link.value = ready ? sh.url : ''; link.placeholder = inputErrors.size ? 'ჯერ გაასწორე მონიშნული მონაცემი' : sh.error ? 'ბმული ვერ შეიქმნა' : 'ბმული მზადდება…'; }
+  if (copy) copy.disabled = !ready;
+}
+function openSharePop(open) {
+  const pop = $('#sharePop'), btn = $('#btnShare');
+  if (open && pop.hidden) { pop.innerHTML = sharePopHTML(); pop.hidden = false; btn.setAttribute('aria-expanded', 'true'); refreshSharePop(); $('#sharePop [data-sp="copy"]').focus(); }
+  else if (!open && !pop.hidden) { pop.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.focus(); }
+}
+$('#btnShare').addEventListener('click', () => openSharePop($('#sharePop').hidden));
+$('#sharePop').addEventListener('click', e => {
+  const b = e.target.closest('[data-sp]'); if (!b) return;
+  const msg = $('#spMsg');
+  if (b.dataset.sp === 'close') openSharePop(false);
+  if (b.dataset.sp === 'copy') {
+    const url = $('#spLink').value; if (!url) return;
+    navigator.clipboard.writeText(url).then(() => { msg.textContent = 'ბმული დაკოპირდა.'; }, () => { $('#spLink').select(); msg.textContent = 'მონიშნულია — დააკოპირე Ctrl/Cmd + C-ით.'; });
+  }
+  if (b.dataset.sp === 'file') {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' }));
+    a.download = 'lithos-samzareulo.json'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    msg.textContent = 'ფაილი შენახულია. მის ტექსტს „ფასი → პროექტის ფაილი“-ში ჩატვირთავ.';
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#sharePop').hidden) openSharePop(false); });
+document.addEventListener('pointerdown', e => { const pop = $('#sharePop'); if (!pop.hidden && !e.target.closest?.('#sharePop, #btnShare')) openSharePop(false); });
 
 /* ================= summary, quote, sharing, AI ================= */
 function stepSum() {
@@ -3052,10 +3755,13 @@ function requestText() {
   const lines = [
     'გამარჯობა, LITHOS. მსურს შეთავაზება სამზარეულოს ქვის ზედაპირზე.',
     `ფორმა: ${shape} (${dims} სმ), სიღრმე ${S.base.depth}, სიმაღლე ${S.base.top}`,
+    wsSampleDims() ? `ზომები: ნიმუში (${S.room.w} × ${S.room.d} სმ) — ოთახი ჯერ არ გამიზომავს` : '',
+    S.flow === 'ws' && S.sk.fsample ? 'ფანჯარა, კარი და წყალი: ნიმუშის ადგილებზე' : '',
     S.isl.on ? `კუნძული: ${S.isl.len} × ${S.isl.dep} სმ, waterfall: ${{ none: 'არა', one: 'ერთი ბოლო', both: 'ორივე ბოლო' }[S.stone.wf]}` : '',
     `მასალა: ${m.brandLabel} ${m.name}, ${M.tmm} მმ, კიდე: ${EDGE[S.stone.edge]}`,
     S.stone.bsMat ? `ფარტუკის მასალა: ${mat(S.stone.bsMat).name}` : '', S.stone.islMat && S.isl.on ? `კუნძულის მასალა: ${mat(S.stone.islMat).name}` : '',
     `ფარტუკი: ${BS[S.stone.bs]}`,
+    `კარადები: ${FRONT_COLORS[S.front.base]?.l || S.front.base}${S.front.up ? `, ზედა — ${FRONT_COLORS[S.front.up]?.l || S.front.up}` : ''}${S.isl.on && S.front.isl ? `, კუნძული — ${FRONT_COLORS[S.front.isl]?.l || S.front.isl}` : ''}`,
     `ნიჟარა: ${SINK_MOUNT[S.sink.mount]}, ${S.sink.bowls} ჯამი${M.q.cuts.drain ? ', წყლის ღარებით' : ''}; ქურა: ${S.hob.type === 'gas' ? 'გაზი' : 'ინდუქცია'} ${S.hob.w}, ${S.hob.mount === 'flush' ? 'ერთ დონეზე' : 'ზემოდან'}`,
     `ქვა სულ: ${nf.format(M.q.total)} მ²; ფილები: ${M.slabs.map(s => `${s.count} × ${s.SL * 10}×${s.SW * 10}`).join(', ')}`,
     `ამონაჭრები: ნიჟარა ${M.q.cuts.sink}, ქურა ${M.q.cuts.hob}, ონკანი ${M.q.cuts.tap}${M.q.cuts.notch ? `, კოლონის ამოჭრა ${M.q.cuts.notch}` : ''}${M.q.cuts.vent ? `, სავენტილაციო ღრიჭო ${M.q.cuts.vent}` : ''}`,
@@ -3070,6 +3776,7 @@ const shareController = createShareController({
   onChange: () => refreshShareActions()
 });
 function refreshShareActions() {
+  refreshSharePop();
   const box = $('#stepBody [data-live="send"]');
   if (!box) return;
   /* Leaving a field fires change → this refresh in the middle of a click on these buttons; replacing identical markup would swallow that click. */
@@ -3159,30 +3866,57 @@ async function generate() {
 }
 
 /* ================= rendering & events ================= */
-const RENDERERS = { room: stepRoom, layout: stepLayout, appl: stepAppl, cab: stepCab, stone: stepStone, style: stepStyle, sum: stepSum, sketch: stepSketch, look: stepLook, qsum: stepQSum };
+const RENDERERS = { room: stepRoom, layout: stepLayout, appl: stepAppl, cab: stepCab, stone: stepStone, style: stepStyle, sum: stepSum, sketch: stepSketch, look: stepLook, qsum: stepQSum, wsShape, wsMat, wsDims, wsPrice };
+/* chrome that is redrawn on every update is only replaced when it changed — replacing it mid-click would swallow the click */
+const shownHTML = new WeakMap();
+function setHTML(el, html) { if (shownHTML.get(el) !== html) { el.innerHTML = html; shownHTML.set(el, html); } }
 function renderSteps() {
-  const STEPS_ = curSteps();
-  const fl = i => { const ws = model.warns.filter(w => warnStep(w.step) === i).concat(i === 0 ? autoNotes.filter(n => n.level !== 'ok') : []); return ws.some(w => w.level === 'error') ? 'err' : ws.some(w => w.level === 'warn') ? 'wrn' : ''; };
-  $('#modebar').innerHTML = `<div class="seg" role="radiogroup" aria-label="რეჟიმი"><button type="button" role="radio" aria-checked="${S.flow === 'quick'}" class="${S.flow === 'quick' ? 'on' : ''}" data-flow="quick">მარტივი — ესკიზიდან</button><button type="button" role="radio" aria-checked="${S.flow === 'full'}" class="${S.flow === 'full' ? 'on' : ''}" data-flow="full">დეტალური</button></div>`;
-  $('#steps').innerHTML = STEPS_.map((s, i) => { const f = fl(i); return `<button type="button" class="${i === step ? 'on' : ''}" data-step="${i}"${i === step ? ' aria-current="step"' : ''}><span class="n">${i + 1}</span>${s.t}${f ? `<i class="flag ${f}"></i>` : ''}</button>`; }).join('');
-  $('#stepCount').textContent = `${step + 1} / ${STEPS_.length}`;
+  const STEPS_ = curSteps(), ws = S.flow === 'ws';
+  $('.app').classList.toggle('ws', ws);
+  const autoAt = ws ? 2 : 0;
+  const fl = i => { const list = model.warns.filter(w => warnStep(w.step) === i).concat(i === autoAt ? autoNotes.filter(n => n.level !== 'ok') : []); return list.some(w => w.level === 'error') ? 'err' : list.some(w => w.level === 'warn') ? 'wrn' : ''; };
+  setHTML($('#modebar'), ws ? '<div class="wsbar"><span>სამუშაო ეკრანი</span><button type="button" class="linkbtn" data-flow="full">დეტალურად შეცვლა →</button></div>'
+    : S.flow === 'full' ? '<div class="wsbar"><button type="button" class="linkbtn" data-flow="ws">← სამუშაო ეკრანი</button><span>დეტალური პარამეტრები</span></div>'
+    : `<div class="seg" role="radiogroup" aria-label="რეჟიმი"><button type="button" role="radio" aria-checked="true" class="on" data-flow="quick">მარტივი — ესკიზიდან</button><button type="button" role="radio" aria-checked="false" data-flow="full">დეტალური</button></div>`);
+  setHTML($('#steps'), STEPS_.map((s, i) => { const f = fl(i); return `<button type="button" class="${i === step ? 'on' : ''}" data-step="${i}"${i === step ? ' aria-current="step"' : ''}><span class="n">${i + 1}</span>${s.t}${f ? `<i class="flag ${f}"></i>` : ''}</button>`; }).join(''));
+  $('#stepCount').textContent = `${step + 1} / ${STEPS_.length}`; $('#stepCount').hidden = ws;
   $('#prev').disabled = step === 0; $('#next').hidden = step === STEPS_.length - 1;
+  $('#next').textContent = ws && step < STEPS_.length - 1 ? `${STEPS_[step + 1].t} →` : 'შემდეგი →';
+  applyHighlight();
 }
-function renderStep() { step = clamp(step, 0, curSteps().length - 1); $('#stepBody').innerHTML = RENDERERS[curSteps()[step].id](); restoreInputErrors(); }
+/* re-rendering a section keeps the keyboard on the control that was focused */
+const focusSig = el => el.id || el.tagName + JSON.stringify(el.dataset || {});
+function renderStep() {
+  step = clamp(step, 0, curSteps().length - 1);
+  const a = document.activeElement, keep = a && a !== document.body && $('#stepBody').contains?.(a) ? focusSig(a) : null;
+  $('#stepBody').innerHTML = RENDERERS[curSteps()[step].id](); restoreInputErrors();
+  if (keep) for (const el of $('#stepBody').querySelectorAll('button, input, select, textarea, a, [tabindex]')) if (focusSig(el) === keep) { el.focus({ preventScroll: true }); break; }
+}
 function renderStats() {
+  if (S.flow === 'ws') { setHTML($('#stageStats'), wsStageHTML()); return; }
   const M = model, e = M.warns.filter(w => w.level === 'error').length, w = M.warns.filter(x => x.level === 'warn').length;
   const sl = M.slabs.reduce((s, x) => s + x.count, 0);
-  $('#stageStats').innerHTML = `<span class="chip">ქვა <span class="mono">${nf1.format(M.q.total)} მ²</span></span><span class="chip">ფილა <span class="mono">${sl}</span></span>${e ? `<button type="button" class="chip err" data-goto="${curSteps().length - 1}"><i class="dot"></i>${e} შეცდომა</button>` : ''}${w ? `<button type="button" class="chip wrn" data-goto="${curSteps().length - 1}"><i class="dot"></i>${w} შენიშვნა</button>` : ''}`;
+  setHTML($('#stageStats'), `<span class="chip">ქვა <span class="mono">${nf1.format(M.q.total)} მ²</span></span><span class="chip">ფილა <span class="mono">${sl}</span></span>${e ? `<button type="button" class="chip err" data-goto="${curSteps().length - 1}"><i class="dot"></i>${e} შეცდომა</button>` : ''}${w ? `<button type="button" class="chip wrn" data-goto="${curSteps().length - 1}"><i class="dot"></i>${w} შენიშვნა</button>` : ''}`);
 }
 function refreshLive() {
+  const act = document.activeElement, typing = act && act.matches?.('input, textarea, select') ? act : null;
   for (const el of document.querySelectorAll('#stepBody [data-live]')) {
     const k = el.dataset.live;
+    if (typing && el.contains(typing)) continue;   /* never replace the field the user is typing in */
     if (k === 'sketch') { const g = sketchGeom(); el.setAttribute('viewBox', `0 0 ${g.vw} ${g.vh}`); }
     const html = k === 'sketch' ? sketchInner() : k === 'feats' ? featsHTML() : k === 'auto' ? autoHTML() : k === 'plan' ? planSVG() : k === 'ergo' ? ergoHTML() : k.startsWith('notes') ? notesFor(+k.slice(5)) : k === 'mods' ? modsHTML()
-      : k === 'sumtop' ? sumTopHTML() : k === 'elec' ? elecHTML() : k === 'quote' ? quoteHTML() : k === 'send' ? sendHTML() : k === 'ai' ? aiHTML() : null;
+      : k === 'sumtop' ? sumTopHTML() : k === 'elec' ? elecHTML() : k === 'quote' ? quoteHTML() : k === 'send' ? sendHTML() : k === 'ai' ? aiHTML() : WS_LIVE[k] ? WS_LIVE[k]() : null;
     if (html != null && el.innerHTML !== html) el.innerHTML = html;
   }
-  restoreInputErrors();
+  syncNumbers(); restoreInputErrors();
+}
+/* values another change recalculated (an automatic run length after the room changed) show up in their fields */
+function syncNumbers() {
+  for (const el of document.querySelectorAll('#stepBody input[data-kind="num"]')) {
+    if (el === document.activeElement || inputErrors.has(el.dataset.path)) continue;
+    const v = get(el.dataset.path), txt = v == null ? '' : String(v);
+    if (el.value !== txt) el.value = txt;
+  }
 }
 function normalize() {
   let changed = false;
@@ -3191,7 +3925,7 @@ function normalize() {
   return changed;
 }
 function update(rerender, delay = rerender ? 0 : 160) {
-  autoNotes = S.flow === 'quick' ? autoDesign(S) : [];
+  autoNotes = S.flow === 'quick' ? autoDesign(S) : S.flow === 'ws' ? designWorkspace(S) : [];
   model = computeModel(S);
   const infos = model.warns.filter(w => w.level === 'info' && w.step === 3);
   if (normalize()) { model = computeModel(S); model.warns.push(...infos.filter(i => !model.warns.some(w => w.text === i.text))); }
@@ -3202,11 +3936,22 @@ function update(rerender, delay = rerender ? 0 : 160) {
 }
 function go(i) {
   if (focusInvalidNumber()) return;
-  step = clamp(i, 0, curSteps().length - 1); renderStep(); renderSteps(); $('#stepBody').scrollTop = 0;
-  if (matchMedia('(max-width:860px)').matches) $('.panel').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  step = clamp(i, 0, curSteps().length - 1); renderStep(); renderSteps(); renderStats(); $('#stepBody').scrollTop = 0;
+  if (S.flow === 'ws') wsSheet('mid', true);
+  else if (matchMedia('(max-width:860px)').matches) $('.panel').scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
 function afterSet(path) {
-  if (path === 'stone.t' || path.startsWith('stone.main')) { const m = mat(S.stone.main); if (!thickOpts(m).includes(S.stone.t)) S.stone.t = defaultThick(m); }
+  if (path === 'stone.t' || path.startsWith('stone.main')) {
+    const m = mat(S.stone.main);
+    /* a stone that is not made in the chosen thickness: switch and say so */
+    if (!thickOpts(m).includes(S.stone.t)) { const was = S.stone.t; S.stone.t = defaultThick(m); if (path !== 'stone.t') toast(`${m.name} ${was} მმ სისქით არ მზადდება — არჩეულია ${S.stone.t} მმ.`); }
+  }
+  if (S.flow === 'ws') {
+    /* the user's own numbers: the sample label goes, a typed length is kept until "ავტომატურად" */
+    if (path.startsWith('room.')) { S.sk.dims = 'user'; fitSampleFeats(S); }
+    else if (/^lay\.[abc]$/.test(path)) { S.sk.fix[path.slice(4)] = true; S.sk.dims = 'user'; }
+    else if (path === 'isl.len' || path === 'isl.dep') { S.sk.fix.isl = true; S.sk.dims = 'user'; }
+  }
   if ((path.startsWith('front.') && path !== 'front.preset') || path === 'int.wall' || path === 'int.floor') S.front.preset = null;
   if (path === 'stone.bs' && S.stone.bs === 'none' && ui.pick === 'bs') ui.pick = 'main';
   if (path === 'isl.on' && !S.isl.on && ui.pick === 'isl') ui.pick = 'main';
@@ -3235,7 +3980,7 @@ body.addEventListener('change', e => {
     restoreInputErrors(); return;
   }
   if (t.dataset.kind === 'tog') { set(t.dataset.path, t.checked); afterSet(t.dataset.path); update(true); return; }
-  if (a === 'featwall') { const f = S.feats[+t.dataset.i]; if (f) { f.wall = t.value; update(false); } return; }
+  if (a === 'featwall') { const f = S.feats[+t.dataset.i]; if (f) { f.wall = t.value; wsOwnFeats(); update(false); } return; }
   if (a === 'phpick') { const f = ui.photo?.items?.[+t.dataset.i]; if (f) f.on = t.checked; return; }
   if (t.id === 'phWall') { const v = t.value; $('#phLen').value = v === 'back' ? S.room.w : S.room.d; return; }
   if (a === 'mod-t') {
@@ -3245,8 +3990,10 @@ body.addEventListener('change', e => {
   }
 });
 body.addEventListener('click', e => {
+  const fp = e.target.closest?.('[data-focus]'); if (fp) { wsFocusField(fp.dataset.focus); return; }
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.act === 'number-revert') { revertNumber(b.dataset.key); return; }
+  if (b.dataset.flow) { switchFlow(b.dataset.flow); return; }
   if (b.dataset.act === 'tpl') discardInputErrors();
   if (b.dataset.act !== 'import' && focusInvalidNumber()) return;
   if (b.dataset.kind === 'seg') { const p = b.dataset.path; set(p, JSON.parse(b.dataset.v)); afterSet(p); update(true); return; }
@@ -3260,7 +4007,12 @@ body.addEventListener('click', e => {
     case 'mod-auto': S.mods[ui.cabRun] = null; update(true); break;
     case 'pick': ui.pick = v; renderStep(); break;
     case 'pick-same': set(ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat', null); update(true); break;
-    case 'mat': { const p = ui.pick === 'main' ? 'stone.main' : ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat'; set(p, v); afterSet(p); update(true); break; }
+    case 'mat': {
+      const p = ui.pick === 'main' ? 'stone.main' : ui.pick === 'bs' ? 'stone.bsMat' : 'stone.islMat'; set(p, v); afterSet(p);
+      /* workspace: keep the panel (and the scrolled catalog) in place, only the marks and the picture change */
+      if (S.flow === 'ws') { update(false); wsSyncCards(); } else update(true);
+      break;
+    }
     case 'fbrand': ui.brand = v; renderStep(); break;
     case 'ftone': ui.tone = ui.tone === v ? null : v; renderStep(); break;
     case 'preset': { const p = PRESETS[v]; Object.assign(S.front, clone(p.front), { preset: v }); Object.assign(S.int, clone(p.int)); update(true); break; }
@@ -3298,9 +4050,18 @@ body.addEventListener('click', e => {
         if (!FEAT_WALLS(g.t).includes(g.wall)) continue;
         S.feats.push(g);
       }
-      S.feats = S.feats.slice(0, 24); ui.photo = null; ui.selFeat = null; update(true); break;
+      S.feats = S.feats.slice(0, 24); ui.photo = null; ui.selFeat = null; wsOwnFeats(); update(true); break;
     }
     case 'flow': switchFlow(v); break;
+    case 'ws-shape': wsSetShape(v); break;
+    case 'ws-island': wsSetIsland(v === 'yes'); break;
+    case 'ws-target': ui.wsT = v; renderStep(); renderStats(); applyHighlight(); break;
+    case 'ws-scope': ui.wsT = 'cab'; ui.wsScope = v; renderStep(); renderStats(); applyHighlight(); break;
+    case 'ws-color': wsSetColor(v); update(true); break;
+    case 'ws-fix': { const f = wsFitNotes()[+b.dataset.n]?.fixes?.[+b.dataset.f]; if (f) wsApplyFix(f); break; }
+    case 'ws-auto': S.sk.fix[v] = false; update(true); break;
+    case 'ws-confirm': S.sk.dims = 'user'; update(true); toast('ზომები დადასტურდა — ახლა ისინი შენი ოთახის ზომებად ითვლება.'); break;
+    case 'ws-go': go(+v); break;
     case 'restore': if (ui.fullBackup) { S = ui.fullBackup; ui.fullBackup = null; S.flow = 'full'; step = 1; update(true); } break;
     case 'skwall': S.sk.walls[v] = !S.sk.walls[v]; update(true); break;
     case 'addfeat': {
@@ -3312,7 +4073,7 @@ body.addEventListener('click', e => {
         : v === 'beam' ? { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 - 50)), w: 100, d: d.d, h: d.h }
         : v === 'radiator' ? (win ? { t: v, wall: win.wall, x: Math.max(0, Math.round(win.x + (win.w - 80) / 2)), w: 80, h: d.h, d: d.d } : { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 - 40)), w: 80, h: d.h, d: d.d })
         : { t: v, wall: 'back', x: Math.round(W0 * (v === 'water' ? 0.5 : v === 'gas' ? 0.7 : 0.8)) };
-      S.feats.push(f); ui.selFeat = S.feats.length - 1; update(false); break;
+      S.feats.push(f); ui.selFeat = S.feats.length - 1; wsOwnFeats(); update(false); break;
     }
     case 'tpl': {
       const t = ROOM_TPL[v]; if (!t) break;
@@ -3320,15 +4081,38 @@ body.addEventListener('click', e => {
       S.sk.pin = { sink: null, hob: null, fridge: null }; ui.selFeat = null; update(true); break;
     }
     case 'unpin': S.sk.pin = { sink: null, hob: null, fridge: null }; update(false); break;
-    case 'featdel': S.feats.splice(+b.dataset.i, 1); ui.selFeat = null; update(false); break;
-    case 'rot': rotateRoom(S); ui.selFeat = null; update(true); break;
+    case 'featdel': S.feats.splice(+b.dataset.i, 1); ui.selFeat = null; wsOwnFeats(); update(false); break;
+    case 'rot': rotateRoom(S); ui.selFeat = null; wsOwnFeats(); update(true); break;
   }
 });
+/* workspace ⇄ detailed editing. Going back to the workspace re-plans the kitchen automatically, so a detailed
+   version that differs is kept to restore; the shape, sizes and materials the user set carry over. */
+const layoutKey = s => JSON.stringify({ ...s, flow: null, sk: null, stone: null, front: null, int: null, quote: null, elec: null });
 function switchFlow(v) {
   if (v === S.flow) return;
   if (focusInvalidNumber()) return;
   if (v === 'quick') ui.fullBackup = clone(S);
-  S.flow = v; step = v === 'quick' ? 0 : 1; update(true); go(step);
+  if (v === 'full') {
+    const from = S.flow === 'ws' ? WSTEPS[step]?.id : null;
+    if (S.flow === 'ws') ui.wsBackup = { layout: layoutKey(S), sk: clone(S.sk) };
+    S.flow = 'full'; step = from === 'wsMat' ? 4 : from === 'wsDims' ? 0 : from === 'wsPrice' ? 6 : 1;
+  } else if (v === 'ws') {
+    const b = ui.wsBackup, prev = b ? JSON.parse(b.layout) : null; ui.wsBackup = null;
+    if (b) S.sk = { ...S.sk, ...b.sk };
+    if (!b || b.layout !== layoutKey(S)) {
+      ui.fullBackup = clone(S);
+      S.sk.shape = ['I', 'L', 'U'].includes(S.lay.type) ? S.lay.type : 'L'; S.sk.corner = S.lay.corner === 'right' ? 'right' : 'left'; S.sk.island = !!S.isl.on;
+      /* a length counts as the user's own only where it differs from what the workspace would plan by itself */
+      const probe = clone(S); probe.sk.fix = { a: false, b: false, c: false, isl: false }; designWorkspace(probe);
+      S.sk.fix = { a: probe.lay.a !== S.lay.a, b: S.lay.type !== 'I' && probe.lay.b !== S.lay.b, c: S.lay.type === 'U' && probe.lay.c !== S.lay.c, isl: !!S.isl.on && (probe.isl.len !== S.isl.len || probe.isl.dep !== S.isl.dep) };
+      if (!prev || JSON.stringify([prev.room, prev.feats]) !== JSON.stringify([S.room, S.feats])) { S.sk.dims = 'user'; S.sk.fsample = false; }
+    }
+    S.flow = 'ws'; step = 0;
+    update(true);
+    if (ui.fullBackup && layoutKey(ui.fullBackup) === layoutKey(S)) ui.fullBackup = null;   /* the workspace reproduced it exactly */
+    go(step); return;
+  } else { S.flow = v; step = v === 'quick' ? 0 : 1; }
+  update(true); go(step);
 }
 $('#modebar').addEventListener('click', e => { const b = e.target.closest('[data-flow]'); if (b) switchFlow(b.dataset.flow); });
 /* sketch: drag features along (and between) walls */
@@ -3367,7 +4151,7 @@ function dragApp(e) {
   if (M.isl && k !== 'fridge') { const I = M.isl, ir = M.islRun; if (x > I.x0 - 25 && x < I.x1 + 25 && z > I.zk - 25 && z < I.z1 + 25) best = { r: ir, u: clamp(x - ir.ox, ir.u0, ir.u1), d: 0 }; }
   if (!best) return;
   const r = best.r, u = Math.round(best.u / 5) * 5;
-  if (S.flow === 'quick') {
+  if (S.flow !== 'full') {
     const wall = r.isIsl ? 'isl' : r.wall, wx = r.isIsl ? u : r.wall === 'back' ? r.ox + u : r.oz + u, prev = S.sk.pin[k];
     if (prev && prev.wall === wall && prev.x === wx) { if (first) refreshLive(); return; }
     S.sk.pin[k] = { wall, x: wx };
@@ -3393,16 +4177,18 @@ function dragTo(e) {
   const len = wall === 'back' || wall === 'front' ? W0 : D0, along = wall === 'back' || wall === 'front' ? x : z, w = f.w || 0;
   const nx = Math.round(clamp(along - w / 2, 0, Math.max(0, len - w)) / 5) * 5;
   if (f.wall === wall && f.x === nx) { refreshLive(); return; }
-  f.wall = wall; f.x = nx;
+  f.wall = wall; f.x = nx; wsOwnFeats();
   update(false);
 }
 const endDrag = () => { if (!ui.drag) return; const d = ui.drag; ui.drag = null; refreshLive(); if (d.moved) scheduleRebuild(0); };
 body.addEventListener('pointerup', endDrag); body.addEventListener('pointercancel', endDrag);
 body.addEventListener('keydown', e => {
+  const pill = e.target.closest?.('[data-focus]');
+  if (pill && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); wsFocusField(pill.dataset.focus); return; }
   const el = e.target.closest?.('#sketchSvg .feat'); if (!el) return;
   const f = S.feats[+el.dataset.fi]; if (!f) return;
   const step5 = { ArrowLeft: -5, ArrowUp: -5, ArrowRight: 5, ArrowDown: 5 }[e.key]; if (!step5) return;
-  e.preventDefault(); f.x = Math.max(0, f.x + step5); ui.selFeat = +el.dataset.fi; update(false);
+  e.preventDefault(); f.x = Math.max(0, f.x + step5); ui.selFeat = +el.dataset.fi; wsOwnFeats(); update(false);
   requestAnimationFrame(() => $(`#sketchSvg .feat[data-fi="${el.dataset.fi}"]`)?.focus());
 });
 /* undo / redo: every change is a snapshot; changes closer than 0.7 s (typing, dragging) form one step */
@@ -3423,6 +4209,7 @@ function histGo(back) {
   discardInputErrors();
   to.push(hist.cur); const snap = from.pop(); hist.t = 0;
   S = checkedProject(JSON.parse(snap)); ui.selFeat = null; ui.drag = null;
+  if (step >= curSteps().length) step = 0;
   hist.lock = true; update(true); hist.lock = false;
   hist.cur = JSON.stringify(S); renderHist();
 }
@@ -3438,6 +4225,8 @@ document.addEventListener('keydown', e => {
   e.preventDefault(); histGo(k === 'z' && !e.shiftKey);
 });
 $('#steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (b) go(+b.dataset.step); });
+/* open/closed state of the full catalog survives re-rendering ('toggle' does not bubble, so listen while capturing) */
+body.addEventListener('toggle', e => { const k = e.target.dataset?.ui; if (k) ui.open[k] = e.target.open; }, true);
 $('#stageStats').addEventListener('click', e => { const b = e.target.closest('[data-goto]'); if (b) go(+b.dataset.goto); });
 $('#prev').addEventListener('click', () => go(step - 1));
 $('#next').addEventListener('click', () => go(step + 1));
@@ -3446,11 +4235,11 @@ $('#tgDims').addEventListener('change', () => { labelsDirty = true; });
 $('#tgUpper').addEventListener('change', e => { if (upperGroup) { upperGroup.visible = e.target.checked; renderer.shadowMap.needsUpdate = true; needsRender = true; } });
 let resetArmed = 0;
 $('#btnReset').addEventListener('click', e => {
-  const b = e.currentTarget;
-  if (!resetArmed) { b.textContent = 'დააჭირე კიდევ ერთხელ'; resetArmed = setTimeout(() => { resetArmed = 0; b.textContent = 'თავიდან დაწყება'; }, 3000); return; }
-  clearTimeout(resetArmed); resetArmed = 0; b.textContent = 'თავიდან დაწყება';
+  const b = e.currentTarget, lbl = b.querySelector('.rl') || b;
+  if (!resetArmed) { lbl.textContent = 'დააჭირე კიდევ ერთხელ'; b.classList.add('armed'); resetArmed = setTimeout(() => { resetArmed = 0; lbl.textContent = 'თავიდან დაწყება'; b.classList.remove('armed'); }, 3000); return; }
+  clearTimeout(resetArmed); resetArmed = 0; lbl.textContent = 'თავიდან დაწყება'; b.classList.remove('armed');
   discardInputErrors(); if (!setAsideRejected()) { rejectedStoredProject = false; rejectedRaw = null; } /* explicit action: proceed even if no backup fits */ loadNotice = '';
-  S = clone(DEFAULTS); ui.pick = 'main'; ui.shot = null; update(true); go(0);
+  S = clone(DEFAULTS); applySample(S); ui.pick = 'main'; ui.wsT = 'ct'; ui.wsScope = 'all'; ui.shot = null; ui.fullBackup = null; ui.wsBackup = null; step = 0; update(true); go(0); wsReframe();
 });
 
 (async function boot() {
@@ -3467,6 +4256,8 @@ $('#btnReset').addEventListener('click', e => {
     }
   }
   S = src ? checkedProject(src) : clone(DEFAULTS);
+  if (!src && S.flow === 'ws') applySample(S);
+  if (S.flow === 'ws') autoNotes = designWorkspace(S);
   model = computeModel(S); normalize(); model = computeModel(S);
   renderSteps(); renderStep(); renderStats();
   if (src) $('#saveState').textContent = 'შენახულია ამ ბრაუზერში';
