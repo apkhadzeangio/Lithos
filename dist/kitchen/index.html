@@ -93,6 +93,7 @@ h2.st{font-size:20px;font-weight:500;margin:0 0 4px;letter-spacing:-.01em;text-w
 .f{display:flex;flex-direction:column;gap:5px;min-width:0}
 .f-l{font-size:12px;color:var(--ink);font-weight:500}
 .f-h{font-size:11.5px;color:var(--muted);line-height:1.5}
+.f-h > .btn[data-act="number-revert"]{display:inline-flex;align-items:center;min-height:28px;padding:2px 0;margin-top:2px;border:0;background:none;color:inherit;font-size:inherit;text-align:left;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .num{display:flex;align-items:stretch;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);overflow:hidden}
 .num:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
 .num input{flex:1;min-width:0;border:0;background:none;padding:8px 10px;font-family:var(--f-num);font-size:13.5px;outline:none}
@@ -518,7 +519,7 @@ function checkedProject(src) {
   return sanitize(normalized);
 }
 
-let S = clone(DEFAULTS), rejectedStoredProject = false, loadNotice = '';
+let S = clone(DEFAULTS), rejectedStoredProject = false, rejectedRaw = null, sampleSnapshot = null, loadNotice = '';
 const inputErrors = new Map();
 function get(path) { return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), S); }
 function set(path, v) { const ks = path.split('.'); let o = S; for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks.at(-1)] = v; }
@@ -532,16 +533,31 @@ function storeLoad() {
       if (value === null) throw new Error('empty project');
       return value;
     } catch {
-      rejectedStoredProject = true;
-      loadNotice = 'შენახული პროექტი ვერ წავიკითხეთ. ნაჩვენებია ნიმუში; ძველი მონაცემი არ შეცვლილა. ახალი პროექტისთვის აირჩიე „თავიდან დაწყება“.';
+      rejectedStoredProject = true; rejectedRaw = raw;
+      loadNotice = 'შენახული პროექტი ვერ წავიკითხეთ. ნაჩვენებია ნიმუში; ძველი მონაცემი არ წაშლილა — პირველი ცვლილებისას ის სარეზერვო ასლად შეინახება.';
       return null;
     }
   } catch { return null; }
 }
+/* Move a rejected saved project to a backup key; returns false if the browser refused (then nothing is overwritten). */
+function setAsideRejected() {
+  if (!rejectedStoredProject) return true;
+  try { if (rejectedRaw !== null) localStorage.setItem(STORE_KEY + '.unreadable-' + new Date().toISOString(), rejectedRaw); }
+  catch { return false; }
+  rejectedStoredProject = false; rejectedRaw = null; sampleSnapshot = null;
+  return true;
+}
 let saveTimer = 0;
 function storeSave() {
   clearTimeout(saveTimer);
-  if (rejectedStoredProject) return; // Keep an invalid old project until an explicit reset or import.
+  if (rejectedStoredProject) {
+    /* The sample shown after a rejected saved project is not saved over it. The first real change moves the old
+       text to a backup key and saving resumes, so the user's new work is not lost on reload. */
+    const now = JSON.stringify(S);
+    if (sampleSnapshot === null || now === sampleSnapshot) { sampleSnapshot ??= now; return; }
+    if (!setAsideRejected()) return; // No room for the backup: keep the old project rather than overwrite it.
+    loadNotice = 'ძველი შენახული პროექტი სარეზერვო ასლად დარჩა ამ ბრაუზერში; ახალი ცვლილებები ინახება.'; inputStatus();
+  } else if (loadNotice.startsWith('ძველი შენახული')) { loadNotice = ''; inputStatus(); }
   saveTimer = setTimeout(() => {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); $('#saveState').textContent = 'შენახულია ამ ბრაუზერში'; }
     catch { $('#saveState').textContent = ''; }
@@ -2235,12 +2251,15 @@ function markNumberError(el, message) {
   let box = document.getElementById(id);
   if (!box) {
     box = document.createElement('span'); box.id = id; box.className = 'f-h'; box.style.color = 'var(--error)'; box.style.gridColumn = '1 / -1';
+    const text = document.createElement('span'); text.className = 'validation-text'; box.appendChild(text);
+    const revert = document.createElement('button');
+    revert.type = 'button'; revert.className = 'btn ghost'; revert.dataset.act = 'number-revert'; revert.dataset.key = key;
+    revert.textContent = 'ბოლო სწორ მნიშვნელობაზე დაბრუნება'; box.appendChild(revert);
     (el.closest('label') || el.closest('.mrow') || el.parentElement).appendChild(box);
   }
-  box.textContent = message + ' ';
-  const revert = document.createElement('button');
-  revert.type = 'button'; revert.className = 'btn ghost'; revert.dataset.act = 'number-revert'; revert.dataset.key = key;
-  revert.textContent = 'ბოლო სწორ მნიშვნელობაზე დაბრუნება'; box.appendChild(revert);
+  /* Update the text in place: rebuilding the button on change would drop the keyboard focus that Tab is moving onto it. */
+  const text = box.children[0];
+  if (text.textContent !== message + ' ') text.textContent = message + ' ';
 }
 function clearNumberError(el) {
   const key = numberKey(el), id = 'validation-' + key.replace(/[^a-z0-9-]/gi, '-');
@@ -2272,13 +2291,25 @@ function revertNumber(key) {
   if (!el) return;
   el.value = numberValue(el) ?? ''; clearNumberError(el); inputStatus(); refreshShareActions(); el.focus();
 }
-function commitNumber(el) {
-  const key = numberKey(el);
-  if (!key) return false;
+function readNumber(el) {
   const limits = NUMBER_RULES[el.dataset.path] || { min: Number(el.getAttribute('min') || 0), max: Number(el.getAttribute('max') || 2000), nullable: false };
   const raw = el.value.trim();
   const result = el.validity?.badInput ? { valid: false, message: 'მიუთითე რიცხვი.' }
     : numericResult(raw === '' && limits.nullable ? null : raw.replace(',', '.'), limits);
+  return { key: numberKey(el), raw, result };
+}
+/* Room-element and module-width fields live inside lists that are re-rendered on every update.
+   While typing they are only checked; the value is committed on change, so the field is not replaced under the cursor. */
+function checkNumber(el) {
+  const { key, raw, result } = readNumber(el);
+  if (!key) return false;
+  if (result.valid) clearNumberError(el);
+  else { inputErrors.set(key, { raw, message: result.message }); markNumberError(el, result.message); }
+  inputStatus(); refreshShareActions(); return true;
+}
+function commitNumber(el) {
+  const { key, raw, result } = readNumber(el);
+  if (!key) return false;
   if (!result.valid) {
     inputErrors.set(key, { raw, message: result.message }); markNumberError(el, result.message); inputStatus(); refreshShareActions(); return true;
   }
@@ -3040,7 +3071,10 @@ const shareController = createShareController({
 });
 function refreshShareActions() {
   const box = $('#stepBody [data-live="send"]');
-  if (box) box.innerHTML = sendHTML();
+  if (!box) return;
+  /* Leaving a field fires change → this refresh in the middle of a click on these buttons; replacing identical markup would swallow that click. */
+  const html = sendHTML();
+  if (box.innerHTML !== html) box.innerHTML = html;
 }
 function sendHTML() {
   const share = shareController.current(), ready = !!share.url && !share.pending && !share.error && !inputErrors.size;
@@ -3188,7 +3222,7 @@ const body = $('#stepBody');
 body.addEventListener('input', e => {
   const t = e.target;
   if (t.id === 'matSearch') { ui.q = t.value; $('#matGrid').innerHTML = gridHTML(); return; }
-  commitNumber(t);
+  if (t.dataset.kind === 'num') commitNumber(t); else checkNumber(t);
 });
 body.addEventListener('change', e => {
   const t = e.target, a = t.dataset.act;
@@ -3234,7 +3268,7 @@ body.addEventListener('click', e => {
     case 'copy': copyFrom($('#' + b.dataset.src), b.nextElementSibling?.classList.contains('fine') ? b.nextElementSibling : null); break;
     case 'import': {
       const msg = $('#importMsg');
-      try { const candidate = checkedProject(JSON.parse($('#jsonBox').value)); S = candidate; rejectedStoredProject = false; loadNotice = ''; discardInputErrors(); update(true); $('#importMsg') && ($('#importMsg').textContent = 'პროექტი ჩაიტვირთა.'); }
+      try { const candidate = checkedProject(JSON.parse($('#jsonBox').value)); S = candidate; if (!setAsideRejected()) { rejectedStoredProject = false; rejectedRaw = null; } /* explicit action: proceed even if no backup fits */ loadNotice = ''; discardInputErrors(); update(true); $('#importMsg') && ($('#importMsg').textContent = 'პროექტი ჩაიტვირთა.'); }
       catch (err) { msg.textContent = err instanceof SyntaxError ? 'JSON ვერ წავიკითხე — შეამოწმე ტექსტი.' : err.message; }
       break;
     }
@@ -3415,7 +3449,7 @@ $('#btnReset').addEventListener('click', e => {
   const b = e.currentTarget;
   if (!resetArmed) { b.textContent = 'დააჭირე კიდევ ერთხელ'; resetArmed = setTimeout(() => { resetArmed = 0; b.textContent = 'თავიდან დაწყება'; }, 3000); return; }
   clearTimeout(resetArmed); resetArmed = 0; b.textContent = 'თავიდან დაწყება';
-  discardInputErrors(); rejectedStoredProject = false; loadNotice = '';
+  discardInputErrors(); if (!setAsideRejected()) { rejectedStoredProject = false; rejectedRaw = null; } /* explicit action: proceed even if no backup fits */ loadNotice = '';
   S = clone(DEFAULTS); ui.pick = 'main'; ui.shot = null; update(true); go(0);
 });
 
@@ -3429,7 +3463,7 @@ $('#btnReset').addEventListener('click', e => {
     const stored = storeLoad();
     if (stored !== null) {
       try { checkedProject(stored); src = stored; }
-      catch { rejectedStoredProject = true; loadNotice = 'შენახული პროექტის ზომები გადასამოწმებელია. ნაჩვენებია ნიმუში; ძველი მონაცემი არ შეცვლილა. ახალი პროექტისთვის აირჩიე „თავიდან დაწყება“.'; }
+      catch { rejectedStoredProject = true; try { rejectedRaw = localStorage.getItem(STORE_KEY); } catch {} loadNotice = 'შენახული პროექტის ზომები გადასამოწმებელია. ნაჩვენებია ნიმუში; ძველი მონაცემი არ წაშლილა — პირველი ცვლილებისას ის სარეზერვო ასლად შეინახება.'; }
     }
   }
   S = src ? checkedProject(src) : clone(DEFAULTS);

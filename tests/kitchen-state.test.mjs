@@ -169,7 +169,42 @@ test('invalid feature and module editors never commit or materialize their value
   f.run('S.flow="full"; update(true);');
   const width = f.field(null, '-1', { act: 'mod-w', i: 0, min: 3, max: 300 }); f.change(width);
   assert.equal(f.run('S.mods.A'), null);
-  width.value = '70'; f.input(width); assert.equal(f.run('S.mods.A[0].w'), 70);
+  width.value = '70'; f.input(width); assert.equal(f.run('S.mods.A'), null); // checked while typing, committed on change
+  f.change(width); assert.equal(f.run('S.mods.A[0].w'), 70);
+});
+
+// Browser finding: these editors sit in lists that update() re-renders, so committing on every keystroke
+// replaced the field under the cursor — typing "155" saved 1. They must not update until change.
+test('typing in room-element and module-width fields does not re-render them before change', () => {
+  const f = fixture(); f.run('update(true); var updates = 0; const realUpdate = update; update = (...a) => { updates++; return realUpdate(...a); };');
+  const x = f.field(null, '1', { act: 'feat', i: 0, k: 'x', min: 0, max: 1200 });
+  for (const v of ['1', '15', '155']) { x.value = v; f.input(x); }
+  assert.equal(f.run('updates'), 0); assert.equal(f.run('S.feats[0].x'), 150); assert.equal(f.run('inputErrors.size'), 0);
+  x.value = '-3'; f.input(x); assert.equal(f.run('inputErrors.size'), 1); assert.equal(x.getAttribute('aria-invalid'), 'true');
+  x.value = '155'; f.input(x); assert.equal(f.run('inputErrors.size'), 0);
+  f.change(x); assert.equal(f.run('updates'), 1); assert.equal(f.run('S.feats[0].x'), 155);
+});
+
+// Browser finding: change (fired by Tab) rebuilt the message and its button, so keyboard focus moving onto the button was dropped.
+test('the revert button survives repeated validation so Tab can reach it', () => {
+  const f = fixture(), el = f.field('room.w', '-10'); f.input(el);
+  const box = f.doc.getElementById('validation-room-w'), button = box.children[1];
+  assert.equal(button.dataset.act, 'number-revert');
+  f.change(el); el.value = '-20'; f.input(el); f.run('refreshLive()');
+  assert.equal(f.doc.getElementById('validation-room-w'), box); assert.equal(box.children[1], button); assert.ok(!button.removed);
+  assert.match(box.children[0].textContent, /200/);
+});
+
+// Browser finding: leaving a field fires change, which refreshed the share buttons with identical markup
+// in the middle of the click that caused the blur — the first click on copy/WhatsApp was lost.
+test('unchanged share buttons are not rebuilt when a field is left', async () => {
+  const f = fixture(); f.run('step=2; update(true);'); await f.clock.flush();
+  const box = f.node('#stepBody [data-live="send"]'); let html = box.innerHTML, writes = 0;
+  assert.match(html, /href=/);
+  Object.defineProperty(box, 'innerHTML', { get: () => html, set: v => { writes++; html = v; } });
+  const el = f.field('quote.waste', String(f.run('S.quote.waste'))); f.change(el); f.run('refreshShareActions()');
+  assert.equal(writes, 0);
+  el.value = '99'; f.input(el); assert.equal(writes, 1); assert.doesNotMatch(html, /href=/);
 });
 
 test('badInput does not erase a nullable value; clearing intentionally still works', () => {
@@ -205,7 +240,29 @@ test('malformed and null stored JSON is not overwritten by a default autosave', 
   for (const stored of ['not-json', 'null']) {
     const f = fixture({ stored }); await f.boot(); await f.clock.flush();
     assert.equal(f.storage.get('lithos-kitchen-v1'), stored); assert.equal(f.run('rejectedStoredProject'), true);
+    assert.deepEqual([...f.storage.keys()], ['lithos-kitchen-v1']); // no backup until the user changes something
   }
+});
+
+// Browser finding: after a rejected saved project nothing was ever saved again, so the user's new work vanished on reload.
+test('after a rejected saved project the first real change backs it up and saving resumes', async () => {
+  for (const stored of ['not-json', JSON.stringify({ room: { w: -10 } })]) {
+    const f = fixture({ stored }); await f.boot(); await f.clock.flush();
+    f.run('S.room.d = 450; update(false);'); await f.clock.flush();
+    const backups = [...f.storage].filter(([k]) => k.startsWith('lithos-kitchen-v1.unreadable-'));
+    assert.equal(backups.length, 1); assert.equal(backups[0][1], stored);
+    assert.equal(JSON.parse(f.storage.get('lithos-kitchen-v1')).room.d, 450); assert.equal(f.run('rejectedStoredProject'), false);
+    assert.match(f.node('#inputStatus').textContent, /სარეზერვო/);
+    f.run('S.room.d = 460; update(false);'); await f.clock.flush();
+    assert.equal([...f.storage.keys()].filter(k => k.includes('unreadable')).length, 1); assert.equal(f.node('#inputStatus').hidden, true);
+  }
+});
+
+test('importing over a rejected saved project keeps a backup of the old text', async () => {
+  const stored = 'not-json', f = fixture({ stored }); await f.boot(); await f.clock.flush();
+  f.node('#jsonBox').value = JSON.stringify({ room: { w: 520 } }); f.click('import'); await f.clock.flush();
+  assert.equal(JSON.parse(f.storage.get('lithos-kitchen-v1')).room.w, 520);
+  assert.ok([...f.storage].some(([k, v]) => k.startsWith('lithos-kitchen-v1.unreadable-') && v === stored));
 });
 
 test('an invalid shared project falls back to the valid saved project', async () => {
