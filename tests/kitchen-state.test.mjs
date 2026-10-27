@@ -28,7 +28,7 @@ function fixture({ stored, hash = '', encodeOverride } = {}) {
   const nodes = [], bySelector = new Map(), inputs = []; let copied = '';
   const doc = { activeElement: null, body: { classList: { add() {}, remove() {} } }, addEventListener() {} };
   class Element {
-    constructor(tagName = 'DIV') { this.tagName = tagName; this.attributes = new Map(); this.dataset = {}; this.children = []; this.listeners = {}; this.style = {}; this.value = ''; this.checked = false; this.validity = { badInput: false }; this.hidden = false; this.removed = false; this.classList = { contains: () => false }; nodes.push(this); }
+    constructor(tagName = 'DIV') { this.tagName = tagName; this.attributes = new Map(); this.dataset = {}; this.children = []; this.listeners = {}; this.style = {}; this.value = ''; this.checked = false; this.validity = { badInput: false }; this.hidden = false; this.removed = false; const cls = new Set(); this.classList = { contains: c => cls.has(c), add: (...c) => c.forEach(x => cls.add(x)), remove: (...c) => c.forEach(x => cls.delete(x)), toggle: (c, on = !cls.has(c)) => (on ? cls.add(c) : cls.delete(c), on) }; nodes.push(this); }
     set value(value) { this.inputValue = String(value); }
     get value() { return this.inputValue; }
     set textContent(value) { this.text = value; this.children = []; }
@@ -40,6 +40,7 @@ function fixture({ stored, hash = '', encodeOverride } = {}) {
     appendChild(child) { child.parentElement = this; this.children.push(child); return child; }
     remove() { this.removed = true; if (this.parentElement) this.parentElement.children = this.parentElement.children.filter(c => c !== this); }
     addEventListener(type, callback) { (this.listeners[type] ||= []).push(callback); }
+    querySelectorAll() { return []; }
     closest(selector) { if (selector === 'button') return this.tagName === 'BUTTON' ? this : null; if (selector === 'label' || selector === '.mrow') return this.wrapper || null; return null; }
     focus() { doc.activeElement = this; }
     select() {}
@@ -60,7 +61,7 @@ function fixture({ stored, hash = '', encodeOverride } = {}) {
     navigator: { deviceMemory: 8, hardwareConcurrency: 8, clipboard: { writeText: async text => { copied = text; } } },
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value) },
     matchMedia: () => ({ matches: false }), performance: { now: () => clock.now },
-    setTimeout: clock.schedule, clearTimeout: clock.cancel,
+    setTimeout: clock.schedule, clearTimeout: clock.cancel, requestAnimationFrame: () => 0, cancelAnimationFrame: () => {},
     Intl, console, TextEncoder, TextDecoder, Blob, Response, URL, Uint8Array, btoa, atob,
     fetch: () => { throw new Error('Tests must not call the network'); }
   });
@@ -537,4 +538,98 @@ test('reset returns to the sample in the workspace', async () => {
   f.click('ws-shape', { v: 'I' }); f.input(f.field('room.w', '520'));
   f.run('S = clone(DEFAULTS); applySample(S); update(true)');
   assert.equal(f.run('S.sk.shape'), 'L'); assert.equal(f.run('S.sk.dims'), 'sample'); assert.deepEqual(f.json('S.room'), { w: 460, d: 420, h: 270 });
+});
+
+// ---- the 3D can fail; the project and the editor must not ----
+test('3D that cannot start leaves a working 2D plan of the same project, with retry and continue', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const before = f.json('{ room: S.room, lay: S.lay }');
+  f.run(`init3D = async () => { throw Object.assign(new Error('Error creating WebGL context.'), { kind: 'create', statusMessage: 'GPU process unavailable' }); }`);
+  await f.run('start3D()');
+  assert.equal(f.run('GL.mode'), '2d');
+  assert.equal(f.node('#fallback').hidden, false); assert.equal(f.node('#fbMsg').hidden, false);
+  assert.ok(f.node('#stage').classList.contains('is-2d'));
+  assert.match(f.node('#fbTitle').textContent, /3D ამ ბრაუზერში ვერ ჩაირთო/);
+  assert.match(f.node('#fbLog').textContent, /create: Error creating WebGL context\. — GPU process unavailable/);
+  assert.match(f.node('#fbPlan').innerHTML, /data-role="ct"/);
+  // materials, sizes and saving keep working on the plan
+  f.click('mat', { v: 'neolith:beton' }); f.input(f.field('room.w', '500')); await f.clock.flush(); f.run('render2D()');
+  assert.equal(f.run('S.stone.main'), 'neolith:beton'); assert.equal(f.run('S.room.w'), 500);
+  assert.ok(f.node('#fbPlan').innerHTML.includes(f.run('ASSET_BASE + mat("neolith:beton").thumbnail')));
+  assert.equal(JSON.parse(f.storage.get('lithos-kitchen-v1')).stone.main, 'neolith:beton');
+  assert.equal(f.run('S.lay.type'), before.lay.type); assert.equal(f.run('S.lay.a'), 500);   // the run follows the new wall
+  // "continue in 2D" hides the message and keeps a retry button; a retry that fails again lands back in 2D, once
+  f.node('#fbContinue').listeners.click[0]();
+  assert.equal(f.node('#fbMsg').hidden, true); assert.equal(f.node('#fbBar').hidden, false);
+  await f.node('#fbRetry2').listeners.click[0]();
+  assert.equal(f.run('GL.mode'), '2d'); assert.equal(f.node('#fbMsg').hidden, false);
+  assert.equal(f.run('LIGHT'), true);   // a retry asks for the light pipeline
+  assert.deepEqual(f.json('window.lithosKitchen3D.log().map(e => e.type)').filter(t => t === 'retry'), ['retry']);
+});
+
+test('a lost context waits for the browser, then shows the 2D plan; repeated losses stop the automatic restore', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const project = f.storage.get('lithos-kitchen-v1');
+  f.run(`GL.mode = '3d'; threeReady = true; var prevented = 0; onGLLost({ preventDefault() { prevented++; } })`);
+  assert.equal(f.run('prevented'), 1);   // tells the browser the page wants the context back
+  assert.equal(f.run('GL.mode'), 'lost'); assert.equal(f.node('#glNotice').hidden, false);
+  assert.equal(f.storage.get('lithos-kitchen-3d'), 'light');   // the next start asks the GPU for less
+  await f.clock.flush();   // nothing came back within the wait
+  assert.equal(f.run('GL.mode'), '2d'); assert.match(f.node('#fbTitle').textContent, /თავისით ვერ აღდგა/);
+  f.run(`GL.mode = '3d'; onGLLost({ preventDefault() {} }); onGLLost({ preventDefault() {} }); onGLRestored()`);
+  assert.equal(f.run('GL.mode'), '2d'); assert.match(f.node('#fbTitle').textContent, /რამდენჯერმე შეჩერდა/);
+  const types = f.json('window.lithosKitchen3D.log().map(e => e.type)');
+  assert.ok(types.includes('restore-timeout') && types.includes('auto-restore-stopped'));
+  assert.equal(f.storage.get('lithos-kitchen-v1'), project);   // the project was not touched
+});
+
+test('the page keeps one renderer and never builds the 3D again for ordinary edits', () => {
+  assert.equal((moduleSource.match(/new T\.WebGLRenderer\(/g) || []).length, 1);
+  assert.match(moduleSource, /if \(renderer\) return;/);
+  assert.match(moduleSource, /addEventListener\('webglcontextcreationerror'/);
+  assert.match(moduleSource, /addEventListener\('webglcontextlost', onGLLost/);
+  assert.match(moduleSource, /addEventListener\('webglcontextrestored', onGLRestored/);
+  assert.match(html, /3D-ის ხელახლა ცდა/); assert.match(html, /2D-ში გაგრძელება/);
+});
+
+// Integration regression coverage.
+test('fallback SVG balances groups and keeps appliance markers visible', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const svg = f.run('sketchInner({ materials: true })');
+  assert.equal((svg.match(/<g(?:\s|>)/g) || []).length, (svg.match(/<\/g>/g) || []).length);
+  assert.match(svg, /data-appliance-marker="true"/);
+  assert.match(svg, /data-focus=/);
+});
+
+test('late restoration respects an explicit continue-in-2D choice', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.run("GL.mode = '2d'; var resumes = 0; resume3D = () => { resumes++; }; renderer = null;");
+  f.node('#fbContinue').listeners.click[0]();
+  f.run('onGLRestored()');
+  assert.equal(f.run('resumes'), 0);
+  assert.equal(f.run('GL.mode'), '2d');
+  assert.equal(f.node('#fbBar').hidden, false);
+});
+
+test('restoration exceptions return to the same 2D project', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  const before = f.json('S');
+  f.run("GL.mode = 'lost'; renderer = null; resume3D = () => { throw new Error('GPU resource recreation failed'); }; onGLRestored();");
+  assert.equal(f.run('GL.mode'), '2d');
+  assert.match(f.node('#fbTitle').textContent, /აღდგენა ვერ დასრულდა/);
+  assert.deepEqual(f.json('S'), before);
+});
+
+test('parallel starts share a single initialization promise', async () => {
+  const f = fixture(); await f.boot(); await f.clock.flush();
+  f.run('var starts = 0, releaseInit; init3D = () => { starts++; return new Promise(resolve => { releaseInit = resolve; }); };');
+  const a = f.run('start3D()'), b = f.run('start3D()');
+  assert.equal(a, b);
+  assert.equal(f.run('starts'), 1);
+  f.run('releaseInit()'); await a;
+});
+
+test("resolved Three.js imports retain main's deployed version", () => {
+  assert.match(moduleSource, /https:\/\/esm\.sh\/three@0\.160\.0/);
+  assert.doesNotMatch(moduleSource, /import\('three(?:'|\/)/);
 });
