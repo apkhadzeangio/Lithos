@@ -84,3 +84,67 @@
 @media(max-width:760px){.architectural h2{font-size:28px;line-height:1.35}.atelier-section{padding:24px 24px 48px}.architectural .atelier-header{height:88px;padding:0 24px;gap:20px}.atelier-brand,.atelier-brand img{width:80px;height:74px}.architectural .atelier-nav{gap:14px;font-size:11px}.architectural .atelier-phone{display:none}.architectural.js-ready .atelier-nav{display:none}.js-ready .atelier-menu{display:block}.atelier-menu span{margin-left:10px;font-size:18px}.atelier-mobile-nav:not([hidden]){display:flex;flex-direction:column;align-items:stretch;gap:0;padding:8px 24px 24px;border-bottom:1px solid var(--line);font-size:16px}.atelier-mobile-nav a{padding:14px 0}.atelier-hero-grid{display:flex;flex-direction:column;gap:40px}.atelier-hero h1{font-size:42px;line-height:1.24;letter-spacing:0;margin:24px 0}.desktop-title{display:none}.mobile-title{display:inline}.atelier-hero .atelier-body{font-size:16px;line-height:30px}.atelier-study{width:100%}.atelier-stage{height:370px}.atelier-slab{width:calc(100% - 60px);height:310px;left:35px;top:35px}.atelier-services{margin-top:32px!important}.atelier-intro{display:block}.atelier-intro>.atelier-index{margin-bottom:24px}.atelier-intro .atelier-body{margin-top:24px}.atelier-section-heading{display:block;margin-bottom:40px}.atelier-section-heading .atelier-text-link{margin-top:12px}.atelier-gallery{display:flex;flex-direction:column;gap:40px}.atelier-project:nth-child(2){margin-top:0}.atelier-project-image{height:260px}.atelier-project:nth-child(2) .atelier-project-image{height:320px}.atelier-project-caption{font-weight:400}.atelier-rule{margin-bottom:40px}.atelier-textures{gap:16px}.atelier-texture>img{height:210px}.atelier-texture>h3{font-size:13px}.atelier-process ol{display:flex;flex-direction:column;gap:24px}.atelier-process li{display:flex;gap:20px;align-items:baseline}.atelier-process li>span{margin-bottom:0}.atelier-journal-row{grid-template-columns:18px 1fr;gap:24px}.atelier-journal-row h3{font-size:18px;line-height:28px}.atelier-journal-all{font-size:12px}.architectural .atelier-footer{padding:24px 24px 40px}.architectural .atelier-footer h2{font-size:42px;line-height:1.24;letter-spacing:0}.atelier-footer-phone{font-size:24px}.atelier-footer-bottom{gap:12px 20px}.atelier-footer-bottom p{width:100%}.atelier-all-projects .project-grid{display:grid;grid-template-columns:1fr;gap:32px}.atelier-all-projects .project-card{margin:0}.atelier-all-projects .project-img{height:260px}.atelier-all-projects{padding-top:40px}}
 @media(max-width:359px){.atelier-section{padding-left:20px;padding-right:20px}.atelier-hero h1,.architectural .atelier-footer h2{font-size:36px}.atelier-stage{height:340px}.atelier-slab{height:280px;left:30px}.atelier-study figcaption{font-size:9px;gap:8px}.atelier-texture>h3{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.atelier-slab{will-change:auto}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Kitchen designer spotlight: one clear action above the fold, one editorial feature below. */
+.architectural .atelier-nav a.atelier-nav-kitchen{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border:1px solid var(--ink);color:var(--ink);background:transparent;font-weight:500;white-space:nowrap;transition:color .2s,background .2s}
+.architectural .atelier-nav a.atelier-nav-kitchen::after{display:none}
+.architectural .atelier-nav a.atelier-nav-kitchen:hover{color:var(--paper);background:var(--ink)}
+.architectural .atelier-nav a.atelier-nav-kitchen span{font:17px/1 Manrope,sans-serif}
+.atelier-hero-ctas{display:flex;align-items:center;flex-wrap:wrap;gap:12px 22px;margin-top:32px}
+.architectural .atelier-hero-ctas .atelier-action{margin-top:0;min-width:264px;text-decoration:none}
+.architectural .atelier-hero-cta-secondary{padding:15px 0;background:transparent;border:0;border-bottom:1px solid var(--ink);color:var(--ink);font-size:13px;line-height:22px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:color .2s}
+.architectural .atelier-hero-cta-secondary:hover{color:var(--olive)}
+.atelier-kitchen-feature{padding-top:24px;padding-bottom:80px}
+.atelier-kitchen-feature-inner{background:#293126;color:#f5f1e7;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.98fr);overflow:hidden;isolation:isolate}
+.atelier-kitchen-feature-copy{min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(40px,5vw,76px) clamp(30px,4.6vw,70px)}
+.atelier-kitchen-feature-kicker{display:flex;align-items:center;gap:11px;font:11px/1.5 Manrope,'Noto Sans Georgian',sans-serif;letter-spacing:.6px;color:#c5cdb5}
+.atelier-kitchen-feature-dot{height:8px;width:8px;background:#b5c38f;border-radius:50%;box-shadow:0 0 0 4px rgba(181,195,143,.13);flex:none}
+.architectural .atelier-kitchen-feature h2{font-size:clamp(33px,3.65vw,55px);font-weight:300;line-height:1.24;letter-spacing:-.04em;margin:29px 0 20px;color:#fffdf7}
+.atelier-kitchen-feature h2 em{font-style:normal;color:#bac8a1}
+.atelier-kitchen-feature-lead{max-width:430px;font-size:15px;line-height:1.9;color:#d6dace}
+.atelier-kitchen-feature-steps{display:flex;flex-wrap:wrap;gap:10px 20px;padding:0;margin:27px 0 32px;font-size:12px;line-height:1.6;color:#e6e7dc}
+.atelier-kitchen-feature-steps span{white-space:nowrap}
+.atelier-kitchen-feature-steps b{font:11px/1.5 Manrope,sans-serif;color:#bbc8a4;margin-right:6px}
+.atelier-kitchen-feature-cta{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:58px;padding:16px 22px;background:#ecece2;color:#1c251c;font-size:14px;font-weight:500;text-decoration:none;transition:background .25s,transform .25s}
+.atelier-kitchen-feature-cta:hover{background:#cfdebd;transform:translateY(-2px)}
+.atelier-kitchen-feature-cta>span{font:22px/1 Manrope,sans-serif}
+.atelier-kitchen-feature-note{font-size:11px;line-height:1.8;margin-top:17px!important;color:#bbc5b3;max-width:380px}
+.atelier-kitchen-feature-visual{display:block;position:relative;min-height:530px;overflow:hidden;background:#bdb7a5;color:#fff;isolation:isolate}
+.atelier-kitchen-feature-visual>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 52%;transition:transform .7s ease}
+.atelier-kitchen-feature-visual:hover>img{transform:scale(1.05)}
+.atelier-kitchen-feature-visual:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(180deg,transparent,rgba(15,20,16,.67));pointer-events:none}
+.atelier-kitchen-feature-photo-caption{position:absolute;top:22px;left:22px;padding:10px 13px;background:rgba(250,248,241,.94);color:#2d332b;z-index:1;font-size:11px;line-height:1.4}
+.atelier-kitchen-feature-visual-action{position:absolute;z-index:1;bottom:34px;left:30px;right:30px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.68);font-size:15px;line-height:1.5;font-weight:500}
+.atelier-kitchen-feature-visual-action>span{font:24px/1 Manrope,sans-serif}
+.architectural .atelier-nav-kitchen:focus-visible,.atelier-hero-ctas a:focus-visible,.atelier-hero-ctas button:focus-visible,.atelier-kitchen-feature a:focus-visible{outline:3px solid #bfcf9f;outline-offset:4px}
+@media(min-width:761px) and (max-width:1100px){
+  .atelier-kitchen-feature-copy{padding:34px 28px}
+  .atelier-kitchen-feature-steps{gap:8px 13px}
+  .atelier-kitchen-feature-visual{min-height:475px}
+  .architectural .atelier-nav{gap:18px}
+  .architectural .atelier-nav a.atelier-nav-kitchen{padding:10px 11px}
+}
+@media(max-width:760px){
+  .architectural .atelier-nav a:not(.atelier-nav-kitchen){display:none}
+  .architectural .atelier-nav a.atelier-nav-kitchen{font-size:11px;padding:9px 10px}
+  .atelier-hero-ctas{margin-top:24px;gap:8px 20px}
+  .architectural .atelier-hero-ctas .atelier-action{min-width:0;width:100%;justify-content:space-between}
+  .architectural .atelier-hero-cta-secondary{padding:12px 0}
+  .atelier-kitchen-feature{padding-top:0;padding-bottom:52px}
+  .atelier-kitchen-feature-inner{grid-template-columns:1fr}
+  .atelier-kitchen-feature-copy{padding:36px 26px 32px}
+  .architectural .atelier-kitchen-feature h2{font-size:clamp(32px,9vw,43px);line-height:1.29;margin:21px 0 15px}
+  .atelier-kitchen-feature-lead{font-size:14px;line-height:1.8}
+  .atelier-kitchen-feature-steps{gap:8px 14px;margin:20px 0 26px}
+  .atelier-kitchen-feature-cta{width:100%;min-height:56px}
+  .atelier-kitchen-feature-visual{min-height:295px}
+  .atelier-kitchen-feature-photo-caption{top:16px;left:16px}
+  .atelier-kitchen-feature-visual-action{bottom:22px;left:20px;right:20px}
+}
+@media(max-width:359px){
+  .architectural .atelier-kitchen-feature h2{font-size:29px}
+  .atelier-kitchen-feature-copy{padding:30px 20px}
+  .atelier-kitchen-feature-steps{font-size:11px}
+  .atelier-kitchen-feature-visual{min-height:245px}
+  .atelier-kitchen-feature-cta{padding:15px 16px;font-size:12px}
+}
