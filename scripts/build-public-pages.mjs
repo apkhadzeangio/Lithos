@@ -4,6 +4,7 @@ import {resolve,dirname} from 'node:path';
 import vm from 'node:vm';
 import {loadArticles, blogTeaser, buildBlog} from './build-blog.mjs';
 import {buildHomepage} from './build-homepage.mjs';
+import {buildSiteCss} from './build-site-css.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),context=vm.createContext({});
 const articles=await loadArticles();
 for(const name of ['site-config.js','neolith-data.js','quartz-data.js','catalog-view.js','projects-data.js'])vm.runInContext(await readFile(resolve(root,'dist',name),'utf8'),context,{filename:name});
@@ -38,14 +39,18 @@ for(const [key,page] of Object.entries(pages)){
   html=html.replace(/<(a|button)\b([^>]*data-filter="([^"]+)"[^>]*)>/g,(_,tag,attrs,filter)=>`<${tag}${attrs.replace(/ class="selected"/g,'').replace(/aria-pressed="(?:true|false)"/,`aria-pressed="${filter===key}"`)}${filter===key?' class="selected"':''}>`);
   html=html.replace('data-nav="materials"','data-nav="materials" class="active" aria-current="page"');
  }else html=html.replace(/<section id="materials"[\s\S]*?(?=<\/main>)/,'');
- const scripts=['site-config.js',...(isCatalog?['neolith-data.js','quartz-data.js','catalog-view.js']:['projects-data.js']),'app.js'];
+ const scripts=['site-config.js',...(isCatalog?['neolith-data.js','quartz-data.js','catalog-view.js']:['projects-data.js']),'app.js','architectural.js'];
  html=html.replace('<!--PAGE_SCRIPTS-->',scripts.map(name=>`<script src="${name}" defer></script>`).join(''));
  const directory=resolve(root,'dist',page.path.slice(1));await mkdir(directory,{recursive:true});await writeFile(resolve(directory,'index.html'),html);
 }
-const notFound=`<!doctype html><html lang="ka"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><meta name="referrer" content="strict-origin-when-cross-origin"><title>გვერდი ვერ მოიძებნა — LITHOS</title><link rel="icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"></head><body><header><a class="brand" href="/" aria-label="LITHOS მთავარი"><img class="brand-logo" src="/assets/lithos-logo-v1.webp" width="100" height="100" alt="LITHOS Stone Surfaces"></a></header><main class="wrap not-found"><p class="not-found-code" aria-hidden="true">404</p><h1>გვერდი ვერ მოიძებნა</h1><p>ბმული შეიძლება შეიცვალა ან მისამართი არასწორადაა მითითებული.</p><div class="not-found-actions"><a class="dark-btn" href="/">მთავარ გვერდზე</a><a class="outline-btn" href="/materials/">მასალების კატალოგი</a></div></main></body></html>`;
+const chrome=template.match(/<header class="atelier-header">[\s\S]*?<\/header>\s*<nav id="mobile-menu"[\s\S]*?<\/nav>/)[0];
+const whatsapp=`https://wa.me/${config.phone.replace(/\D/g,'')}`;
+const footer=template.match(/<footer class="atelier-footer[\s\S]*?<\/footer>/)[0].replaceAll('{{EMAIL}}',escape(config.email)).replace(/<button class="atelier-action atelier-action-light" data-contact>([\s\S]*?)<\/button>/,`<a class="atelier-action atelier-action-light" href="${whatsapp}" target="_blank" rel="noopener noreferrer">$1</a>`);
+const notFound=`<!doctype html><html lang="ka"><head><meta charset="utf-8"><base href="/"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#f3f0e8"><title>გვერდი ვერ მოიძებნა — LITHOS</title><link rel="icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Noto+Sans+Georgian:wght@300;400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/architectural.css"><link rel="stylesheet" href="/site.css"></head><body class="site">${chrome}<main id="main-content" class="wrap not-found"><p class="not-found-code" aria-hidden="true">404</p><h1>გვერდი ვერ მოიძებნა</h1><p>ბმული შეიძლება შეიცვალა ან მისამართი არასწორადაა მითითებული.</p><div class="not-found-actions"><a class="dark-btn" href="/">მთავარ გვერდზე</a><a class="outline-btn" href="/materials/">მასალების კატალოგი</a></div></main>${footer}<script src="/architectural.js" defer></script></body></html>`;
 await writeFile(resolve(root,'dist/404.html'),notFound);
 await writeFile(resolve(root,'dist/robots.txt'),'User-agent: *\nAllow: /\n\nSitemap: https://lithos.ge/sitemap.xml\n');
 const blogPaths=await buildBlog({config,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),articles});
 await buildHomepage({config,articles,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),projects:vm.runInContext('projectCards()',context)});
+await buildSiteCss();
 await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...Object.values(pages).map(page=>page.url),...blogPaths.map(path=>'https://lithos.ge'+path)].map(url=>`  <url><loc>${url}</loc></url>`).join('\n')+'\n</urlset>\n');
 console.log(`Generated 4 public pages, blog index, ${articles.length} articles and custom 404; missing business data omitted.`);

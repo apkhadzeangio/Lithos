@@ -5,9 +5,8 @@ const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;',
 
 export async function buildHomepage({config, articles, homepage, projects}) {
   const head = homepage.slice(0, homepage.indexOf('</head>') + 7)
-    .replace('family=Noto+Sans+Georgian:wght@400;500', 'family=Manrope:wght@400;500&family=Noto+Sans+Georgian:wght@300;400;500')
-    .replace('<link rel="stylesheet" href="blog/blog.css">', '<link rel="stylesheet" href="architectural.css">')
-    .replaceAll('#f4f1eb', '#f3f0e8');
+    .replace('<link rel="stylesheet" href="blog/blog.css">', '')
+    .replace('<link rel="stylesheet" href="site.css">', '');
   const dialogs = homepage.match(/<dialog id="detail"[\s\S]*?<\/dialog><dialog id="contact"[\s\S]*?<\/dialog>/)?.[0];
   if (!dialogs) throw new Error('Homepage requires the existing project and consultation dialogs.');
   const topics = [
