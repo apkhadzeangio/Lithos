@@ -7,8 +7,7 @@
 <meta name="robots" content="index,follow">
 <meta name="lithos-tex" content="1024">
 <link rel="icon" href="/favicon.ico">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js" crossorigin>
+<link rel="preconnect" href="https://esm.sh" crossorigin>
 <title>LITHOS სამზარეულოს დიზაინერი</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -411,7 +410,6 @@ button.lbl:hover{border-color:var(--ink)}
 <script src="/neolith-data.js"></script>
 <script src="/quartz-data.js"></script>
 <script src="/designer/config.js"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
 
@@ -1717,9 +1715,15 @@ const Q = TIER === 'low'
 let lights = null, prNow = Q.pr, moving = false, idleTimer = 0, lastFrame = 0, frameEma = 16;
 
 async function init3D() {
+  // Import fully resolved HTTPS ES modules, so browsers without import-map support
+  // don't fail to resolve the bare "three" specifier (Firefox and embedded browsers).
+  // Keep all addons pinned to the same three.js version and CDN.
+  const base = 'https://esm.sh/three@0.160.0';
   const [THREE, oc, re, bu] = await Promise.all([
-    import('three'), import('three/addons/controls/OrbitControls.js'),
-    import('three/addons/environments/RoomEnvironment.js'), import('three/addons/utils/BufferGeometryUtils.js')
+    import(base + '?bundle=false'),
+    import(base + '/examples/jsm/controls/OrbitControls.js?bundle=false'),
+    import(base + '/examples/jsm/environments/RoomEnvironment.js?bundle=false'),
+    import(base + '/examples/jsm/utils/BufferGeometryUtils.js?bundle=false')
   ]);
   T = THREE; mergeGeos = bu.mergeGeometries;
   const wrap = $('#canvasWrap');
