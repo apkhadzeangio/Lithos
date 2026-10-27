@@ -326,6 +326,22 @@ button.lbl:hover{border-color:var(--ink)}
 #spLink{font-size:11.5px}
 #btnReset .ico{display:none;font-size:15px}
 .sheet-handle{display:none}
+/* 3D unavailable: the same project as a 2D plan */
+.gl-notice{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;background:var(--overlay);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:13px;max-width:calc(100% - 32px);text-align:center}
+.stage.is-2d .canvas-wrap,.stage.is-2d .labels,.stage.is-2d .views,.stage.is-2d .stage-tools,.stage.is-2d .loading{display:none}
+.fallback{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;padding:14px 16px 60px;overflow:auto;background:var(--stage)}
+.fb-msg{background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:14px 16px;max-width:600px;box-shadow:0 6px 20px rgba(0,0,0,.08);flex:0 0 auto}
+.fb-msg b{font-size:15px;font-weight:600}
+.fb-msg p{margin:6px 0 12px;font-size:13px;color:var(--muted);line-height:1.6}
+.fb-msg pre{font:11px/1.5 var(--f-num);white-space:pre-wrap;max-height:140px;overflow:auto;margin:6px 0 0;color:var(--muted)}
+.fb-bar{display:flex;align-items:center;gap:10px;font-size:13px;flex:0 0 auto}
+.fb-plan{flex:1 1 0;min-height:180px;width:100%}
+.fb-plan .pm{cursor:pointer}
+.fb-plan .pm:hover{stroke:var(--hl);stroke-width:2}
+.fb-plan .pm.hl{stroke:var(--hl);stroke-width:3}
+.fb-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;flex:0 0 auto}
+.fb-legend span{display:inline-flex;align-items:center;gap:6px}
+.fb-legend img,.fb-legend i{width:18px;height:18px;border-radius:4px;object-fit:cover;display:inline-block;border:1px solid var(--line-strong)}
 /* workshop drawing: on-screen preview and print */
 .sheet-wrap{position:fixed;inset:0;z-index:60;background:var(--stage);overflow:auto;-webkit-overflow-scrolling:touch}
 .sheet-bar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -433,10 +449,20 @@ button.lbl:hover{border-color:var(--ink)}
       <div class="stage-tools">
         <label><input type="checkbox" id="tgDims" checked> ზომები</label>
         <label><input type="checkbox" id="tgUpper" checked> ზედა კარადები</label>
+        <label title="ნაკლები დატვირთვა გრაფიკულ ბარათზე: ჩრდილების გარეშე, მცირე ტექსტურები"><input type="checkbox" id="tgLight"> მსუბუქი 3D</label>
       </div>
       <div class="stage-stats" id="stageStats"></div>
       <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
       <div class="loading" id="loading">3D ხედი იტვირთება…</div>
+      <div class="gl-notice" id="glNotice" role="status" aria-live="polite" hidden></div>
+      <div class="fallback" id="fallback" hidden>
+        <div class="fb-msg" id="fbMsg" role="alert"><b id="fbTitle"></b><p id="fbText"></p>
+          <div class="row"><button type="button" class="btn primary" id="fbRetry">3D-ის ხელახლა ცდა</button><button type="button" class="btn" id="fbContinue">2D-ში გაგრძელება</button></div>
+          <details class="more"><summary>ტექნიკური დეტალები</summary><pre id="fbLog"></pre></details></div>
+        <div class="fb-bar" id="fbBar" hidden><span>2D გეგმა — 3D გამორთულია</span><button type="button" class="btn" id="fbRetry2">3D-ის ხელახლა ცდა</button></div>
+        <svg id="fbPlan" class="fb-plan" role="group" aria-label="სამზარეულოს გეგმა მასალებითა და ზომებით"></svg>
+        <div class="fb-legend" id="fbLegend"></div>
+      </div>
     </section>
     <aside class="panel" aria-label="პარამეტრები">
       <button type="button" class="sheet-handle" id="sheetHandle" aria-label="პანელის ზომა — შეეხე ან გადაათრიე" aria-expanded="true"><i></i></button>
@@ -1711,31 +1737,73 @@ const TIER = (() => {
   return coarse || mem <= 4 || cores <= 4 ? 'low' : 'high';
 })();
 const DPR = window.devicePixelRatio || 1;
-const Q = TIER === 'low'
-  ? { pr: Math.min(DPR, 1.3), aa: true, shadow: 1024, aniso: 4 }   /* phone GPUs resolve MSAA on-chip cheaply; pixel count is what costs */
-  : { pr: Math.min(DPR, 1.75), aa: true, shadow: 2048, aniso: 8 };
+/* Light mode: pixel ratio 1, no shadows, no MSAA, small stone textures. On by itself for devices with ≤ 2 GB memory
+   and after the GPU dropped the 3D once; the person can switch it in the picture's tools. */
+const LIGHT_KEY = 'lithos-kitchen-3d';
+let LIGHT = (() => { try { if (localStorage.getItem(LIGHT_KEY) === 'light') return true; } catch {} return (navigator.deviceMemory || 8) <= 2; })();
+const quality = () => LIGHT ? { pr: 1, aa: false, shadow: 0, aniso: 1, tex: 512 }
+  : TIER === 'low' ? { pr: Math.min(DPR, 1.3), aa: true, shadow: 1024, aniso: 4, tex: 768 }   /* phone GPUs resolve MSAA on-chip cheaply; pixel count is what costs */
+  : { pr: Math.min(DPR, 1.75), aa: true, shadow: 2048, aniso: 8, tex: 1024 };
+let Q = quality();
 let lights = null, prNow = Q.pr, moving = false, idleTimer = 0, lastFrame = 0, frameEma = 16;
 
+/* ---- 3D health: one renderer per editor; creation failures and context losses are told apart and logged ---- */
+const GL_LOG_KEY = 'lithos-kitchen-gl-log';
+const GL = { mode: 'off', losses: [], restores: 0, attempts: 0, manual: false, timer: 0, raf: 0, ro: null, mq: null, envRT: null, cam: null, kind: '', detail: '',
+  log: (() => { try { return JSON.parse(localStorage.getItem(GL_LOG_KEY) || '[]').slice(-30); } catch { return []; } })() };
+function glNote(type, detail = '') {
+  GL.log.push({ at: new Date().toISOString(), type, detail: String(detail).slice(0, 240) });
+  if (GL.log.length > 30) GL.log.splice(0, GL.log.length - 30);
+  try { localStorage.setItem(GL_LOG_KEY, JSON.stringify(GL.log)); } catch {}
+  (/error|lost|timeout|stopped/.test(type) ? console.warn : console.info)('[LITHOS 3D]', type, detail);
+}
+/* read-only diagnostics for support and tests: what happened to the 3D and what it holds on the GPU */
+window.lithosKitchen3D = Object.freeze({
+  log: () => GL.log.map(e => ({ ...e })),
+  state: () => ({ mode: GL.mode, light: LIGHT, attempts: GL.attempts, losses: GL.losses.length, restores: GL.restores, canvases: document.querySelectorAll('#canvasWrap canvas').length,
+    stones: stones.size, materials: matCache.size, busy: !!(needsRender || rebuildTimer), ...(renderer && GL.mode === '3d' ? { textures: renderer.info.memory.textures, geometries: renderer.info.memory.geometries, programs: renderer.info.programs?.length || 0 } : {}) })
+});
+
+let OrbitControlsC = null, RoomEnvironmentC = null;
 async function init3D() {
-  const [THREE, oc, re, bu] = await Promise.all([
-    import('three'), import('three/addons/controls/OrbitControls.js'),
-    import('three/addons/environments/RoomEnvironment.js'), import('three/addons/utils/BufferGeometryUtils.js')
-  ]);
-  T = THREE; mergeGeos = bu.mergeGeometries;
-  const wrap = $('#canvasWrap');
-  renderer = new T.WebGLRenderer({ antialias: Q.aa, powerPreference: 'high-performance' });
+  if (renderer) return;   /* one renderer per editor: later changes only rebuild the scene */
+  GL.attempts++;
+  glNote('init', `attempt ${GL.attempts}; ${LIGHT ? 'light' : TIER} quality; pixel ratio ${DPR}; memory ${navigator.deviceMemory || '?'} GB`);
+  if (!T) {
+    let mods;
+    try {
+      mods = await Promise.all([
+        import('three'), import('three/addons/controls/OrbitControls.js'),
+        import('three/addons/environments/RoomEnvironment.js'), import('three/addons/utils/BufferGeometryUtils.js')
+      ]);
+    } catch (err) { glNote('library-error', err.message); throw Object.assign(new Error(err.message), { kind: 'load' }); }
+    const [THREE, oc, re, bu] = mods;
+    T = THREE; mergeGeos = bu.mergeGeometries; OrbitControlsC = oc.OrbitControls; RoomEnvironmentC = re.RoomEnvironment;
+  }
+  Q = quality(); prNow = Q.pr;
+  const wrap = $('#canvasWrap'), canvas = document.createElement('canvas');
+  let statusMessage = '';
+  canvas.addEventListener('webglcontextcreationerror', e => { statusMessage = e.statusMessage || ''; }, false);
+  try {
+    renderer = new T.WebGLRenderer({ canvas, antialias: Q.aa, powerPreference: LIGHT || TIER === 'low' ? 'default' : 'high-performance' });
+  } catch (err) {
+    renderer = null;
+    glNote('creation-error', `${err.message}${statusMessage ? ' — ' + statusMessage : ''}`);
+    throw Object.assign(new Error(err.message), { kind: 'create', statusMessage });
+  }
+  canvas.addEventListener('webglcontextlost', onGLLost, false);
+  canvas.addEventListener('webglcontextrestored', onGLRestored, false);
+  glNote('created', `${renderer.capabilities.isWebGL2 ? 'WebGL 2' : 'WebGL 1'}; max texture ${renderer.capabilities.maxTextureSize}px`);
   renderer.setPixelRatio(prNow);
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
   /* the kitchen does not move, so the shadow map is drawn once per rebuild, not every frame */
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFShadowMap; renderer.shadowMap.autoUpdate = false;
-  wrap.appendChild(renderer.domElement);
+  renderer.shadowMap.enabled = Q.shadow > 0; renderer.shadowMap.type = T.PCFShadowMap; renderer.shadowMap.autoUpdate = false;
+  wrap.appendChild(canvas);
   scene = new T.Scene();
-  const pm = new T.PMREMGenerator(renderer);
-  scene.environment = pm.fromScene(new re.RoomEnvironment(renderer), 0.04).texture;
-  pm.dispose();
+  setEnvironment();
   camera = new T.PerspectiveCamera(38, 1, 0.05, 80);
-  controls = new oc.OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControlsC(camera, canvas);
   controls.enableDamping = true; controls.dampingFactor = 0.12;
   controls.maxPolarAngle = Math.PI * 0.495; controls.minDistance = 0.8; controls.maxDistance = 18;
   controls.addEventListener('change', () => { needsRender = true; labelsDirty = true; });
@@ -1744,16 +1812,94 @@ async function init3D() {
   /* a fixed light rig: changing the number of lights would recompile every shader */
   const hemi = new T.HemisphereLight('#fffaf1', '#cfc6b8', 0.75);
   const sun = new T.DirectionalLight('#fff3e2', 2.1);
-  sun.castShadow = true; sun.shadow.mapSize.set(Q.shadow, Q.shadow); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+  sun.castShadow = Q.shadow > 0; sun.shadow.mapSize.set(Q.shadow || 512, Q.shadow || 512); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
   const lamp = new T.PointLight('#ffcf94', 0, 5, 2);
   scene.add(hemi, sun, sun.target, lamp);
   lights = { hemi, sun, lamp };
-  new ResizeObserver(resize).observe(wrap); resize();
-  applyThemeBg(); matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { applyThemeBg(); needsRender = true; });
-  threeReady = true;
-  rebuild(); setView('persp', true);
+  GL.ro = new ResizeObserver(resize); GL.ro.observe(wrap); resize();
+  applyThemeBg(); GL.mq = matchMedia('(prefers-color-scheme: dark)'); GL.mq.addEventListener('change', onScheme);
+  threeReady = true; GL.mode = '3d'; GL.manual = false;
+  rebuild(); if (!restoreCam()) setView('persp', true);
   $('#loading').hidden = true;
-  requestAnimationFrame(loop);
+  show3D(); startLoop();
+}
+function onScheme() { applyThemeBg(); needsRender = true; }
+/* the reflection map is drawn on the GPU: made once per context, and again after the context comes back */
+function setEnvironment() {
+  GL.envRT?.dispose();
+  const pm = new T.PMREMGenerator(renderer), room = new RoomEnvironmentC(renderer);
+  GL.envRT = pm.fromScene(room, 0.04); scene.environment = GL.envRT.texture;
+  room.dispose(); pm.dispose();
+}
+function startLoop() { if (!GL.raf && GL.mode === '3d' && !document.hidden) { lastFrame = 0; GL.raf = requestAnimationFrame(loop); } }
+function stopLoop() { cancelAnimationFrame(GL.raf); GL.raf = 0; }
+function saveCam() { if (camera && controls) GL.cam = { p: camera.position.toArray(), c: controls.target.toArray(), view: ui.view }; }
+function restoreCam() {
+  if (!GL.cam || !camera) return false;
+  camera.position.fromArray(GL.cam.p); controls.target.fromArray(GL.cam.c); controls.update(); ui.view = GL.cam.view;
+  document.querySelectorAll('.views button').forEach(b => b.classList.toggle('on', b.dataset.view === ui.view));
+  needsRender = true; labelsDirty = true; return true;
+}
+/* ---- context lost / restored: the project stays as it is; the 3D comes back at most a few times by itself ---- */
+const MAX_AUTO_RESTORES = 2, RESTORE_WAIT = 4000;
+function onGLLost(e) {
+  e.preventDefault();   /* tells the browser we want the context back */
+  GL.losses.push(performance.now());
+  glNote('context-lost', `loss ${GL.losses.length} on this page`);
+  saveCam(); stopLoop(); threeReady = false; GL.mode = 'lost';
+  if (!LIGHT) setLight(true);   /* the next 3D (now or on the next visit) asks the GPU for less */
+  glNotice('3D დროებით შეჩერდა — ვცდილობ აღდგენას…');
+  clearTimeout(GL.timer);
+  GL.timer = setTimeout(() => { if (GL.mode === 'lost') { glNote('restore-timeout', `${RESTORE_WAIT / 1000} s`); show2D('lost'); } }, RESTORE_WAIT);
+}
+function onGLRestored() {
+  clearTimeout(GL.timer); GL.restores++;
+  glNote('context-restored', `restore ${GL.restores}`);
+  const recent = GL.losses.filter(t => performance.now() - t < 120000).length;
+  if (!GL.manual && (recent > MAX_AUTO_RESTORES || GL.restores > MAX_AUTO_RESTORES + 1)) {
+    glNote('auto-restore-stopped', `${recent} losses in 2 minutes`); show2D('unstable'); return;
+  }
+  resume3D();
+}
+/* three.js set up its GPU state again; meshes and textures upload on the next frame, the GPU-drawn maps are redrawn here */
+function resume3D() {
+  Q = quality(); setPR(Q.pr);
+  renderer.shadowMap.enabled = Q.shadow > 0; if (lights) lights.sun.castShadow = Q.shadow > 0;
+  setEnvironment(); applyThemeBg();
+  threeReady = true; GL.mode = '3d'; GL.manual = false;
+  rebuild(); restoreCam(); show3D(); startLoop();
+}
+/* everything the 3D holds goes back to the browser: on leaving the page, and before a fresh start after a failed restore */
+function dispose3D(reason) {
+  if (!renderer) return;
+  glNote('release', reason);
+  saveCam(); stopLoop(); clearTimeout(GL.timer); threeReady = false;
+  GL.ro?.disconnect(); GL.ro = null; GL.mq?.removeEventListener('change', onScheme); GL.mq = null; controls?.dispose();
+  if (root) for (const c of [...root.children]) { disposeTree(c); root.remove(c); }
+  for (const k of [...stones.keys()]) dropStone(k);
+  for (const m of matCache.values()) m.dispose(); matCache.clear(); matSeen.clear();
+  for (const t of texCache.values()) t.dispose(); texCache.clear(); texInfo.clear();
+  GL.envRT?.dispose(); GL.envRT = null; scene && (scene.environment = null);
+  const canvas = renderer.domElement;
+  canvas.removeEventListener('webglcontextlost', onGLLost, false); canvas.removeEventListener('webglcontextrestored', onGLRestored, false);
+  if (reason !== 'lost') renderer.forceContextLoss();   /* hand the GPU memory back now, not at garbage collection */
+  renderer.dispose(); canvas.remove();
+  renderer = scene = camera = controls = root = upperGroup = lights = null;
+  hlObjs = []; hlKey = ''; labelEls = null; walls = []; labelGroupData = [];
+  if (GL.mode !== '2d') GL.mode = 'off';
+}
+function setLight(on, persist = true) {
+  LIGHT = on;
+  if (persist) try { if (on) localStorage.setItem(LIGHT_KEY, 'light'); else localStorage.removeItem(LIGHT_KEY); } catch {}
+  const tg = $('#tgLight'); if (tg) tg.checked = on;
+  glNote('quality', on ? 'light' : 'full');
+  if (!renderer || GL.mode !== '3d') return;
+  Q = quality(); setPR(Q.pr);
+  renderer.shadowMap.enabled = Q.shadow > 0; lights.sun.castShadow = Q.shadow > 0;
+  lights.sun.shadow.mapSize.set(Q.shadow || 512, Q.shadow || 512); lights.sun.shadow.map?.dispose(); lights.sun.shadow.map = null;
+  for (const k of [...stones.keys()]) dropStone(k);   /* stones reload at the new texture size */
+  for (const m of matCache.values()) m.needsUpdate = true;
+  rebuild();
 }
 function applyThemeBg() { if (scene) scene.background = new T.Color(cssVar('--stage') || '#e4e0d6'); }
 function resize() {
@@ -1762,9 +1908,10 @@ function resize() {
   renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   needsRender = true; labelsDirty = true;
 }
-function setPR(pr) { if (Math.abs(pr - prNow) < 0.01) return; prNow = pr; renderer.setPixelRatio(pr); const w = $('#canvasWrap').clientWidth || 1, h = $('#canvasWrap').clientHeight || 1; renderer.setSize(w, h, false); }
+function setPR(pr) { if (!renderer || Math.abs(pr - prNow) < 0.01) return; prNow = pr; renderer.setPixelRatio(pr); const w = $('#canvasWrap').clientWidth || 1, h = $('#canvasWrap').clientHeight || 1; renderer.setSize(w, h, false); }
 function loop(now) {
-  requestAnimationFrame(loop);
+  if (GL.mode !== '3d') { GL.raf = 0; return; }
+  GL.raf = requestAnimationFrame(loop);
   if (tween) {
     const k = Math.min(1, (now - tween.t0) / tween.dur), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
     camera.position.lerpVectors(tween.p0, tween.p1, e); controls.target.lerpVectors(tween.c0, tween.c1, e);
@@ -1896,25 +2043,65 @@ function floorMat() {
   const k = S.int.floor; const rough = { tile: 0.42, terrazzo: 0.35, concrete: 0.8 }[k] ?? 0.62;
   return cm('floor:' + k, () => new T.MeshStandardMaterial({ map: floorTex(k), roughness: rough, envMapIntensity: 0.4 }));
 }
-const stoneKids = new Map();
+/* one texture per stone, at most Q.tex pixels on its long side; worktop, backsplash and island get their own copy of the
+   material (sharing that texture) so each can be picked and highlighted. Stones that are no longer shown are released. */
+const stones = new Map();
 function stoneMat(key, role) {
-  /* one texture per stone; worktop, backsplash and island get their own copy of the material so each can be picked and highlighted */
-  if (role) return cm(`stone:${key}:${role}`, () => {
-    const m = stoneMat(key).clone(); m.userData = { role };
-    if (!stoneKids.has(key)) stoneKids.set(key, []);
-    stoneKids.get(key).push(m); return m;
-  });
-  return cm('stone:' + key, () => {
+  let st = stones.get(key);
+  if (!st) { st = { base: null, kids: new Map(), tex: null, dead: false }; st.base = makeStone(key, st); stones.set(key, st); }
+  if (!role) return st.base;
+  if (!st.kids.has(role)) { const k = st.base.clone(); k.userData = { role }; st.kids.set(role, k); }
+  return st.kids.get(role);
+}
+function dropStone(key) {
+  const st = stones.get(key); if (!st) return;
+  st.dead = true; st.tex?.dispose(); st.base.dispose(); for (const k of st.kids.values()) k.dispose();
+  stones.delete(key); texInfo.delete(key);
+}
+const stoneRecent = [];
+function pruneStones() {
+  const shown = new Set(); root?.traverse(o => { if (o.isMesh && o.material?.map && o.material.userData?.role) for (const [k, st] of stones) if (st.tex === o.material.map) shown.add(k); });
+  for (const k of [S.stone.main, S.stone.bsMat, S.stone.islMat]) if (k) shown.add(k);
+  for (const k of shown) { const i = stoneRecent.indexOf(k); if (i >= 0) stoneRecent.splice(i, 1); stoneRecent.push(k); }
+  stoneRecent.splice(0, Math.max(0, stoneRecent.length - (shown.size + 2)));   /* plus the two stones seen just before: flipping back is instant */
+  for (const k of [...stones.keys()]) if (!stoneRecent.includes(k) && !shown.has(k)) dropStone(k);
+}
+/* materials the scene stopped using (an old cabinet colour, a hob size) and the canvas textures only they used are released
+   after a few rebuilds; the highlight materials are shared by every rebuild and stay */
+const matSeen = new Map(), MAT_KEEP = 2, MAT_PINNED = new Set(['hl:fill', 'hl:line']);
+let rebuildNo = 0;
+function pruneMats() {
+  rebuildNo++;
+  const live = new Set();
+  root?.traverse(o => { if (o.material) for (const m of [].concat(o.material)) live.add(m); });
+  for (const [k, m] of [...matCache]) {
+    if (live.has(m) || MAT_PINNED.has(k) || !matSeen.has(k)) { matSeen.set(k, rebuildNo); continue; }
+    if (rebuildNo - matSeen.get(k) > MAT_KEEP) { m.dispose(); matCache.delete(k); matSeen.delete(k); }
+  }
+  const texLive = new Set();
+  for (const m of matCache.values()) for (const p of ['map', 'bumpMap', 'roughnessMap', 'normalMap']) if (m[p]) texLive.add(m[p]);
+  for (const [k, t] of [...texCache]) if (!texLive.has(t)) { t.dispose(); texCache.delete(k); }
+}
+function makeStone(key, st) {
+  {
     const m = mat(key), fin = finishParams(m.finish);
     /* standard material: a polished look comes from low roughness + the environment map, without the clearcoat pass */
     const material = new T.MeshStandardMaterial({ color: new T.Color(toneOf(m)), roughness: fin.cc ? 0.1 : fin.r, metalness: 0, envMapIntensity: fin.cc ? 1.15 : fin.env });
     const onTex = tex => {
+      if (st.dead) { tex.dispose(); return; }
+      const img = tex.image, cap = Q.tex;
+      if (Math.max(img.width, img.height) > cap) {
+        const k = cap / Math.max(img.width, img.height), c = document.createElement('canvas');
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        tex.image = c;
+      }
+      st.tex = tex;
       const iw = tex.image.width, ih = tex.image.height, long = 280, portrait = ih >= iw;
       const prev = texInfo.get(key); texInfo.set(key, { portrait });
       tex.colorSpace = T.SRGBColorSpace; tex.wrapS = tex.wrapT = T.MirroredRepeatWrapping;
       tex.anisotropy = Math.min(Q.aniso, renderer.capabilities.getMaxAnisotropy());
       tex.repeat.set(1 / (portrait ? long * iw / ih : long), 1 / (portrait ? long : long * ih / iw));
-      for (const x of [material, ...(stoneKids.get(key) || [])]) { x.map = tex; x.color.set('#ffffff'); x.needsUpdate = true; }
+      for (const x of [material, ...st.kids.values()]) { x.map = tex; x.color.set('#ffffff'); x.needsUpdate = true; }
       if (!prev || prev.portrait !== portrait) scheduleRebuild();
       needsRender = true;
     };
@@ -1923,7 +2110,7 @@ function stoneMat(key, role) {
     if (TEX_VARIANT) loader.load(full.replace(/\.webp$/, '.tex.webp'), onTex, undefined, () => loader.load(full, onTex));
     else loader.load(full, onTex);
     return material;
-  });
+  }
 }
 
 /* ---- geometry helpers (all in cm, root is scaled to metres) ---- */
@@ -2062,7 +2249,7 @@ function rebuild() {
   mergeGroup(g); mergeGroup(upperGroup);
   labelGroupData = buildLabelData(M); labelEls = null;
   renderer.shadowMap.needsUpdate = true; needsRender = true; labelsDirty = true;
-  applyHighlight(true);
+  applyHighlight(true); pruneStones(); pruneMats();
 }
 
 /* ---- room ---- */
@@ -2847,16 +3034,23 @@ const ROOM_TPL = {
 };
 const APP_GLYPH = { sink: 'ნ', hob: 'ქ', fridge: 'მ' };
 const APP_NAME = { sink: 'ნიჟარა', hob: 'ქურა', fridge: 'მაცივარი' };
-function sketchInner() {
+/* opt.materials: the plan that stands in for the 3D — surfaces filled with the chosen stone, a band of the cabinet colour,
+   every surface tappable like in the 3D picture, nothing to drag */
+function sketchInner(opt = {}) {
   const M = model, { W, Dd, pad, sc } = sketchGeom(), X = x => +(pad + x * sc).toFixed(1), Z = z => +(pad + z * sc).toFixed(1);
-  const quick = S.flow !== 'full', ws = S.flow === 'ws', av = S.sk.walls;
+  const quick = S.flow !== 'full', ws = S.flow === 'ws', av = S.sk.walls, matMode = !!opt.materials;
   const rect = (R, attrs) => `<rect x="${X(R.x0)}" y="${Z(R.z0)}" width="${Math.max(0.5, (R.x1 - R.x0) * sc).toFixed(1)}" height="${Math.max(0.5, (R.z1 - R.z0) * sc).toFixed(1)}" ${attrs}/>`;
-  let s = `<defs><pattern id="skHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" stroke-width="1.2"/></pattern></defs>`;
+  let s = `<defs><pattern id="skHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" stroke-width="1.2"/></pattern>${matMode ? [['pmCt', S.stone.main], ['pmIsl', S.stone.islMat || S.stone.main]].map(([id, key]) => `<pattern id="${id}" patternUnits="userSpaceOnUse" width="${(120 * sc).toFixed(1)}" height="${(120 * sc).toFixed(1)}"><image href="${esc(ASSET_BASE + mat(key).thumbnail)}" width="${(120 * sc).toFixed(1)}" height="${(120 * sc).toFixed(1)}" preserveAspectRatio="xMidYMid slice"/></pattern>`).join('') : ''}</defs>`;
+  const frontHex = c => (FRONT_COLORS[c] || FRONT_COLORS.cashmere).c;
   s += `<rect x="${X(0)}" y="${Z(0)}" width="${(W * sc).toFixed(1)}" height="${(Dd * sc).toFixed(1)}" fill="var(--paper)"/>`;
   const apps = [];
   const runRect = (r, u0, u1, v0, v1) => { const p = wp(r, u0, v0), q2 = wp(r, u1, v1); return { x0: Math.min(p.x, q2.x), x1: Math.max(p.x, q2.x), z0: Math.min(p.z, q2.z), z1: Math.max(p.z, q2.z) }; };
   for (const r of M.allRuns) {
-    if (!r.isIsl) { const cs = r.id === 'A' ? 0 : M.D; s += rect(runRect(r, cs, r.len, 0, M.D), 'fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"'); }
+    if (!r.isIsl) {
+      const cs = r.id === 'A' ? 0 : M.D;
+      s += rect(runRect(r, cs, r.len, 0, M.D), matMode ? 'class="pm" data-role="ct" fill="url(#pmCt)" stroke="var(--ink)" stroke-width=".8"' : 'fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"');
+      if (matMode) s += rect(runRect(r, cs, r.len, M.D - 4, M.D), `class="pm" data-role="front" fill="${frontHex(S.front.base)}" stroke="var(--ink)" stroke-width=".5"`);
+    }
     for (const m of M.items[r.id]) {
       const cdR = r.isIsl ? r.cd : M.CD, R = r.isIsl ? (() => { const p = wp(r, m.u, 0), q2 = wp(r, m.u + m.w, cdR); return { x0: Math.min(p.x, q2.x), x1: Math.max(p.x, q2.x), z0: Math.min(p.z, q2.z), z1: Math.max(p.z, q2.z) }; })() : runRect(r, m.u, m.u + m.w, m.sh || 0, cdR);
       if (TALL.has(m.t)) s += rect(R, `fill="${m.t === 'colbox' ? 'url(#skHatch)' : 'var(--line-strong)'}" stroke="var(--line-strong)" stroke-width="1"`);
@@ -2866,7 +3060,11 @@ function sketchInner() {
       if (k) apps.push({ k, x: (R.x0 + R.x1) / 2, z: (R.z0 + R.z1) / 2 });
     }
   }
-  if (M.isl) { const I = M.isl; s += rect({ x0: I.x0, x1: I.x1, z0: I.zk, z1: I.z1 }, 'fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"'); }
+  if (M.isl) {
+    const I = M.isl;
+    s += rect({ x0: I.x0, x1: I.x1, z0: I.zk, z1: I.z1 }, matMode ? 'class="pm" data-role="isl" fill="url(#pmIsl)" stroke="var(--ink)" stroke-width=".8"' : 'fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"');
+    if (matMode) s += rect({ x0: I.x0, x1: I.x1, z0: I.zk, z1: I.zk + 4 }, `class="pm" data-role="islf" fill="${frontHex(S.front.isl || S.front.base)}" stroke="var(--ink)" stroke-width=".5"`);
+  }
   const wl = (side, x1, z1, x2, z2) => `<line x1="${X(x1)}" y1="${Z(z1)}" x2="${X(x2)}" y2="${Z(z2)}" stroke="${quick && !av[side] ? 'var(--line-strong)' : 'var(--ink)'}" stroke-width="${quick && av[side] ? 7 : 5}" stroke-linecap="square"${quick && !av[side] ? ' stroke-dasharray="6 4"' : ''}/>`;
   s += wl('back', 0, 0, W, 0) + wl('left', 0, 0, 0, Dd) + wl('right', W, 0, W, Dd);
   s += `<line x1="${X(0)}" y1="${Z(Dd)}" x2="${X(W)}" y2="${Z(Dd)}" stroke="var(--line-strong)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
@@ -2889,13 +3087,15 @@ function sketchInner() {
     if (f.t === 'water') g = `<circle cx="${X(hx)}" cy="${Z(hz)}" r="8" fill="var(--info)"/><path d="M${X(hx)} ${Z(hz) - 4.5}c2.4 3 3.4 4.6 3.4 6a3.4 3.4 0 0 1-6.8 0c0-1.4 1-3 3.4-6z" fill="var(--paper)"/>`;
     if (f.t === 'gas') g = `<circle cx="${X(hx)}" cy="${Z(hz)}" r="8" fill="var(--warn)"/><path d="M${X(hx)} ${Z(hz) - 5}c3 3 3.6 5 3.6 6.4a3.6 3.6 0 0 1-7.2 0c0-1.2.6-2.2 1.6-3 0 1.2.6 2 1.4 2 0-2 .2-3.6.6-5.4z" fill="var(--paper)"/>`;
     if (f.t === 'vent') g = `<circle cx="${X(hx)}" cy="${Z(hz)}" r="8" fill="var(--muted)"/>${[-3, 0, 3].map(d => `<line x1="${X(hx) - 4.5}" y1="${Z(hz) + d}" x2="${X(hx) + 4.5}" y2="${Z(hz) + d}" stroke="var(--paper)" stroke-width="1.3"/>`).join('')}`;
-    s += `<g class="feat${sel ? ' sel' : ''}" data-fi="${i}" role="button" tabindex="0" aria-label="${esc(FEAT[f.t].l)} — გადაათრიე">${g}<circle cx="${X(hx)}" cy="${Z(hz)}" r="16" fill="transparent"/>${sel ? `<circle cx="${X(hx)}" cy="${Z(hz)}" r="13" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 2"/>` : ''}</g>`;
+    s += matMode ? `<g aria-hidden="true">` : `<g class="feat${sel ? ' sel' : ''}" data-fi="${i}" role="button" tabindex="0" aria-label="${esc(FEAT[f.t].l)} — გადაათრიე">`;
+    if (matMode) { s += `${g}</g>`; return; }
+    s += `${g}<circle cx="${X(hx)}" cy="${Z(hz)}" r="16" fill="transparent"/>${sel ? `<circle cx="${X(hx)}" cy="${Z(hz)}" r="13" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 2"/>` : ''}</g>`;
     if (ui.drag && ui.drag.i === i && ui.drag.moved) info = `${FEAT[f.t].s}: ${f.x} სმ ${f.wall === 'back' || f.wall === 'front' ? 'მარცხენა კუთხიდან' : 'ზედა კუთხიდან'}${w ? ` · ${w} სმ` : ''}`;
   });
   /* sink, hob, fridge: drag them where you want them; a ring marks a spot you chose */
   for (const a of apps) {
     const pinned = quick && S.sk.pin[a.k];
-    s += `<g class="app" data-app="${a.k}" role="button" tabindex="0" aria-label="${APP_NAME[a.k]} — გადაათრიე სხვა ადგილას"><circle cx="${X(a.x)}" cy="${Z(a.z)}" r="15" fill="transparent"/>${pinned ? `<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="11.5" fill="none" stroke="var(--accent)" stroke-width="1.5"/>` : ''}<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="8.5" fill="var(--primary)"/><text x="${X(a.x)}" y="${Z(a.z) + 3.6}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--on-primary)">${APP_GLYPH[a.k]}</text></g>`;
+    s += matMode ? `<g aria-hidden="true">` : `<g class="app" data-app="${a.k}" role="button" tabindex="0" aria-label="${APP_NAME[a.k]} — გადაათრიე სხვა ადგილას"><circle cx="${X(a.x)}" cy="${Z(a.z)}" r="15" fill="transparent"/>${pinned ? `<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="11.5" fill="none" stroke="var(--accent)" stroke-width="1.5"/>` : ''}<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="8.5" fill="var(--primary)"/><text x="${X(a.x)}" y="${Z(a.z) + 3.6}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--on-primary)">${APP_GLYPH[a.k]}</text></g>`;
     if (ui.drag && ui.drag.app === a.k && ui.drag.moved) info = `${APP_NAME[a.k]}: გაუშვი იქ, სადაც გინდა`;
   }
   s += `<text x="${X(W / 2)}" y="${Z(0) - 12}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)">${ws ? 'ოთახი · ' : ''}${W} სმ</text>`;
@@ -3661,6 +3861,87 @@ $('#sharePop').addEventListener('click', e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#sharePop').hidden) openSharePop(false); });
 document.addEventListener('pointerdown', e => { const pop = $('#sharePop'); if (!pop.hidden && !e.target.closest?.('#sharePop, #btnShare')) openSharePop(false); });
 
+/* ================= when the 3D is not available: the same project as a 2D plan ================= */
+const GL_TEXT = {
+  create: ['3D ამ ბრაუზერში ვერ ჩაირთო', 'ბრაუზერმა WebGL-ის (3D გრაფიკის) ჩართვაზე უარი თქვა. ეს ხდება, როცა გრაფიკული ბარათი გადატვირთულია, აპარატული აჩქარება გამორთულია ან ბრაუზერმა 3D ამ საიტისთვის დროებით შეზღუდა.'],
+  load: ['3D-ის პროგრამა ვერ ჩაიტვირთა', 'შეამოწმე ინტერნეტი და სცადე ხელახლა.'],
+  lost: ['3D შეჩერდა და თავისით ვერ აღდგა', 'გრაფიკულმა ბარათმა 3D შეაჩერა — ხშირად ეს მეხსიერების ნაკლებობის ან ბევრი გახსნილი ჩანართის ბრალია.'],
+  unstable: ['3D რამდენჯერმე შეჩერდა', 'ავტომატურად აღარ ვცდი, რომ მოწყობილობა არ გადაიტვირთოს. ხელით ცდა შეგიძლია ნებისმიერ დროს.']
+};
+const stageEl = () => $('#stage');
+function glNotice(text) { const n = $('#glNotice'); if (!n) return; n.textContent = text; n.hidden = !text; }
+function show3D() {
+  stageEl().classList.remove('is-2d'); $('#fallback').hidden = true; glNotice('');
+  const tg = $('#tgLight'); if (tg) tg.checked = LIGHT;
+}
+/* the plan, the materials panel, the sizes, saving and sharing all keep working without the 3D */
+function show2D(kind, err) {
+  /* a lost context is kept: the browser may still give it back. Anything else is released at once. */
+  if (renderer && kind !== 'lost') dispose3D(kind);
+  GL.mode = '2d'; GL.kind = kind; GL.detail = err ? [err.message, err.statusMessage].filter(Boolean).join(' — ') : '';
+  stopLoop(); threeReady = false; glNotice('');
+  glNote('2d', kind + (GL.detail ? ': ' + GL.detail : ''));
+  const [title, text] = GL_TEXT[kind] || GL_TEXT.create;
+  $('#loading').hidden = true;
+  $('#fbTitle').textContent = title;
+  $('#fbText').textContent = text + ' შენი პროექტი არ დაკარგულა: ფორმა, ზომები და მასალები ქვემოთ, გეგმაზე ჩანს და აქედანაც შეიცვლება.';
+  $('#fbLog').textContent = GL.log.slice(-12).map(e => `${e.at.slice(11, 19)}  ${e.type}  ${e.detail}`).join('\n');
+  $('#fbMsg').hidden = false; $('#fbBar').hidden = true;
+  stageEl().classList.add('is-2d'); $('#fallback').hidden = false;
+  render2D();
+}
+function render2D() {
+  if (GL.mode !== '2d' || !model) return;
+  const g = sketchGeom(), svg = $('#fbPlan');
+  svg.setAttribute('viewBox', `0 0 ${g.vw} ${g.vh}`);
+  const html = sketchInner({ materials: true });
+  if (svg.innerHTML !== html) svg.innerHTML = html;
+  const roles = new Set(wsSec() === 'wsMat' ? hlRoles() : []);
+  for (const el of svg.querySelectorAll('[data-role]')) el.classList.toggle('hl', roles.has(el.dataset.role));
+  const fc = FRONT_COLORS[S.front.base] || FRONT_COLORS.cashmere, m = mat(S.stone.main);
+  $('#fbLegend').innerHTML = `<span><img src="${ASSET_BASE + m.thumbnail}" alt="">ზედაპირი: ${esc(m.name)}</span><span><i style="background:${swBg(fc)}"></i>კარადები: ${esc(fc.l)}</span>${model.isl ? `<span>კუნძული ${model.isl.len} × ${model.isl.dep} სმ</span>` : ''}`;
+}
+/* one try per tap: the same canvas gets its context back if the browser allows it, otherwise a fresh start in light mode */
+let retrying = false;
+async function retry3D() {
+  if (retrying) return; retrying = true;
+  glNote('retry', `from ${GL.mode}`);
+  $('#fbMsg').hidden = true; $('#fbBar').hidden = true; glNotice('3D ირთვება…');
+  try {
+    if (renderer && renderer.getContext().isContextLost()) {
+      GL.manual = true; try { renderer.forceContextRestore(); } catch {}
+      await new Promise(r => setTimeout(r, 1500));
+      if (GL.mode === '3d') return;
+      dispose3D('lost');
+    }
+    if (!LIGHT) setLight(true);
+    GL.mode = 'off';
+    await start3D();
+  } finally { retrying = false; }
+}
+async function start3D() {
+  try { await init3D(); }
+  catch (err) { show2D(err.kind || 'create', err); }
+}
+$('#fbRetry').addEventListener('click', retry3D);
+$('#fbRetry2').addEventListener('click', retry3D);
+$('#fbContinue').addEventListener('click', () => { $('#fbMsg').hidden = true; $('#fbBar').hidden = false; glNote('continue-2d'); });
+/* the plan answers taps like the 3D picture: a surface opens its material, a length opens its field */
+$('#fbPlan').addEventListener('click', e => {
+  const f = e.target.closest('[data-focus]'); if (f) { wsFocusField(f.dataset.focus); return; }
+  const r = e.target.closest('[data-role]'); if (r) pickRole(r.dataset.role);
+});
+$('#fbPlan').addEventListener('keydown', e => {
+  const f = e.target.closest('[data-focus]'); if (f && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); wsFocusField(f.dataset.focus); }
+});
+$('#tgLight').checked = LIGHT;
+$('#tgLight').addEventListener('change', e => setLight(e.target.checked));
+/* leaving the page gives the GPU back at once (and a page restored from the back/forward cache starts its 3D again);
+   a hidden tab draws nothing */
+window.addEventListener?.('pagehide', () => { if (renderer) dispose3D('page hidden'); });
+window.addEventListener?.('pageshow', e => { if (e.persisted && !renderer && GL.mode !== '2d') { GL.mode = 'off'; start3D(); } });
+document.addEventListener('visibilitychange', () => { if (document.hidden) stopLoop(); else { needsRender = true; startLoop(); } });
+
 /* ================= summary, quote, sharing, AI ================= */
 function stepSum() {
   const endpoint = window.lithosDesignerConfig?.endpoint || '';
@@ -3853,7 +4134,7 @@ async function generate() {
   if (!$('#consent')?.checked) { msg.textContent = 'ჯერ მონიშნე თანხმობა.'; return; }
   if (model.warns.some(w => w.level === 'error')) { msg.textContent = 'ჯერ გაასწორე შეცდომები.'; return; }
   if (!/^https:\/\//.test(endpoint || '')) { msg.textContent = 'Worker-ის მისამართი არასწორია.'; return; }
-  if (!ui.shot) { ui.shot = snapshot(); $('#shotBox').innerHTML = `<img class="shot" src="${ui.shot}" alt="3D კადრი">`; }
+  if (!ui.shot) { if (!threeReady) { msg.textContent = '3D კადრი ახლა მიუწვდომელია — ჯერ 3D უნდა ჩაირთოს.'; return; } ui.shot = snapshot(); $('#shotBox').innerHTML = `<img class="shot" src="${ui.shot}" alt="3D კადრი">`; }
   msg.textContent = 'იგზავნება… ეს 30–90 წამს გრძელდება.';
   try {
     const body = { mode: 'render3d', materialId: S.stone.main, project: S, image: { mime_type: 'image/jpeg', data: ui.shot.split(',')[1] }, stoneImage: { mime_type: 'image/jpeg', data: await toJpegB64(ASSET_BASE + mat(S.stone.main).image, 500) } };
@@ -3893,6 +4174,7 @@ function renderStep() {
   if (keep) for (const el of $('#stepBody').querySelectorAll('button, input, select, textarea, a, [tabindex]')) if (focusSig(el) === keep) { el.focus({ preventScroll: true }); break; }
 }
 function renderStats() {
+  render2D();
   if (S.flow === 'ws') { setHTML($('#stageStats'), wsStageHTML()); return; }
   const M = model, e = M.warns.filter(w => w.level === 'error').length, w = M.warns.filter(x => x.level === 'warn').length;
   const sl = M.slabs.reduce((s, x) => s + x.count, 0);
@@ -4262,7 +4544,7 @@ $('#btnReset').addEventListener('click', e => {
   renderSteps(); renderStep(); renderStats();
   if (src) $('#saveState').textContent = 'შენახულია ამ ბრაუზერში';
   update(true);
-  init3D().catch(err => { $('#loading').textContent = '3D ხედი ვერ ჩაიტვირთა. მენიუ და გამოთვლები მაინც მუშაობს. (' + err.message + ')'; });
+  start3D();
 })();
 </script>
 
