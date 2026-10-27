@@ -235,6 +235,60 @@ details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
 .auto-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .auto-list li{position:relative;padding-left:20px;font-size:12.5px;line-height:1.5}
 .auto-list li::before{content:"";position:absolute;left:2px;top:6px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+/* measuring guide */
+details.guide{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:8px 10px;margin:0 0 12px}
+details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
+.guide ol{margin:8px 0 0;padding-left:18px;font-size:12.5px;line-height:1.55}.guide li{margin-bottom:5px}.guide li b{font-weight:500}
+.guide svg{width:100%;height:auto;margin-top:8px;display:block}
+.photo-in{display:flex;flex-direction:column;gap:8px}
+.sel{border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--paper);padding:7px 8px;font-size:12.5px;min-height:36px;color:var(--ink);width:100%}
+.sugg{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.sugg label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px}
+/* workshop drawing: on-screen preview and print */
+.sheet-wrap{position:fixed;inset:0;z-index:60;background:var(--stage);overflow:auto;-webkit-overflow-scrolling:touch}
+.sheet-bar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.sheet-bar b{font-weight:500}.sheet-bar .fine{margin-right:auto}
+#printSheet{padding:12px 16px 40px}
+.pg{background:#fff;color:#1c1c1a;max-width:277mm;margin:0 auto 14px;padding:8mm 9mm;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.pg-h{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;border-bottom:1.5px solid #1c1c1a;padding-bottom:5px;margin-bottom:8px;font-size:11px}
+.pg-h b{letter-spacing:.18em}.pg-h span:nth-of-type(1){flex:1;font-weight:500;font-size:12.5px}
+.pg-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px;align-items:start}
+.pg-f{font-size:10px;color:#666;margin:6px 0 0}
+.pg h4{font-size:12px;margin:12px 0 6px;font-weight:600}
+.dwg{width:100%;height:auto;display:block;max-height:165mm}
+.dwg text{font-family:var(--f-ui);fill:#1c1c1a}
+.dwg rect,.dwg line,.dwg path,.dwg circle{vector-effect:non-scaling-stroke}
+.dwg .floor{fill:#fff}.dwg .wall{fill:none;stroke:#1c1c1a;stroke-width:4}.dwg .open{stroke:#999;stroke-width:1;stroke-dasharray:6 4}
+.dwg .stone{fill:#e9e5dc;stroke:#1c1c1a;stroke-width:1}.dwg .cab{fill:#fff;stroke:#555;stroke-width:.8}.dwg .tall{stroke:#555;stroke-width:.8}
+.dwg .blind{fill:#f4f2ec;stroke:#777;stroke-width:.8;stroke-dasharray:3 2}.dwg .plinth{fill:#3a3a38}.dwg .fill{fill:#f4f2ec;stroke:#777;stroke-width:.6}
+.dwg .oven{fill:#2b2b2b}.dwg .sink{fill:none;stroke:#1c1c1a;stroke-width:1}.dwg .ln{fill:none;stroke:#555;stroke-width:.7}
+.dwg .lab{font-weight:500;fill:#333}.dwg .note{fill:#a03a25}.dwg .tag{fill:#fff;fill-opacity:.85}
+.dwg .winp{stroke:#4a7a92;stroke-width:5}.dwg .win{fill:#dbe8ee;stroke:#4a7a92;stroke-width:1.5}.dwg .gap{stroke:#fff;stroke-width:6}
+.dwg .door{fill:#f1ede4;stroke:#999;stroke-width:1}.dwg .wallbg{fill:#faf9f6;stroke:#bbb;stroke-width:1}.dwg .bsb{fill:#efebe3;stroke:#b8b3a7;stroke-width:.7}
+.dwg .col{fill:#9b9a96;fill-opacity:.55;stroke:#333;stroke-width:1}.dwg .beam{fill:none;stroke:#666;stroke-width:1;stroke-dasharray:5 3}
+.dwg .rad{fill:#f6dcd4;stroke:#a03a25;stroke-width:1}.dwg .hood{fill:#dedede;stroke:#555;stroke-width:.8}
+.dwg .pt{fill:#fff;stroke:#1c1c1a;stroke-width:1}.dwg .ptl{font-weight:600}
+.dwg .sock{fill:#fff;stroke:#a03a25;stroke-width:1.3}.dwg .elx{fill:none;stroke:#a03a25;stroke-width:1;stroke-dasharray:2 2}
+.dwg .dim line{stroke:#555;stroke-width:.6}.dwg .dim text{fill:#222}
+.lg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:10px;color:#444;margin-top:4px}
+.lg .k{display:inline-block;width:10px;height:10px;border:1px solid #444;margin-right:4px;vertical-align:-1px}
+.lg .k.stone{background:#e9e5dc}.lg .k.cab{background:#fff}.lg .k.tall{background:repeating-linear-gradient(45deg,#9a968c 0 1px,#fff 1px 4px)}.lg .k.col{background:#b9b8b4}.lg .k.sock{border-color:#a03a25}
+.spec{width:100%;border-collapse:collapse;font-size:11px}.spec th{text-align:left;font-weight:500;color:#555;padding:4px 8px 4px 0;vertical-align:top;white-space:nowrap}.spec td{padding:4px 0;border-bottom:1px solid #e5e2da}
+.cl{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:6px}.cl th,.cl td{border:1px solid #cfcbc0;padding:3px 5px;text-align:left;vertical-align:top}.cl thead th{background:#f1eee7;font-weight:600}.cl tbody th{font-weight:500;width:28%}
+.nt{font-size:10.5px;margin:0;padding-left:16px}
+@media (max-width:760px){.pg-grid{grid-template-columns:minmax(0,1fr)}.pg{padding:12px}}
+@media print{
+  @page{size:A4 landscape;margin:8mm}
+  html,body{height:auto!important;overflow:visible!important;background:#fff!important}
+  body.sheet-open .app{display:none!important}
+  body.sheet-open .sheet-wrap{position:static;overflow:visible;background:#fff}
+  .sheet-bar{display:none!important}
+  #printSheet{padding:0}
+  .pg{box-shadow:none;border-radius:0;margin:0;padding:0;max-width:none;break-after:page;page-break-after:always}
+  .pg:last-child{break-after:auto;page-break-after:auto}
+  .dwg{max-height:168mm}
+  .cl tr{break-inside:avoid}
+}
 @media (max-width:860px){
   .app{height:auto;min-height:100%;display:block}
   .work{display:flex;flex-direction:column}
@@ -288,6 +342,7 @@ details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
     </aside>
   </main>
 </div>
+<div class="sheet-wrap" id="sheetWrap" hidden role="dialog" aria-modal="true" aria-label="ნახაზი ხელოსნისთვის"><div class="sheet-bar"><b>ნახაზი ხელოსნისთვის</b><span class="fine">A4 ჰორიზონტალური · PDF-ისთვის ბეჭდვაში აირჩიე „Save as PDF"</span><button type="button" class="btn primary" id="btnPrint">ბეჭდვა / PDF</button><button type="button" class="btn" id="btnSheetClose">დახურვა</button></div><div id="printSheet"></div></div>
 <script type="module">
 'use strict';
 /* ---------- config ---------- */
@@ -397,6 +452,7 @@ const DEFAULTS = {
   stone: { main: 'neolith:calacatta-luxe', t: 12, edge: 'eased', miter: 4, bs: 'upper', bsMat: null, islMat: null, wf: 'both' },
   front: { preset: 'minimal', type: 'flat', base: 'cashmere', up: null, isl: 'graphite', handle: 'gola' },
   int: { wall: 'warm-white', floor: 'oak', led: true, pend: 3, time: 'day' },
+  elec: { pop: true },
   quote: { rate: null, install: null, extra: null, waste: 10 }
 };
 const NULLABLE = new Set(['base.userH', 'sink.pos', 'hob.pos', 'stone.bsMat', 'stone.islMat', 'front.up', 'front.isl', 'quote.rate', 'quote.install', 'quote.extra', 'front.preset']);
@@ -995,8 +1051,56 @@ function computeModel(S) {
     if (S.stone.bs !== 'strip' && runs.some(r => winsOnRun(r).length)) W('info', 5, 'ფანჯრის ქვეშ ფარტუკი რაფის სიმაღლემდე იჭრება.');
   }
 
+  /* ---- electrical plan: what the electrician must do before the stone goes in.
+     Worktop sockets at ~110 cm, a double socket per ~100 cm of free worktop, 30 cm clear of the sink,
+     20 cm of the hob, never under a low window or on a pilaster; appliance outlets hidden in cabinets. ---- */
+  const elec = [], SOCK_Y = TOP + 20;
+  const wallX = (r, u) => (r.wall === 'back' ? r.ox + u : r.oz + u);
+  for (const p of pieces) {
+    const r = p.r; if (!r.wall) continue;
+    let ivs = [[p.s + 8, p.e - 8]];
+    for (const k of p.cuts) { if (k.kind === 'vent') continue; const m = k.kind === 'sink' ? 30 : 20; ivs = cut(ivs, k.uc - k.w / 2 - m, k.uc + k.w / 2 + m); }
+    for (const x of winsOnRun(r)) if (x.f.sill < SOCK_Y + 15) ivs = cut(ivs, x.a - 5, x.b + 5);
+    for (const o of obs[r.id]) if (o.kind !== 'rad') ivs = cut(ivs, o.a - 3, o.b + 3);
+    for (const x of onRun(r, doors)) ivs = cut(ivs, x.a, x.b);
+    for (const [a, b] of ivs) {
+      const L = b - a; if (L < 16) continue;
+      const n = Math.max(1, Math.round(L / 100));
+      for (let i = 0; i < n; i++) {
+        const u = Math.round(a + (i + 0.5) * L / n);
+        const onStone = bs.some(x => x.r === r && x.v0 === 0 && u > x.s + 9 && u < x.e - 9 && x.h >= SOCK_Y - TOP + 7);
+        elec.push({ kind: 'sock', r, u, y: SOCK_Y, stone: onStone, wall: r.wall, x: Math.round(wallX(r, u)), label: 'ორმაგი როზეტი სამუშაო ზედაპირზე', spec: '16A, ' + (onStone ? 'ქვის ფარტუკში' : 'კედელზე') });
+      }
+    }
+  }
+  const sockN = elec.length;
+  for (const r of allRuns) for (const m of items[r.id]) {
+    const at = (u, y, label, spec) => elec.push({ kind: 'app', r, u: Math.round(u), y, wall: r.wall || null, x: r.wall ? Math.round(wallX(r, u)) : null, label, spec });
+    const c = m.u + m.w / 2;
+    if (m.t === 'fridge') at(c, 200, 'მაცივარი (ჩაშენებული)', 'როზეტი კოლონის ზედა ნაწილში, მაცივრის თავზე');
+    if (m.t === 'fridgeFS') at(c + m.w / 4, 50, 'მაცივარი', 'როზეტი მაცივრის უკან, გვერდზე გაწეული');
+    if (m.t === 'dw') at(m.u + m.w + 15, 30, 'ჭურჭლის სარეცხი', 'როზეტი მეზობელ კარადაში (არა მანქანის უკან)');
+    if (m.t === 'oven') at(c, 20, 'ღუმელი ქურის ქვეშ', 'როზეტი 16A, კაბელი 3×2.5 მმ², ცალკე ავტომატი');
+    if (m.t === 'ovenTall') at(c, 60, 'ღუმელი კოლონაში', 'როზეტი 16A, კაბელი 3×2.5 მმ², ცალკე ავტომატი');
+    if (m.t === 'hob' || m.t === 'oven') at(c, 60, S.hob.type === 'gas' ? 'გაზქურის ანთება' : 'ინდუქციური ქურა', S.hob.type === 'gas' ? 'როზეტი ქურის ქვეშ' : 'ცალკე ხაზი 32A, კაბელი 3×6 მმ², გამოსასვლელი ქურის ქვეშ');
+  }
+  for (const h of hoods) {
+    const c = (h.s + h.e) / 2;
+    if (h.kind === 'island') elec.push({ kind: 'app', r: h.r, u: Math.round(c), y: RH, wall: null, x: null, label: 'კუნძულის გამწოვი', spec: 'კვება ჭერიდან, ქურის ცენტრის თავზე' });
+    else elec.push({ kind: 'app', r: h.r, u: Math.round(c), y: 210, wall: h.r.wall, x: Math.round(wallX(h.r, c)), label: 'გამწოვი', spec: 'როზეტი 210 სმ-ზე, დაფარული' });
+  }
+  if (upOn && S.int.led && upper.length) elec.push({ kind: 'light', r: upper[0].r, u: Math.round(upper[0].u + 10), y: upY0 + upH - 5, wall: upper[0].r.wall, x: Math.round(wallX(upper[0].r, upper[0].u + 10)), label: 'LED ზოლი ზედა კარადების ქვეშ', spec: 'კვების ბლოკი ზედა კარადაში, ჩამრთველი ზედაპირთან' });
+  if (isl && S.int.pend > 0) elec.push({ kind: 'light', r: null, u: 0, y: RH, wall: null, x: null, label: `კუნძულის სანათები (${S.int.pend})`, spec: `ჭერში გამოსასვლელები ${Array.from({ length: S.int.pend }, (_, i) => Math.round(isl.x0 + isl.len * (i + 0.5) / S.int.pend)).join(', ')} სმ მარცხენა კედლიდან, ${Math.round(isl.zk + isl.dep / 2)} სმ უკანა კედლიდან` });
+  let pop = null;
+  if (isl && S.elec.pop && islPiece) {
+    /* pop-up socket in the island top, at the end furthest from the sink / hob */
+    const busy = islPiece.cuts.map(k => k.uc), u = busy.length && busy.every(c => c < islRun.len / 2) ? islRun.len - 20 : 20;
+    pop = { u, x: Math.round(isl.x0 + (islRun.ox - isl.x0) + u), z: Math.round(isl.zk + Math.min(isl.dep, 60) / 2) };
+    elec.push({ kind: 'pop', r: islRun, u, y: isl.top, wall: null, x: null, label: 'ამომწევი როზეტი კუნძულზე', spec: `ზედაპირში ხვრელი Ø60 მმ; იატაკში კაბელი კუნძულამდე (${pop.x} სმ მარცხენა კედლიდან)` });
+  }
+
   /* ---- quantities ---- */
-  const q = { ct: 0, isl: 0, wf: 0, bs: 0, apron: 0, edge: 0, wfN: 0, cuts: { sink: 0, hob: 0, tap: 0, drain: 0, notch: 0, vent: 0 } };
+  const q = { ct: 0, isl: 0, wf: 0, bs: 0, apron: 0, edge: 0, wfN: 0, cuts: { sink: 0, hob: 0, tap: 0, drain: 0, notch: 0, vent: 0, sock: 0, pop: 0 } };
   const apronH = S.stone.edge === 'miter' ? Math.max(0, vis - t) : 0;
   const packList = new Map();
   const addPk = (key, Lc, Wc, kind) => { if (Lc < 1 || Wc < 1) return; if (!packList.has(key)) packList.set(key, []); packList.get(key).push({ L: Lc, W: Wc, kind }); };
@@ -1023,6 +1127,8 @@ function computeModel(S) {
   q.cuts.tap = q.cuts.sink;
   q.cuts.drain = S.sink.drain !== 'none' && S.sink.mount !== 'top' ? q.cuts.sink : 0;
   q.cuts.notch = pieces.reduce((n, p) => n + p.notch.length, 0);
+  q.cuts.sock = elec.filter(e => e.kind === 'sock' && e.stone).length;
+  q.cuts.pop = pop ? 1 : 0;
   q.cuts.vent = allCuts.filter(k => k.kind === 'vent').length;
   for (const k of ['ct', 'isl', 'wf', 'bs', 'apron']) q[k] /= 1e4;
   q.edge /= 100;
@@ -1058,6 +1164,7 @@ function computeModel(S) {
     if (seams > 0) W('info', 7, `${m.name}: ${seams} ნაკერი — ზოგი ნაჭერი ფილაზე (${SL} სმ) გრძელია.`);
   }
 
+  if (sockN < 2 && pieces.length) W('info', 4, `სამუშაო ზედაპირზე მხოლოდ ${sockN} როზეტი ეტევა — ფანჯრების, ნიჟარისა და ქურის გამო ადგილი ცოტაა.`);
   if (S.base.userH) {
     const lo = Math.round(S.base.userH / 2 + 5), hi = Math.round(S.base.userH / 2 + 10);
     if (TOP < lo - 1 || TOP > hi + 1) W('info', 2, `შენი სიმაღლისთვის რეკომენდებულია ${lo}–${hi} სმ ზედაპირი; არჩეულია ${TOP} სმ.`);
@@ -1109,7 +1216,7 @@ function computeModel(S) {
 
   for (const tx of new Set(builtIn)) W('info', 2, tx);
   return { RW, RD, RH, D, TOP, PL, CD, t, tmm, vis, wins, doors, cols, waters, beams, rads, gases, vents, feats, runs, islRun, allRuns, isl, items, mode, upper, upOn, upH, upY0, tallH, hoods, hoodEff,
-    pieces, islPiece, bs, bsMatT, q, slabs, warns, fRun, fEnd, sinkRun, hobRun, ovenEff, winsOnRun, apronH, obs, SH, builtIn: [...new Set(builtIn)], clad };
+    pieces, islPiece, bs, bsMatT, q, slabs, warns, fRun, fEnd, sinkRun, hobRun, ovenEff, winsOnRun, apronH, obs, SH, builtIn: [...new Set(builtIn)], clad, elec, pop };
 }
 
 /* ================= quick mode: room sketch → kitchen by best practice ================= */
@@ -1870,6 +1977,15 @@ function buildStone(g, M) {
   }
   const bsKey = S.stone.bsMat || S.stone.main, bt = M.bsMatT / 10;
   for (const x of M.bs) g.add(mesh(uvStone(runBox(x.r, x.s, x.e, x.v0 ?? 0, x.v1 ?? bt, M.TOP, M.TOP + x.h), x.r.alongX, bsKey), stoneMat(bsKey), { cast: false }));
+  /* worktop sockets: a white double plate on the stone (or wall), the pop-up as a steel disc on the island */
+  for (const e of M.elec) {
+    if (e.kind === 'sock') {
+      const v = e.stone ? bt : 0;
+      g.add(mesh(runBox(e.r, e.u - 7.6, e.u + 7.6, v, v + 0.9, e.y - 4, e.y + 4), M_.white(), { cast: false }));
+      for (const du of [-3.6, 3.6]) g.add(mesh(runBox(e.r, e.u + du - 1.6, e.u + du + 1.6, v + 0.9, v + 1.1, e.y - 1.6, e.y + 1.6), M_.groove(), { cast: false, recv: false }));
+    }
+    if (e.kind === 'pop' && M.pop) { const disc = new T.CylinderGeometry(3.2, 3.2, 0.5, 24); disc.translate(M.pop.x, e.y + 0.25, M.pop.z); g.add(mesh(disc, M_.steel(), { cast: false })); }
+  }
 }
 function buildCutFixture(g, M, r, k, top, matKey) {
   const c = cutWorld(r, k), vis = M.vis, y = top - vis;
@@ -2062,7 +2178,7 @@ const STEPS = [
   { id: 'stone', t: 'ქვა' }, { id: 'style', t: 'სტილი' }, { id: 'sum', t: 'შეჯამება' }
 ];
 let step = 0, model = null;
-const ui = { pick: 'main', q: '', brand: 'all', tone: null, cabRun: 'A', shot: null, selFeat: null, drag: null, fullBackup: null };
+const ui = { pick: 'main', q: '', brand: 'all', tone: null, cabRun: 'A', shot: null, selFeat: null, drag: null, fullBackup: null, photo: null };
 const pid = p => 'f-' + p.replace(/\./g, '-');
 function num(path, label, { min = 0, max = 2000, step: st = 1, unit = 'სმ', hint = '', ph = '' } = {}) {
   const v = get(path);
@@ -2139,7 +2255,7 @@ function ergoHTML() {
 
 /* ================= steps ================= */
 function stepRoom() {
-  return `<h2 class="st">სივრცე</h2><p class="lead">ოთახის ზომები, ფანჯრები, კარები, კოლონები და წყლის წერტილი. გაზომე იატაკის დონეზე, კედლიდან კედლამდე.</p>${live('notes1', notesFor(1))}
+  return `<h2 class="st">სივრცე</h2><p class="lead">ოთახის ზომები, ფანჯრები, კარები, კოლონები და წყლის წერტილი. გაზომე იატაკის დონეზე, კედლიდან კედლამდე.</p>${measureGuideHTML()}${photoHTML()}${live('notes1', notesFor(1))}
   <div class="grid2">
     ${num('room.w', 'უკანა კედლის სიგრძე', { min: 200, max: 1200, hint: 'კედელი, რომელზეც A მონაკვეთი დგება' })}
     ${num('room.d', 'ოთახის სიღრმე', { min: 200, max: 1200, hint: 'უკანა კედლიდან ოთახის ღია მხრამდე' })}
@@ -2408,9 +2524,62 @@ function autoHTML() {
   <ul class="auto-list">${[...ok.map(n => n.text), ...model.builtIn].map(t => `<li>${esc(t)}</li>`).join('')}</ul>
   ${pins.length ? `<div class="row" style="margin-top:8px"><span class="fine">შენ მიერ დადგმული: ${pins.map(k => APP_NAME[k]).join(', ')}</span><button type="button" class="chip-btn" data-act="unpin">↺ ავტომატურად</button></div>` : ''}`;
 }
+/* how to measure: the few numbers that matter, in the order you walk round the room */
+function measureGuideHTML() {
+  const fig = `<svg viewBox="0 0 380 170" role="img" aria-label="რა გავზომოთ: კედლები, ფანჯარა, კოლონა, რაფა, ჭერი">
+    <g font-size="9.5" font-family="var(--f-num)" fill="var(--muted)" stroke-linecap="round">
+      <rect x="22" y="26" width="196" height="122" fill="var(--paper)" stroke="none"/>
+      <path d="M22 148 V26 H218 V148" fill="none" stroke="var(--ink)" stroke-width="4"/>
+      <line x1="80" y1="26" x2="140" y2="26" stroke="var(--info)" stroke-width="6"/>
+      <rect x="168" y="26" width="22" height="16" fill="var(--ink)" fill-opacity=".7"/>
+      <circle cx="58" cy="40" r="5" fill="var(--info)"/>
+      <g stroke="var(--accent-ink)" stroke-width="1" fill="none"><path d="M22 14 H218 M22 10 V18 M218 10 V18"/><path d="M10 26 V148 M6 26 H14 M6 148 H14"/><path d="M22 58 H80 M22 54 V62 M80 54 V62"/><path d="M80 58 H140 M140 54 V62"/><path d="M200 26 V42 M196 42 H204"/></g>
+      <text x="120" y="10" text-anchor="middle" fill="var(--accent-ink)">1 · კედელი</text><text x="6" y="90" text-anchor="middle" transform="rotate(-90 6 90)" fill="var(--accent-ink)">სიღრმე</text>
+      <text x="51" y="72" text-anchor="middle">3 · კუთხიდან</text><text x="110" y="72" text-anchor="middle">სიგანე</text>
+      <text x="206" y="56" text-anchor="middle">4</text><text x="58" y="54" text-anchor="middle">6</text>
+      <text x="120" y="165" text-anchor="middle">გეგმა: ზედა კედელი მთავარია</text>
+      <rect x="252" y="20" width="110" height="128" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/>
+      <rect x="282" y="52" width="50" height="44" fill="var(--info-soft)" stroke="var(--info)"/>
+      <line x1="252" y1="112" x2="362" y2="112" stroke="var(--line-strong)" stroke-dasharray="3 3"/>
+      <g stroke="var(--accent-ink)" stroke-width="1" fill="none"><path d="M268 96 V148 M264 96 H272"/><path d="M346 20 V148 M342 20 H350 M342 148 H350"/></g>
+      <text x="262" y="128" text-anchor="middle" transform="rotate(-90 262 128)" fill="var(--accent-ink)">რაფა</text><text x="356" y="84" text-anchor="middle" transform="rotate(-90 356 84)" fill="var(--accent-ink)">2 · ჭერი</text>
+      <text x="307" y="109" text-anchor="middle">ზედაპირი ~90</text><text x="307" y="165" text-anchor="middle">კედლის ხედი</text>
+    </g></svg>`;
+  return `<details class="guide"><summary>როგორ გავზომო ოთახი — 5 წუთი, რულეტით</summary>${fig}
+  <ol>
+    <li><b>კედლები.</b> კუთხიდან კუთხემდე, იატაკიდან ~90 სმ სიმაღლეზე (სადაც ზედაპირი იქნება). გაზომე ორ ადგილას და ჩაწერე უმცირესი.</li>
+    <li><b>ჭერი.</b> 2–3 ადგილას — უმცირესი. კოჭი ცალკე დაამატე: სიგანე, კედლიდან გამოსვლა, ჭერიდან ჩამოსვლა.</li>
+    <li><b>ფანჯარა და კარი.</b> კუთხიდან ღიობის კიდემდე, ღიობის სიგანე, ფანჯრის რაფის სიმაღლე იატაკიდან. კარი — ჩარჩოს ჩათვლით.</li>
+    <li><b>კოლონა, შვერილი, სტოიაკი.</b> კუთხიდან, სიგანე და რამდენს გამოდის კედლიდან. სამზარეულო მას თავად შემოუვლის ან შეფუთავს.</li>
+    <li><b>რადიატორი.</b> კუთხიდან, სიგანე და სიმაღლე (ზედა კიდემდე).</li>
+    <li><b>წყალი, კანალიზაცია, გაზი, ვენტილაცია.</b> კუთხიდან მილის ან ხვრელის ცენტრამდე.</li>
+    <li><b>კუთხეების შემოწმება (სურვილისამებრ).</b> გაზომე ოთახის ორი დიაგონალი. თუ 2 სმ-ზე მეტით განსხვავდება, კედლები 90°-ზე არ დგას — შენიშვნაში მიუთითე.</li>
+  </ol>
+  <p class="fine" style="margin:6px 0 0">მარცხენა და მარჯვენა კედელზე მანძილი იზომება ზედა (მთავარი) კედლის კუთხიდან. ±1 სმ საკმარისია — ქვის ჭრამდე LITHOS ადგილზე გადაამოწმებს.</p></details>`;
+}
+/* photo of one wall → AI suggests windows, doors, columns… (only when the AI worker is configured) */
+const sketchEndpoint = () => { const e = window.lithosDesignerConfig?.endpoint || ''; return /^https:\/\//.test(e) ? e.replace(/\/generate\/?$/, '') + '/sketch' : ''; };
+function photoHTML() {
+  if (!sketchEndpoint()) return '';
+  const P = ui.photo, wall = P?.wall || 'back', len = P?.len || (wall === 'back' ? S.room.w : S.room.d);
+  const sug = P && P.items ? `<div class="sugg">${P.items.map((f, i) => `<label><input type="checkbox" data-act="phpick" data-i="${i}"${f.on ? ' checked' : ''}><span><b>${FEAT[f.t].l}</b> — ${f.x} სმ${f.w ? `, სიგანე ${f.w}` : ''}${f.sill != null ? `, რაფა ${f.sill}` : ''}${f.d ? `, სიღრმე ${f.d}` : ''} <span class="fine">(${Math.round(f.conf * 100)}%)</span></span></label>`).join('') || '<p class="fine">ფოტოზე ელემენტი ვერ ვიპოვეთ.</p>'}
+    ${P.notes ? `<p class="fine">${esc(P.notes)}</p>` : ''}
+    ${P.items.length ? `<label class="toggle"><span>ამ კედლის ძველი ელემენტები ჩაანაცვლე</span><input type="checkbox" id="phReplace" checked></label><div class="row"><button type="button" class="btn primary" data-act="photoadd">ესკიზში დამატება</button></div>` : ''}</div>` : '';
+  return `<details class="guide"${P ? ' open' : ''}><summary>ფოტოდან ესკიზი (საცდელი)</summary><div class="photo-in">
+    <p class="fine" style="margin:6px 0 0">გადაუღე ერთ კედელს მთლიანად, კუთხიდან კუთხემდე, და ჩაწერე მისი სიგრძე. AI იპოვის ფანჯრებს, კარებს, კოლონებს, რადიატორს და მილებს. ზომები მიახლოებითია — დამატებამდე შეამოწმე.</p>
+    <div class="grid2">
+      <label class="f"><span class="f-l">ფოტოზეა</span><select id="phWall" class="sel">${['back', 'left', 'right'].map(w => `<option value="${w}"${w === wall ? ' selected' : ''}>${WALLS[w]} კედელი</option>`).join('')}</select></label>
+      <label class="f"><span class="f-l">ამ კედლის სიგრძე</span><span class="num"><input id="phLen" type="number" inputmode="decimal" min="100" max="1500" value="${len}"><span class="u">სმ</span></span></label>
+      <label class="f full"><span class="f-l">ფოტო</span><input id="phFile" type="file" accept="image/*" capture="environment"></label>
+      <label class="f"><span class="f-l">სატესტო წვდომის კოდი</span><span class="num"><input id="phCode" type="password" autocomplete="off"><span class="u">კოდი</span></span></label>
+      <label class="toggle full"><span>ვეთანხმები ფოტოს AI სერვისზე გაგზავნას</span><input type="checkbox" id="phConsent"></label>
+    </div>
+    <div class="row"><button type="button" class="btn" data-act="photo">ამოცნობა</button><span class="fine" id="phMsg" role="status">${esc(P?.msg || '')}</span></div>${sug}</div></details>`;
+}
 function stepSketch() {
   return `<h2 class="st">ოთახის ესკიზი</h2><p class="lead">აირჩიე მსგავსი ოთახი ან დახაზე შენი: ზომები, ფანჯრები, კარები, კოლონები, წყალი. სამზარეულოს ჩვენ ავაწყობთ — ნიჟარას, ქურას, მაცივარს და გასასვლელებს სტანდარტებით ვალაგებთ. ზედა კედელი მთავარია.</p>
   ${ui.fullBackup ? `<div class="notes"><div class="note info"><i class="dot"></i><span>დეტალურ რეჟიმში შენ მიერ აწყობილი პროექტი შენახულია.</span><button type="button" data-act="restore">დაბრუნება</button></div></div>` : ''}
+  ${measureGuideHTML()}${photoHTML()}
   <div class="tpls" role="group" aria-label="ტიპური ოთახები">${Object.entries(ROOM_TPL).map(([k, t]) => `<button type="button" class="tpl" data-act="tpl" data-v="${k}"><b>${t.l}</b><span>${t.sub}</span></button>`).join('')}</div>
   <div class="grid2">${num('room.w', 'სიგანე — ზედა კედელი', { min: 200, max: 1200 })}${num('room.d', 'სიღრმე', { min: 200, max: 1200 })}${num('room.h', 'ჭერის სიმაღლე', { min: 220, max: 400 })}
     <div class="f"><span class="f-l">სამზარეულო დადგეს</span><div class="seg">${['back', 'left', 'right'].map(w => `<button type="button" class="${S.sk.walls[w] ? 'on' : ''}" aria-pressed="${!!S.sk.walls[w]}" data-act="skwall" data-v="${w}">${WALLS[w]}</button>`).join('')}</div></div>
@@ -2451,11 +2620,208 @@ function stepQSum() {
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><span class="fine">გინდა ზუსტად შეცვალო მოდულები, ტექნიკა ან ფარტუკი?</span><button type="button" class="btn" data-act="flow" data-v="full">დეტალური რედაქტირება →</button></div>${stepSum()}`;
 }
 
+/* ================= workshop drawing: plan, wall elevations, stone cut list, electrical plan — print / save as PDF ================= */
+const ABBR = { door: '', door2: '', drawers: 'უჯრები', sink: 'ნიჟარა', dw: 'ჭ. სარ.', hob: 'ქურა', oven: 'ქურა / ღუმ.', filler: '', fridge: 'მაცივარი', fridgeFS: 'მაცივარი', ovenTall: 'ღუმელი', pantry: 'კარადა', colbox: 'კოლონა' };
+const RUN_WALL = { back: 'უკანა კედელი', left: 'მარცხენა კედელი', right: 'მარჯვენა კედელი' };
+/* elevations are drawn as seen standing in front of the cabinets; left/right of the drawing follows that view */
+function elevFlip(r) { const fx = -r.nx, fz = -r.nz, rx = -fz, rz = fx; return r.dx * rx + r.dz * rz < 0; }
+const svgNum = v => +(+v).toFixed(1);
+function dimH(x0, x1, y, txt, fs) {
+  if (Math.abs(x1 - x0) < 0.5) return '';
+  const t = fs * 0.35, w = Math.abs(x1 - x0), f = Math.min(fs, w / Math.max(1, String(txt).length * 0.62));
+  return `<g class="dim"><line x1="${svgNum(x0)}" y1="${svgNum(y)}" x2="${svgNum(x1)}" y2="${svgNum(y)}"/><line x1="${svgNum(x0)}" y1="${svgNum(y - t)}" x2="${svgNum(x0)}" y2="${svgNum(y + t)}"/><line x1="${svgNum(x1)}" y1="${svgNum(y - t)}" x2="${svgNum(x1)}" y2="${svgNum(y + t)}"/>${f >= fs * 0.45 ? `<text x="${svgNum((x0 + x1) / 2)}" y="${svgNum(y - f * 0.32)}" font-size="${svgNum(f)}" text-anchor="middle">${txt}</text>` : ''}</g>`;
+}
+function dimV(x, y0, y1, txt, fs) {
+  if (Math.abs(y1 - y0) < 0.5) return '';
+  const t = fs * 0.35, cy = (y0 + y1) / 2, f = Math.min(fs, Math.abs(y1 - y0) / Math.max(1, String(txt).length * 0.62));
+  return `<g class="dim"><line x1="${svgNum(x)}" y1="${svgNum(y0)}" x2="${svgNum(x)}" y2="${svgNum(y1)}"/><line x1="${svgNum(x - t)}" y1="${svgNum(y0)}" x2="${svgNum(x + t)}" y2="${svgNum(y0)}"/><line x1="${svgNum(x - t)}" y1="${svgNum(y1)}" x2="${svgNum(x + t)}" y2="${svgNum(y1)}"/>${f >= fs * 0.45 ? `<text x="${svgNum(x - f * 0.32)}" y="${svgNum(cy)}" font-size="${svgNum(f)}" text-anchor="middle" transform="rotate(-90 ${svgNum(x - f * 0.32)} ${svgNum(cy)})">${txt}</text>` : ''}</g>`;
+}
+const HATCH = id => `<defs><pattern id="${id}" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#9a968c" stroke-width="1"/></pattern></defs>`;
+
+function planSheetSVG(M) {
+  const W = M.RW, Dd = M.RD, fs = Math.max(7, Math.max(W, Dd) / 50), pad = fs * 6;
+  const rr = (R, cls, extra = '') => `<rect x="${svgNum(R.x0)}" y="${svgNum(R.z0)}" width="${svgNum(Math.max(0.3, R.x1 - R.x0))}" height="${svgNum(Math.max(0.3, R.z1 - R.z0))}" class="${cls}" ${extra}/>`;
+  const runR = (r, u0, u1, v0, v1) => { const p = wp(r, u0, v0), q = wp(r, u1, v1); return { x0: Math.min(p.x, q.x), x1: Math.max(p.x, q.x), z0: Math.min(p.z, q.z), z1: Math.max(p.z, q.z) }; };
+  let s = HATCH('hP') + `<rect x="0" y="0" width="${W}" height="${Dd}" class="floor"/>`;
+  for (const p of M.pieces) s += rr(runR(p.r, p.s, p.e, 0, p.d), 'stone');
+  for (const r of M.runs) {
+    if (r.id === 'A' && r.cs) s += rr(runR(r, 0, M.D, 0, M.CD), 'cab');
+    if (r.id === 'A' && r.ce) s += rr(runR(r, r.len - M.D, r.len, 0, M.CD), 'cab');
+  }
+  for (const r of M.allRuns) for (const m of M.items[r.id]) {
+    const R = runR(r, m.u, m.u + m.w, r.isIsl ? 0 : m.sh || 0, r.cd);
+    s += rr(R, TALL.has(m.t) ? 'tall' : 'cab', TALL.has(m.t) ? 'fill="url(#hP)"' : '');
+    if (m.t === 'sink') s += rr({ x0: R.x0 + 7, x1: R.x1 - 7, z0: R.z0 + 9, z1: R.z1 - 9 }, 'sink', 'rx="3"');
+    if (m.t === 'hob' || m.t === 'oven') { const c = wp(r, m.u + m.w / 2, r.cd / 2); for (const [a, b] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) s += `<circle cx="${svgNum(c.x + a * m.w * 0.22)}" cy="${svgNum(c.z + b * r.cd * 0.2)}" r="${svgNum(m.w * 0.12)}" class="ln"/>`; }
+    const lb = ABBR[m.t]; if (lb && m.w >= 40) { const c = wp(r, m.u + m.w / 2, r.cd / 2); s += `<text x="${svgNum(c.x)}" y="${svgNum(c.z + fs * 0.35)}" font-size="${svgNum(fs * 0.8)}" text-anchor="middle" class="lab">${lb}</text>`; }
+  }
+  if (M.isl) { const I = M.isl; s += rr({ x0: I.x0, x1: I.x1, z0: I.zk, z1: I.z1 }, 'stone isl'); }
+  const ws = 5;
+  s += `<path d="M${-ws} ${Dd} V${-ws} H${W + ws} V${Dd}" class="wall"/>`;
+  s += `<line x1="0" y1="${Dd}" x2="${W}" y2="${Dd}" class="open"/>`;
+  M.feats.forEach(f => {
+    const fr = wallFrame(f.wall, W, Dd), w = f.w || 0, [ax, az] = fr.P(f.x), [bx, bz] = fr.P(f.x + w);
+    if (f.t === 'window') s += `<line x1="${ax}" y1="${az}" x2="${bx}" y2="${bz}" class="winp"/>`;
+    if (f.t === 'door') { const le = [ax + fr.n[0] * w, az + fr.n[1] * w], sw = fr.n[0] * fr.d[1] - fr.n[1] * fr.d[0] > 0 ? 1 : 0; s += `<line x1="${ax}" y1="${az}" x2="${bx}" y2="${bz}" class="gap"/><path d="M${ax} ${az} L${le[0]} ${le[1]} A${w} ${w} 0 0 ${sw} ${bx} ${bz}" class="ln"/>`; }
+    if (f.t === 'column') s += rr(featRect(f, W, Dd, 0), 'col');
+    if (f.t === 'beam') s += rr(featRect(f, W, Dd, 0), 'beam');
+    if (f.t === 'radiator') s += rr(featRect(f, W, Dd, 0), 'rad');
+    if (FEAT[f.t].pt) { const cx = ax + fr.n[0] * 14, cz = az + fr.n[1] * 14; s += `<circle cx="${cx}" cy="${cz}" r="${svgNum(fs * 0.75)}" class="pt"/><text x="${cx}" y="${svgNum(cz + fs * 0.35)}" font-size="${svgNum(fs * 0.85)}" text-anchor="middle" class="ptl">${{ water: 'წ', gas: 'გ', vent: 'ვ' }[f.t]}</text>`; }
+  });
+  for (const e of M.elec) if (e.kind === 'sock') { const c = wp(e.r, e.u, 3); s += `<rect x="${svgNum(c.x - 4)}" y="${svgNum(c.z - 4)}" width="8" height="8" class="sock"/>`; }
+  if (M.pop) s += `<circle cx="${M.pop.x}" cy="${M.pop.z}" r="4" class="sock"/>`;
+  /* dimensions */
+  s += dimH(0, W, -fs * 2.2, `${W}`, fs) + dimV(-fs * 2.2, 0, Dd, `${Dd}`, fs);
+  for (const r of M.runs) {
+    const nm = `<tspan font-weight="700">${r.id}</tspan> ${r.len}`;
+    if (r.alongX) { const p = wp(r, 0, M.D), q = wp(r, r.len, M.D); s += dimH(Math.min(p.x, q.x), Math.max(p.x, q.x), p.z + fs * 1.6, nm, fs); }
+    else { const p = wp(r, 0, M.D), q = wp(r, r.len, M.D); s += dimV(p.x + (r.nx > 0 ? fs * 1.6 : -fs * 0.4), 0, r.len, nm, fs); }
+  }
+  if (M.isl) {
+    const I = M.isl;
+    s += dimH(I.x0, I.x1, I.z1 + fs * 1.6, `${I.len}`, fs) + dimV(I.x1 + fs * 1.6, I.zk, I.z1, `${I.dep}`, fs);
+    s += dimV(I.cx, M.D, I.zk, `${r1(I.zk - M.D)}`, fs) + dimH(0, I.x0, I.zk + I.dep / 2, `${r1(I.x0)}`, fs * 0.85);
+  }
+  return `<svg viewBox="${svgNum(-pad)} ${svgNum(-pad)} ${svgNum(W + 2 * pad)} ${svgNum(Dd + 2 * pad)}" class="dwg">${s}</svg>`;
+}
+
+function elevSVG(M, r) {
+  const len = r.len, H = r.isIsl ? Math.ceil(r.top + 25) : M.RH, flip = elevFlip(r), fs = Math.max(6.5, Math.max(len, M.RH) / 52);
+  const X = u => (flip ? len - u : u), Y = y => H - y;
+  const R = (u0, u1, y0, y1, cls, extra = '') => `<rect x="${svgNum(Math.min(X(u0), X(u1)))}" y="${svgNum(Y(y1))}" width="${svgNum(Math.max(0.3, Math.abs(u1 - u0)))}" height="${svgNum(Math.max(0.3, y1 - y0))}" class="${cls}" ${extra}/>`;
+  const T = (u, y, txt, f = fs * 0.78, cls = 'lab') => `<text x="${svgNum(X(u))}" y="${svgNum(Y(y) + f * 0.35)}" font-size="${svgNum(f)}" text-anchor="middle" class="${cls}">${txt}</text>`;
+  const capY = r.top - (r.isIsl ? M.t : M.vis);
+  let s = HATCH('hE' + r.id);
+  if (!r.isIsl) {
+    s += R(0, len, 0, H, 'wallbg');
+    for (const x of M.winsOnRun(r)) s += R(x.a, x.b, x.f.sill, Math.min(H, x.f.sill + x.f.h), 'win');
+    for (const f of M.doors.filter(d => d.wall === r.wall)) { const a = r.wall === 'back' ? f.x - r.ox : f.x - r.oz; if (overlap(a, a + f.w, 0, len)) s += R(a, a + f.w, 0, f.h, 'door'); }
+    for (const o of M.obs[r.id] || []) {
+      if (o.kind === 'rad') s += R(o.a, o.b, 12, 12 + o.f.h, 'rad');
+      else s += R(o.a, o.b, 0, H, 'col');
+    }
+    for (const f of M.beams) { const q = toRun(r, featRect(f, M.RW, M.RD, 0)); if (overlap(q.u0, q.u1, 0, len) && q.v0 < 1) s += R(Math.max(0, q.u0), Math.min(len, q.u1), H - f.h, H, 'beam'); }
+    for (const x of M.bs.filter(b => b.r === r && (b.v0 === 0 || b.v1 - b.v0 < 3))) s += R(x.s, x.e, M.TOP, M.TOP + x.h, 'bsb');
+  }
+  /* worktop */
+  if (r.isIsl && M.islPiece) { const a = M.isl.x0 - r.ox; s += R(a, a + M.isl.len, M.isl.top - M.vis, M.isl.top, 'stone'); if (M.isl.wfL) s += R(flip ? a + M.isl.len - M.t : a, flip ? a + M.isl.len : a + M.t, 0, M.isl.top, 'stone'); if (M.isl.wfR) s += R(flip ? a : a + M.isl.len - M.t, flip ? a + M.t : a + M.isl.len, 0, M.isl.top, 'stone'); }
+  for (const p of M.pieces.filter(p => p.r === r)) s += R(p.s, p.e, M.TOP - M.vis, M.TOP, 'stone');
+  if (r.id === 'A' && r.cs) s += R(0, M.D, M.PL, capY, 'blind') + T(M.D / 2, (M.PL + capY) / 2, 'კუთხე');
+  if (r.id === 'A' && r.ce) s += R(len - M.D, len, M.PL, capY, 'blind') + T(len - M.D / 2, (M.PL + capY) / 2, 'კუთხე');
+  const chain = [];
+  for (const m of M.items[r.id]) {
+    const u0 = m.u, u1 = m.u + m.w;
+    if (TALL.has(m.t)) { const h = m.H ?? M.tallH; s += R(u0, u1, 0, h, 'tall', `fill="url(#hE${r.id})"`) + `<rect x="${svgNum(Math.min(X(u0), X(u1)) + m.w * 0.12)}" y="${svgNum(Y(h * 0.6) - fs * 0.7)}" width="${svgNum(m.w * 0.76)}" height="${svgNum(fs * 1.4)}" class="tag"/>` + T((u0 + u1) / 2, h * 0.6, ABBR[m.t]); }
+    else {
+      s += R(u0, u1, 0, M.PL, 'plinth') + R(u0, u1, M.PL, capY, m.t === 'filler' ? 'fill' : 'cab');
+      if (m.t === 'drawers' || m.t === 'hob') for (const k of [0.4, 0.74]) s += `<line x1="${svgNum(X(u0))}" y1="${svgNum(Y(M.PL + (capY - M.PL) * k))}" x2="${svgNum(X(u1))}" y2="${svgNum(Y(M.PL + (capY - M.PL) * k))}" class="ln"/>`;
+      if (m.t === 'door2' || (m.t === 'sink' && m.w >= 70)) s += `<line x1="${svgNum(X((u0 + u1) / 2))}" y1="${svgNum(Y(M.PL))}" x2="${svgNum(X((u0 + u1) / 2))}" y2="${svgNum(Y(capY))}" class="ln"/>`;
+      if (m.t === 'oven') s += R(u0 + 3, u1 - 3, capY - 62, capY - 4, 'oven');
+      if (m.sh) s += T((u0 + u1) / 2, M.PL + 8, `↓${r1(M.CD - m.sh)}`, fs * 0.62, 'note');
+      if (ABBR[m.t]) s += T((u0 + u1) / 2, (M.PL + capY) / 2 + (m.t === 'oven' ? 22 : 0), ABBR[m.t]);
+    }
+    chain.push([u0, u1, r1(m.w)]);
+  }
+  for (const x of M.upper.filter(x => x.r === r)) { s += R(x.u, x.u + x.w, x.y0, x.y0 + x.h, 'cab'); if (x.w >= 65) s += `<line x1="${svgNum(X(x.u + x.w / 2))}" y1="${svgNum(Y(x.y0))}" x2="${svgNum(X(x.u + x.w / 2))}" y2="${svgNum(Y(x.y0 + x.h))}" class="ln"/>`; }
+  for (const h of M.hoods.filter(h => h.r === r && h.kind === 'wall')) { const mid = (h.s + h.e) / 2; s += R(h.s, h.e, r.top + 65, r.top + 72, 'hood') + R(mid - 15, mid + 15, r.top + 72, H, 'hood'); }
+  for (const e of M.elec.filter(e => e.r === r)) {
+    if (e.kind === 'sock') s += R(e.u - 7.6, e.u + 7.6, e.y - 4, e.y + 4, 'sock');
+    else if (e.kind === 'app' && e.y < H) s += `<circle cx="${svgNum(X(e.u))}" cy="${svgNum(Y(e.y))}" r="${svgNum(fs * 0.45)}" class="elx"/>`;
+  }
+  /* module chain, overall length, key heights */
+  chain.sort((a, b) => a[0] - b[0]);
+  for (const [a, b, w] of chain) s += dimH(Math.min(X(a), X(b)), Math.max(X(a), X(b)), H + fs * 1.8, w, fs * 0.82);
+  if (r.isIsl) { const a = M.isl.x0 - r.ox; s += dimH(Math.min(X(a), X(a + M.isl.len)), Math.max(X(a), X(a + M.isl.len)), H + fs * 4.2, `<tspan font-weight="700">კუნძული</tspan> ${M.isl.len}`, fs); }
+  else s += dimH(0, len, H + fs * 4.2, `<tspan font-weight="700">${r.id}</tspan> ${r1(len)}`, fs);
+  const hx = len + fs * 2;
+  const hs = [[0, M.PL], [M.PL, r.top]];
+  if (!r.isIsl && M.upOn) hs.push([r.top, M.upY0], [M.upY0, M.upY0 + M.upH]);
+  for (const [a, b] of hs) s += dimV(hx, Y(b), Y(a), `${r1(b - a)}`, fs * 0.82);
+  if (!r.isIsl) s += dimV(hx + fs * 2.4, Y(H), Y(0), `${H}`, fs * 0.82);
+  return `<svg viewBox="${svgNum(-fs * 2)} ${svgNum(-fs * 1.5)} ${svgNum(len + fs * 7.5)} ${svgNum(H + fs * 7)}" class="dwg">${s}</svg>`;
+}
+
+/* stone cut list: every piece with its size, edges and every hole measured from the left end as seen from the room */
+function cutListRows(M) {
+  const rows = [], main = mat(S.stone.main), bsM = mat(S.stone.bsMat || S.stone.main), islM = mat(S.stone.islMat || S.stone.main);
+  const nm = m => `${m.name}`;
+  const per = {};
+  for (const p of M.pieces) {
+    const r = p.r, flip = elevFlip(r), L = r1(p.e - p.s), from = u => r1(flip ? p.e - u : u - p.s);
+    const id = `${r.id}-${(per[r.id] = (per[r.id] || 0) + 1)}`;
+    const holes = [];
+    for (const k of p.cuts) {
+      if (k.kind === 'sink') holes.push(`ნიჟარა ${k.w}×${k.d}: ცენტრი ${from(k.uc)} სმ, კედლიდან ${r1(k.vc)} სმ; ონკანი Ø35 მმ`);
+      if (k.kind === 'hob') holes.push(`ქურა ${k.cw || k.w}×${k.cdp || k.d}: ცენტრი ${from(k.uc)} სმ, კედლიდან ${r1(k.vc)} სმ`);
+      if (k.kind === 'vent') holes.push(`სავენტ. ღრიჭო ${r1(k.w)}×${k.d}: ცენტრი ${from(k.uc)} სმ`);
+    }
+    for (const n of p.notch) { const a = from(n.u0), b = from(n.u1); holes.push(`კოლონის ამოჭრა: ${Math.min(a, b)}–${Math.max(a, b)} სმ, ${r1(n.v0)}–${r1(n.v1)} სმ კედლიდან`); }
+    const edges = ['წინა კიდე'];
+    if (p.exS) edges.push(flip ? 'მარჯვ. ბოლო' : 'მარცხ. ბოლო'); if (p.exE) edges.push(flip ? 'მარცხ. ბოლო' : 'მარჯვ. ბოლო');
+    rows.push([id, `ზედაპირი · ${RUN_WALL[r.wall] || r.id}`, `${nm(main)} ${M.tmm} მმ`, `${L} × ${p.d}`, edges.join(', ') + (M.apronH ? `; 45° ზოლი ${r1(M.apronH)} სმ` : ''), holes.join('; ') || '—']);
+  }
+  if (M.isl && M.islPiece) {
+    const I = M.isl, P = M.islPiece, holes = [];
+    for (const k of P.cuts) holes.push(`${k.kind === 'sink' ? 'ნიჟარა' : 'ქურა'} ${k.w}×${k.d}: ცენტრი ${r1(M.islRun.ox + k.uc - I.x0)} სმ მარცხენა ბოლოდან`);
+    if (M.pop) holes.push(`ამომწევი როზეტი Ø60 მმ: ${r1(M.pop.x - I.x0)} სმ მარცხენა ბოლოდან`);
+    rows.push(['I-1', 'კუნძულის ზედაპირი', `${nm(islM)} ${M.tmm} მმ`, `${I.len} × ${I.dep}`, `ოთხივე კიდე${I.wfL || I.wfR ? ', waterfall-თან 45°' : ''}`, holes.join('; ') || '—']);
+    if (I.wfL) rows.push(['I-2', 'Waterfall, მარცხენა', `${nm(islM)} ${M.tmm} მმ`, `${r1(I.top - M.vis)} × ${I.dep}`, 'ზედა 45°', '—']);
+    if (I.wfR) rows.push([I.wfL ? 'I-3' : 'I-2', 'Waterfall, მარჯვენა', `${nm(islM)} ${M.tmm} მმ`, `${r1(I.top - M.vis)} × ${I.dep}`, 'ზედა 45°', '—']);
+  }
+  let n = 0;
+  for (const x of M.bs) {
+    const r = x.r, flip = elevFlip(r), kind = x.v0 > 0 && x.v1 - x.v0 < 3 ? 'კოლონის წინა მხარე' : x.v0 === 0 && x.v1 - x.v0 > 3 ? 'კოლონის გვერდი' : 'ფარტუკი';
+    const socks = M.elec.filter(e => e.kind === 'sock' && e.stone && e.r === r && kind === 'ფარტუკი' && e.u > x.s && e.u < x.e).map(e => r1(flip ? x.e - e.u : e.u - x.s));
+    rows.push([`F-${++n}`, `${kind} · ${RUN_WALL[r.wall] || r.id}`, `${nm(bsM)} ${M.bsMatT} მმ`, `${r1(x.L)} × ${r1(x.h)}`, '—', socks.length ? `როზეტი 2×Ø68 მმ (ბიჯი 71 მმ): ${socks.join(', ')} სმ მარცხ. ბოლოდან, ${SOCK_H(M)} სმ ზედაპირიდან` : '—']);
+  }
+  return rows;
+}
+const SOCK_H = M => r1((M.elec.find(e => e.kind === 'sock')?.y || M.TOP + 20) - M.TOP);
+
+function drawingHTML() {
+  const M = model, m = mat(S.stone.main), L = S.lay, date = new Date().toLocaleDateString('ka-GE');
+  const shape = { I: 'სწორი', L: 'კუთხის (L)', U: 'სამმხრივი (U)' }[L.type];
+  const head = (t, n) => `<div class="pg-h"><b>LITHOS</b><span>${t}</span><span>${date}</span><span>${n}</span></div>`;
+  const pages = M.allRuns.length + 2;
+  const spec = [
+    ['ოთახი', `${M.RW} × ${M.RD} სმ, ჭერი ${M.RH} სმ`],
+    ['ფორმა', `${shape}: ${M.runs.map(r => `${r.id} ${r.len}`).join(', ')} სმ${M.isl ? `; კუნძული ${M.isl.len}×${M.isl.dep}` : ''}`],
+    ['ზედაპირი', `${m.brandLabel} ${m.name}, ${M.tmm} მმ, კიდე: ${EDGE[S.stone.edge]}; სიღრმე ${M.D}, სიმაღლე ${M.TOP} სმ`],
+    ['ფარტუკი', `${BS[S.stone.bs]}${S.stone.bsMat ? ' — ' + mat(S.stone.bsMat).name : ''}`],
+    ['ნიჟარა', `${SINK_MOUNT[S.sink.mount]}, ${S.sink.bowls} ჯამი`],
+    ['ქურა', `${S.hob.type === 'gas' ? 'გაზი' : 'ინდუქცია'} ${S.hob.w} სმ, ${S.hob.mount === 'flush' ? 'ერთ დონეზე' : 'ზემოდან'}; გამწოვი: ${HOOD[M.hoodEff] || '—'}`],
+    ['ქვა სულ', `${nf.format(M.q.total)} მ²; ფილები: ${M.slabs.map(x => `${x.count} × ${x.SL * 10}×${x.SW * 10} (${x.m.name})`).join(', ')}`],
+    ['ფასადი', `${FRONT_COLORS[S.front.base]?.l || S.front.base}, ${HANDLES[S.front.handle] || S.front.handle}`]
+  ];
+  const legend = `<div class="lg"><span><i class="k stone"></i>ქვა</span><span><i class="k cab"></i>კარადა</span><span><i class="k tall"></i>მაღალი მოდული / კოლონის შეფუთვა</span><span><i class="k col"></i>კოლონა</span><span><i class="k sock"></i>როზეტი</span><span>წ / გ / ვ — წყალი, გაზი, ვენტილაცია</span><span>↓N — შემცირებული სიღრმის კარადა</span></div>`;
+  let h = `<section class="pg">${head('სამზარეულოს ნახაზი · გეგმა', `1 / ${pages}`)}<div class="pg-grid"><div>${planSheetSVG(M)}${legend}</div><table class="spec">${spec.map(([k, v]) => `<tr><th>${k}</th><td>${esc(v)}</td></tr>`).join('')}</table></div>
+    <p class="pg-f">ზომები სანტიმეტრებში. ნახაზი მომხმარებლის ზომებზეა აგებული — ქვის ჭრამდე LITHOS ზომებს ადგილზე ამოწმებს.</p></section>`;
+  M.allRuns.forEach((r, i) => {
+    h += `<section class="pg">${head(`ხედი: ${r.isIsl ? 'კუნძული' : `${r.id} — ${RUN_WALL[r.wall] || ''}`}`, `${i + 2} / ${pages}`)}${elevSVG(M, r)}<p class="pg-f">ხედი ოთახიდან, კარადების წინ მდგომი ადამიანის თვალით. ქვედა ჯაჭვი — მოდულების სიგანეები.</p></section>`;
+  });
+  const cl = cutListRows(M), el = elecRows(M);
+  const notes = M.warns.filter(w => w.level !== 'info');
+  h += `<section class="pg">${head('ქვის ჭრის სია და ელექტრო გეგმა', `${pages} / ${pages}`)}
+    <table class="cl"><thead><tr><th>№</th><th>ელემენტი</th><th>მასალა</th><th>ზომა, სმ</th><th>დამუშავებული კიდე</th><th>ამონაჭრები (მარცხენა ბოლოდან)</th></tr></thead><tbody>${cl.map(r => `<tr>${r.map(c => `<td>${esc(String(c))}</td>`).join('')}</tr>`).join('')}</tbody></table>
+    <h4>ელექტრო გეგმა (ქვის მონტაჟამდე)</h4><table class="cl"><tbody>${el.map(r => `<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table>
+    ${notes.length ? `<h4>შენიშვნები</h4><ul class="nt">${notes.map(w => `<li>${esc(w.text)}</li>`).join('')}</ul>` : ''}
+  </section>`;
+  return h;
+}
+function openDrawing() {
+  $('#printSheet').innerHTML = drawingHTML();
+  $('#sheetWrap').hidden = false; document.body.classList.add('sheet-open');
+  $('#sheetWrap').scrollTop = 0; $('#btnPrint').focus();
+}
+function closeDrawing() { $('#sheetWrap').hidden = true; document.body.classList.remove('sheet-open'); $('#printSheet').innerHTML = ''; }
+
 /* ================= summary, quote, sharing, AI ================= */
 function stepSum() {
   const endpoint = window.lithosDesignerConfig?.endpoint || '';
   return `<h2 class="st">შეჯამება</h2><p class="lead">ქვის რაოდენობა ელემენტებად, ფილების შეფასება და შენიშვნები. ეს საორიენტაციოა — საბოლოო ზომას და ფასს LITHOS აზომვის შემდეგ დააზუსტებს.</p>
+  <div class="row" style="margin-bottom:12px"><button type="button" class="btn primary" data-act="drawing">ნახაზი და PDF ხელოსნისთვის</button><span class="fine">გეგმა, კედლების ხედები, ქვის ჭრის სია, ელექტრო გეგმა</span></div>
   <div data-live="sumtop">${sumTopHTML()}</div>
+  <div class="sec"><h3>ელექტრო გეგმა</h3><p class="fine" style="margin:0 0 8px">ელექტრიკოსმა ეს ქვის მონტაჟამდე უნდა გააკეთოს — ფარტუკში როზეტის ხვრელებს ქვის საამქრო ამოჭრის.</p><div data-live="elec">${elecHTML()}</div></div>
   <div class="sec"><h3>საორიენტაციო ფასი</h3><p class="fine" style="margin:0 0 10px">საჯარო კატალოგში ფასი არ წერია. თუ შეთავაზება უკვე გაქვს, ჩაწერე ტარიფი.</p><div class="grid2">
     ${num('quote.rate', 'მასალა და დამუშავება', { min: 0, max: 100000, step: 0.01, unit: '₾/მ²', ph: 'უცნობია' })}
     ${num('quote.waste', 'ნარჩენის რეზერვი', { min: 0, max: 40, unit: '%' })}
@@ -2490,7 +2856,7 @@ function sumTopHTML() {
   const row = (l, a, extra = '') => a > 0.0001 ? `<tr><td>${l}${extra}</td><td class="r">${nf.format(a)} მ²</td></tr>` : '';
   return `<div class="metrics"><div class="metric"><div class="k">ქვა სულ</div><div class="v">${nf1.format(q.total)}<small>მ²</small></div></div>
     <div class="metric"><div class="k">ფილები</div><div class="v">${nSlabs}<small>ცალი</small></div></div>
-    <div class="metric"><div class="k">ამონაჭრები</div><div class="v">${q.cuts.sink + q.cuts.hob + q.cuts.tap + q.cuts.notch + q.cuts.vent}<small>ცალი</small></div></div></div>
+    <div class="metric"><div class="k">ამონაჭრები</div><div class="v">${q.cuts.sink + q.cuts.hob + q.cuts.tap + q.cuts.notch + q.cuts.vent + q.cuts.sock + q.cuts.pop}<small>ცალი</small></div></div></div>
   ${notes.length ? `<div class="notes" style="margin-top:12px">${notes.map(w => `<div class="note ${w.level}"><i class="dot"></i><span>${esc(w.text)}</span>${warnStep(w.step) !== curSteps().length - 1 ? `<button type="button" data-act="goto" data-v="${warnStep(w.step)}">ნაბიჯი ${warnStep(w.step) + 1}</button>` : ''}</div>`).join('')}</div>` : ''}
   <table class="t" style="margin-top:8px"><thead><tr><th>ელემენტი</th><th class="r">ფართობი</th></tr></thead><tbody>
     ${row('სამუშაო ზედაპირი', q.ct, ` <span class="fine">· ${M.pieces.length} ნაჭერი, ${M.tmm} მმ</span>`)}
@@ -2506,9 +2872,24 @@ function sumTopHTML() {
     ${q.cuts.notch ? `<tr><td>ზედაპირის ამოჭრა კოლონის გარშემო</td><td class="r">${q.cuts.notch}</td></tr>` : ''}
     ${q.cuts.vent ? `<tr><td>სავენტილაციო ღრიჭო რადიატორის თავზე</td><td class="r">${q.cuts.vent}</td></tr>` : ''}
     ${M.clad ? `<tr><td>კოლონის მოპირკეთება ქვით</td><td class="r">${M.clad}</td></tr>` : ''}
+    ${q.cuts.sock ? `<tr><td>როზეტის ხვრელი ქვის ფარტუკში (2×Ø68 მმ)</td><td class="r">${q.cuts.sock}</td></tr>` : ''}
+    ${q.cuts.pop ? `<tr><td>ამომწევი როზეტის ხვრელი კუნძულზე (Ø60 მმ)</td><td class="r">${q.cuts.pop}</td></tr>` : ''}
   </tbody></table>
   <div style="margin-top:12px">${M.slabs.map(s => `<div class="slab"><div class="s1"><span>${esc(s.m.brandLabel)} ${esc(s.m.name)} · ${s.th} მმ</span><span class="mono">${s.count} × ${s.SL * 10}×${s.SW * 10}</span></div><div class="s2">ქვა ${nf.format(s.area)} მ² · ფილის გამოყენება ${Math.round(s.util * 100)}% · ნაკერი ${s.seams}</div></div>`).join('')}
   <p class="fine" style="margin-top:8px">ფილების რაოდენობა თაროებად განლაგებით არის შეფასებული (ჭრის ხაზი 5 მმ). ვენების თანხვედრა და ფილის დეფექტები რეალურ ჭრას ცვლის.</p></div>`;
+}
+const WALL_FROM = { back: 'უკანა კედელი, მარცხენა კუთხიდან', left: 'მარცხენა კედელი, უკანა კუთხიდან', right: 'მარჯვენა კედელი, უკანა კუთხიდან' };
+function elecRows(M) {
+  const socks = M.elec.filter(e => e.kind === 'sock'), rest = M.elec.filter(e => e.kind !== 'sock');
+  const byWall = {};
+  for (const e of socks) (byWall[e.wall] ||= []).push(e.x);
+  const rows = Object.entries(byWall).map(([w, xs]) => [`ორმაგი როზეტი × ${xs.length}`, `${WALL_FROM[w]}: ${xs.join(', ')} სმ; სიმაღლე ${socks[0].y} სმ`]);
+  for (const e of rest) rows.push([e.label, `${e.spec}${e.x != null ? ` · ${WALL_FROM[e.wall]} ${e.x} სმ` : ''}${e.kind === 'app' && e.y < M.RH ? `, სიმაღლე ${e.y} სმ` : ''}`]);
+  return rows;
+}
+function elecHTML() {
+  return `<table class="t"><tbody>${elecRows(model).map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table>
+  <p class="fine" style="margin-top:6px">${S.isl.on ? `${tog('elec.pop', 'კუნძულზე ამომწევი როზეტი')}` : ''}ზომები იატაკიდან და კუთხიდან, სმ-ში. ქურის, ღუმლისა და ჭურჭლის სარეცხის ხაზებს ცალკე ავტომატი სჭირდება.</p>`;
 }
 function quoteHTML() {
   const q = model.q, Q = S.quote, w = Q.waste || 0, area = q.total * (1 + w / 100);
@@ -2536,6 +2917,7 @@ function requestText() {
     `ქვა სულ: ${nf.format(M.q.total)} მ²; ფილები: ${M.slabs.map(s => `${s.count} × ${s.SL * 10}×${s.SW * 10}`).join(', ')}`,
     `ამონაჭრები: ნიჟარა ${M.q.cuts.sink}, ქურა ${M.q.cuts.hob}, ონკანი ${M.q.cuts.tap}${M.q.cuts.notch ? `, კოლონის ამოჭრა ${M.q.cuts.notch}` : ''}${M.q.cuts.vent ? `, სავენტილაციო ღრიჭო ${M.q.cuts.vent}` : ''}`,
     M.clad ? `კოლონის მოპირკეთება ქვით: ${M.clad}` : '',
+    M.q.cuts.sock || M.q.cuts.pop ? `როზეტის ხვრელები: ფარტუკში ${M.q.cuts.sock}${M.q.cuts.pop ? ', კუნძულზე ამომწევი 1' : ''}` : '',
     M.feats.some(f => f.t === 'column' || f.t === 'beam' || f.t === 'radiator') ? `ოთახში: ${M.feats.filter(f => ['column', 'beam', 'radiator'].includes(f.t)).map(f => `${FEAT[f.t].s} ${f.w}×${f.d} სმ (${WALLS[f.wall]} კედელი, ${f.x} სმ)`).join('; ')}` : ''
   ].filter(Boolean);
   return lines.join('\n');
@@ -2578,6 +2960,25 @@ function aiHTML() {
   return `<div class="f" style="margin-top:12px"><span class="f-l">Prompt (ინგლისურად — სურათის მოდელი მას უკეთ იგებს)</span><textarea class="code" id="promptBox" readonly>${esc(buildPrompt())}</textarea>
   <div class="row"><button type="button" class="btn" data-act="copy" data-src="promptBox">Prompt-ის კოპირება</button></div></div>
   <details class="more"><summary>მოთხოვნის სტრუქტურა Worker-ისთვის</summary><textarea class="code" readonly>${esc(JSON.stringify(req, null, 2))}</textarea></details>`;
+}
+async function photoSketch() {
+  const msg = $('#phMsg'), file = $('#phFile')?.files?.[0], url = sketchEndpoint();
+  const say = t => { const m = $('#phMsg'); if (m) m.textContent = t; };
+  if (!file) return say('ჯერ აირჩიე ფოტო.');
+  if (!$('#phConsent')?.checked) return say('ჯერ მონიშნე თანხმობა.');
+  const wall = $('#phWall').value, len = Number($('#phLen').value);
+  if (!(len >= 100 && len <= 1500)) return say('ჩაწერე კედლის სიგრძე სანტიმეტრებში.');
+  say('იგზავნება… 10–30 წამი.');
+  const src = URL.createObjectURL(file);
+  try {
+    const data64 = await toJpegB64(src, 1280);
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + $('#phCode').value }, body: JSON.stringify({ wall, wallLen: len, roomH: S.room.h, image: { mime_type: 'image/jpeg', data: data64 } }), signal: AbortSignal.timeout(90000) });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !Array.isArray(data.features)) throw new Error(data.error || ('HTTP ' + res.status));
+    ui.photo = { wall, len, notes: data.notes || '', msg: `ნაპოვნია ${data.features.length} ელემენტი — მონიშნე და დაამატე.`, items: data.features.filter(f => FEAT[f.t]).map(f => ({ ...f, on: f.conf >= 0.5 })) };
+    renderStep();
+  } catch (e) { say('ვერ მოხერხდა: ' + e.message); }
+  finally { URL.revokeObjectURL(src); }
 }
 async function toJpegB64(src, max) {
   const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
@@ -2623,7 +3024,7 @@ function refreshLive() {
     const k = el.dataset.live;
     if (k === 'sketch') { const g = sketchGeom(); el.setAttribute('viewBox', `0 0 ${g.vw} ${g.vh}`); }
     const html = k === 'sketch' ? sketchInner() : k === 'feats' ? featsHTML() : k === 'auto' ? autoHTML() : k === 'plan' ? planSVG() : k === 'ergo' ? ergoHTML() : k.startsWith('notes') ? notesFor(+k.slice(5)) : k === 'mods' ? modsHTML()
-      : k === 'sumtop' ? sumTopHTML() : k === 'quote' ? quoteHTML() : k === 'send' ? sendHTML() : k === 'ai' ? aiHTML() : null;
+      : k === 'sumtop' ? sumTopHTML() : k === 'elec' ? elecHTML() : k === 'quote' ? quoteHTML() : k === 'send' ? sendHTML() : k === 'ai' ? aiHTML() : null;
     if (html != null && el.innerHTML !== html) el.innerHTML = html;
   }
 }
@@ -2676,6 +3077,8 @@ body.addEventListener('change', e => {
   if (t.dataset.kind === 'tog') { set(t.dataset.path, t.checked); afterSet(t.dataset.path); update(true); return; }
   if (a === 'feat') { const f = S.feats[+t.dataset.i], v = Number(t.value); if (f && Number.isFinite(v)) { f[t.dataset.k] = Math.max(0, v); update(false); } return; }
   if (a === 'featwall') { const f = S.feats[+t.dataset.i]; if (f) { f.wall = t.value; update(false); } return; }
+  if (a === 'phpick') { const f = ui.photo?.items?.[+t.dataset.i]; if (f) f.on = t.checked; return; }
+  if (t.id === 'phWall') { const v = t.value; $('#phLen').value = v === 'back' ? S.room.w : S.room.d; return; }
   if (a === 'mod-t' || a === 'mod-w') {
     const list = materialize(ui.cabRun), i = +t.dataset.i;
     if (a === 'mod-t') list[i].t = t.value; else { const v = Number(t.value); if (Number.isFinite(v) && v > 0) list[i].w = v; }
@@ -2716,6 +3119,23 @@ body.addEventListener('click', e => {
     }
     case 'shot': if (!threeReady) break; ui.shot = snapshot(); $('#shotBox').innerHTML = `<img class="shot" src="${ui.shot}" alt="3D კადრი AI-სთვის, 1024×768"><p class="fine">შეინახე სურათი (მარჯვენა ღილაკი ან ხანგრძლივი შეხება) და ატვირთე AI Studio-ში ქვის ფოტოსთან ერთად.</p>`; break;
     case 'gen': generate(); break;
+    case 'drawing': openDrawing(); break;
+    case 'photo': photoSketch(); break;
+    case 'photoadd': {
+      const P = ui.photo; if (!P || !P.items) break;
+      const picked = P.items.filter(f => f.on), wl = P.wall === 'back' ? S.room.w : S.room.d, k = wl / P.len;
+      if (!picked.length) break;
+      if ($('#phReplace')?.checked) S.feats = S.feats.filter(f => f.wall !== P.wall);
+      for (const f of picked) {
+        /* the photo is read left→right as seen from the room; on the left wall that runs from the open side to the back corner */
+        const g = { ...f, wall: P.wall }; delete g.on; delete g.conf;
+        g.x = Math.round(f.x * k); if (g.w) g.w = Math.round(g.w * k);
+        if (P.wall === 'left') g.x = Math.max(0, Math.round(wl - g.x - (g.w || 0)));
+        if (!FEAT_WALLS(g.t).includes(g.wall)) continue;
+        S.feats.push(g);
+      }
+      S.feats = S.feats.slice(0, 24); ui.photo = null; ui.selFeat = null; update(true); break;
+    }
     case 'flow': switchFlow(v); break;
     case 'restore': if (ui.fullBackup) { S = ui.fullBackup; ui.fullBackup = null; S.flow = 'full'; step = 1; update(true); } break;
     case 'skwall': S.sk.walls[v] = !S.sk.walls[v]; update(true); break;
@@ -2840,6 +3260,9 @@ function histGo(back) {
   hist.lock = true; update(true); hist.lock = false;
   hist.cur = JSON.stringify(S); renderHist();
 }
+$('#btnPrint').addEventListener('click', () => window.print());
+$('#btnSheetClose').addEventListener('click', closeDrawing);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#sheetWrap').hidden) closeDrawing(); });
 $('#btnUndo').addEventListener('click', () => histGo(true));
 $('#btnRedo').addEventListener('click', () => histGo(false));
 document.addEventListener('keydown', e => {
