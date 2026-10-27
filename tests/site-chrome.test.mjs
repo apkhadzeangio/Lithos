@@ -15,7 +15,7 @@ const navOf = html => [...html.match(/<nav class="atelier-nav"[\s\S]*?<\/nav>/)[
 
 test('every page has the same header, navigation and footer as the home page', () => {
   const home = read('dist/index.html'), nav = navOf(home);
-  assert.deepEqual(nav, [['/#projects', 'ნამუშევრები'], ['/materials/', 'მასალები'], ['/kitchen/', 'სამზარეულოს დიზაინერი'], ['/blog/', 'ჟურნალი']]);
+  assert.deepEqual(nav, [['/#projects', 'ნამუშევრები'], ['/materials/', 'მასალები'], ['/kitchen/', 'სამზარეულოს დიზაინერი'], ['/blog/', 'ჟურნალი'], ['/lab/', 'LITHOS LAB']]);
   for (const page of inner) {
     const html = read(`dist/${page}`);
     assert.equal((html.match(/<header class="atelier-header">/g) || []).length, 1, page);

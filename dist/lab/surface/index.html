@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F1F1EE">
+  <title>ზედაპირის ექსპერიმენტი — LITHOS</title>
+  <link rel="preload" href="/lab/assets/noto-sans-georgian-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/lab/lab.css">
+  <script src="/lab/boot.js" defer></script>
+</head>
+<body>
+  <header class="lab-header">
+    <a class="brand" href="/" aria-label="LITHOS — მთავარი გვერდი"><img src="/lab/assets/lithos-logo.webp" width="100" height="100" alt="LITHOS Stone Surfaces"></a>
+    <a class="contact-link" href="tel:+995551044013">+995 551 04 40 13</a>
+  </header>
+  <main>
+    <section class="surface-hero" id="surface-hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">შეეხე<br>ზედაპირს.</h1>
+        <p class="hero-description">ქვის ზედაპირების წარმოება,<br>დამზადება და მონტაჟი.</p>
+        <a class="primary-button" href="https://wa.me/995551044013?text=%E1%83%92%E1%83%90%E1%83%9B%E1%83%90%E1%83%A0%E1%83%AF%E1%83%9D%E1%83%91%E1%83%90%2C%20%E1%83%9B%E1%83%A1%E1%83%A3%E1%83%A0%E1%83%A1%20%E1%83%99%E1%83%9D%E1%83%9C%E1%83%A1%E1%83%A3%E1%83%9A%E1%83%A2%E1%83%90%E1%83%AA%E1%83%98%E1%83%90%20%E1%83%9B%E1%83%90%E1%83%A1%E1%83%90%E1%83%9A%E1%83%90%E1%83%96%E1%83%94%3A%20Calacatta%20Gold." target="_blank" rel="noopener noreferrer">კონსულტაცია</a>
+      </div>
+      <figure class="surface-figure">
+        <div class="slab" id="slab" tabindex="0" role="group" aria-label="Calacatta Gold — ინტერაქტიული ზედაპირი" aria-describedby="surface-instruction">
+          <img id="slab-photo" src="/assets/neolith/calacatta-gold.webp" width="1234" height="1800" alt="NEOLITH Calacatta Gold — რეალური ფილის თეთრი ზედაპირი ნაცრისფერი და ოქროსფერი ვენებით" fetchpriority="high" decoding="async">
+          <canvas id="surface-canvas" aria-hidden="true" hidden></canvas>
+        </div>
+        <figcaption><span>Calacatta Gold</span><span>NEOLITH</span></figcaption>
+      </figure>
+      <div class="surface-controls">
+        <div class="finish-buttons" role="group" aria-label="ბზინვარების სიმულაცია">
+          <button type="button" data-finish="polished" aria-pressed="true" disabled>Polished</button>
+          <button type="button" data-finish="silk" aria-pressed="false" disabled>Silk</button>
+          <button type="button" data-finish="satin" aria-pressed="false" disabled>Satin</button>
+        </div>
+        <p id="surface-instruction" aria-live="polite">ჯერ რეალური ფილის ფოტო. ინტერაქტიული ხედი ჩაირთვება მხარდაჭერის შემთხვევაში.</p>
+        <noscript><p>JavaScript გამორთულია. ნაჩვენებია რეალური ფილის ფოტო; საკონტაქტო ბმულები მუშაობს.</p></noscript>
+      </div>
+    </section>
+    <section class="lab-notes" aria-label="ექსპერიმენტის განმარტება">
+      <p>სინათლე ცვლის აღქმას.<br>ქვის ნახატი უცვლელია.</p>
+      <div><p>Polished, Silk და Satin ამ გვერდზე ბზინვარების ვიზუალური სიმულაციებია. კონკრეტული მასალის რეალური ფაქტურა და დამუშავება შეადარეთ ნიმუშს.</p><a href="/neolith/">NEOLITH-ის კოლექცია</a></div>
+    </section>
+    <details class="lab-checks">
+      <summary>ექსპერიმენტის ტექნიკური შემოწმება</summary>
+      <dl>
+        <div><dt>ხედი</dt><dd id="render-status">სტატიკური ფოტო</dd></div>
+        <div><dt>რეჟიმი</dt><dd id="finish-status">Polished</dd></div>
+        <div><dt>Roughness / specular</dt><dd id="material-status">—</dd></div>
+        <div><dt>რენდერის მდგომარეობა</dt><dd id="activity-status">არ არის ჩართული</dd></div>
+        <div><dt>რენდერის კადრები</dt><dd id="frame-status">0</dd></div>
+        <div><dt>Canvas DPR</dt><dd id="dpr-status">—</dd></div>
+        <div><dt>ფოტოს დახატვამდე</dt><dd id="photo-status">—</dd></div>
+        <div><dt>LCP ამ გახსნაზე</dt><dd id="lcp-status">—</dd></div>
+      </dl>
+      <p>ეს გახსნის ადგილობრივი მაჩვენებლებია და არა 4G ქსელის სერტიფიცირებული ტესტი. მოძრაობა გამორთე ქვემოთ ან მოწყობილობის Reduce Motion პარამეტრით.</p>
+      <label class="motion-setting"><input type="checkbox" id="static-mode"> სტატიკური ფოტო</label>
+    </details>
+  </main>
+  <footer><a href="/">LITHOS</a><a href="mailto:Lithos13LTD@gmail.com">Lithos13LTD@gmail.com</a></footer>
+</body>
+</html>

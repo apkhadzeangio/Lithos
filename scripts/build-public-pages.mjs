@@ -52,5 +52,5 @@ await writeFile(resolve(root,'dist/robots.txt'),'User-agent: *\nAllow: /\n\nSite
 const blogPaths=await buildBlog({config,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),articles});
 await buildHomepage({config,articles,homepage:await readFile(resolve(root,'dist/index.html'),'utf8'),projects:vm.runInContext('projectCards()',context)});
 await buildSiteCss();
-await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...Object.values(pages).map(page=>page.url),...blogPaths.map(path=>'https://lithos.ge'+path)].map(url=>`  <url><loc>${url}</loc></url>`).join('\n')+'\n</urlset>\n');
+await writeFile(resolve(root,'dist/sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...Object.values(pages).map(page=>page.url),...blogPaths.map(path=>'https://lithos.ge'+path),'https://lithos.ge/lab/'].map(url=>`  <url><loc>${url}</loc></url>`).join('\n')+'\n</urlset>\n');
 console.log(`Generated 4 public pages, blog index, ${articles.length} articles and custom 404; missing business data omitted.`);
