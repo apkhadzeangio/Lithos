@@ -336,6 +336,7 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
     </section>
     <aside class="panel" aria-label="პარამეტრები">
       <div class="modebar" id="modebar"></div>
+      <div class="note error" id="inputStatus" role="status" aria-live="polite" hidden></div>
       <nav class="steps" id="steps" aria-label="ნაბიჯები"></nav>
       <div class="step-body" id="stepBody"></div>
       <footer class="step-nav"><button class="btn" type="button" id="prev">← წინა</button><span class="count" id="stepCount"></span><button class="btn primary" type="button" id="next">შემდეგი →</button></footer>
@@ -344,6 +345,7 @@ details.guide summary{cursor:pointer;font-size:13px;font-weight:500}
 </div>
 <div class="sheet-wrap" id="sheetWrap" hidden role="dialog" aria-modal="true" aria-label="ნახაზი ხელოსნისთვის"><div class="sheet-bar"><b>ნახაზი ხელოსნისთვის</b><span class="fine">A4 ჰორიზონტალური · PDF-ისთვის ბეჭდვაში აირჩიე „Save as PDF"</span><button type="button" class="btn primary" id="btnPrint">ბეჭდვა / PDF</button><button type="button" class="btn" id="btnSheetClose">დახურვა</button></div><div id="printSheet"></div></div>
 <script type="module">
+import { NUMBER_RULES, numericResult, projectNumericErrors, createShareController } from './state-guards.mjs';
 'use strict';
 /* ---------- config ---------- */
 /* asset root = wherever the catalog script was served from ("", "/" or a sub-path like "/Lithos/") */
@@ -504,14 +506,42 @@ function sanitize(src) {
   return out;
 }
 
-let S = clone(DEFAULTS);
+function checkedProject(src) {
+  const errors = projectNumericErrors(src);
+  if (errors.length) throw new Error(errors[0].message);
+  const normalized = clone(src);
+  for (const [path, limits] of Object.entries(NUMBER_RULES)) {
+    const keys = path.split('.'), key = keys.pop();
+    const parent = keys.reduce((o, k) => o?.[k], normalized);
+    if (parent && parent[key] !== undefined) parent[key] = numericResult(parent[key], limits).value;
+  }
+  return sanitize(normalized);
+}
+
+let S = clone(DEFAULTS), rejectedStoredProject = false, loadNotice = '';
+const inputErrors = new Map();
 function get(path) { return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), S); }
 function set(path, v) { const ks = path.split('.'); let o = S; for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks.at(-1)] = v; }
 
-function storeLoad() { try { const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; } }
+function storeLoad() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw === null) return null;
+    try {
+      const value = JSON.parse(raw);
+      if (value === null) throw new Error('empty project');
+      return value;
+    } catch {
+      rejectedStoredProject = true;
+      loadNotice = 'შენახული პროექტი ვერ წავიკითხეთ. ნაჩვენებია ნიმუში; ძველი მონაცემი არ შეცვლილა. ახალი პროექტისთვის აირჩიე „თავიდან დაწყება“.';
+      return null;
+    }
+  } catch { return null; }
+}
 let saveTimer = 0;
 function storeSave() {
   clearTimeout(saveTimer);
+  if (rejectedStoredProject) return; // Keep an invalid old project until an explicit reset or import.
   saveTimer = setTimeout(() => {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); $('#saveState').textContent = 'შენახულია ამ ბრაუზერში'; }
     catch { $('#saveState').textContent = ''; }
@@ -2179,8 +2209,90 @@ const STEPS = [
 ];
 let step = 0, model = null;
 const ui = { pick: 'main', q: '', brand: 'all', tone: null, cabRun: 'A', shot: null, selFeat: null, drag: null, fullBackup: null, photo: null };
+function numberKey(el) {
+  if (el.dataset.kind === 'num') return el.dataset.path;
+  if (el.dataset.act === 'feat') return `feature-${el.dataset.i}-${el.dataset.k}`;
+  if (el.dataset.act === 'mod-w') return `module-${ui.cabRun}-${el.dataset.i}`;
+  return null;
+}
+function numberValue(el) {
+  if (el.dataset.kind === 'num') return get(el.dataset.path);
+  if (el.dataset.act === 'feat') return S.feats[+el.dataset.i]?.[el.dataset.k];
+  return (S.mods[ui.cabRun] || model.items[ui.cabRun])?.[+el.dataset.i]?.w;
+}
+function inputStatus() {
+  const box = $('#inputStatus');
+  if (!box) return;
+  box.hidden = !inputErrors.size && !loadNotice;
+  box.textContent = inputErrors.size ? 'შეყვანილი მონაცემი გადასამოწმებელია. ხედი აჩვენებს ბოლო სწორ ვარიანტს.' : loadNotice;
+}
+function markNumberError(el, message) {
+  const key = numberKey(el), id = 'validation-' + key.replace(/[^a-z0-9-]/gi, '-');
+  el.setCustomValidity(message);
+  el.setAttribute('aria-invalid', 'true');
+  const described = new Set((el.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
+  described.add(id); el.setAttribute('aria-describedby', [...described].join(' '));
+  let box = document.getElementById(id);
+  if (!box) {
+    box = document.createElement('span'); box.id = id; box.className = 'f-h'; box.style.color = 'var(--error)'; box.style.gridColumn = '1 / -1';
+    (el.closest('label') || el.closest('.mrow') || el.parentElement).appendChild(box);
+  }
+  box.textContent = message + ' ';
+  const revert = document.createElement('button');
+  revert.type = 'button'; revert.className = 'btn ghost'; revert.dataset.act = 'number-revert'; revert.dataset.key = key;
+  revert.textContent = 'ბოლო სწორ მნიშვნელობაზე დაბრუნება'; box.appendChild(revert);
+}
+function clearNumberError(el) {
+  const key = numberKey(el), id = 'validation-' + key.replace(/[^a-z0-9-]/gi, '-');
+  inputErrors.delete(key); el.setCustomValidity(''); el.removeAttribute('aria-invalid');
+  const described = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter(x => x && x !== id);
+  if (described.length) el.setAttribute('aria-describedby', described.join(' ')); else el.removeAttribute('aria-describedby');
+  document.getElementById(id)?.remove();
+}
+function restoreInputErrors() {
+  for (const el of document.querySelectorAll('#stepBody input')) {
+    const draft = inputErrors.get(numberKey(el));
+    if (!draft) continue;
+    if (el !== document.activeElement) el.value = draft.raw;
+    markNumberError(el, draft.message);
+  }
+  inputStatus();
+}
+function discardInputErrors() {
+  for (const el of document.querySelectorAll('#stepBody input')) if (numberKey(el)) clearNumberError(el);
+  inputErrors.clear(); inputStatus();
+}
+function focusInvalidNumber() {
+  if (!inputErrors.size) return false;
+  [...document.querySelectorAll('#stepBody input')].find(el => inputErrors.has(numberKey(el)))?.focus();
+  return true;
+}
+function revertNumber(key) {
+  const el = [...document.querySelectorAll('#stepBody input')].find(node => numberKey(node) === key);
+  if (!el) return;
+  el.value = numberValue(el) ?? ''; clearNumberError(el); inputStatus(); refreshShareActions(); el.focus();
+}
+function commitNumber(el) {
+  const key = numberKey(el);
+  if (!key) return false;
+  const limits = NUMBER_RULES[el.dataset.path] || { min: Number(el.getAttribute('min') || 0), max: Number(el.getAttribute('max') || 2000), nullable: false };
+  const raw = el.value.trim();
+  const result = el.validity?.badInput ? { valid: false, message: 'მიუთითე რიცხვი.' }
+    : numericResult(raw === '' && limits.nullable ? null : raw.replace(',', '.'), limits);
+  if (!result.valid) {
+    inputErrors.set(key, { raw, message: result.message }); markNumberError(el, result.message); inputStatus(); refreshShareActions(); return true;
+  }
+  const previous = numberValue(el);
+  clearNumberError(el); inputStatus();
+  if (previous === result.value) { refreshShareActions(); return true; }
+  if (el.dataset.kind === 'num') { set(el.dataset.path, result.value); afterSet(el.dataset.path); }
+  else if (el.dataset.act === 'feat') { const f = S.feats[+el.dataset.i]; if (!f) return true; f[el.dataset.k] = result.value; }
+  else { const m = materialize(ui.cabRun)[+el.dataset.i]; if (!m) return true; m.w = result.value; }
+  update(false); return true;
+}
 const pid = p => 'f-' + p.replace(/\./g, '-');
 function num(path, label, { min = 0, max = 2000, step: st = 1, unit = 'სმ', hint = '', ph = '' } = {}) {
+  if (NUMBER_RULES[path]) ({ min, max } = NUMBER_RULES[path]);
   const v = get(path);
   return `<label class="f" for="${pid(path)}"><span class="f-l">${label}</span><span class="num"><input type="number" inputmode="decimal" id="${pid(path)}" data-path="${path}" data-kind="num" min="${min}" max="${max}" step="${st}" value="${v ?? ''}" placeholder="${esc(ph)}"><span class="u">${unit}</span></span>${hint ? `<span class="f-h">${hint}</span>` : ''}</label>`;
 }
@@ -2922,12 +3034,21 @@ function requestText() {
   ].filter(Boolean);
   return lines.join('\n');
 }
-let shareLink = '';
+const shareController = createShareController({
+  encode: encodeProject, baseUrl: location.origin + location.pathname,
+  onChange: () => refreshShareActions()
+});
+function refreshShareActions() {
+  const box = $('#stepBody [data-live="send"]');
+  if (box) box.innerHTML = sendHTML();
+}
 function sendHTML() {
-  const txt = requestText() + (shareLink && onSite ? '\nპროექტი: ' + shareLink : '');
+  const share = shareController.current(), ready = !!share.url && !share.pending && !share.error && !inputErrors.size;
+  const txt = share.text + (share.url && onSite ? '\nპროექტი: ' + share.url : '');
   const href = 'https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt);
   const hasErr = model.warns.some(w => w.level === 'error');
-  return `<div class="row"><a class="btn primary" href="${href}" target="_blank" rel="noopener noreferrer">მოთხოვნა WhatsApp-ით</a><button type="button" class="btn" data-act="share">ბმულის კოპირება</button><span class="fine" id="shareMsg" role="status"></span></div>
+  const message = inputErrors.size ? 'ჯერ გაასწორე მონიშნული მონაცემი.' : share.pending ? 'პროექტის ბმული მზადდება…' : share.error ? 'ბმული ვერ შეიქმნა.' : '';
+  return `<div class="row">${ready ? `<a class="btn primary" href="${href}" target="_blank" rel="noopener noreferrer">მოთხოვნა WhatsApp-ით</a>` : '<button type="button" class="btn primary" disabled>მოთხოვნა WhatsApp-ით</button>'}<button type="button" class="btn" data-act="share"${ready ? '' : ' disabled'}>ბმულის კოპირება</button><span class="fine" id="shareMsg" role="status">${message}</span>${share.error ? '<button type="button" class="btn" data-act="share-retry">ბმულის ხელახლა მომზადება</button>' : ''}</div>
   ${hasErr ? '<p class="fine" style="color:var(--error);margin-top:6px">პროექტში შეცდომებია — მოთხოვნა გაიგზავნება, მაგრამ ჯობია ჯერ გაასწორო.</p>' : ''}
   <p class="fine" style="margin-top:6px">ნომერი: <span class="mono">+995 551 04 40 13</span></p>`;
 }
@@ -3013,7 +3134,7 @@ function renderSteps() {
   $('#stepCount').textContent = `${step + 1} / ${STEPS_.length}`;
   $('#prev').disabled = step === 0; $('#next').hidden = step === STEPS_.length - 1;
 }
-function renderStep() { step = clamp(step, 0, curSteps().length - 1); $('#stepBody').innerHTML = RENDERERS[curSteps()[step].id](); }
+function renderStep() { step = clamp(step, 0, curSteps().length - 1); $('#stepBody').innerHTML = RENDERERS[curSteps()[step].id](); restoreInputErrors(); }
 function renderStats() {
   const M = model, e = M.warns.filter(w => w.level === 'error').length, w = M.warns.filter(x => x.level === 'warn').length;
   const sl = M.slabs.reduce((s, x) => s + x.count, 0);
@@ -3027,6 +3148,7 @@ function refreshLive() {
       : k === 'sumtop' ? sumTopHTML() : k === 'elec' ? elecHTML() : k === 'quote' ? quoteHTML() : k === 'send' ? sendHTML() : k === 'ai' ? aiHTML() : null;
     if (html != null && el.innerHTML !== html) el.innerHTML = html;
   }
+  restoreInputErrors();
 }
 function normalize() {
   let changed = false;
@@ -3034,18 +3156,18 @@ function normalize() {
   fix('sink.run', model.sinkRun); fix('hob.run', model.hobRun); fix('fridge.run', model.fRun); fix('fridge.end', model.fEnd);
   return changed;
 }
-let shareTimer = 0;
 function update(rerender, delay = rerender ? 0 : 160) {
   autoNotes = S.flow === 'quick' ? autoDesign(S) : [];
   model = computeModel(S);
   const infos = model.warns.filter(w => w.level === 'info' && w.step === 3);
   if (normalize()) { model = computeModel(S); model.warns.push(...infos.filter(i => !model.warns.some(w => w.text === i.text))); }
+  shareController.queue(S, requestText());
   storeSave(); histRecord();
   if (rerender) renderStep(); else refreshLive();
   renderSteps(); renderStats(); scheduleRebuild(ui.drag ? 260 : delay);
-  clearTimeout(shareTimer); shareTimer = setTimeout(async () => { try { const code = await encodeProject(S); shareLink = location.origin + location.pathname + '#p.' + code; if (step === 6) refreshLive(); } catch { shareLink = ''; } }, 500);
 }
 function go(i) {
+  if (focusInvalidNumber()) return;
   step = clamp(i, 0, curSteps().length - 1); renderStep(); renderSteps(); $('#stepBody').scrollTop = 0;
   if (matchMedia('(max-width:860px)').matches) $('.panel').scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
@@ -3066,27 +3188,33 @@ const body = $('#stepBody');
 body.addEventListener('input', e => {
   const t = e.target;
   if (t.id === 'matSearch') { ui.q = t.value; $('#matGrid').innerHTML = gridHTML(); return; }
-  if (t.dataset.kind !== 'num') return;
-  const p = t.dataset.path, raw = t.value.trim();
-  if (raw === '') { if (NULLABLE.has(p)) { set(p, null); update(false); } return; }
-  const v = Number(raw.replace(',', '.')); if (!Number.isFinite(v)) return;
-  set(p, v); afterSet(p); update(false);
+  commitNumber(t);
 });
 body.addEventListener('change', e => {
   const t = e.target, a = t.dataset.act;
+  if (commitNumber(t)) return;
+  if (focusInvalidNumber()) {
+    if (t.dataset.kind === 'tog') t.checked = !!get(t.dataset.path);
+    else if (a === 'featwall') t.value = S.feats[+t.dataset.i]?.wall || t.value;
+    else if (a === 'mod-t') t.value = (S.mods[ui.cabRun] || model.items[ui.cabRun])?.[+t.dataset.i]?.t || t.value;
+    else if (a === 'phpick') t.checked = !!ui.photo?.items?.[+t.dataset.i]?.on;
+    restoreInputErrors(); return;
+  }
   if (t.dataset.kind === 'tog') { set(t.dataset.path, t.checked); afterSet(t.dataset.path); update(true); return; }
-  if (a === 'feat') { const f = S.feats[+t.dataset.i], v = Number(t.value); if (f && Number.isFinite(v)) { f[t.dataset.k] = Math.max(0, v); update(false); } return; }
   if (a === 'featwall') { const f = S.feats[+t.dataset.i]; if (f) { f.wall = t.value; update(false); } return; }
   if (a === 'phpick') { const f = ui.photo?.items?.[+t.dataset.i]; if (f) f.on = t.checked; return; }
   if (t.id === 'phWall') { const v = t.value; $('#phLen').value = v === 'back' ? S.room.w : S.room.d; return; }
-  if (a === 'mod-t' || a === 'mod-w') {
+  if (a === 'mod-t') {
     const list = materialize(ui.cabRun), i = +t.dataset.i;
-    if (a === 'mod-t') list[i].t = t.value; else { const v = Number(t.value); if (Number.isFinite(v) && v > 0) list[i].w = v; }
+    list[i].t = t.value;
     update(false);
   }
 });
 body.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.act === 'number-revert') { revertNumber(b.dataset.key); return; }
+  if (b.dataset.act === 'tpl') discardInputErrors();
+  if (b.dataset.act !== 'import' && focusInvalidNumber()) return;
   if (b.dataset.kind === 'seg') { const p = b.dataset.path; set(p, JSON.parse(b.dataset.v)); afterSet(p); update(true); return; }
   const a = b.dataset.act, v = b.dataset.v; if (!a) return;
   switch (a) {
@@ -3106,17 +3234,19 @@ body.addEventListener('click', e => {
     case 'copy': copyFrom($('#' + b.dataset.src), b.nextElementSibling?.classList.contains('fine') ? b.nextElementSibling : null); break;
     case 'import': {
       const msg = $('#importMsg');
-      try { S = sanitize(JSON.parse($('#jsonBox').value)); update(true); $('#importMsg') && ($('#importMsg').textContent = 'პროექტი ჩაიტვირთა.'); }
-      catch { msg.textContent = 'JSON ვერ წავიკითხე — შეამოწმე ტექსტი.'; }
+      try { const candidate = checkedProject(JSON.parse($('#jsonBox').value)); S = candidate; rejectedStoredProject = false; loadNotice = ''; discardInputErrors(); update(true); $('#importMsg') && ($('#importMsg').textContent = 'პროექტი ჩაიტვირთა.'); }
+      catch (err) { msg.textContent = err instanceof SyntaxError ? 'JSON ვერ წავიკითხე — შეამოწმე ტექსტი.' : err.message; }
       break;
     }
     case 'share': {
       const msg = $('#shareMsg');
-      if (!shareLink) { msg.textContent = 'ბმული მზადდება, სცადე წამში.'; break; }
+      const share = shareController.current(), shareLink = share.url;
+      if (!shareLink || share.pending || share.error) { msg.textContent = 'ბმული მზადდება, სცადე წამში.'; break; }
       const box = Object.assign(document.createElement('textarea'), { value: shareLink }); box.className = 'code'; box.style.minHeight = '60px';
       navigator.clipboard.writeText(shareLink).then(() => { msg.textContent = 'ბმული დაკოპირდა.'; }, () => { msg.textContent = 'მონიშნე და დააკოპირე:'; msg.after(box); box.select(); });
       break;
     }
+    case 'share-retry': shareController.queue(S, requestText()); break;
     case 'shot': if (!threeReady) break; ui.shot = snapshot(); $('#shotBox').innerHTML = `<img class="shot" src="${ui.shot}" alt="3D კადრი AI-სთვის, 1024×768"><p class="fine">შეინახე სურათი (მარჯვენა ღილაკი ან ხანგრძლივი შეხება) და ატვირთე AI Studio-ში ქვის ფოტოსთან ერთად.</p>`; break;
     case 'gen': generate(); break;
     case 'drawing': openDrawing(); break;
@@ -3162,6 +3292,7 @@ body.addEventListener('click', e => {
 });
 function switchFlow(v) {
   if (v === S.flow) return;
+  if (focusInvalidNumber()) return;
   if (v === 'quick') ui.fullBackup = clone(S);
   S.flow = v; step = v === 'quick' ? 0 : 1; update(true); go(step);
 }
@@ -3255,8 +3386,9 @@ function renderHist() { $('#btnUndo').disabled = !hist.undo.length; $('#btnRedo'
 function histGo(back) {
   const from = back ? hist.undo : hist.redo, to = back ? hist.redo : hist.undo;
   if (!from.length) return;
+  discardInputErrors();
   to.push(hist.cur); const snap = from.pop(); hist.t = 0;
-  S = sanitize(JSON.parse(snap)); ui.selFeat = null; ui.drag = null;
+  S = checkedProject(JSON.parse(snap)); ui.selFeat = null; ui.drag = null;
   hist.lock = true; update(true); hist.lock = false;
   hist.cur = JSON.stringify(S); renderHist();
 }
@@ -3283,14 +3415,24 @@ $('#btnReset').addEventListener('click', e => {
   const b = e.currentTarget;
   if (!resetArmed) { b.textContent = 'დააჭირე კიდევ ერთხელ'; resetArmed = setTimeout(() => { resetArmed = 0; b.textContent = 'თავიდან დაწყება'; }, 3000); return; }
   clearTimeout(resetArmed); resetArmed = 0; b.textContent = 'თავიდან დაწყება';
+  discardInputErrors(); rejectedStoredProject = false; loadNotice = '';
   S = clone(DEFAULTS); ui.pick = 'main'; ui.shot = null; update(true); go(0);
 });
 
 (async function boot() {
   let src = null;
-  if (location.hash.startsWith('#p.')) { try { src = await decodeProject(location.hash.slice(3)); } catch { src = null; } }
-  if (!src) src = storeLoad();
-  S = sanitize(src);
+  if (location.hash.startsWith('#p.')) {
+    try { const decoded = await decodeProject(location.hash.slice(3)); checkedProject(decoded); src = decoded; }
+    catch { loadNotice = 'ბმულიდან პროექტი ვერ ჩაიტვირთა. ნაჩვენებია შენახული ვარიანტი ან ნიმუში.'; }
+  }
+  if (!src) {
+    const stored = storeLoad();
+    if (stored !== null) {
+      try { checkedProject(stored); src = stored; }
+      catch { rejectedStoredProject = true; loadNotice = 'შენახული პროექტის ზომები გადასამოწმებელია. ნაჩვენებია ნიმუში; ძველი მონაცემი არ შეცვლილა. ახალი პროექტისთვის აირჩიე „თავიდან დაწყება“.'; }
+    }
+  }
+  S = src ? checkedProject(src) : clone(DEFAULTS);
   model = computeModel(S); normalize(); model = computeModel(S);
   renderSteps(); renderStep(); renderStats();
   if (src) $('#saveState').textContent = 'შენახულია ამ ბრაუზერში';
