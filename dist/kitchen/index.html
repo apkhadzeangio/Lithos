@@ -214,6 +214,20 @@ details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
 .fhead .x{border:1px solid var(--line);background:var(--surface);border-radius:5px;width:28px;height:28px;padding:0}
 .ficon{width:12px;height:12px;border-radius:2px;flex:0 0 auto;background:var(--ink)}
 .ficon.window{background:var(--info)}.ficon.water{background:var(--info);border-radius:50%}.ficon.door{background:none;border:1.5px solid var(--muted);border-radius:0 10px 0 0}
+.ficon.column{background:var(--ink);opacity:.72}.ficon.beam{background:repeating-linear-gradient(45deg,var(--muted) 0 1.5px,transparent 1.5px 4px);border:1px dashed var(--muted)}
+.ficon.radiator{background:var(--error-soft);border:1px solid var(--error)}.ficon.gas{background:var(--warn);border-radius:50%}.ficon.vent{background:var(--muted);border-radius:50%}
+.ficon.app{width:16px;height:16px;border-radius:50%;background:var(--primary);color:var(--on-primary);font-size:9.5px;font-style:normal;font-weight:600;display:inline-grid;place-items:center}
+.btn.icon{min-width:34px;justify-content:center;padding:6px 8px;font-size:15px}
+.chip-btn{border:1px solid var(--line-strong);background:var(--paper);border-radius:999px;padding:5px 10px 5px 8px;font-size:12px;min-height:30px;display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.chip-btn.ghost{border-color:transparent;background:none;color:var(--muted)}
+.tools{gap:6px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;margin-top:6px;font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.tpls{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px;margin:0 0 12px}
+.tpl{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:7px 9px;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:44px}
+.tpl b{font-weight:500;font-size:12.5px}.tpl span{font-size:11px;color:var(--muted)}
+.tpl:hover,.chip-btn:hover{border-color:var(--ink)}
+.sketch .app{cursor:grab}.sketch .app:focus{outline:none}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
 .mini{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--muted);min-width:0}
 .mini .num input{padding:5px 6px;font-size:12.5px}
@@ -241,13 +255,13 @@ details.more summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
 <script src="/quartz-data.js"></script>
 <script src="/designer/config.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-
 </head>
 <body>
+
 <div class="app">
   <header class="top">
     <div class="brand"><a class="mark" href="/" style="color:inherit;text-decoration:none">LITHOS</a><span class="sub">სამზარეულოს დიზაინერი · ქვა, ზომები, 3D</span></div>
-    <div class="top-actions"><span class="save-state" id="saveState"></span><button class="btn ghost" type="button" id="btnReset">თავიდან დაწყება</button></div>
+    <div class="top-actions"><span class="save-state" id="saveState"></span><button class="btn ghost icon" type="button" id="btnUndo" title="დაბრუნება (Ctrl+Z)" aria-label="დაბრუნება" disabled>↶</button><button class="btn ghost icon" type="button" id="btnRedo" title="წინ (Ctrl+Shift+Z)" aria-label="წინ" disabled>↷</button><button class="btn ghost" type="button" id="btnReset">თავიდან დაწყება</button></div>
   </header>
   <main class="work">
     <section class="stage" id="stage" aria-label="3D ხედი">
@@ -335,21 +349,26 @@ const PRESETS = {
 };
 const MODTYPES = {
   drawers: '3 უჯრა', door: 'კარი', door2: 'ორმაგი კარი', sink: 'ნიჟარის მოდული', hob: 'ქურის მოდული, უჯრებით',
-  oven: 'ღუმელი ქურის ქვეშ', dw: 'ჭურჭლის სარეცხი', filler: 'შემავსებელი', fridge: 'მაცივარი, კოლონა',
+  oven: 'ღუმელი ქურის ქვეშ', dw: 'ჭურჭლის სარეცხი', filler: 'შემავსებელი', fridge: 'მაცივარი, კოლონა', colbox: 'კოლონის შეფუთვა',
   fridgeFS: 'თავისუფლად მდგომი მაცივარი', ovenTall: 'ღუმელის კოლონა', pantry: 'მაღალი კარადა'
 };
-const TALL = new Set(['fridge', 'fridgeFS', 'ovenTall', 'pantry']);
+const TALL = new Set(['fridge', 'fridgeFS', 'ovenTall', 'pantry', 'colbox']);
 const EDGE = { eased: 'სწორი', bevel: 'ფასკა', round: 'მომრგვალებული', miter: '45° შეერთება' };
 const BS = { none: 'არა', strip: 'ზოლი 10 სმ', upper: 'ზედა კარადებამდე', ceil: 'ჭერამდე' };
 const SINK_MOUNT = { under: 'ქვემოდან ჩასმული', top: 'ზემოდან დადებული', flush: 'ზედაპირთან ერთ დონეზე', integrated: 'ქვისგან ინტეგრირებული' };
 const HOOD = { wall: 'კედლის', builtin: 'ჩაშენებული', island: 'კუნძულის', downdraft: 'ზედაპირში ჩაშენებული', none: 'არა' };
 const RUN_NAME = { A: 'A — უკანა კედელი', B: 'B', C: 'C', I: 'კუნძული' };
 const FEAT = {
-  window: { l: 'ფანჯარა', w: 120, h: 140, sill: 105 },
-  door: { l: 'კარი', w: 90, h: 210 },
-  column: { l: 'კოლონა / შვერილი', w: 40, d: 40 },
-  water: { l: 'წყლის წერტილი', w: 0 }
+  window: { l: 'ფანჯარა', s: 'ფანჯარა', w: 120, h: 140, sill: 105 },
+  door: { l: 'კარი', s: 'კარი', w: 90, h: 210 },
+  column: { l: 'კოლონა / რიგელი', s: 'კოლონა', w: 40, d: 30 },
+  beam: { l: 'ჭერის კოჭი', s: 'კოჭი', w: 100, d: 40, h: 30 },
+  radiator: { l: 'რადიატორი', s: 'რადიატორი', w: 80, h: 60, d: 10 },
+  water: { l: 'წყლის წერტილი', s: 'წყალი', pt: true },
+  gas: { l: 'გაზის წერტილი', s: 'გაზი', pt: true },
+  vent: { l: 'სავენტილაციო არხი', s: 'ვენტილაცია', pt: true }
 };
+const FEAT_WALLS = t => (t === 'door' || t === 'column' || t === 'beam' ? ['back', 'left', 'right', 'front'] : ['back', 'left', 'right']);
 const WALLS = { back: 'უკანა', left: 'მარცხენა', right: 'მარჯვენა', front: 'წინა' };
 
 /* ---------- state ---------- */
@@ -357,7 +376,7 @@ const DEFAULTS = {
   v: 1,
   room: { w: 460, d: 420, h: 270 },
   flow: 'quick',
-  sk: { walls: { back: true, left: true, right: true }, isl: 'auto' },
+  sk: { walls: { back: true, left: true, right: true }, isl: 'auto', family: 'mid', pin: { sink: null, hob: null, fridge: null } },
   feats: [
     { t: 'window', wall: 'back', x: 150, w: 120, h: 140, sill: 105 },
     { t: 'door', wall: 'right', x: 300, w: 90, h: 210 },
@@ -407,17 +426,24 @@ function sanitize(src) {
   walk(DEFAULTS, src || {}, out, '');
   let feats = src && Array.isArray(src.feats) ? src.feats : null;
   if (!feats && src && src.win) feats = src.win.on ? [{ t: 'window', ...src.win }] : [];   /* v1 projects: one window */
-  if (feats) out.feats = feats.filter(f => f && FEAT[f.t] && WALLS[f.wall] && Number.isFinite(+f.x)).slice(0, 16).map(f => {
-    const d = FEAT[f.t], g = { t: f.t, wall: f.wall, x: Math.max(0, +f.x) };
-    if (f.t !== 'water') g.w = clamp(+f.w || d.w, 10, 600);
+  if (feats) out.feats = feats.filter(f => f && FEAT[f.t] && WALLS[f.wall] && Number.isFinite(+f.x)).slice(0, 24).map(f => {
+    const d = FEAT[f.t], g = { t: f.t, wall: FEAT_WALLS(f.t).includes(f.wall) ? f.wall : 'back', x: Math.max(0, +f.x) };
+    if (!d.pt) g.w = clamp(+f.w || d.w, 10, 600);
     if (f.t === 'window') { g.h = clamp(+f.h || d.h, 20, 300); g.sill = clamp(Number.isFinite(+f.sill) ? +f.sill : d.sill, 0, 250); }
     if (f.t === 'door') g.h = clamp(+f.h || d.h, 150, 300);
     if (f.t === 'column') g.d = clamp(+f.d || d.d, 5, 200);
+    if (f.t === 'beam') { g.d = clamp(+f.d || d.d, 5, 300); g.h = clamp(+f.h || d.h, 5, 120); }
+    if (f.t === 'radiator') { g.h = clamp(+f.h || d.h, 20, 120); g.d = clamp(+f.d || d.d, 5, 25); }
     return g;
   });
   if (src && !src.flow && (src.lay || src.win)) out.flow = 'full';
   if (!MAT.has(out.stone.main)) out.stone.main = DEFAULTS.stone.main;
   if (out.stone.bsMat && !MAT.has(out.stone.bsMat)) out.stone.bsMat = null;
+  /* quick-mode pins: where the user dragged sink / hob / fridge, kept in wall terms so they survive a layout change */
+  const pin = src && src.sk && src.sk.pin;
+  out.sk.pin = { sink: null, hob: null, fridge: null };
+  if (pin) for (const k of ['sink', 'hob', 'fridge']) { const v = pin[k]; if (v && ['back', 'left', 'right', 'isl'].includes(v.wall) && Number.isFinite(+v.x) && !(k === 'fridge' && v.wall === 'isl')) out.sk.pin[k] = { wall: v.wall, x: Math.round(+v.x) }; }
+  if (!['small', 'mid', 'large'].includes(out.sk.family)) out.sk.family = 'mid';
   if (out.stone.islMat && !MAT.has(out.stone.islMat)) out.stone.islMat = null;
   return out;
 }
@@ -474,13 +500,28 @@ function placeIn(ivs, w, des) {
 }
 const overlap = (a0, a1, b0, b1) => Math.min(a1, b1) - Math.max(a0, b0) > 0.01;
 function wp(r, u, v) { return { x: r.ox + r.dx * u + r.nx * v, z: r.oz + r.dz * u + r.nz * v }; }
-/* floor footprint of a wall feature; doors get a clearance depth, columns their own depth */
+/* floor footprint of a wall feature; doors get a clearance depth, columns / beams / radiators their own depth */
 function featRect(f, RW, RD, clear) {
-  const a = f.x, b = f.x + (f.w || 0), dp = f.t === 'column' ? f.d : clear;
+  const a = f.x, b = f.x + (f.w || 0), dp = (f.t === 'column' || f.t === 'beam' || f.t === 'radiator') && f.d != null ? f.d : clear;
   if (f.wall === 'back') return { x0: a, x1: b, z0: 0, z1: dp };
   if (f.wall === 'front') return { x0: a, x1: b, z0: RD - dp, z1: RD };
   if (f.wall === 'left') return { x0: 0, x1: dp, z0: a, z1: b };
   return { x0: RW - dp, x1: RW, z0: a, z1: b };
+}
+/* a floor rectangle in a run's own coordinates: u along the run, v away from its wall */
+function toRun(r, R) {
+  const us = [], vs = [];
+  for (const x of [R.x0, R.x1]) for (const z of [R.z0, R.z1]) { us.push((x - r.ox) * r.dx + (z - r.oz) * r.dz); vs.push((x - r.ox) * r.nx + (z - r.oz) * r.nz); }
+  return { u0: Math.min(...us), u1: Math.max(...us), v0: Math.min(...vs), v1: Math.max(...vs) };
+}
+/* split [p, q] at the given points, never leaving a piece shorter than min */
+function splitAt(p, q, pts, min = 20) {
+  const c = pts.filter(x => x > p + min - 0.5 && x < q - min + 0.5).sort((a, b) => a - b), out = [p];
+  for (const x of c) if (x - out[out.length - 1] >= min - 0.5) out.push(x);
+  if (out.length > 1 && q - out[out.length - 1] < min - 0.5) out.pop();
+  out.push(q);
+  const segs = []; for (let i = 0; i < out.length - 1; i++) segs.push([out[i], out[i + 1]]);
+  return segs;
 }
 const rectHit = (a, b) => a.x0 < b.x1 - 0.5 && a.x1 > b.x0 + 0.5 && a.z0 < b.z1 - 0.5 && a.z1 > b.z0 + 0.5;
 
@@ -499,12 +540,15 @@ function computeModel(S) {
   /* ---- room features: windows, doors, columns, water ---- */
   const wallLen = w => (w === 'back' || w === 'front' ? RW : RD);
   const feats = S.feats || [];
-  const wins = feats.filter(f => f.t === 'window'), doors = feats.filter(f => f.t === 'door'), cols = feats.filter(f => f.t === 'column'), waters = feats.filter(f => f.t === 'water');
+  const byT = t => feats.filter(f => f.t === t);
+  const wins = byT('window'), doors = byT('door'), cols = byT('column'), waters = byT('water'), beams = byT('beam'), rads = byT('radiator'), gases = byT('gas'), vents = byT('vent');
   for (const f of feats) {
-    if (f.t === 'water') { if (f.x > wallLen(f.wall)) W('error', 1, 'წყლის წერტილი კედელს სცდება.'); continue; }
+    if (FEAT[f.t].pt) { if (f.x > wallLen(f.wall)) W('error', 1, `${FEAT[f.t].l} კედელს სცდება.`); continue; }
     if (f.x + f.w > wallLen(f.wall) + 0.5) W('error', 1, `${FEAT[f.t].l} (${WALLS[f.wall]} კედელი) კედელს სცდება: ${f.x} + ${f.w} > ${wallLen(f.wall)} სმ.`);
     if (f.t === 'window' && f.sill + f.h > RH) W('error', 1, 'ფანჯრის ზედა ნაპირი ჭერზე მაღლაა.');
     if (f.t === 'door' && f.h > RH) W('error', 1, 'კარი ჭერზე მაღალია.');
+    if (f.t === 'beam' && RH - f.h < TOP + 40) W('error', 1, `კოჭი ძალიან დაბლაა: ${RH - f.h} სმ იატაკიდან.`);
+    if (f.t === 'radiator' && 12 + f.h > TOP - vis - 1) W('warn', 1, `რადიატორი (${12 + f.h} სმ) ზედაპირის ქვეშ ვერ დაეტევა — საჭიროა დაბალი მოდელი (≤ ${Math.floor(TOP - vis - 14)} სმ) ან გადატანა.`);
   }
 
   /* ---- runs ---- */
@@ -541,9 +585,31 @@ function computeModel(S) {
   const runById = id => runs.find(r => r.id === id);
   const onRun = (r, list) => (!r.wall ? [] : list.filter(f => f.wall === r.wall).map(f => { const a = r.wall === 'back' ? f.x - r.ox : f.x - r.oz; return { f, a, b: a + (f.w || 0) }; }).filter(x => overlap(x.a, x.b, 0, r.len)));
   const winsOnRun = r => onRun(r, wins);
-  const blocksOnRun = r => onRun(r, [...doors, ...cols]);
-  function waterOnRun(r) { if (!r.wall) return null; const f = waters.find(g => g.wall === r.wall); if (!f) return null; const u = r.wall === 'back' ? f.x - r.ox : f.x - r.oz; return u >= 0 && u <= r.len ? u : null; }
+  const ptOnRun = (r, list) => { if (!r || !r.wall) return null; for (const f of list) { if (f.wall !== r.wall) continue; const u = r.wall === 'back' ? f.x - r.ox : f.x - r.oz; if (u >= 0 && u <= r.len) return u; } return null; };
+  const waterOnRun = r => ptOnRun(r, waters);
   for (const r of runs) for (const x of winsOnRun(r)) if (x.f.sill < TOP - 0.5) W('error', 1, `ფანჯრის რაფა (${x.f.sill} სმ) ზედაპირზე (${TOP} სმ) დაბლაა ${r.id} მონაკვეთზე.`);
+
+  /* ---- what each run has to live with. A designer never shortens the kitchen for a column:
+     a shallow pilaster hides behind shallower cabinets and the worktop is notched round it;
+     a deep one is wrapped in a front-panel box that reads as one more tall unit.
+     Radiators get a shallow cabinet with a plinth grille and a vent slot in the stone. ---- */
+  const SH = Math.max(10, D - 40), obs = {}, builtIn = [];
+  for (const r of runs) {
+    const list = obs[r.id] = [];
+    for (const f of cols) {
+      const q = toRun(r, featRect(f, RW, RD, 0));
+      if (!overlap(q.u0, q.u1, 0, r.len) || !overlap(q.v0, q.v1, 0, D)) continue;
+      const back = q.v0 < 0.5;
+      list.push({ kind: back && q.v1 <= SH ? 'shallow' : 'box', f, a: Math.max(0, q.u0), b: Math.min(r.len, q.u1), d: back ? q.v1 : D, v0: q.v0, v1: q.v1, bd: q.v1 > D - 2 ? q.v1 + 2 : D });
+    }
+    for (const f of rads) {
+      const q = toRun(r, featRect(f, RW, RD, 0));
+      if (!overlap(q.u0, q.u1, 0, r.len) || !overlap(q.v0, q.v1, 0, D)) continue;
+      if (q.v0 < 0.5) list.push({ kind: 'rad', f, a: Math.max(0, q.u0), b: Math.min(r.len, q.u1), d: q.v1, v0: 0, v1: q.v1 });
+      else W('warn', 2, `რადიატორი (${WALLS[f.wall]} კედელი) ${RUN_NAME[r.id]}-ის ბოლოს ეჯახება — გადაიტანე ან მონაკვეთი შეამოკლე.`);
+    }
+    list.sort((x, y) => x.a - y.a);
+  }
 
   /* ---- island ---- */
   let isl = null, islRun = null;
@@ -615,20 +681,63 @@ function computeModel(S) {
     if (Math.abs(sum - avail) > 0.5) W('error', 4, `${RUN_NAME[r.id]}: მოდულების ჯამი ${r1(sum)} სმ-ია, თავისუფალი ადგილი — ${r1(avail)} სმ (სხვაობა ${r1(avail - sum)}).`);
     return out;
   }
+  /* deep columns → panel boxes (merged when closer than 15 cm, snapped to run ends) */
+  function colBoxes(r) {
+    const out = [];
+    for (const o of obs[r.id] || []) {
+      if (o.kind !== 'box') continue;
+      let s = o.a > 0.5 ? o.a - 2 : o.a, e = o.b < r.len - 0.5 ? o.b + 2 : o.b;
+      const last = out[out.length - 1];
+      if (last && s - last.e < 15) { last.e = Math.max(last.e, e); last.bd = Math.max(last.bd, o.bd); last.d = Math.max(last.d, o.d); continue; }
+      out.push({ s, e, bd: o.bd, d: o.d });
+    }
+    return out.map(b => {
+      let s = Math.max(b.s, r.u0), e = Math.min(b.e, r.u1);
+      if (s - r.u0 < 5) s = r.u0; if (r.u1 - e < 5) e = r.u1;
+      return { ...b, s, e };
+    }).filter(b => b.e - b.s >= 1);
+  }
+  const softOf = r => (obs[r.id] || []).filter(o => o.kind !== 'box');
+  /* cabinets standing in front of a pilaster or radiator get a shallower carcass */
+  function markShallow(r, its) {
+    for (const m of its) {
+      if (TALL.has(m.t)) continue;
+      for (const o of softOf(r)) if (overlap(m.u, m.u + m.w, o.a, o.b)) { m.sh = Math.max(m.sh || 0, o.d); if (o.kind === 'rad') m.rad = true; }
+    }
+    return its;
+  }
   function layAuto(r) {
     let ivs = r.u1 - r.u0 > 0.5 ? [[r.u0, r.u1]] : [];
     const fixed = [], hazards = new Set();
-    if (r.os) hazards.add(r.u0); if (r.oe) hazards.add(r.u1);
+    /* the hob keeps 30 cm from open ends, inner corners and tall units */
+    if (r.os || r.cs) hazards.add(r.u0); if (r.oe || r.ce) hazards.add(r.u1);
+    const boxes = r.isIsl ? [] : colBoxes(r), soft = r.isIsl ? [] : softOf(r).map(o => [o.a, o.b]);
+    for (const b of boxes) {
+      fixed.push({ t: 'colbox', u: b.s, w: r1(b.e - b.s), bd: b.bd, open: b.d <= D - 25 && b.e - b.s >= 30 });
+      ivs = cut(ivs, b.s, b.e); hazards.add(b.s); hazards.add(b.e);
+    }
+    const avoid = base => { let v = base; for (const [a, b] of soft) v = cut(v, a - 1, b + 1); return v; };
     if (r.id === fRun && !r.isIsl) {
       const list = [];
       if (S.fridge.type !== 'none') list.push(S.fridge.type === 'freestanding' ? { t: 'fridgeFS', w: 75 } : { t: 'fridge', w: 60 });
       if (ovenEff === 'tall') list.push({ t: 'ovenTall', w: 60 });
       for (let i = 0; i < S.pantry; i++) list.push({ t: 'pantry', w: 60 });
-      const tot = list.reduce((s, x) => s + x.w, 0);
-      if (tot > r.u1 - r.u0 - 30) W('error', 3, `მაღალი მოდულები (${tot} სმ) ${r.id} მონაკვეთზე ვერ ეტევა.`);
+      const tot = list.reduce((s, x) => s + x.w, 0), room = ivs.reduce((s, [p, q]) => s + q - p, 0);
+      if (tot > room - 30) W('error', 3, `მაღალი მოდულები (${tot} სმ) ${r.id} მონაკვეთზე ვერ ეტევა.`);
       else if (list.length) {
-        if (fEnd === 'end') { let u = r.u1; for (const x of list) { u -= x.w; fixed.push({ ...x, u }); } ivs = cut(ivs, u, r.u1); hazards.add(u); }
-        else { let u = r.u0; for (const x of list) { fixed.push({ ...x, u }); u += x.w; } ivs = cut(ivs, r.u0, u); hazards.add(u); }
+        /* tall units stack from the chosen end and step over column boxes, pilasters and radiators */
+        const stops = [...boxes.map(b => [b.s, b.e]), ...soft];
+        const hit = (p, q) => stops.find(([a, b]) => overlap(p, q, a, b));
+        let u = fEnd === 'end' ? r.u1 : r.u0, okAll = true;
+        for (const x of list) {
+          let p = fEnd === 'end' ? u - x.w : u, h, guard = 0;
+          while ((h = hit(p, p + x.w)) && guard++ < 8) { u = fEnd === 'end' ? h[0] : h[1]; p = fEnd === 'end' ? u - x.w : u; }
+          if (p < r.u0 - 0.1 || p + x.w > r.u1 + 0.1) { okAll = false; break; }
+          fixed.push({ ...x, u: p }); ivs = cut(ivs, p, p + x.w);
+          u = fEnd === 'end' ? p : p + x.w;
+        }
+        hazards.add(u);
+        if (!okAll) W('error', 3, `მაღალი მოდულები ${r.id} მონაკვეთზე ვერ ეტევა.`);
       }
     }
     let sinkC = null, sinkW = 0;
@@ -642,31 +751,40 @@ function computeModel(S) {
         const wu = waterOnRun(r), wr = winsOnRun(r).find(x => overlap(x.a, x.b, r.u0, r.u1));
         cc = wu != null ? wu : wr ? (wr.a + wr.b) / 2 : r.isIsl ? (r.u0 + r.u1) / 2 : r.u0 + (r.u1 - r.u0) / 3;
       }
-      const s = placeIn(ivs, gw, cc - sinkOff - sw / 2);
+      let s = placeIn(avoid(ivs), gw, cc - sinkOff - sw / 2);
+      if (s == null) { s = placeIn(ivs, gw, cc - sinkOff - sw / 2); if (s != null) W('warn', 3, `ნიჟარა კოლონის ან რადიატორის წინ მოხვდა — იქ კარადა შემცირებული სიღრმისაა. ჯობს ნიჟარა სხვაგან გადაიტანო.`); }
       if (s == null) W('error', 3, `ნიჟარა${S.dw !== 'none' ? ' და ჭურჭლის სარეცხი' : ''} ${RUN_NAME[r.id]} მონაკვეთზე ვერ ეტევა.`);
       else { let u = s; for (const x of grp) { fixed.push({ ...x, u }); u += x.w; } ivs = cut(ivs, s, s + gw); sinkC = s + sinkOff + sw / 2; }
     }
     if (r.id === hobRun) {
       const hw = { 30: 40, 60: 60, 80: 80, 90: 90 }[S.hob.w] || 60, ht = ovenEff === 'under' ? 'oven' : 'hob';
       let s = null;
-      if (S.hob.pos != null) s = placeIn(ivs, hw, S.hob.pos - hw / 2);
+      if (S.hob.pos != null) s = placeIn(avoid(ivs), hw, S.hob.pos - hw / 2) ?? placeIn(ivs, hw, S.hob.pos - hw / 2);
       else {
-        /* prefer: away from windows and 30 cm from tall units/open ends; relax step by step */
-        let noWin = ivs; for (const x of winsOnRun(r)) noWin = cut(noWin, x.a - 5, x.b + 5);
+        /* prefer: away from windows, pilasters and radiators, 30 cm from tall units / open ends; relax step by step */
+        const sv = avoid(ivs), noWinOf = base => { let v = base; for (const x of winsOnRun(r)) v = cut(v, x.a - 5, x.b + 5); return v; };
         const margin = base => base.map(([p, q]) => [p + (hazards.has(p) ? 30 : 0), q - (hazards.has(q) ? 30 : 0)]).filter(([p, q]) => q - p >= hw);
         const fits = base => base.filter(([p, q]) => q - p >= hw);
-        const pool = [margin(noWin), fits(noWin), margin(ivs), fits(ivs)].find(x => x.length) || [];
+        const pool = [margin(noWinOf(sv)), fits(noWinOf(sv)), margin(sv), fits(sv), margin(noWinOf(ivs)), fits(noWinOf(ivs)), margin(ivs), fits(ivs)].find(x => x.length) || [];
+        /* gas hob goes to the gas point, a wall hood toward the vent duct */
+        const gu = S.hob.type === 'gas' ? ptOnRun(r, gases) : null, vu = hoodEff === 'wall' || hoodEff === 'builtin' ? ptOnRun(r, vents) : null;
+        const tgt = gu ?? vu;
         if (pool.length) {
-          if (sinkC != null) {
-            const minC = sinkW / 2 + hw / 2 + 40; let best = null, bs = Infinity, far = null, fd = -1;
+          if (sinkC != null || tgt != null) {
+            const minC = sinkW / 2 + hw / 2 + 40, cand = [];
             for (const [p, q] of pool) {
-              for (const cand of [sinkC + 120 - hw / 2, sinkC - 120 - hw / 2, p, q - hw]) {
-                const st = clamp(cand, p, q - hw), d = Math.abs(st + hw / 2 - sinkC);
-                if (d > fd) { fd = d; far = st; }
-                if (d >= minC && Math.abs(d - 120) < bs) { bs = Math.abs(d - 120); best = st; }
-              }
+              const raw = [p, q - hw];
+              if (sinkC != null) raw.push(sinkC + 120 - hw / 2, sinkC - 120 - hw / 2, sinkC + minC - hw / 2, sinkC - minC - hw / 2);
+              if (tgt != null) raw.push(tgt - hw / 2);
+              for (const c of raw) cand.push(clamp(c, p, q - hw));
             }
-            s = best ?? far;
+            const score = st => {
+              const c = st + hw / 2; let v = 0;
+              if (sinkC != null) { const d = Math.abs(c - sinkC); v += d < minC ? 1000 + (minC - d) * 10 : Math.abs(d - 120); }
+              if (tgt != null) v += Math.abs(c - tgt) * 1.5;
+              return v;
+            };
+            s = cand.reduce((m, st) => (m == null || score(st) < score(m) - 0.01 ? st : m), null);
           } else { const [p, q] = pool.reduce((m, iv) => (iv[1] - iv[0] > m[1] - m[0] ? iv : m)); s = (p + q) / 2 - hw / 2; }
         }
       }
@@ -674,12 +792,16 @@ function computeModel(S) {
       else { fixed.push({ t: ht, w: hw, u: s }); ivs = cut(ivs, s, s + hw); }
     }
     const all = [...fixed];
-    for (const [p, q] of ivs) {
-      const g = q - p; if (g < 0.5) continue;
-      if (g < 15) { all.push({ t: 'filler', u: p, w: r1(g) }); continue; }
-      let k = Math.max(1, Math.round(g / 60)); while (g / k > 90) k++;
-      const base = Math.floor((g / k) * 2) / 2; let u = p;
-      for (let i = 0; i < k; i++) { const ww = i === k - 1 ? r1(q - u) : base; all.push({ t: null, u, w: ww }); u += ww; }
+    for (const [p0, q0] of ivs) {
+      if (q0 - p0 < 0.5) continue;
+      if (q0 - p0 < 15) { all.push({ t: 'filler', u: p0, w: r1(q0 - p0) }); continue; }
+      /* a module edge lands on each pilaster / radiator edge, so one shallow cabinet sits exactly in front of it */
+      for (const [p, q] of splitAt(p0, q0, soft.flatMap(([a, b]) => [a, b]))) {
+        const g = q - p;
+        let k = Math.max(1, Math.round(g / 60)); while (g / k > 90) k++;
+        const base = Math.floor((g / k) * 2) / 2; let u = p;
+        for (let i = 0; i < k; i++) { const ww = i === k - 1 ? r1(q - u) : base; all.push({ t: null, u, w: ww }); u += ww; }
+      }
     }
     all.sort((x, y) => x.u - y.u);
     all.forEach((m, i) => {
@@ -691,8 +813,12 @@ function computeModel(S) {
   }
   for (const r of allRuns) {
     const list = S.mods[r.id];
-    if (Array.isArray(list)) { mode[r.id] = 'custom'; items[r.id] = layCustom(r, list); }
-    else { mode[r.id] = 'auto'; items[r.id] = layAuto(r); }
+    if (Array.isArray(list)) {
+      mode[r.id] = 'custom'; items[r.id] = layCustom(r, list);
+      if (!r.isIsl) for (const b of colBoxes(r)) if (items[r.id].some(m => m.t !== 'colbox' && overlap(m.u, m.u + m.w, b.s + 1, b.e - 1)))
+        W('warn', 4, `${RUN_NAME[r.id]}: ${r1(b.s)}–${r1(b.e)} სმ-ზე ღრმა კოლონაა — ამ ადგილას ჩასვი „კოლონის შეფუთვა" (${r1(b.e - b.s)} სმ).`);
+    } else { mode[r.id] = 'auto'; items[r.id] = layAuto(r); }
+    if (!r.isIsl) markShallow(r, items[r.id]);
   }
 
   /* ---- ergonomic checks on placed items ---- */
@@ -725,6 +851,14 @@ function computeModel(S) {
   let upH = S.up.type === 'ceil' ? RH - upY0 : S.up.h;
   if (upOn && S.up.type !== 'ceil' && upY0 + upH > RH + 0.5) { W('error', 4, `ზედა კარადები ჭერს სცდება: ${TOP} + ${S.up.gap} + ${upH} > ${RH} სმ.`); upH = Math.max(20, RH - upY0); }
   const tallH = Math.min(RH, S.up.type === 'ceil' ? RH : S.up.type === 'none' ? 215 : upY0 + upH);
+  /* ceiling beams: whatever stands under one stops at its underside */
+  const beamsOn = (r, depth) => beams.map(f => { const q = toRun(r, featRect(f, RW, RD, 0)); return { f, a: q.u0, b: q.u1, v0: q.v0, y: RH - f.h }; })
+    .filter(x => overlap(x.a, x.b, 0, r.len) && x.v0 < depth);
+  let beamCut = 0;
+  for (const r of runs) for (const m of items[r.id]) if (TALL.has(m.t)) {
+    const lo = beamsOn(r, D).filter(x => overlap(x.a, x.b, m.u, m.u + m.w)).reduce((y, x) => Math.min(y, x.y), Infinity);
+    if (lo < tallH) { m.H = lo; beamCut++; }
+  }
   const tallSpans = {};
   for (const r of allRuns) tallSpans[r.id] = items[r.id].filter(m => TALL.has(m.t)).map(m => [m.u, m.u + m.w]);
   const upper = [], hoods = [];
@@ -736,14 +870,30 @@ function computeModel(S) {
     let uiv = [[r.id === 'A' ? 0 : UPD, r.len]];
     for (const [s, e] of tallSpans[r.id]) uiv = cut(uiv, s, e);
     for (const x of winsOnRun(r)) if (x.f.sill < upY0 + upH && x.f.sill + x.f.h > upY0) uiv = cut(uiv, x.a - 2, x.b + 2);
-    for (const x of blocksOnRun(r)) if (x.f.t === 'column' || x.f.h > upY0) uiv = cut(uiv, x.a - 3, x.b + 3);
+    for (const x of onRun(r, doors)) if (x.f.h > upY0) uiv = cut(uiv, x.a - 3, x.b + 3);
+    /* a pilaster up to 20 cm deep hides behind shallower wall units; deeper ones are left standing between them */
+    const upSoft = [], splits = [];
+    for (const o of obs[r.id]) {
+      if (o.kind === 'rad') continue;
+      if (o.kind === 'shallow' && o.d <= UPD - 15) { upSoft.push(o); splits.push(o.a, o.b); }
+      else if (o.v0 < UPD) uiv = cut(uiv, o.a, o.b);
+    }
+    const bo = beamsOn(r, UPD);
+    for (const x of bo) splits.push(x.a, x.b);
     if (hb && hoodEff === 'wall') uiv = cut(uiv, hobSpan[0], hobSpan[1]);
-    for (const [s, e] of uiv) {
-      const g = e - s; if (g < 15) continue;
-      let k = Math.max(1, Math.round(g / 60)); while (g / k > 80) k++;
-      for (let i = 0; i < k; i++) {
-        const u = s + (i * g) / k, w = g / k;
-        upper.push({ r, u, w, y0: upY0, h: upH, hood: hoodEff === 'builtin' && hobSpan && overlap(u, u + w, hobSpan[0], hobSpan[1]) });
+    for (const [s0, e0] of uiv) {
+      if (e0 - s0 < 15) continue;
+      for (const [s, e] of splitAt(s0, e0, splits)) {
+        const g = e - s, mid = (s + e) / 2;
+        const yTop = bo.filter(x => mid > x.a && mid < x.b).reduce((y, x) => Math.min(y, x.y), upY0 + upH), h = Math.min(upH, yTop - upY0);
+        if (h < 25) continue;
+        const sh = upSoft.filter(o => overlap(s, e, o.a, o.b)).reduce((m, o) => Math.max(m, o.d), 0);
+        let k = Math.max(1, Math.round(g / 60)); while (g / k > 80) k++;
+        for (let i = 0; i < k; i++) {
+          const u = s + (i * g) / k, w = g / k;
+          upper.push({ r, u, w, y0: upY0, h, sh, hood: hoodEff === 'builtin' && hobSpan && overlap(u, u + w, hobSpan[0], hobSpan[1]) });
+        }
+        if (h < upH - 0.5) beamCut++;
       }
     }
   }
@@ -765,30 +915,69 @@ function computeModel(S) {
     const cs = r.id === 'A' ? 0 : D;
     let ivs = [[cs, r.len]];
     for (const [s, e] of tallSpans[r.id]) ivs = cut(ivs, s, e);
+    /* columns the worktop has to go round: full-depth ones split it, the rest become notches */
+    const nts = [];
+    for (const f of cols) {
+      const q = toRun(r, featRect(f, RW, RD, 0));
+      if (!overlap(q.u0, q.u1, cs, r.len) || !overlap(q.v0, q.v1, 0, D)) continue;
+      if (q.v0 < 0.5 && q.v1 > D - 0.5) { ivs = cut(ivs, q.u0, q.u1); continue; }
+      nts.push({ u0: q.u0, u1: q.u1, v0: Math.max(0, q.v0), v1: Math.min(D, q.v1) });
+    }
+    const vents = softOf(r).filter(o => o.kind === 'rad');
     for (const [s, e] of ivs) {
       if (e - s < 1) continue;
-      pieces.push({ r, s, e, d: D, top: TOP, cuts: cutsFor(r, items[r.id], s, e), exS: Math.abs(s - cs) < 0.1 && r.id === 'A' && r.os, exE: Math.abs(e - r.len) < 0.1 && r.oe, mat: S.stone.main });
+      const cuts = cutsFor(r, items[r.id], s, e);
+      /* warm air from a radiator under the worktop needs a slot in the stone behind the cabinets */
+      for (const o of vents) {
+        const a = Math.max(o.a, s) + 5, b = Math.min(o.b, e) - 5; if (b - a < 20) continue;
+        const w = Math.min(b - a, 80), uc = (a + b) / 2;
+        if (cuts.some(k => overlap(uc - w / 2 - 5, uc + w / 2 + 5, k.uc - k.w / 2, k.uc + k.w / 2))) continue;
+        cuts.push({ kind: 'vent', uc, vc: o.d + 5, w, d: 5 });
+      }
+      const notch = nts.filter(n => overlap(n.u0, n.u1, s, e)).map(n => ({ ...n, u0: Math.max(n.u0, s), u1: Math.min(n.u1, e) }));
+      pieces.push({ r, s, e, d: D, top: TOP, cuts, notch, exS: Math.abs(s - cs) < 0.1 && r.id === 'A' && r.os, exE: Math.abs(e - r.len) < 0.1 && r.oe, mat: S.stone.main });
     }
   }
   const islKey = S.stone.islMat || S.stone.main, bsKey = S.stone.bsMat || S.stone.main;
   let islPiece = null;
   if (isl) islPiece = { x0: isl.x0, x1: isl.x1, z0: isl.zk, z1: isl.z1, top: isl.top, cuts: cutsFor(islRun, items.I, 0, islRun.len), mat: islKey };
   for (const p of pieces) for (const k of p.cuts) {
+    if (k.kind === 'vent') continue;
     const half = k.w / 2;
     if (k.uc - half - p.s < 5 || p.e - (k.uc + half) < 5) W('warn', 5, `${k.kind === 'sink' ? 'ნიჟარის' : 'ქურის'} ამონაჭერი ქვის ნაჭრის ბოლოსთან 5 სმ-ზე ახლოსაა — ქვა შეიძლება გასკდეს.`);
   }
 
   /* ---- backsplash ---- */
   const bs = [];
-  const bsMatT = thickOpts(mat(bsKey)).includes(tmm) ? tmm : defaultThick(mat(bsKey));
+  const bsMatT = thickOpts(mat(bsKey)).includes(tmm) ? tmm : defaultThick(mat(bsKey)), bt = bsMatT / 10;
+  let clad = 0;
   if (S.stone.bs !== 'none') {
     for (const r of runs) {
       if (!r.wall) continue;
-      let ivs = [[r.id === 'A' ? 0 : bsMatT / 10, r.len]];
+      let ivs = [[r.id === 'A' ? 0 : bt, r.len]];
       for (const [s, e] of tallSpans[r.id]) ivs = cut(ivs, s, e);
       const wrs = winsOnRun(r);
-      for (const x of blocksOnRun(r)) ivs = cut(ivs, x.a, x.b);
+      for (const x of onRun(r, doors)) ivs = cut(ivs, x.a, x.b);
       const ups = upper.filter(x => x.r === r);
+      /* pilasters that show above the worktop are wrapped in the backsplash stone: front face and visible sides */
+      for (const o of obs[r.id]) {
+        if (o.kind === 'rad' || o.v0 > 0.5 || o.v1 > D - 0.5) continue;
+        /* a column standing in the A/B corner is clad once, from A */
+        if (r.id !== 'A' && r.cs && featRect(o.f, RW, RD, 0).z0 < 0.5) { ivs = cut(ivs, o.a, o.b); continue; }
+        const cont = upOn && S.up.type !== 'shelves' && o.kind === 'shallow' && o.d <= UPD - 15 && ups.some(x => overlap(x.u, x.u + x.w, o.a, o.b));
+        for (const [s, e] of ivs) {
+          const a = Math.max(o.a, s), b = Math.min(o.b, e); if (b - a < 0.5) continue;
+          let h = S.stone.bs === 'strip' ? 10 : cont ? S.up.gap : S.stone.bs === 'ceil' ? RH - TOP : upOn ? Math.min(RH, upY0 + upH) - TOP : 60;
+          for (const x of wrs) if (overlap(a, b, x.a, x.b)) h = Math.min(h, Math.max(0, x.f.sill - TOP));
+          if (h < 0.5) continue;
+          const sa = a > s + 0.5, sb = b < e - 0.5;
+          bs.push({ r, s: a - (sa ? bt : 0), e: b + (sb ? bt : 0), h, v0: o.d, v1: o.d + bt, L: b - a + (sa ? bt : 0) + (sb ? bt : 0) });
+          if (sa) bs.push({ r, s: a - bt, e: a, h, v0: 0, v1: o.d, L: o.d });
+          if (sb) bs.push({ r, s: b, e: b + bt, h, v0: 0, v1: o.d, L: o.d });
+          clad++;
+        }
+        ivs = cut(ivs, o.a, o.b);
+      }
       for (const [s, e] of ivs) {
         const pts = new Set([s, e]);
         for (const x of wrs) { pts.add(clamp(x.a, s, e)); pts.add(clamp(x.b, s, e)); }
@@ -799,7 +988,7 @@ function computeModel(S) {
           const mid = (p + q) / 2;
           let h = S.stone.bs === 'strip' ? 10 : S.stone.bs === 'upper' ? (upOn ? S.up.gap : 60) : (ups.some(x => mid > x.u && mid < x.u + x.w) || (upOn && r.id !== 'A' && mid < UPD)) ? S.up.gap : RH - TOP;
           for (const x of wrs) if (mid > x.a && mid < x.b) h = Math.min(h, Math.max(0, x.f.sill - TOP));
-          if (h > 0.5) bs.push({ r, s: p, e: q, h });
+          if (h > 0.5) bs.push({ r, s: p, e: q, h, v0: 0, v1: bt, L: q - p });
         }
       }
     }
@@ -807,7 +996,7 @@ function computeModel(S) {
   }
 
   /* ---- quantities ---- */
-  const q = { ct: 0, isl: 0, wf: 0, bs: 0, apron: 0, edge: 0, wfN: 0, cuts: { sink: 0, hob: 0, tap: 0, drain: 0 } };
+  const q = { ct: 0, isl: 0, wf: 0, bs: 0, apron: 0, edge: 0, wfN: 0, cuts: { sink: 0, hob: 0, tap: 0, drain: 0, notch: 0, vent: 0 } };
   const apronH = S.stone.edge === 'miter' ? Math.max(0, vis - t) : 0;
   const packList = new Map();
   const addPk = (key, Lc, Wc, kind) => { if (Lc < 1 || Wc < 1) return; if (!packList.has(key)) packList.set(key, []); packList.get(key).push({ L: Lc, W: Wc, kind }); };
@@ -827,12 +1016,14 @@ function computeModel(S) {
     q.edge += ie;
     if (apronH) { const he = 2 * isl.len + (isl.wfL ? 0 : isl.dep) + (isl.wfR ? 0 : isl.dep); q.apron += he * apronH; addPk(islKey, he, apronH, 'apron'); }
   }
-  for (const x of bs) { q.bs += (x.e - x.s) * x.h; addPk(bsKey, x.e - x.s, x.h, 'bs'); }
+  for (const x of bs) { q.bs += x.L * x.h; addPk(bsKey, x.L, x.h, 'bs'); }
   const allCuts = [...pieces.flatMap(p => p.cuts), ...(islPiece ? islPiece.cuts : [])];
   q.cuts.sink = allCuts.filter(k => k.kind === 'sink').length;
   q.cuts.hob = allCuts.filter(k => k.kind === 'hob').length;
   q.cuts.tap = q.cuts.sink;
   q.cuts.drain = S.sink.drain !== 'none' && S.sink.mount !== 'top' ? q.cuts.sink : 0;
+  q.cuts.notch = pieces.reduce((n, p) => n + p.notch.length, 0);
+  q.cuts.vent = allCuts.filter(k => k.kind === 'vent').length;
   for (const k of ['ct', 'isl', 'wf', 'bs', 'apron']) q[k] /= 1e4;
   q.edge /= 100;
   q.total = q.ct + q.isl + q.wf + q.bs + q.apron;
@@ -875,8 +1066,35 @@ function computeModel(S) {
   /* ---- conflicts with doors and columns, distance to plumbing ---- */
   const footprints = runs.map(r => { const p = wp(r, 0, 0), q2 = wp(r, r.len, D); return { name: RUN_NAME[r.id], x0: Math.min(p.x, q2.x), x1: Math.max(p.x, q2.x), z0: Math.min(p.z, q2.z), z1: Math.max(p.z, q2.z) }; });
   if (isl) footprints.push({ name: 'კუნძული', x0: isl.x0, x1: isl.x1, z0: isl.zk, z1: isl.z1 });
+  if (isl) for (const f of cols) if (rectHit({ x0: isl.x0, x1: isl.x1, z0: isl.zk, z1: isl.z1 }, featRect(f, RW, RD, 0))) W('error', 2, `კუნძული კოლონას კვეთს (${WALLS[f.wall]} კედელი, ${f.x} სმ) — გადაანაცვლე ან შეამოკლე.`);
+  for (const r of runs) for (const o of obs[r.id]) {
+    const nm = RUN_NAME[r.id];
+    const inFront = items[r.id].some(m => !TALL.has(m.t) && overlap(m.u, m.u + m.w, o.a, o.b));
+    if (o.kind === 'shallow' && inFront) builtIn.push(`${nm}: კოლონა (${r1(o.b - o.a)}×${r1(o.d)} სმ) ჩაშენდა — წინ ${r1(CD - o.d)} სმ სიღრმის კარადა დგას, ზედაპირი კოლონას შემოუვლის${S.stone.bs !== 'none' ? ', ზემოთ ქვით მოპირკეთდა' : ''}.`);
+    else if (o.kind === 'box' || o.kind === 'shallow') {
+      const it = items[r.id].find(m => m.t === 'colbox' && overlap(m.u, m.u + m.w, o.a, o.b));
+      if (it) builtIn.push(`${nm}: ღრმა კოლონა (${r1(o.v1 - o.v0)} სმ) ფასადის პანელით შეიფუთა — ${r1(it.w)} სმ მაღალი ${it.open ? 'კარადაა, წინ თაროებით' : 'სვეტია'}, სამზარეულო არ დამოკლებულა.`);
+      else if (o.b <= r.u0 + 0.5 || o.a >= r.u1 - 0.5) builtIn.push(`კუთხის კოლონა — ზედაპირი მას შემოუვლის${S.stone.bs !== 'none' ? ', ზემოთ ქვით მოპირკეთდა' : ''}.`);
+    } else builtIn.push(`${nm}: რადიატორის წინ შემცირებული სიღრმის კარადაა, ცოკოლში ცხაური, ზედაპირში სავენტილაციო ღრიჭო.`);
+    if (o.kind === 'rad') for (const m of items[r.id]) if (['dw', 'oven', 'fridge', 'fridgeFS', 'ovenTall'].includes(m.t) && m.u < o.b + 10 && m.u + m.w > o.a - 10) { W('warn', 3, `${MODTYPES[m.t]?.l || m.t} რადიატორთან დგას — სითბო ტექნიკას აზიანებს. გადაიტანე ან რადიატორი სხვაგან განათავსე.`); break; }
+  }
+  if (beamCut) builtIn.push('კოჭის ქვეშ ზედა და მაღალი კარადები კოჭამდე დაბლდა — ერთ ხაზზე დგას.');
+  {
+    const hr = allRuns.find(r => r.id === hobRun), hbI = hr && items[hr.id].find(m => m.t === 'hob' || m.t === 'oven'), hc = hbI ? hbI.u + hbI.w / 2 : 0;
+    if (hbI && S.hob.type === 'gas' && gases.length) {
+      const gu = ptOnRun(hr, gases);
+      if (gu == null) W('info', 3, 'ქურა გაზის წერტილის კედელზე არ დგას — გაზის მილის გადატანა დაგჭირდება (მხოლოდ ლიცენზირებული ხელოსანი).');
+      else if (Math.abs(hc - gu) > 100) W('info', 3, `ქურა გაზის წერტილიდან ${Math.round(Math.abs(hc - gu))} სმ-ზეა — მილის გაგრძელება დაგჭირდება.`);
+      else builtIn.push('გაზის ქურა გაზის წერტილთან დგას.');
+    }
+    if (hbI && (hoodEff === 'wall' || hoodEff === 'builtin') && vents.length) {
+      const vu = ptOnRun(hr, vents);
+      if (vu == null) W('info', 3, 'გამწოვი სავენტილაციო არხის კედელზე არ არის — დაგჭირდება გრძელი სადინარი ან რეცირკულაციის ფილტრი.');
+      else if (Math.abs(hc - vu) > 150) W('info', 3, `გამწოვიდან არხამდე ${Math.round(Math.abs(hc - vu))} სმ-ია — 150 სმ-ზე გრძელი სადინარი წევას ამცირებს.`);
+      else builtIn.push('გამწოვი სავენტილაციო არხთან ახლოსაა — სადინარი მოკლეა.');
+    }
+  }
   for (const fp of footprints) {
-    for (const f of cols) if (rectHit(fp, featRect(f, RW, RD, 0))) W('error', 2, `${fp.name} კოლონას კვეთს (${WALLS[f.wall]} კედელი, ${f.x} სმ) — შეამოკლე ან გადაიტანე.`);
     for (const f of doors) {
       if (rectHit(fp, featRect(f, RW, RD, 12))) W('error', 2, `${fp.name} კარის ღიობს კეტავს (${WALLS[f.wall]} კედელი, ${f.x} სმ).`);
       else if (rectHit(fp, featRect(f, RW, RD, 90))) W('warn', 2, `${fp.name} კარის წინ 90 სმ-ზე ახლოსაა — კარის გაღება და გავლა გაძნელდება.`);
@@ -889,8 +1107,9 @@ function computeModel(S) {
     if (sk && waters.length && wu == null) W('info', 3, 'ნიჟარა წყლის წერტილის კედელზე არ დგას — დაგჭირდება მილის გაყვანა.');
   }
 
-  return { RW, RD, RH, D, TOP, PL, CD, t, tmm, vis, wins, doors, cols, waters, feats, runs, islRun, allRuns, isl, items, mode, upper, upOn, upH, upY0, tallH, hoods, hoodEff,
-    pieces, islPiece, bs, bsMatT, q, slabs, warns, fRun, fEnd, sinkRun, hobRun, ovenEff, winsOnRun, apronH };
+  for (const tx of new Set(builtIn)) W('info', 2, tx);
+  return { RW, RD, RH, D, TOP, PL, CD, t, tmm, vis, wins, doors, cols, waters, beams, rads, gases, vents, feats, runs, islRun, allRuns, isl, items, mode, upper, upOn, upH, upY0, tallH, hoods, hoodEff,
+    pieces, islPiece, bs, bsMatT, q, slabs, warns, fRun, fEnd, sinkRun, hobRun, ovenEff, winsOnRun, apronH, obs, SH, builtIn: [...new Set(builtIn)], clad };
 }
 
 /* ================= quick mode: room sketch → kitchen by best practice ================= */
@@ -899,13 +1118,15 @@ function autoDesign(S) {
   const notes = [], ok = text => notes.push({ level: 'ok', text });
   const RW = S.room.w, RD = S.room.d, D = S.base.depth, TOP = S.base.top;
   const feats = S.feats || [];
-  /* 1. what blocks a 60-cm cabinet strip along each wall */
+  /* 1. what blocks a 60-cm cabinet strip along each wall. Columns do not: the kitchen is built round them
+        (shallow → notched, deep → wrapped in a panel box). Only a column sticking out more than 30 cm past the worktop does. */
   const blockers = [];
   for (const f of feats) {
     if (f.t === 'door') blockers.push({ ...featRect({ ...f, x: f.x - 10, w: f.w + 20 }, RW, RD, 100), f });
-    if (f.t === 'column') blockers.push({ ...featRect(f, RW, RD, 0), f });
+    if (f.t === 'column' && f.d > D + 30) blockers.push({ ...featRect(f, RW, RD, 0), f });
     if (f.t === 'window' && f.sill < TOP + 3) blockers.push({ ...featRect({ ...f, t: 'column', d: D + 1 }, RW, RD, 0), f });
   }
+  const pin = S.sk.pin || {}, PINW = ['sink', 'hob', 'fridge'].map(k => pin[k]?.wall).filter(Boolean);
   const strip = { back: { x0: 0, x1: RW, z0: 0, z1: D }, left: { x0: 0, x1: D, z0: 0, z1: RD }, right: { x0: RW - D, x1: RW, z0: 0, z1: RD } };
   const touched = new Set();
   function free(wall) {
@@ -934,8 +1155,14 @@ function autoDesign(S) {
   for (const k of cands) {
     k.total = k.a + (k.b ? k.b - D : 0) + (k.c ? k.c - D : 0);
     k.score = 600 - Math.abs(k.total - 600) * 0.6 + (k.type === 'L' ? 40 : k.type === 'U' ? (RW - 2 * D >= 140 ? 10 : -60) : 0);
+    const covers = w => w === 'back' || (w === 'left' && (k.corner === 'left' || k.type === 'U')) || (w === 'right' && (k.corner === 'right' || k.type === 'U'));
     const wf = feats.find(f => f.t === 'water');
-    if (wf && (wf.wall === 'back' || (wf.wall === 'left' && (k.corner === 'left' || k.type === 'U')) || (wf.wall === 'right' && (k.corner === 'right' || k.type === 'U')))) k.score += 50;
+    if (wf && covers(wf.wall)) k.score += 50;
+    const gf = S.hob.type === 'gas' && feats.find(f => f.t === 'gas');
+    if (gf && covers(gf.wall)) k.score += 25;
+    const vf = feats.find(f => f.t === 'vent');
+    if (vf && covers(vf.wall)) k.score += 15;
+    for (const w of PINW) if (w !== 'isl' && covers(w)) k.score += 60;
   }
   cands.sort((x, y) => y.score - x.score);
   const best = cands[0];
@@ -946,7 +1173,7 @@ function autoDesign(S) {
   S.lay = { ...S.lay, type: best.type, corner: best.corner || 'left', a: Math.round(best.a), b: Math.round(best.b || S.lay.b), c: Math.round(best.c || S.lay.c), off: Math.round(best.off || 0) };
   const shape = { I: 'სწორი', L: 'კუთხის (L)', U: 'სამმხრივი (U)' }[best.type];
   ok(`ფორმა: ${shape} — A ${S.lay.a} სმ${best.type !== 'I' ? `, B ${S.lay.b} სმ` : ''}${best.type === 'U' ? `, C ${S.lay.c} სმ` : ''}. ${best.type === 'L' ? 'კუთხე სრულად გამოიყენება და სამუშაო სამკუთხედი მოკლეა.' : best.type === 'U' ? 'U ყველაზე მეტ სამუშაო ზედაპირს იძლევა.' : 'თავისუფალი კედელი სწორ რიგს ერგება.'}`);
-  if (touched.size) ok('კარის წინ 100 სმ, კოლონები და დაბალი ფანჯრები გვერდზე ავუარეთ.');
+  if (touched.size) ok('კარის წინ 100 სმ და დაბალი ფანჯრები გვერდზე ავუარეთ.');
 
   /* 3. island: 110 cm aisle, 90 cm walkway behind, 100 cm from a side leg */
   let isl = { on: false };
@@ -966,44 +1193,86 @@ function autoDesign(S) {
   } else if (S.sk.isl === 'yes' && best.type === 'U') notes.push({ level: 'warn', text: 'U-ფორმაში კუნძული არ ჩავსვით — შუა გასასვლელი ძალიან ვიწრო გახდებოდა.' });
   S.isl = { ...S.isl, ...isl };
 
-  /* 4. appliances */
+  /* 4. appliances, sized for the household */
+  const fam = S.sk.family || 'mid';
   S.mods = { A: null, B: null, C: null, I: null };
   S.sink.pos = null; S.hob.pos = null; S.oven = 'under'; S.hood = 'wall';
-  if (S.fridge.type === 'none') S.fridge.type = 'builtin';
+  S.sink.bowls = fam === 'large' ? '1.5' : '1';
+  S.hob.w = fam === 'large' ? (S.hob.type === 'gas' ? 90 : 80) : 60;
+  S.fridge.type = fam === 'large' ? 'freestanding' : 'builtin';
   let M = computeModel(S);
   const runs = M.runs, usable = r => r.u1 - r.u0, onWall = w => runs.find(r => r.wall === w);
+  /* a pin is where the user dragged an appliance on the sketch; it wins over every rule below */
+  const pinOn = p => {
+    if (!p) return null;
+    if (p.wall === 'isl') return M.islRun ? { r: M.islRun, u: clamp(p.x, M.islRun.u0, M.islRun.u1) } : null;
+    const r = onWall(p.wall); if (!r) return null;
+    const u = p.wall === 'back' ? p.x - r.ox : p.x - r.oz;
+    return u >= -40 && u <= r.len + 40 ? { r, u: clamp(u, r.u0, r.u1) } : null;
+  };
+  for (const k of ['sink', 'hob', 'fridge']) if (pin[k] && !pinOn(pin[k])) notes.push({ level: 'warn', text: `${{ sink: 'ნიჟარის', hob: 'ქურის', fridge: 'მაცივრის' }[k]} მითითებული ადგილი ამ განლაგებაში აღარ არის — დავსვით ავტომატურად.` });
+  const ptU = (f, r) => (r.wall === 'back' ? f.x - r.ox : f.x - r.oz);
   const water = feats.find(f => f.t === 'water' && onWall(f.wall));
   let sinkRun = 'A', why = 'მთავარ კედელზე';
-  if (water) { const r = onWall(water.wall), u = r.wall === 'back' ? water.x - r.ox : water.x - r.oz; if (u >= 0 && u <= r.len) { sinkRun = r.id; S.sink.pos = Math.round(clamp(u, r.u0 + 30, r.u1 - 30)); why = 'წყლის წერტილთან — მილების გადატანა არ დასჭირდება'; } }
+  const ps = pinOn(pin.sink);
+  if (ps) { sinkRun = ps.r.id; S.sink.pos = Math.round(ps.u); why = 'იქ, სადაც გადაიტანე'; }
+  else if (water) { const r = onWall(water.wall), u = ptU(water, r); if (u >= 0 && u <= r.len) { sinkRun = r.id; S.sink.pos = Math.round(clamp(u, r.u0 + 30, r.u1 - 30)); why = 'წყლის წერტილთან — მილების გადატანა არ დასჭირდება'; } }
   if (why === 'მთავარ კედელზე') {
     const r = runs.find(x => M.winsOnRun(x).some(w => w.f.sill >= TOP + 3 && overlap(w.a, w.b, x.u0 + 30, x.u1 - 30)));
     if (r) { sinkRun = r.id; why = 'ფანჯრის ქვეშ — დღის სინათლე სამუშაო ადგილზე'; }
   }
   S.sink.run = sinkRun;
   const other = runs.filter(r => r.id !== sinkRun).sort((x, y) => usable(y) - usable(x))[0];
-  const hobRun = other && usable(other) >= 100 ? other.id : sinkRun;
+  let hobRun = other && usable(other) >= 100 ? other.id : sinkRun, hobWhy = '';
+  const gas = S.hob.type === 'gas' && feats.find(f => f.t === 'gas' && onWall(f.wall)), vent = feats.find(f => f.t === 'vent' && onWall(f.wall));
+  const svc = gas || vent;
+  if (svc) { const r = onWall(svc.wall); if (r.id !== sinkRun ? usable(r) >= 100 : usable(r) >= 200) { hobRun = r.id; hobWhy = gas ? ' — გაზის წერტილთან' : ' — სავენტილაციო არხთან'; } }
+  const ph = pinOn(pin.hob);
+  if (ph) { hobRun = ph.r.id; S.hob.pos = Math.round(ph.u); hobWhy = ' — იქ, სადაც გადაიტანე'; }
   S.hob.run = hobRun;
 
   const doorF = feats.find(f => f.t === 'door');
   const ends = [];
   for (const r of runs) { if (!r.cs) ends.push({ run: r.id, end: 'start', p: wp(r, r.u0, D / 2) }); if (!r.ce) ends.push({ run: r.id, end: 'end', p: wp(r, r.u1, D / 2) }); }
-  if (doorF) { const dr = featRect(doorF, RW, RD, 0), dc = { x: (dr.x0 + dr.x1) / 2, z: (dr.z0 + dr.z1) / 2 }; ends.sort((a, b) => Math.hypot(a.p.x - dc.x, a.p.z - dc.z) - Math.hypot(b.p.x - dc.x, b.p.z - dc.z)); }
+  const pf = pinOn(pin.fridge);
+  const near = c => (a, b) => Math.hypot(a.p.x - c.x, a.p.z - c.z) - Math.hypot(b.p.x - c.x, b.p.z - c.z);
+  if (pf) ends.sort(near(wp(pf.r, pf.u, D / 2)));
+  else if (doorF) { const dr = featRect(doorF, RW, RD, 0); ends.sort(near({ x: (dr.x0 + dr.x1) / 2, z: (dr.z0 + dr.z1) / 2 })); }
   else ends.sort((a, b) => (a.run === hobRun) - (b.run === hobRun));
+  const pans = fam === 'small' ? [0] : fam === 'large' ? [2, 1, 0] : [1, 0];
+  /* try fridge end × tall cupboards × dishwasher side (× the other hob run) and keep the first plan a designer
+     would sign off: no errors and no ergonomic warnings; otherwise the least-bad one. Pantry goes before the dishwasher. */
+  const hobOpts = [hobRun];
+  if (!ph) { const alt = hobRun !== sinkRun ? sinkRun : other && usable(other) >= 75 ? other.id : null; if (alt) hobOpts.push(alt); }
   const tries = [];
-  for (const e of ends) for (const pan of [1, 0]) for (const dw of ['right', 'left', 'none']) tries.push({ pan, e, dw });
-  let chosen = null;
-  for (const t of tries) {
-    const r = runs.find(x => x.id === t.e.run);
-    const need = 60 * (1 + t.pan) + (r.id === sinkRun ? 120 : 0) + (r.id === hobRun ? 90 : 0);
-    if (t.pan && usable(r) - need < 120) continue;
-    S.pantry = t.pan; S.fridge.run = t.e.run; S.fridge.end = t.e.end; S.dw = t.dw;
-    M = computeModel(S);
-    if (!M.warns.some(w => w.level === 'error' && (w.step === 3 || w.step === 2))) { chosen = t; break; }
+  for (const h of hobOpts) {
+    for (const e of ends) for (const pan of pans) for (const dw of ['right', 'left']) tries.push({ h, pan, e, dw });
+    for (const e of ends) for (const pan of pans) tries.push({ h, pan, e, dw: 'none' });
   }
-  if (!chosen) { S.pantry = 0; S.dw = 'right'; if (ends[0]) { S.fridge.run = ends[0].run; S.fridge.end = ends[0].end; } }
-  ok(`ნიჟარა: ${RUN_NAME[sinkRun]} — ${why}${S.dw !== 'none' ? ', გვერდით ჭურჭლის სარეცხი' : ''}.`);
-  ok(hobRun !== sinkRun ? `ქურა: ${RUN_NAME[hobRun]} მონაკვეთზე, ნიჟარისგან ცალკე — მოკლე სამუშაო სამკუთხედი.` : 'ქურა ნიჟარის რიგზეა, მისგან ~120 სმ-ზე, შუაში სამუშაო ზედაპირით.');
-  if (chosen) ok(`მაცივარი${S.pantry ? ' და მაღალი კარადა' : ''}: ${RUN_NAME[S.fridge.run]} მონაკვეთის ბოლოში${doorF ? ' — შესასვლელთან ახლოს' : ''}.`);
+  let chosen = null, pick = null;
+  for (let i = 0; i < tries.length && i < 80; i++) {
+    const t = tries[i], r = runs.find(x => x.id === t.e.run);
+    const need = (S.fridge.type === 'freestanding' ? 75 : 60) + 60 * t.pan + (r.id === sinkRun ? 120 : 0) + (r.id === t.h ? 90 : 0);
+    if (t.pan && usable(r) - need < 120) continue;
+    S.pantry = t.pan; S.fridge.run = t.e.run; S.fridge.end = t.e.end; S.dw = t.dw; S.hob.run = t.h;
+    M = computeModel(S);
+    const errs = M.warns.filter(w => w.level === 'error' && w.step >= 2 && w.step <= 4).length, wrn = M.warns.filter(w => w.level === 'warn' && (w.step === 3 || w.step === 5)).length;
+    const sc = errs * 1000 + wrn * 10 + i * 0.01;
+    if (!pick || sc < pick.sc) pick = { t, sc };
+    if (!errs && !wrn) break;
+  }
+  if (pick) { const t = pick.t; S.pantry = t.pan; S.fridge.run = t.e.run; S.fridge.end = t.e.end; S.dw = t.dw; S.hob.run = t.h; if (pick.sc < 1000) chosen = t; }
+  else { S.pantry = 0; S.dw = 'right'; if (ends[0]) { S.fridge.run = ends[0].run; S.fridge.end = ends[0].end; } }
+  if (S.hob.run !== hobRun) { hobRun = S.hob.run; hobWhy = ''; }
+  /* say honestly where the sink ended up relative to the water point */
+  M = computeModel(S);
+  if (water && !ps) {
+    const sr = M.allRuns.find(r => r.id === M.sinkRun), sk = sr && M.items[sr.id].find(m => m.t === 'sink');
+    if (sk && sr.wall === water.wall) { const dd = Math.round(Math.abs(sk.u + sk.w / 2 - ptU(water, sr))); if (dd > 60) why = `წყლის წერტილის კედელზე, მისგან ${dd} სმ-ში — უფრო ახლოს არ ეტეოდა, მილი გაგრძელდება`; }
+  }
+  ok(`ნიჟარა${S.sink.bowls === '1.5' ? ' (1½ ჯამი)' : ''}: ${RUN_NAME[sinkRun]} — ${why}${S.dw !== 'none' ? ', გვერდით ჭურჭლის სარეცხი' : ''}.`);
+  ok(`ქურა ${S.hob.w} სმ: ${hobRun !== sinkRun ? `${RUN_NAME[hobRun]} მონაკვეთზე, ნიჟარისგან ცალკე${hobWhy || ' — მოკლე სამუშაო სამკუთხედი'}` : `ნიჟარის რიგზე, მისგან ~120 სმ-ზე${hobWhy}`}.`);
+  if (chosen) ok(`${S.fridge.type === 'freestanding' ? 'დიდი მაცივარი (75 სმ)' : 'ჩაშენებული მაცივარი'}${S.pantry ? ` და ${S.pantry} მაღალი კარადა` : ''}: ${RUN_NAME[S.fridge.run]} მონაკვეთის ბოლოში${pf ? ' — სადაც მიუთითე' : doorF ? ' — შესასვლელთან ახლოს' : ''}.`);
   return notes;
 }
 /* turn the room 90° so the wall that was on the left becomes the main (back) wall */
@@ -1016,6 +1285,7 @@ function rotateRoom(S) {
     return g;
   });
   const wa = S.sk.walls; S.sk.walls = { back: wa.left, right: wa.back, left: true };
+  for (const k of ['sink', 'hob', 'fridge']) { const p = S.sk.pin?.[k]; if (!p || p.wall === 'isl') { if (p) S.sk.pin[k] = null; continue; } const g = { wall: map[p.wall], x: p.x }; if (p.wall === 'left' || p.wall === 'right') g.x = Math.max(0, D0 - p.x); S.sk.pin[k] = g.wall === 'front' ? null : g; }
   S.room.w = D0; S.room.d = W0;
 }
 
@@ -1274,8 +1544,49 @@ function roundRect(path, x, y, w, h, r) {
   path.lineTo(x + w, y + h - r); path.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
   path.lineTo(x + r, y + h); path.quadraticCurveTo(x, y + h, x, y + h - r); path.lineTo(x, y + r); path.quadraticCurveTo(x, y, x + r, y);
 }
-function slabGeo(x0, x1, z0, z1, y0, thick, holes) {
-  const sh = new T.Shape(); sh.moveTo(x0, -z0); sh.lineTo(x1, -z0); sh.lineTo(x1, -z1); sh.lineTo(x0, -z1); sh.closePath();
+/* outline(s) of a rectangle with rectangular bites taken out — a worktop notched round columns.
+   Grid cells between all edges, boundary edges walked with the solid on one side, collinear points dropped. */
+function rectMinus(x0, x1, z0, z1, bites) {
+  const uniq = a => [...new Set(a.map(v => Math.round(v * 100) / 100))].sort((p, q) => p - q);
+  const xs = uniq([x0, x1, ...bites.flatMap(c => [clamp(c.x0, x0, x1), clamp(c.x1, x0, x1)])]);
+  const zs = uniq([z0, z1, ...bites.flatMap(c => [clamp(c.z0, z0, z1), clamp(c.z1, z0, z1)])]);
+  const nx = xs.length - 1, nz = zs.length - 1;
+  const solid = (i, j) => {
+    if (i < 0 || j < 0 || i >= nx || j >= nz) return false;
+    const cx = (xs[i] + xs[i + 1]) / 2, cz = (zs[j] + zs[j + 1]) / 2;
+    return !bites.some(c => cx > c.x0 && cx < c.x1 && cz > c.z0 && cz < c.z1);
+  };
+  const next = new Map(), key = p => p[0] + ',' + p[1];
+  const add = (a, b) => { const k = key(a); if (!next.has(k)) next.set(k, []); next.get(k).push(b); };
+  for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) {
+    if (!solid(i, j)) continue;
+    const X0 = xs[i], X1 = xs[i + 1], Z0 = zs[j], Z1 = zs[j + 1];
+    if (!solid(i, j - 1)) add([X0, Z0], [X1, Z0]);
+    if (!solid(i + 1, j)) add([X1, Z0], [X1, Z1]);
+    if (!solid(i, j + 1)) add([X1, Z1], [X0, Z1]);
+    if (!solid(i - 1, j)) add([X0, Z1], [X0, Z0]);
+  }
+  const loops = [];
+  for (const [k0, list] of next) {
+    while (list.length) {
+      const start = k0.split(',').map(Number), loop = [start];
+      let cur = list.pop(), guard = 0;
+      while (key(cur) !== k0 && guard++ < 4000) { loop.push(cur); const nl = next.get(key(cur)); if (!nl || !nl.length) break; cur = nl.pop(); }
+      const pts = loop.filter((p, i) => { const a = loop[(i - 1 + loop.length) % loop.length], b = loop[(i + 1) % loop.length]; return Math.abs((p[0] - a[0]) * (b[1] - p[1]) - (p[1] - a[1]) * (b[0] - p[0])) > 1e-6; });
+      if (pts.length >= 3) loops.push(pts);
+    }
+  }
+  const area = l => l.reduce((s, p, i) => { const q = l[(i + 1) % l.length]; return s + p[0] * q[1] - q[0] * p[1]; }, 0) / 2;
+  return loops.sort((a, b) => Math.abs(area(b)) - Math.abs(area(a)));
+}
+function slabGeo(x0, x1, z0, z1, y0, thick, holes, bites) {
+  const sh = new T.Shape();
+  const loops = bites && bites.length ? rectMinus(x0, x1, z0, z1, bites) : null;
+  if (loops && loops.length) {
+    const trace = (path, l) => { path.moveTo(l[0][0], -l[0][1]); for (const p of l.slice(1)) path.lineTo(p[0], -p[1]); path.closePath(); };
+    trace(sh, loops[0]);
+    for (const l of loops.slice(1)) { const p = new T.Path(); trace(p, l); sh.holes.push(p); }
+  } else { sh.moveTo(x0, -z0); sh.lineTo(x1, -z0); sh.lineTo(x1, -z1); sh.lineTo(x0, -z1); sh.closePath(); }
   for (const h of holes) { const p = new T.Path(); roundRect(p, h.x0, -h.z1, h.x1 - h.x0, h.z1 - h.z0, h.r ?? 1.5); sh.holes.push(p); }
   const g = new T.ExtrudeGeometry(sh, { depth: thick, bevelEnabled: false, curveSegments: 6 });
   g.rotateX(-Math.PI / 2); g.translate(0, y0, 0); return g;
@@ -1361,8 +1672,18 @@ function buildRoom(g, M) {
     }
     if (len + TH - cur > 0.1) grp.add(mesh(wallBox(side, cur, len + TH, 0, RH, -TH, 0, M), wm, { cast: false }));
     for (const f of M.cols.filter(c => c.wall === side)) grp.add(mesh(wallBox(side, f.x, f.x + f.w, 0, RH, 0, f.d, M), wm));
+    for (const f of M.beams.filter(c => c.wall === side)) grp.add(mesh(wallBox(side, f.x, f.x + f.w, RH - f.h, RH, 0, f.d, M), wm));
+    for (const f of M.rads.filter(c => c.wall === side)) {
+      grp.add(mesh(wallBox(side, f.x, f.x + f.w, 12, 12 + f.h, 2, f.d, M), M_.white()));
+      for (let x = f.x + 4; x < f.x + f.w - 2; x += 6) grp.add(mesh(wallBox(side, x, x + 1.2, 14, 10 + f.h, f.d, f.d + 0.3, M), M_.groove(), { cast: false }));
+    }
+    for (const f of M.vents.filter(c => c.wall === side)) {
+      grp.add(mesh(wallBox(side, f.x - 11, f.x + 11, RH - 42, RH - 20, 0, 0.8, M), M_.white(), { cast: false }));
+      for (let y = RH - 39; y < RH - 22; y += 4) grp.add(mesh(wallBox(side, f.x - 8, f.x + 8, y, y + 1.6, 0.8, 1, M), M_.groove(), { cast: false }));
+    }
   }
   for (const f of M.cols.filter(c => c.wall === 'front')) { const r = featRect(f, RW, RD, 0); g.add(mesh(boxGeo(r.x0, r.x1, 0, RH, r.z0, r.z1), wm)); }
+  for (const f of M.beams.filter(c => c.wall === 'front')) { const r = featRect(f, RW, RD, 0); g.add(mesh(boxGeo(r.x0, r.x1, RH - f.h, RH, r.z0, r.z1), wm)); }
 }
 function wallBox(side, a, b, y0, y1, d0, d1, M) {
   if (side === 'back') return boxGeo(a, b, y0, y1, d0, d1);
@@ -1421,8 +1742,13 @@ function buildRun(g, M, r) {
   for (const m of its) {
     const u0 = m.u, u1 = m.u + m.w;
     if (TALL.has(m.t)) { buildTall(g, M, r, m, fm, plM); continue; }
-    g.add(mesh(runBox(r, u0, u1, 0, cd - 6, 0, PL), plM));
-    g.add(mesh(runBox(r, u0, u1, 0, cd - 1.8, PL, capY), fm));
+    const v0 = m.sh || 0;   /* in front of a pilaster or radiator the carcass is shallower */
+    g.add(mesh(runBox(r, u0, u1, v0, cd - 6, 0, PL), plM));
+    g.add(mesh(runBox(r, u0, u1, v0, cd - 1.8, PL, capY), fm));
+    if (m.rad) {
+      g.add(mesh(runBox(r, u0 + 4, u1 - 4, cd - 6, cd - 5.5, 2.5, PL - 2.5), M_.black(), { cast: false }));
+      for (let y = 4.5; y < PL - 3; y += 2.5) g.add(mesh(runBox(r, u0 + 4, u1 - 4, cd - 5.5, cd - 5.2, y, y + 0.9), M_.steel(), { cast: false }));
+    }
     const fy0 = PL + 0.3, fy1 = capY - topGap;
     if (gola) g.add(mesh(runBox(r, u0, u1, cd - 4, cd - 1.8, capY - 3.2, capY), M_.gola(), { cast: false }));
     const drawers = (n) => {
@@ -1454,7 +1780,16 @@ function buildRun(g, M, r) {
   }
 }
 function buildTall(g, M, r, m, fm, plM) {
-  const u0 = m.u, u1 = m.u + m.w, cd = r.cd, PL = M.PL, H = M.tallH;
+  const u0 = m.u, u1 = m.u + m.w, PL = M.PL, H = m.H ?? M.tallH;
+  if (m.t === 'colbox' && m.bd > M.D) r = { ...r, cd: m.bd - 2 };   /* a column deeper than the worktop: the box comes forward with it */
+  const cd = r.cd;
+  if (m.t === 'colbox' && !m.open) {
+    /* the column hidden behind a full-height front panel, same finish as the doors, no handle */
+    g.add(mesh(runBox(r, u0, u1, 0, cd - 6, 0, PL), plM));
+    g.add(mesh(runBox(r, u0, u1, 0, cd - 1.8, PL, H), fm));
+    addFront(g, r, u0, u1, PL + 0.3, H - 0.3, fm, { noHandle: true });
+    return;
+  }
   if (m.t === 'fridgeFS') {
     const sm = M_.steel(), hh = Math.min(185, H - 10);
     g.add(mesh(runBox(r, u0 + 1, u1 - 1, 2, cd + 4, 0, hh), sm));
@@ -1513,12 +1848,10 @@ function buildStone(g, M) {
     const holes = [];
     for (const k of p.cuts) {
       const c = cutWorld(r, k);
-      if (k.kind === 'sink' || S.hob.mount === 'flush') {
-        const hw = k.kind === 'hob' ? (r.alongX ? k.w / 2 : k.d / 2) : c.hw, hd = k.kind === 'hob' ? (r.alongX ? k.d / 2 : k.w / 2) : c.hd;
-        holes.push({ x0: c.cx - hw, x1: c.cx + hw, z0: c.cz - hd, z1: c.cz + hd, r: k.kind === 'sink' ? 2.5 : 0.6 });
-      }
+      if (k.kind === 'sink' || k.kind === 'vent' || S.hob.mount === 'flush') holes.push({ x0: c.cx - c.hw, x1: c.cx + c.hw, z0: c.cz - c.hd, z1: c.cz + c.hd, r: k.kind === 'sink' ? 2.5 : k.kind === 'vent' ? 1.2 : 0.6 });
     }
-    const geo = slabGeo(Math.min(a.x, b.x), Math.max(a.x, b.x), Math.min(a.z, b.z), Math.max(a.z, b.z), p.top - vis, vis, holes);
+    const bites = (p.notch || []).map(n => { const q1 = wp(r, n.u0, n.v0), q2 = wp(r, n.u1, n.v1); return { x0: Math.min(q1.x, q2.x), x1: Math.max(q1.x, q2.x), z0: Math.min(q1.z, q2.z), z1: Math.max(q1.z, q2.z) }; });
+    const geo = slabGeo(Math.min(a.x, b.x), Math.max(a.x, b.x), Math.min(a.z, b.z), Math.max(a.z, b.z), p.top - vis, vis, holes, bites);
     g.add(mesh(uvStone(geo, r.alongX, p.mat), stoneMat(p.mat)));
     for (const k of p.cuts) buildCutFixture(g, M, r, k, p.top, p.mat);
   }
@@ -1536,10 +1869,21 @@ function buildStone(g, M) {
     for (const k of P.cuts) buildCutFixture(g, M, r, k, P.top, P.mat);
   }
   const bsKey = S.stone.bsMat || S.stone.main, bt = M.bsMatT / 10;
-  for (const x of M.bs) g.add(mesh(uvStone(runBox(x.r, x.s, x.e, 0, bt, M.TOP, M.TOP + x.h), x.r.alongX, bsKey), stoneMat(bsKey), { cast: false }));
+  for (const x of M.bs) g.add(mesh(uvStone(runBox(x.r, x.s, x.e, x.v0 ?? 0, x.v1 ?? bt, M.TOP, M.TOP + x.h), x.r.alongX, bsKey), stoneMat(bsKey), { cast: false }));
 }
 function buildCutFixture(g, M, r, k, top, matKey) {
   const c = cutWorld(r, k), vis = M.vis, y = top - vis;
+  if (k.kind === 'vent') {
+    /* slot over a radiator: dark throat and a steel grille flush with the stone */
+    g.add(mesh(boxGeo(c.cx - c.hw, c.cx + c.hw, y - 2, y - 1.8, c.cz - c.hd, c.cz + c.hd), M_.black(), { cast: false }));
+    const n = Math.max(3, Math.round(k.w / 3));
+    for (let i = 1; i < n; i++) {
+      const f = -0.5 + i / n;
+      if (r.alongX) { const x = c.cx + f * 2 * c.hw; g.add(mesh(boxGeo(x - 0.25, x + 0.25, top - 0.6, top - 0.05, c.cz - c.hd, c.cz + c.hd), M_.steel(), { cast: false })); }
+      else { const z = c.cz + f * 2 * c.hd; g.add(mesh(boxGeo(c.cx - c.hw, c.cx + c.hw, top - 0.6, top - 0.05, z - 0.25, z + 0.25), M_.steel(), { cast: false })); }
+    }
+    return;
+  }
   if (k.kind === 'sink') {
     const bm = S.sink.mount === 'integrated' ? stoneMat(matKey) : M_.steel(), depth = 19, th = 0.8;
     const x0 = c.cx - c.hw, x1 = c.cx + c.hw, z0 = c.cz - c.hd, z1 = c.cz + c.hd, yb = y - depth;
@@ -1603,10 +1947,10 @@ function buildUpper(g, M) {
     const r = { ...x.r, cd: UD };
     const u0 = x.u, u1 = x.u + x.w, y0 = x.y0, y1 = x.y0 + x.h;
     if (S.up.type === 'shelves') {
-      for (const yy of [y0 + 6, y0 + x.h * 0.55]) g.add(mesh(uvSimple(runBox(r, u0 + 0.5, u1 - 0.5, 0, 26, yy, yy + 3)), M_.wood()));
+      for (const yy of [y0 + 6, y0 + x.h * 0.55]) g.add(mesh(uvSimple(runBox(r, u0 + 0.5, u1 - 0.5, x.sh || 0, Math.max(26, (x.sh || 0) + 18), yy, yy + 3)), M_.wood()));
       continue;
     }
-    g.add(mesh(runBox(r, u0, u1, 0, UD - 1.8, y0, y1), fm));
+    g.add(mesh(runBox(r, u0, u1, x.sh || 0, UD - 1.8, y0, y1), fm));
     const yb = x.hood ? y0 + 6 : y0;
     if (x.hood) g.add(mesh(runBox(r, u0 + 0.5, u1 - 0.5, 0, UD + 1, y0, y0 + 6), M_.steel()));
     const opt = { bottom: true, noHandle: S.front.handle === 'gola' };
@@ -1962,25 +2306,47 @@ function wallFrame(wall, W, Dd) {
   if (wall === 'left') return { P: t => [0, t], n: [1, 0], d: [0, 1], len: Dd };
   return { P: t => [W, t], n: [-1, 0], d: [0, 1], len: Dd };
 }
+/* typical rooms to start from: the user only corrects what differs */
+const ROOM_TPL = {
+  small: { l: 'პატარა', sub: '2.6 × 2.4 მ', room: { w: 260, d: 240 }, walls: { back: true, left: true, right: true }, isl: 'no', fam: 'small',
+    feats: [{ t: 'window', wall: 'right', x: 60, w: 110, h: 130, sill: 100 }, { t: 'door', wall: 'front', x: 170, w: 80, h: 210 }, { t: 'water', wall: 'back', x: 70 }, { t: 'gas', wall: 'back', x: 190 }] },
+  galley: { l: 'ვიწრო', sub: '4.2 × 2.5 მ', room: { w: 420, d: 250 }, walls: { back: true, left: true, right: false }, isl: 'no', fam: 'mid',
+    feats: [{ t: 'window', wall: 'left', x: 70, w: 110, h: 140, sill: 100 }, { t: 'door', wall: 'front', x: 310, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 120 }, { t: 'radiator', wall: 'left', x: 75, w: 100, h: 50, d: 10 }] },
+  square: { l: 'კვადრატული', sub: '4 × 4 მ', room: { w: 400, d: 400 }, walls: { back: true, left: true, right: true }, isl: 'auto', fam: 'mid',
+    feats: [{ t: 'window', wall: 'back', x: 140, w: 120, h: 140, sill: 105 }, { t: 'door', wall: 'right', x: 290, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 200 }, { t: 'vent', wall: 'left', x: 120 }] },
+  newbuild: { l: 'ახალი კორპუსი', sub: 'კოლონით და სტოიაკით', room: { w: 430, d: 330 }, walls: { back: true, left: true, right: true }, isl: 'no', fam: 'mid',
+    feats: [{ t: 'window', wall: 'left', x: 110, w: 140, h: 150, sill: 100 }, { t: 'door', wall: 'right', x: 220, w: 90, h: 210 }, { t: 'column', wall: 'back', x: 180, w: 45, d: 20 }, { t: 'column', wall: 'back', x: 385, w: 45, d: 45 }, { t: 'water', wall: 'back', x: 110 }, { t: 'beam', wall: 'back', x: 0, w: 430, d: 30, h: 35 }] },
+  studio: { l: 'სტუდია', sub: '6.5 × 4.5 მ, კუნძულით', room: { w: 650, d: 450 }, walls: { back: true, left: false, right: false }, isl: 'yes', fam: 'mid',
+    feats: [{ t: 'window', wall: 'back', x: 80, w: 140, h: 140, sill: 105 }, { t: 'door', wall: 'front', x: 530, w: 90, h: 210 }, { t: 'water', wall: 'back', x: 300 }] }
+};
+const APP_GLYPH = { sink: 'ნ', hob: 'ქ', fridge: 'მ' };
+const APP_NAME = { sink: 'ნიჟარა', hob: 'ქურა', fridge: 'მაცივარი' };
 function sketchInner() {
   const M = model, { W, Dd, pad, sc } = sketchGeom(), X = x => +(pad + x * sc).toFixed(1), Z = z => +(pad + z * sc).toFixed(1);
   const quick = S.flow === 'quick', av = S.sk.walls;
-  let s = `<rect x="${X(0)}" y="${Z(0)}" width="${(W * sc).toFixed(1)}" height="${(Dd * sc).toFixed(1)}" fill="var(--paper)"/>`;
-  for (const r of M.runs) {
-    const cs = r.id === 'A' ? 0 : M.D, a = wp(r, cs, 0), b = wp(r, r.len, M.D);
-    s += `<rect x="${X(Math.min(a.x, b.x))}" y="${Z(Math.min(a.z, b.z))}" width="${(Math.abs(b.x - a.x) * sc).toFixed(1)}" height="${(Math.abs(b.z - a.z) * sc).toFixed(1)}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"/>`;
+  const rect = (R, attrs) => `<rect x="${X(R.x0)}" y="${Z(R.z0)}" width="${Math.max(0.5, (R.x1 - R.x0) * sc).toFixed(1)}" height="${Math.max(0.5, (R.z1 - R.z0) * sc).toFixed(1)}" ${attrs}/>`;
+  let s = `<defs><pattern id="skHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" stroke-width="1.2"/></pattern></defs>`;
+  s += `<rect x="${X(0)}" y="${Z(0)}" width="${(W * sc).toFixed(1)}" height="${(Dd * sc).toFixed(1)}" fill="var(--paper)"/>`;
+  const apps = [];
+  const runRect = (r, u0, u1, v0, v1) => { const p = wp(r, u0, v0), q2 = wp(r, u1, v1); return { x0: Math.min(p.x, q2.x), x1: Math.max(p.x, q2.x), z0: Math.min(p.z, q2.z), z1: Math.max(p.z, q2.z) }; };
+  for (const r of M.allRuns) {
+    if (!r.isIsl) { const cs = r.id === 'A' ? 0 : M.D; s += rect(runRect(r, cs, r.len, 0, M.D), 'fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"'); }
     for (const m of M.items[r.id]) {
-      if (!(TALL.has(m.t) || m.t === 'sink' || m.t === 'hob' || m.t === 'oven')) continue;
-      const p = wp(r, m.u, 0), q2 = wp(r, m.u + m.w, M.CD), x0 = Math.min(p.x, q2.x), z0 = Math.min(p.z, q2.z), w = Math.abs(q2.x - p.x), h = Math.abs(q2.z - p.z);
-      if (TALL.has(m.t)) s += `<rect x="${X(x0)}" y="${Z(z0)}" width="${(w * sc).toFixed(1)}" height="${(h * sc).toFixed(1)}" fill="var(--line-strong)"/>`;
-      else s += `<rect x="${X(x0 + (r.alongX ? 8 : 10))}" y="${Z(z0 + (r.alongX ? 10 : 8))}" width="${((w - (r.alongX ? 16 : 20)) * sc).toFixed(1)}" height="${((h - (r.alongX ? 20 : 16)) * sc).toFixed(1)}" rx="3" fill="none" stroke="var(--ink)" stroke-width="1"${m.t === 'sink' ? '' : ' stroke-dasharray="2 2"'}/>`;
+      const cdR = r.isIsl ? r.cd : M.CD, R = r.isIsl ? (() => { const p = wp(r, m.u, 0), q2 = wp(r, m.u + m.w, cdR); return { x0: Math.min(p.x, q2.x), x1: Math.max(p.x, q2.x), z0: Math.min(p.z, q2.z), z1: Math.max(p.z, q2.z) }; })() : runRect(r, m.u, m.u + m.w, m.sh || 0, cdR);
+      if (TALL.has(m.t)) s += rect(R, `fill="${m.t === 'colbox' ? 'url(#skHatch)' : 'var(--line-strong)'}" stroke="var(--line-strong)" stroke-width="1"`);
+      else if (m.t === 'sink' || m.t === 'hob' || m.t === 'oven') { const ins = 9; s += rect({ x0: R.x0 + ins, x1: R.x1 - ins, z0: R.z0 + ins, z1: R.z1 - ins }, `rx="3" fill="none" stroke="var(--ink)" stroke-width="1"${m.t === 'sink' ? '' : ' stroke-dasharray="2 2"'}`); }
+      else if (m.sh) s += rect(R, 'fill="none" stroke="var(--accent)" stroke-width=".8" stroke-dasharray="3 2"');
+      const k = m.t === 'sink' ? 'sink' : m.t === 'hob' || m.t === 'oven' ? 'hob' : m.t === 'fridge' || m.t === 'fridgeFS' ? 'fridge' : null;
+      if (k) apps.push({ k, x: (R.x0 + R.x1) / 2, z: (R.z0 + R.z1) / 2 });
     }
   }
-  if (M.isl) { const I = M.isl; s += `<rect x="${X(I.x0)}" y="${Z(I.zk)}" width="${(I.len * sc).toFixed(1)}" height="${(I.dep * sc).toFixed(1)}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"/>`; }
+  if (M.isl) { const I = M.isl; s += rect({ x0: I.x0, x1: I.x1, z0: I.zk, z1: I.z1 }, 'fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"'); }
   const wl = (side, x1, z1, x2, z2) => `<line x1="${X(x1)}" y1="${Z(z1)}" x2="${X(x2)}" y2="${Z(z2)}" stroke="${quick && !av[side] ? 'var(--line-strong)' : 'var(--ink)'}" stroke-width="${quick && av[side] ? 7 : 5}" stroke-linecap="square"${quick && !av[side] ? ' stroke-dasharray="6 4"' : ''}/>`;
   s += wl('back', 0, 0, W, 0) + wl('left', 0, 0, 0, Dd) + wl('right', W, 0, W, Dd);
   s += `<line x1="${X(0)}" y1="${Z(Dd)}" x2="${X(W)}" y2="${Z(Dd)}" stroke="var(--line-strong)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
-  M.feats.forEach((f, i) => {
+  let info = '';
+  const layer = f => (f.t === 'beam' ? 0 : f.t === 'radiator' ? 1 : FEAT[f.t].pt ? 3 : 2);
+  M.feats.map((f, i) => [f, i]).sort((p, q) => layer(p[0]) - layer(q[0]) || p[1] - q[1]).forEach(([f, i]) => {
     const fr = wallFrame(f.wall, W, Dd), w = f.w || 0, [ax, az] = fr.P(f.x), [bx, bz] = fr.P(f.x + w), sel = ui.selFeat === i;
     let g = '';
     if (f.t === 'window') g = `<line x1="${X(ax)}" y1="${Z(az)}" x2="${X(bx)}" y2="${Z(bz)}" stroke="var(--info)" stroke-width="8"/><line x1="${X(ax)}" y1="${Z(az)}" x2="${X(bx)}" y2="${Z(bz)}" stroke="var(--paper)" stroke-width="2"/>`;
@@ -1988,49 +2354,70 @@ function sketchInner() {
       const le = [ax + fr.n[0] * w, az + fr.n[1] * w], sweep = fr.n[0] * fr.d[1] - fr.n[1] * fr.d[0] > 0 ? 1 : 0, r = (w * sc).toFixed(1);
       g = `<line x1="${X(ax)}" y1="${Z(az)}" x2="${X(bx)}" y2="${Z(bz)}" stroke="var(--paper)" stroke-width="9"/><path d="M${X(ax)} ${Z(az)} L${X(le[0])} ${Z(le[1])} A${r} ${r} 0 0 ${sweep} ${X(bx)} ${Z(bz)}" fill="none" stroke="var(--muted)" stroke-width="1.2"/>`;
     }
-    if (f.t === 'column') { const r2 = featRect(f, W, Dd, 0); g = `<rect x="${X(r2.x0)}" y="${Z(r2.z0)}" width="${((r2.x1 - r2.x0) * sc).toFixed(1)}" height="${((r2.z1 - r2.z0) * sc).toFixed(1)}" fill="var(--ink)" fill-opacity=".72"/>`; }
-    if (f.t === 'water') { const cx = ax + fr.n[0] * 30, cz = az + fr.n[1] * 30; g = `<circle cx="${X(cx)}" cy="${Z(cz)}" r="8" fill="var(--info)"/><path d="M${X(cx)} ${Z(cz) - 4.5}c2.4 3 3.4 4.6 3.4 6a3.4 3.4 0 0 1-6.8 0c0-1.4 1-3 3.4-6z" fill="var(--paper)"/>`; }
-    const off = f.t === 'water' ? 30 : f.t === 'column' ? (f.d || 0) / 2 : 0, hx = (ax + bx) / 2 + fr.n[0] * off, hz = (az + bz) / 2 + fr.n[1] * off;
+    if (f.t === 'column') g = rect(featRect(f, W, Dd, 0), 'fill="var(--ink)" fill-opacity=".72"');
+    if (f.t === 'beam') g = rect(featRect(f, W, Dd, 0), 'fill="url(#skHatch)" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4 3"');
+    if (f.t === 'radiator') { const R = featRect(f, W, Dd, 0); g = rect(R, 'fill="var(--error-soft)" stroke="var(--error)" stroke-width="1"'); }
+    const pt = FEAT[f.t].pt, off = pt ? 30 : f.t === 'column' || f.t === 'radiator' ? (f.d || 0) / 2 : f.t === 'beam' ? Math.min(f.d, 90) - 8 : 0;
+    const along = f.t === 'beam' ? Math.min(25, w / 2) : w / 2, [cx0, cz0] = fr.P(f.x + along);
+    const hx = cx0 + fr.n[0] * off, hz = cz0 + fr.n[1] * off;
+    if (f.t === 'water') g = `<circle cx="${X(hx)}" cy="${Z(hz)}" r="8" fill="var(--info)"/><path d="M${X(hx)} ${Z(hz) - 4.5}c2.4 3 3.4 4.6 3.4 6a3.4 3.4 0 0 1-6.8 0c0-1.4 1-3 3.4-6z" fill="var(--paper)"/>`;
+    if (f.t === 'gas') g = `<circle cx="${X(hx)}" cy="${Z(hz)}" r="8" fill="var(--warn)"/><path d="M${X(hx)} ${Z(hz) - 5}c3 3 3.6 5 3.6 6.4a3.6 3.6 0 0 1-7.2 0c0-1.2.6-2.2 1.6-3 0 1.2.6 2 1.4 2 0-2 .2-3.6.6-5.4z" fill="var(--paper)"/>`;
+    if (f.t === 'vent') g = `<circle cx="${X(hx)}" cy="${Z(hz)}" r="8" fill="var(--muted)"/>${[-3, 0, 3].map(d => `<line x1="${X(hx) - 4.5}" y1="${Z(hz) + d}" x2="${X(hx) + 4.5}" y2="${Z(hz) + d}" stroke="var(--paper)" stroke-width="1.3"/>`).join('')}`;
     s += `<g class="feat${sel ? ' sel' : ''}" data-fi="${i}" role="button" tabindex="0" aria-label="${esc(FEAT[f.t].l)} — გადაათრიე">${g}<circle cx="${X(hx)}" cy="${Z(hz)}" r="16" fill="transparent"/>${sel ? `<circle cx="${X(hx)}" cy="${Z(hz)}" r="13" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 2"/>` : ''}</g>`;
+    if (ui.drag && ui.drag.i === i && ui.drag.moved) info = `${FEAT[f.t].s}: ${f.x} სმ ${f.wall === 'back' || f.wall === 'front' ? 'მარცხენა კუთხიდან' : 'ზედა კუთხიდან'}${w ? ` · ${w} სმ` : ''}`;
   });
+  /* sink, hob, fridge: drag them where you want them; a ring marks a spot you chose */
+  for (const a of apps) {
+    const pinned = quick && S.sk.pin[a.k];
+    s += `<g class="app" data-app="${a.k}" role="button" tabindex="0" aria-label="${APP_NAME[a.k]} — გადაათრიე სხვა ადგილას"><circle cx="${X(a.x)}" cy="${Z(a.z)}" r="15" fill="transparent"/>${pinned ? `<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="11.5" fill="none" stroke="var(--accent)" stroke-width="1.5"/>` : ''}<circle cx="${X(a.x)}" cy="${Z(a.z)}" r="8.5" fill="var(--primary)"/><text x="${X(a.x)}" y="${Z(a.z) + 3.6}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--on-primary)">${APP_GLYPH[a.k]}</text></g>`;
+    if (ui.drag && ui.drag.app === a.k && ui.drag.moved) info = `${APP_NAME[a.k]}: გაუშვი იქ, სადაც გინდა`;
+  }
   s += `<text x="${X(W / 2)}" y="${Z(0) - 12}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)">${W} სმ</text>`;
   s += `<text x="${X(0) - 12}" y="${Z(Dd / 2)}" text-anchor="middle" font-size="11" font-family="var(--f-num)" fill="var(--muted)" transform="rotate(-90 ${X(0) - 12} ${Z(Dd / 2)})">${Dd} სმ</text>`;
-  s += `<text x="${X(W / 2)}" y="${Z(Dd) + 18}" text-anchor="middle" font-size="10.5" fill="var(--muted)">ღია მხარე</text>`;
+  s += info ? `<g><rect x="${X(W / 2) - 120}" y="${Z(Dd) + 6}" width="240" height="20" rx="10" fill="var(--primary)"/><text x="${X(W / 2)}" y="${Z(Dd) + 20}" text-anchor="middle" font-size="11" fill="var(--on-primary)">${esc(info)}</text></g>`
+    : `<text x="${X(W / 2)}" y="${Z(Dd) + 18}" text-anchor="middle" font-size="10.5" fill="var(--muted)">ღია მხარე</text>`;
   return s;
 }
 function sketchHTML() {
   const g = sketchGeom();
+  const tools = ['window', 'door', 'column', 'beam', 'radiator', 'water', 'gas', 'vent'];
   return `<div class="sketch"><svg id="sketchSvg" data-live="sketch" viewBox="0 0 ${g.vw} ${g.vh}" role="application" aria-label="ოთახის ესკიზი: ელემენტები გადაათრიე კედლის გასწვრივ">${sketchInner()}</svg></div>
-  <div class="row tools"><button type="button" class="btn" data-act="addfeat" data-v="window">+ ფანჯარა</button><button type="button" class="btn" data-act="addfeat" data-v="door">+ კარი</button><button type="button" class="btn" data-act="addfeat" data-v="column">+ კოლონა</button><button type="button" class="btn" data-act="addfeat" data-v="water">+ წყლის წერტილი</button><button type="button" class="btn ghost" data-act="rot" title="მარცხენა კედელი გახდება მთავარი">↻ მოაბრუნე</button></div>
-  <p class="fine" style="margin:4px 0 10px">გადაათრიე ელემენტი თითით ან მაუსით — კედლიდან კედელზეც გადადის. ზუსტი ზომა ქვემოთ ჩაწერე.</p>
+  <div class="legend"><span><i class="ficon app">ნ</i>ნიჟარა</span><span><i class="ficon app">ქ</i>ქურა</span><span><i class="ficon app">მ</i>მაცივარი</span><span class="fine">— გადაათრიე სხვა ადგილას</span></div>
+  <div class="row tools">${tools.map(t => `<button type="button" class="chip-btn" data-act="addfeat" data-v="${t}"><i class="ficon ${t}"></i>${FEAT[t].s}</button>`).join('')}<button type="button" class="chip-btn ghost" data-act="rot" title="მარცხენა კედელი გახდება მთავარი">↻ მოაბრუნე</button></div>
+  <p class="fine" style="margin:4px 0 10px">გადაათრიე ელემენტი თითით ან მაუსით — კედლიდან კედელზეც გადადის. კოლონა სამზარეულოს არ ამოკლებს: ჩავაშენებთ ან ფასადით შევფუთავთ.</p>
   <div data-live="feats">${featsHTML()}</div>`;
 }
 function featsHTML() {
   if (!S.feats.length) return '<p class="fine">ელემენტი ჯერ არ არის — დაამატე ფანჯარა, კარი ან წყლის წერტილი.</p>';
   const n = (i, k, label, v, min, max) => `<label class="mini"><span>${label}</span><span class="num"><input type="number" inputmode="decimal" data-act="feat" data-i="${i}" data-k="${k}" min="${min}" max="${max}" value="${v}" aria-label="${esc(label)}"><span class="u">სმ</span></span></label>`;
   return `<div class="fcards">${S.feats.map((f, i) => {
-    const walls = f.t === 'door' || f.t === 'column' ? ['back', 'left', 'right', 'front'] : ['back', 'left', 'right'];
-    const fields = [n(i, 'x', f.wall === 'back' || f.wall === 'front' ? 'მარცხენა კუთხიდან' : 'უკანა კედლიდან', f.x, 0, 1200)];
-    if (f.t !== 'water') fields.push(n(i, 'w', 'სიგანე', f.w, 10, 600));
+    const fields = [n(i, 'x', f.wall === 'back' || f.wall === 'front' ? 'მარცხენა კუთხიდან' : 'ზედა კუთხიდან', f.x, 0, 1200)];
+    if (!FEAT[f.t].pt) fields.push(n(i, 'w', 'სიგანე', f.w, 10, 600));
     if (f.t === 'window') fields.push(n(i, 'sill', 'რაფა', f.sill, 0, 250), n(i, 'h', 'სიმაღლე', f.h, 20, 300));
-    if (f.t === 'column') fields.push(n(i, 'd', 'სიღრმე', f.d, 5, 200));
-    return `<div class="fcard${ui.selFeat === i ? ' sel' : ''}"><div class="fhead"><i class="ficon ${f.t}"></i><b>${FEAT[f.t].l}</b><select data-act="featwall" data-i="${i}" aria-label="კედელი">${walls.map(w => `<option value="${w}"${w === f.wall ? ' selected' : ''}>${WALLS[w]} კედელი</option>`).join('')}</select><button type="button" class="x" data-act="featdel" data-i="${i}" aria-label="წაშლა">×</button></div><div class="fgrid">${fields.join('')}</div></div>`;
+    if (f.t === 'column') fields.push(n(i, 'd', 'კედლიდან გამოდის', f.d, 5, 200));
+    if (f.t === 'beam') fields.push(n(i, 'd', 'კედლიდან გამოდის', f.d, 5, 300), n(i, 'h', 'ჭერიდან ქვემოთ', f.h, 5, 120));
+    if (f.t === 'radiator') fields.push(n(i, 'h', 'სიმაღლე', f.h, 20, 120), n(i, 'd', 'სისქე', f.d, 5, 25));
+    return `<div class="fcard${ui.selFeat === i ? ' sel' : ''}"><div class="fhead"><i class="ficon ${f.t}"></i><b>${FEAT[f.t].l}</b><select data-act="featwall" data-i="${i}" aria-label="კედელი">${FEAT_WALLS(f.t).map(w => `<option value="${w}"${w === f.wall ? ' selected' : ''}>${WALLS[w]} კედელი</option>`).join('')}</select><button type="button" class="x" data-act="featdel" data-i="${i}" aria-label="წაშლა">×</button></div><div class="fgrid">${fields.join('')}</div></div>`;
   }).join('')}</div>`;
 }
 function autoHTML() {
   const errs = model.warns.filter(w => w.step <= 4 && w.level !== 'info');
   const ok = autoNotes.filter(n => n.level === 'ok'), bad = autoNotes.filter(n => n.level !== 'ok');
+  const pins = ['sink', 'hob', 'fridge'].filter(k => S.sk.pin[k]);
   return `${bad.length || errs.length ? `<div class="notes">${[...bad, ...errs].map(w => `<div class="note ${w.level}"><i class="dot"></i><span>${esc(w.text)}</span></div>`).join('')}</div>` : ''}
-  <ul class="auto-list">${ok.map(n => `<li>${esc(n.text)}</li>`).join('')}</ul>`;
+  <ul class="auto-list">${[...ok.map(n => n.text), ...model.builtIn].map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+  ${pins.length ? `<div class="row" style="margin-top:8px"><span class="fine">შენ მიერ დადგმული: ${pins.map(k => APP_NAME[k]).join(', ')}</span><button type="button" class="chip-btn" data-act="unpin">↺ ავტომატურად</button></div>` : ''}`;
 }
 function stepSketch() {
-  return `<h2 class="st">ოთახის ესკიზი</h2><p class="lead">დახაზე ოთახი: ზომები, ფანჯრები, კარები, კოლონები და წყლის წერტილი. სამზარეულოს ჩვენ ავაწყობთ — ნიჟარას, ქურას, მაცივარს და გასასვლელებს სტანდარტებით ვალაგებთ. ზედა კედელი მთავარია.</p>
+  return `<h2 class="st">ოთახის ესკიზი</h2><p class="lead">აირჩიე მსგავსი ოთახი ან დახაზე შენი: ზომები, ფანჯრები, კარები, კოლონები, წყალი. სამზარეულოს ჩვენ ავაწყობთ — ნიჟარას, ქურას, მაცივარს და გასასვლელებს სტანდარტებით ვალაგებთ. ზედა კედელი მთავარია.</p>
   ${ui.fullBackup ? `<div class="notes"><div class="note info"><i class="dot"></i><span>დეტალურ რეჟიმში შენ მიერ აწყობილი პროექტი შენახულია.</span><button type="button" data-act="restore">დაბრუნება</button></div></div>` : ''}
+  <div class="tpls" role="group" aria-label="ტიპური ოთახები">${Object.entries(ROOM_TPL).map(([k, t]) => `<button type="button" class="tpl" data-act="tpl" data-v="${k}"><b>${t.l}</b><span>${t.sub}</span></button>`).join('')}</div>
   <div class="grid2">${num('room.w', 'სიგანე — ზედა კედელი', { min: 200, max: 1200 })}${num('room.d', 'სიღრმე', { min: 200, max: 1200 })}${num('room.h', 'ჭერის სიმაღლე', { min: 220, max: 400 })}
     <div class="f"><span class="f-l">სამზარეულო დადგეს</span><div class="seg">${['back', 'left', 'right'].map(w => `<button type="button" class="${S.sk.walls[w] ? 'on' : ''}" aria-pressed="${!!S.sk.walls[w]}" data-act="skwall" data-v="${w}">${WALLS[w]}</button>`).join('')}</div></div>
   </div>
   <div style="margin-top:12px">${sketchHTML()}</div>
   <div class="sec"><h3>სურვილები</h3><div class="grid2">
+    <div class="full">${seg('sk.family', 'ვინ იყენებს', [{ v: 'small', l: '1–2 კაცი' }, { v: 'mid', l: '3–4 კაცი' }, { v: 'large', l: '5+ / ხშირი სტუმარი' }])}</div>
     <div class="full">${seg('sk.isl', 'კუნძული', [{ v: 'auto', l: 'თუ ეტევა' }, { v: 'yes', l: 'კი' }, { v: 'no', l: 'არა' }])}</div>
     <div class="full">${seg('hob.type', 'ქურა', [{ v: 'induction', l: 'ინდუქცია' }, { v: 'gas', l: 'გაზი' }])}</div>
   </div></div>
@@ -2103,7 +2490,7 @@ function sumTopHTML() {
   const row = (l, a, extra = '') => a > 0.0001 ? `<tr><td>${l}${extra}</td><td class="r">${nf.format(a)} მ²</td></tr>` : '';
   return `<div class="metrics"><div class="metric"><div class="k">ქვა სულ</div><div class="v">${nf1.format(q.total)}<small>მ²</small></div></div>
     <div class="metric"><div class="k">ფილები</div><div class="v">${nSlabs}<small>ცალი</small></div></div>
-    <div class="metric"><div class="k">ამონაჭრები</div><div class="v">${q.cuts.sink + q.cuts.hob + q.cuts.tap}<small>ცალი</small></div></div></div>
+    <div class="metric"><div class="k">ამონაჭრები</div><div class="v">${q.cuts.sink + q.cuts.hob + q.cuts.tap + q.cuts.notch + q.cuts.vent}<small>ცალი</small></div></div></div>
   ${notes.length ? `<div class="notes" style="margin-top:12px">${notes.map(w => `<div class="note ${w.level}"><i class="dot"></i><span>${esc(w.text)}</span>${warnStep(w.step) !== curSteps().length - 1 ? `<button type="button" data-act="goto" data-v="${warnStep(w.step)}">ნაბიჯი ${warnStep(w.step) + 1}</button>` : ''}</div>`).join('')}</div>` : ''}
   <table class="t" style="margin-top:8px"><thead><tr><th>ელემენტი</th><th class="r">ფართობი</th></tr></thead><tbody>
     ${row('სამუშაო ზედაპირი', q.ct, ` <span class="fine">· ${M.pieces.length} ნაჭერი, ${M.tmm} მმ</span>`)}
@@ -2116,6 +2503,9 @@ function sumTopHTML() {
     ${q.cuts.hob ? `<tr><td>ქურის ამონაჭერი · ${S.hob.mount === 'flush' ? 'ერთ დონეზე' : 'ზემოდან'}</td><td class="r">${q.cuts.hob}</td></tr>` : ''}
     ${q.cuts.tap ? `<tr><td>ონკანის ხვრელი</td><td class="r">${q.cuts.tap}</td></tr>` : ''}
     ${q.cuts.drain ? `<tr><td>წყლის ღარები</td><td class="r">${q.cuts.drain}</td></tr>` : ''}
+    ${q.cuts.notch ? `<tr><td>ზედაპირის ამოჭრა კოლონის გარშემო</td><td class="r">${q.cuts.notch}</td></tr>` : ''}
+    ${q.cuts.vent ? `<tr><td>სავენტილაციო ღრიჭო რადიატორის თავზე</td><td class="r">${q.cuts.vent}</td></tr>` : ''}
+    ${M.clad ? `<tr><td>კოლონის მოპირკეთება ქვით</td><td class="r">${M.clad}</td></tr>` : ''}
   </tbody></table>
   <div style="margin-top:12px">${M.slabs.map(s => `<div class="slab"><div class="s1"><span>${esc(s.m.brandLabel)} ${esc(s.m.name)} · ${s.th} მმ</span><span class="mono">${s.count} × ${s.SL * 10}×${s.SW * 10}</span></div><div class="s2">ქვა ${nf.format(s.area)} მ² · ფილის გამოყენება ${Math.round(s.util * 100)}% · ნაკერი ${s.seams}</div></div>`).join('')}
   <p class="fine" style="margin-top:8px">ფილების რაოდენობა თაროებად განლაგებით არის შეფასებული (ჭრის ხაზი 5 მმ). ვენების თანხვედრა და ფილის დეფექტები რეალურ ჭრას ცვლის.</p></div>`;
@@ -2144,7 +2534,9 @@ function requestText() {
     `ფარტუკი: ${BS[S.stone.bs]}`,
     `ნიჟარა: ${SINK_MOUNT[S.sink.mount]}, ${S.sink.bowls} ჯამი${M.q.cuts.drain ? ', წყლის ღარებით' : ''}; ქურა: ${S.hob.type === 'gas' ? 'გაზი' : 'ინდუქცია'} ${S.hob.w}, ${S.hob.mount === 'flush' ? 'ერთ დონეზე' : 'ზემოდან'}`,
     `ქვა სულ: ${nf.format(M.q.total)} მ²; ფილები: ${M.slabs.map(s => `${s.count} × ${s.SL * 10}×${s.SW * 10}`).join(', ')}`,
-    `ამონაჭრები: ნიჟარა ${M.q.cuts.sink}, ქურა ${M.q.cuts.hob}, ონკანი ${M.q.cuts.tap}`
+    `ამონაჭრები: ნიჟარა ${M.q.cuts.sink}, ქურა ${M.q.cuts.hob}, ონკანი ${M.q.cuts.tap}${M.q.cuts.notch ? `, კოლონის ამოჭრა ${M.q.cuts.notch}` : ''}${M.q.cuts.vent ? `, სავენტილაციო ღრიჭო ${M.q.cuts.vent}` : ''}`,
+    M.clad ? `კოლონის მოპირკეთება ქვით: ${M.clad}` : '',
+    M.feats.some(f => f.t === 'column' || f.t === 'beam' || f.t === 'radiator') ? `ოთახში: ${M.feats.filter(f => ['column', 'beam', 'radiator'].includes(f.t)).map(f => `${FEAT[f.t].s} ${f.w}×${f.d} სმ (${WALLS[f.wall]} კედელი, ${f.x} სმ)`).join('; ')}` : ''
   ].filter(Boolean);
   return lines.join('\n');
 }
@@ -2174,9 +2566,11 @@ function buildPrompt() {
     `Appliances: ${SINK_EN()}, ${S.hob.type === 'gas' ? 'gas' : 'induction'} hob ${S.hob.w} cm${S.oven === 'under' ? ' with a built-in oven below' : S.oven === 'tall' ? ', built-in oven in a tall column' : ''}, ${{ wall: 'wall-mounted chimney hood', builtin: 'hood integrated in the wall cabinet', island: 'ceiling-hung island hood', downdraft: 'downdraft extractor behind the hob', none: 'no visible hood' }[M.hoodEff] || 'no visible hood'}${S.fridge.type === 'builtin' ? ', integrated fridge column' : S.fridge.type === 'freestanding' ? ', stainless steel freestanding fridge' : ''}.`,
     `Walls ${(WALL_COLORS[S.int.wall] || {}).l ? { 'warm-white': 'warm white', white: 'white', greige: 'greige', sage: 'pale sage', clay: 'clay', concrete: 'concrete grey' }[S.int.wall] : 'white'}, ${{ oak: 'oak plank', 'oak-light': 'light oak plank', walnut: 'walnut plank', tile: 'large grey tile', terrazzo: 'terrazzo', concrete: 'microcement' }[S.int.floor]} floor.`,
     `Lighting: ${S.int.time === 'evening' ? 'warm evening light' : 'soft natural daylight'}${S.int.led ? ', warm LED strips under the wall cabinets' : ''}${M.isl && S.int.pend ? `, ${S.int.pend} pendant lights above the island` : ''}.`,
+    M.cols.length ? `Structural columns are built into the kitchen exactly as in the reference render: the worktop is notched around shallow pilasters${M.clad ? ' and their exposed faces above the worktop are clad in the same stone' : ''}${M.items.A.concat(M.items.B || [], M.items.C || []).some(m => m.t === 'colbox') ? '; deeper columns are enclosed in full-height panels matching the cabinet fronts' : ''}.` : '',
+    M.beams.length ? 'A ceiling beam runs along the wall; wall cabinets stop beneath it.' : '',
     `Do not add or remove cabinets, appliances, windows or furniture. No people, text, logos or watermarks.`
   ];
-  return parts.join('\n');
+  return parts.filter(Boolean).join('\n');
   function SINK_EN() { return `${{ under: 'undermount', top: 'top-mounted', flush: 'flush-mounted', integrated: 'integrated stone' }[S.sink.mount]} ${S.sink.bowls === '2' ? 'double' : S.sink.bowls === '1.5' ? '1.5-bowl' : 'single'} sink with a ${S.front.handle === 'bar-brass' ? 'brass' : S.front.handle === 'bar-black' ? 'black' : 'chrome'} faucet${model.q.cuts.drain ? ' and drainer grooves cut into the stone' : ''}`; }
 }
 function aiHTML() {
@@ -2245,7 +2639,7 @@ function update(rerender, delay = rerender ? 0 : 160) {
   model = computeModel(S);
   const infos = model.warns.filter(w => w.level === 'info' && w.step === 3);
   if (normalize()) { model = computeModel(S); model.warns.push(...infos.filter(i => !model.warns.some(w => w.text === i.text))); }
-  storeSave();
+  storeSave(); histRecord();
   if (rerender) renderStep(); else refreshLive();
   renderSteps(); renderStats(); scheduleRebuild(ui.drag ? 260 : delay);
   clearTimeout(shareTimer); shareTimer = setTimeout(async () => { try { const code = await encodeProject(S); shareLink = location.origin + location.pathname + '#p.' + code; if (step === 6) refreshLive(); } catch { shareLink = ''; } }, 500);
@@ -2326,12 +2720,22 @@ body.addEventListener('click', e => {
     case 'restore': if (ui.fullBackup) { S = ui.fullBackup; ui.fullBackup = null; S.flow = 'full'; step = 1; update(true); } break;
     case 'skwall': S.sk.walls[v] = !S.sk.walls[v]; update(true); break;
     case 'addfeat': {
-      const d = FEAT[v], W0 = S.room.w, D0 = S.room.d;
+      if (S.feats.length >= 24) break;
+      const d = FEAT[v], W0 = S.room.w, D0 = S.room.d, win = S.feats.find(g => g.t === 'window');
       const f = v === 'window' ? { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 - 60)), w: 120, h: d.h, sill: d.sill }
         : v === 'door' ? { t: v, wall: 'right', x: Math.max(0, D0 - 130), w: 90, h: 210 }
-        : v === 'column' ? { t: v, wall: 'back', x: Math.max(0, W0 - 40), w: 40, d: 40 } : { t: v, wall: 'back', x: Math.round(W0 / 2) };
+        : v === 'column' ? { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 + 40)), w: 40, d: d.d }
+        : v === 'beam' ? { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 - 50)), w: 100, d: d.d, h: d.h }
+        : v === 'radiator' ? (win ? { t: v, wall: win.wall, x: Math.max(0, Math.round(win.x + (win.w - 80) / 2)), w: 80, h: d.h, d: d.d } : { t: v, wall: 'back', x: Math.max(0, Math.round(W0 / 2 - 40)), w: 80, h: d.h, d: d.d })
+        : { t: v, wall: 'back', x: Math.round(W0 * (v === 'water' ? 0.5 : v === 'gas' ? 0.7 : 0.8)) };
       S.feats.push(f); ui.selFeat = S.feats.length - 1; update(false); break;
     }
+    case 'tpl': {
+      const t = ROOM_TPL[v]; if (!t) break;
+      S.room = { ...S.room, ...t.room }; S.feats = clone(t.feats); S.sk.walls = { ...t.walls }; S.sk.isl = t.isl; S.sk.family = t.fam;
+      S.sk.pin = { sink: null, hob: null, fridge: null }; ui.selFeat = null; update(true); break;
+    }
+    case 'unpin': S.sk.pin = { sink: null, hob: null, fridge: null }; update(false); break;
     case 'featdel': S.feats.splice(+b.dataset.i, 1); ui.selFeat = null; update(false); break;
     case 'rot': rotateRoom(S); ui.selFeat = null; update(true); break;
   }
@@ -2349,9 +2753,10 @@ function sketchPoint(e) {
   return { x: (p.x - g.pad) / g.sc, z: (p.y - g.pad) / g.sc };
 }
 body.addEventListener('pointerdown', e => {
-  const el = e.target.closest('#sketchSvg .feat'); if (!el) return;
-  e.preventDefault(); const i = +el.dataset.fi;
-  ui.drag = { i, moved: false, sx: e.clientX, sy: e.clientY }; ui.selFeat = i;
+  const el = e.target.closest('#sketchSvg .feat, #sketchSvg .app'); if (!el) return;
+  e.preventDefault();
+  if (el.classList.contains('app')) ui.drag = { app: el.dataset.app, moved: false, sx: e.clientX, sy: e.clientY };
+  else { const i = +el.dataset.fi; ui.drag = { i, moved: false, sx: e.clientX, sy: e.clientY }; ui.selFeat = i; }
   $('#sketchSvg').setPointerCapture(e.pointerId);
 });
 /* pointer events can fire faster than the screen refreshes: handle at most one per frame */
@@ -2362,20 +2767,51 @@ body.addEventListener('pointermove', e => {
   if (!dragEvt) requestAnimationFrame(() => { const ev = dragEvt; dragEvt = null; if (ev && ui.drag) dragTo(ev); });
   dragEvt = { clientX: e.clientX, clientY: e.clientY };
 });
+/* sink / hob / fridge: snap to the nearest worktop run (or the island) */
+function dragApp(e) {
+  const first = !ui.drag.moved; ui.drag.moved = true;
+  const { x, z } = sketchPoint(e), M = model, k = ui.drag.app;
+  let best = null;
+  for (const r of M.runs) {
+    if (!r.wall) continue;
+    const u = (x - r.ox) * r.dx + (z - r.oz) * r.dz, v = (x - r.ox) * r.nx + (z - r.oz) * r.nz;
+    const du = u < r.u0 ? r.u0 - u : u > r.u1 ? u - r.u1 : 0, dv = Math.max(0, Math.abs(v - M.D / 2) - M.D / 2);
+    const d = Math.hypot(du, dv);
+    if (!best || d < best.d) best = { r, u: clamp(u, r.u0, r.u1), d };
+  }
+  if (M.isl && k !== 'fridge') { const I = M.isl, ir = M.islRun; if (x > I.x0 - 25 && x < I.x1 + 25 && z > I.zk - 25 && z < I.z1 + 25) best = { r: ir, u: clamp(x - ir.ox, ir.u0, ir.u1), d: 0 }; }
+  if (!best) return;
+  const r = best.r, u = Math.round(best.u / 5) * 5;
+  if (S.flow === 'quick') {
+    const wall = r.isIsl ? 'isl' : r.wall, wx = r.isIsl ? u : r.wall === 'back' ? r.ox + u : r.oz + u, prev = S.sk.pin[k];
+    if (prev && prev.wall === wall && prev.x === wx) { if (first) refreshLive(); return; }
+    S.sk.pin[k] = { wall, x: wx };
+  } else if (k === 'fridge') {
+    if (r.isIsl) return;
+    const end = u < (r.u0 + r.u1) / 2 ? 'start' : 'end';
+    if (S.fridge.run === r.id && S.fridge.end === end) { if (first) refreshLive(); return; }
+    S.fridge.run = r.id; S.fridge.end = end;
+  } else {
+    const o = S[k]; if (o.run === r.id && o.pos === u) return;
+    o.run = r.id; o.pos = u; if (S.mods[r.id]) S.mods[r.id] = null;
+  }
+  update(false);
+}
 function dragTo(e) {
+  if (ui.drag.app) return dragApp(e);
   ui.drag.moved = true;
   const f = S.feats[ui.drag.i]; if (!f) return;
   const { x, z } = sketchPoint(e), W0 = S.room.w, D0 = S.room.d;
   const dist = { back: z, left: x, right: W0 - x, front: D0 - z };
-  const allowed = f.t === 'door' || f.t === 'column' ? ['back', 'left', 'right', 'front'] : ['back', 'left', 'right'];
+  const allowed = FEAT_WALLS(f.t);
   const wall = allowed.reduce((m, k) => (dist[k] < dist[m] ? k : m), allowed[0]);
   const len = wall === 'back' || wall === 'front' ? W0 : D0, along = wall === 'back' || wall === 'front' ? x : z, w = f.w || 0;
   const nx = Math.round(clamp(along - w / 2, 0, Math.max(0, len - w)) / 5) * 5;
-  if (f.wall === wall && f.x === nx) return;
+  if (f.wall === wall && f.x === nx) { refreshLive(); return; }
   f.wall = wall; f.x = nx;
   update(false);
 }
-const endDrag = () => { if (!ui.drag) return; const d = ui.drag; ui.drag = null; if (!d.moved) refreshLive(); else scheduleRebuild(0); };
+const endDrag = () => { if (!ui.drag) return; const d = ui.drag; ui.drag = null; refreshLive(); if (d.moved) scheduleRebuild(0); };
 body.addEventListener('pointerup', endDrag); body.addEventListener('pointercancel', endDrag);
 body.addEventListener('keydown', e => {
   const el = e.target.closest?.('#sketchSvg .feat'); if (!el) return;
@@ -2383,6 +2819,34 @@ body.addEventListener('keydown', e => {
   const step5 = { ArrowLeft: -5, ArrowUp: -5, ArrowRight: 5, ArrowDown: 5 }[e.key]; if (!step5) return;
   e.preventDefault(); f.x = Math.max(0, f.x + step5); ui.selFeat = +el.dataset.fi; update(false);
   requestAnimationFrame(() => $(`#sketchSvg .feat[data-fi="${el.dataset.fi}"]`)?.focus());
+});
+/* undo / redo: every change is a snapshot; changes closer than 0.7 s (typing, dragging) form one step */
+const hist = { undo: [], redo: [], cur: null, t: 0 };
+function histRecord() {
+  if (hist.lock) return;
+  const snap = JSON.stringify(S);
+  if (hist.cur === null) { hist.cur = snap; renderHist(); return; }
+  if (snap === hist.cur) return;
+  const now = performance.now();
+  if (now - hist.t > 700 || !hist.undo.length) { hist.undo.push(hist.cur); if (hist.undo.length > 80) hist.undo.shift(); }
+  hist.t = now; hist.cur = snap; hist.redo.length = 0; renderHist();
+}
+function renderHist() { $('#btnUndo').disabled = !hist.undo.length; $('#btnRedo').disabled = !hist.redo.length; }
+function histGo(back) {
+  const from = back ? hist.undo : hist.redo, to = back ? hist.redo : hist.undo;
+  if (!from.length) return;
+  to.push(hist.cur); const snap = from.pop(); hist.t = 0;
+  S = sanitize(JSON.parse(snap)); ui.selFeat = null; ui.drag = null;
+  hist.lock = true; update(true); hist.lock = false;
+  hist.cur = JSON.stringify(S); renderHist();
+}
+$('#btnUndo').addEventListener('click', () => histGo(true));
+$('#btnRedo').addEventListener('click', () => histGo(false));
+document.addEventListener('keydown', e => {
+  if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+  const k = e.key.toLowerCase(); if (k !== 'z' && k !== 'y') return;
+  if (e.target.closest?.('input, textarea, select, [contenteditable]')) return;
+  e.preventDefault(); histGo(k === 'z' && !e.shiftKey);
 });
 $('#steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (b) go(+b.dataset.step); });
 $('#stageStats').addEventListener('click', e => { const b = e.target.closest('[data-goto]'); if (b) go(+b.dataset.goto); });
