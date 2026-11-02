@@ -1,0 +1,9 @@
+{
+ "name":"lithos-curtain-orders","main":"worker.mjs","compatibility_date":"2026-11-02",
+ "vars":{"ALLOWED_ORIGINS":"https://farda.lithos.ge","TURNSTILE_HOSTNAMES":"farda.lithos.ge","VISITOR_DAILY_LIMIT":"10","GLOBAL_DAILY_LIMIT":"100","RETENTION_ENABLED":"false"},
+ "durable_objects":{"bindings":[{"name":"QUOTA","class_name":"CurtainQuota"}]},
+ "migrations":[{"tag":"v1","new_sqlite_classes":["CurtainQuota"]}],
+ "triggers":{"crons":["0 3 * * *"]},"observability":{"enabled":false}
+ // Provision private R2 binding PRIVATE_IMAGES and D1 binding DB before activation.
+ // Configure TURNSTILE_SECRET_KEY, QUOTA_SECRET (32+ characters), ADMIN_TOKEN (48+).
+}
