@@ -1,0 +1,20 @@
+{
+  "name": "lithos-exterior-api",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-02",
+  "workers_dev": true,
+  "ai": {"binding": "AI"},
+  "vars": {
+    "ALLOWED_ORIGINS": "https://fasadi.lithos.ge,https://lithos.ge,https://www.lithos.ge",
+    "TURNSTILE_HOSTNAMES": "fasadi.lithos.ge,lithos.ge,www.lithos.ge",
+    "GLOBAL_DAILY_LIMIT": "50",
+    "VISITOR_DAILY_LIMIT": "3",
+    "RETENTION_ENABLED": "false"
+  },
+  "durable_objects": {"bindings": [{"name": "QUOTA", "class_name": "ExteriorQuota"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["ExteriorQuota"]}],
+  "triggers": {"crons": ["0 3 * * *"]},
+  "observability": {"enabled": false}
+  // Add D1 binding DB and PRIVATE R2 binding PRIVATE_IMAGES after provisioning.
+  // Set RETENTION_ENABLED=true only after the cron and R2 lifecycle policy are active.
+}
